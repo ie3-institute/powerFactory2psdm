@@ -1,15 +1,6 @@
 '''
 @author: Kittl
 '''
-# ====== Prepare code debugging ======
-# import sys
-# sys.path.append \
-# ("C:\\Users\\Kittl\\.p2\\pool\\plugins\\org.python.pydev_4.5.4.201601292234\\pysrc")
-# # ("C:\\Program Files\\eclipse\\plugins\\org.python.pydev_2.8.2.2013090511\\pysrc")
-# import pydevd #@UnresolvedImport
-# #start debug
-# pydevd.settrace()
-
 # ====== Import packages ======
 import powerfactory #@UnresolvedImport @UnusedVariable
 from re import subn, search, finditer
