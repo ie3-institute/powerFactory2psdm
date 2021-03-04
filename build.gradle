@@ -27,14 +27,30 @@ repositories {
 	//searches in bintray's repository 'jCenter', which contains Maven Central
 	jcenter()
 
+	// allows github repos as dependencies
+	maven { url 'https://www.jitpack.io' }
+
 	// sonatype snapshot repo
 	maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
+	// ie³ internal repository
+	compile('com.github.ie3-institute:PowerSystemUtils:1.5-SNAPSHOT') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+		exclude group: 'com.github.ie3-institute'
+		exclude group: 'tec.uom.se'
+	}
+
 	// json parsing
 	implementation group: 'io.circe', name: "circe-generic_${scalaVersion}", version: "${circeVersion}"
 	implementation group: 'io.circe', name: "circe-parser_${scalaVersion}", version: "${circeVersion}"
+
+	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '2.7.5'
+	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
+	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
+
 
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
