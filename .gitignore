@@ -12,7 +12,8 @@ __pycache__/
 *.so
 
 # Jetbrains
-./idea/
+.idea/
+
 
 # Distribution / packaging
 .Python
