@@ -29,7 +29,7 @@ object SchemaGenerator extends LazyLogging {
   def main(args: Array[String]): Unit = {
     val source =
       Source.fromFile(
-        s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/simpleSampleGrid.json"
+        s"${new File(".").getCanonicalPath}/pf2json/nestedTest.json"
       )
     val jsonString = try source.mkString
     finally source.close
@@ -70,7 +70,7 @@ object SchemaGenerator extends LazyLogging {
 
     json.asObject match {
       case Some(jsonObject) =>
-        val classes = json.foldWith(ClassFolder(className, `package`))
+        val classes: String = json.foldWith(ClassFolder(className, `package`))
         val wrapperClass =
           s"""
              | final case class ${this.className(className)}(
@@ -132,8 +132,9 @@ object SchemaGenerator extends LazyLogging {
     override def onBoolean(value: Boolean): String =
       simpleString(name, "Boolean", collection)
 
-    override def onNumber(value: JsonNumber): String =
+    override def onNumber(value: JsonNumber): String = {
       simpleString(name, "Double", collection)
+    }
 
     override def onString(value: String): String =
       simpleString(name, "String", collection)
@@ -194,6 +195,8 @@ object SchemaGenerator extends LazyLogging {
       // if root we create a case class, if not, we create a field string
       if (isRoot) {
         fieldsOrClasses.mkString("\n")
+
+
       } else {
         // one row per field, if a split leads to multiple elements,
         // we have nested collections and this is not supported!
