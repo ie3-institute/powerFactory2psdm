@@ -37,30 +37,39 @@ object SchemaGenerator extends LazyLogging {
   }
 
   def run(jsonString: String): Unit = {
+    run(
+      jsonString,
+      "PowerFactoryGrid",
+      "edu.ie3.powerFactory2psdm.model.powerfactory"
+    ).foreach(formatedClassString => {
+      val pw = new PrintWriter(
+        new File(
+          s"${new File(".").getCanonicalPath}/src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
+        )
+      )
+      pw.write(formatedClassString)
+      pw.close()
+    })
+  }
+
+  def run(
+      jsonString: String,
+      className: String,
+      `package`: String
+  ): Option[String] =
     parse(jsonString) match {
       case Left(error) =>
         logger.error(
           s"Exception during json file parsing: '${error.getMessage()}'"
         )
+        None
       case Right(json) =>
         generateClass(
           json,
-          "PowerFactoryGrid",
-          "edu.ie3.powerFactory2psdm.model.powerfactory"
+          className,
+          `package`
         ).map(Formatter.format(_, None))
-          .foreach(formatedClassString => {
-            val pw = new PrintWriter(
-              new File(
-                s"${new File(".").getCanonicalPath}/src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
-              )
-            )
-            pw.write(formatedClassString)
-            pw.close()
-          })
-
     }
-
-  }
 
   private def generateClass(
       json: Json,
@@ -69,7 +78,7 @@ object SchemaGenerator extends LazyLogging {
   ): Option[String] = {
 
     json.asObject match {
-      case Some(jsonObject) =>
+      case Some(jsonObject) if !jsonObject.isEmpty =>
         val classes: Vector[ComplexClass] =
           json.foldWith(ClassFolder(className, `package`))
         val wrapperClass =
@@ -103,7 +112,7 @@ object SchemaGenerator extends LazyLogging {
              |""".stripMargin
 
         Some(packageStatement + importStatement + wrapperClass + wrapperObj)
-      case None =>
+      case _ =>
         None
     }
 
