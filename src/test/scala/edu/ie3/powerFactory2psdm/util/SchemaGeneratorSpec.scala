@@ -213,17 +213,17 @@ class SchemaGeneratorSpec
         |      "GPSlon": 0.0,
         |      "Vtarget": 11.0,
         |      "cpSubstat": null,
-        |      "karl": {
+        |      "bar": {
         |        "a": "asd",
         |        "b": "ass"
         |      },
-        |      "dieter": {
+        |      "foo": {
         |      },
         |      "cpZone": [
         |        {
         |          "loc_name": "myZone",
         |          "additionalParam": "myParam",
-        |          "peter": [
+        |          "leet": [
         |            {
         |              "loc_name": "myZone",
         |              "additionalParam": "myParam"
@@ -233,7 +233,7 @@ class SchemaGeneratorSpec
         |        {
         |          "loc_name": "myZone",
         |          "additionalParam": "myParam",
-        |          "peter": [
+        |          "leet": [
         |            {
         |              "loc_name": "myZone",
         |              "additionalParam": "myParam"
@@ -261,7 +261,7 @@ class SchemaGeneratorSpec
         |        {
         |          "loc_name": "myZone",
         |          "additionalParam": "myParam",
-        |          "peter": [
+        |          "leet": [
         |            {
         |              "loc_name": "myZone",
         |              "additionalParam": "myParam"
@@ -271,7 +271,7 @@ class SchemaGeneratorSpec
         |        {
         |          "loc_name": "myZone",
         |          "additionalParam": "myParam",
-        |          "peter": [
+        |          "leet": [
         |            {
         |              "loc_name": "myZone",
         |              "additionalParam": "myParam"
@@ -312,7 +312,7 @@ class SchemaGeneratorSpec
          |
          |object PowerFactoryGrid {
          |
-         |  final case class Peter(
+         |  final case class Leet(
          |      loc_name: Option[String],
          |      additionalParam: Option[String]
          |  )
@@ -320,12 +320,12 @@ class SchemaGeneratorSpec
          |  final case class CpZone(
          |      loc_name: Option[String],
          |      additionalParam: Option[String],
-         |      peter: Option[List[Option[Peter]]]
+         |      leet: Option[List[Option[Leet]]]
          |  )
          |
-         |  final case class Dieter()
+         |  final case class Bar(a: Option[String], b: Option[String])
          |
-         |  final case class Karl(a: Option[String], b: Option[String])
+         |  final case class Foo()
          |
          |  final case class Nodes(
          |      vmin: Option[Double],
@@ -335,14 +335,14 @@ class SchemaGeneratorSpec
          |      cpZone: Option[List[Option[CpZone]]],
          |      vmax: Option[Double],
          |      AccessTime: Option[Double],
-         |      dieter: Option[Dieter],
          |      GPSlat: Option[Double],
-         |      karl: Option[Karl],
          |      GPSlon: Option[Double],
+         |      bar: Option[Bar],
          |      loc_name: Option[String],
          |      cpSubstat: Option[String],
          |      Vtarget: Option[Double],
-         |      uknom: Option[Double]
+         |      uknom: Option[Double],
+         |      foo: Option[Foo]
          |  )
          |
          |  final case class Lines(length: Option[Double])
