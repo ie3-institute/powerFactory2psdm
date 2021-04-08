@@ -11,21 +11,39 @@ final case class PowerFactoryGrid(
 
 object PowerFactoryGrid {
 
-  final case class Nodes(
-      vmin: Option[Double],
-      root_id: Option[String],
-      vtarget: Option[Double],
-      additionalParam: Option[List[Option[String]]],
-      vmax: Option[Double],
-      AccessTime: Option[Double],
-      GPSlat: Option[Double],
-      GPSlon: Option[Double],
+  final case class Dieter()
+
+  final case class Peter(
       loc_name: Option[String],
-      cpSubstat: Option[String],
+      additionalParam: Option[String]
+  )
+
+  final case class Nodes(
+      vtarget: Option[Double],
+      cpZone: Option[List[Option[CpZone]]],
+      GPSlon: Option[Double],
       Vtarget: Option[Double],
-      uknom: Option[Double]
+      vmax: Option[Double],
+      karl: Option[Karl],
+      uknom: Option[Double],
+      nestedArray: Option[List[Option[List[Option[String]]]]],
+      loc_name: Option[String],
+      GPSlat: Option[Double],
+      root_id: Option[String],
+      vmin: Option[Double],
+      cpSubstat: Option[String],
+      AccessTime: Option[Double],
+      dieter: Option[Dieter]
+  )
+
+  final case class CpZone(
+      loc_name: Option[String],
+      additionalParam: Option[String],
+      peter: Option[List[Option[Peter]]]
   )
 
   final case class Lines(length: Option[Double])
+
+  final case class Karl(a: Option[String], b: Option[String])
 
 }
