@@ -158,4 +158,4 @@ build
 out
 
 # Ignore grid json
-src/main/python/out
+src/main/python/pfGridExport

@@ -7,7 +7,7 @@ import os
 # Configuration #
 #################
 
-exported_grid_dir = "../out"
+exported_grid_dir = "../pfGridExport"
 exported_grid_file = os.path.join(exported_grid_dir, "pfGrid.json")
 
 elements4export = {
@@ -3148,6 +3148,8 @@ for element_name in elements4export:
                                                excluded_fields[element_name])})
 
 # write
-os.mkdir(exported_grid_dir)
+if not os.path.exists(exported_grid_dir):
+    os.makedirs(exported_grid_dir)
+
 with open(exported_grid_file, 'w') as f:
     json.dump(pfGrid, f, indent= 2)
