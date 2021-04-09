@@ -1,0 +1,82 @@
+plugins {
+	id 'groovy' // groovy support
+	id 'java' // java support
+	id 'scala' // scala support
+	id 'com.diffplug.spotless' version '5.7.0'//code format
+}
+
+ext {
+	javaVersion = JavaVersion.VERSION_11
+
+	scalaVersion = '2.13'
+	scalaBinaryVersion = '2.13.5'
+	slf4jVersion = '1.7.26'
+	circeVersion = '0.13.0'
+
+	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
+}
+
+apply from: scriptsLocation + 'spotless.gradle'
+apply from: scriptsLocation + 'checkJavaVersion.gradle'
+
+configurations {
+	scalaCompilerPlugin
+}
+
+repositories {
+	//searches in Maven Central
+	mavenCentral()
+
+	// allows github repos as dependencies
+	maven { url 'https://www.jitpack.io' }
+
+	// sonatype snapshot repo
+	maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+	// ie³ internal repository
+	compile('com.github.ie3-institute:PowerSystemUtils:1.5-SNAPSHOT') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+		exclude group: 'com.github.ie3-institute'
+		exclude group: 'tec.uom.se'
+	}
+
+	// json parsing
+	implementation group: 'io.circe', name: "circe-generic_${scalaVersion}", version: "${circeVersion}"
+	implementation group: 'io.circe', name: "circe-parser_${scalaVersion}", version: "${circeVersion}"
+
+	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '2.7.5'
+	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
+	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
+
+
+	// logging
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
+	compile 'com.lmax:disruptor:3.4.2' // async logging
+	compile 'org.apache.logging.log4j:log4j-api:+' // log4j
+	compile 'org.apache.logging.log4j:log4j-core:+' // log4j
+	compile 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
+
+	compile "com.typesafe.scala-logging:scala-logging_${scalaVersion}:+" // akka scala logging
+	compile 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
+	compile "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
+
+	// CORE Scala //
+	compile "org.scala-lang:scala-library:${scalaBinaryVersion}"
+
+	// TEST Scala //
+	testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
+	testRuntime "org.pegdown:pegdown:1.6.0" // HTML report for scalatest
+}
+
+group = 'edu.ie3'
+version = '0.1-SNAPSHOT'
+description = 'powerFactory2psdm'
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
