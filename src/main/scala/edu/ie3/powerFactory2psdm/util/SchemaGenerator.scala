@@ -18,14 +18,6 @@ import scala.io.Source
 
 object SchemaGenerator extends LazyLogging {
 
-  sealed trait Schema
-
-  private final case class SchemaObj(objName: String, fields: Set[SchemaField])
-      extends Schema
-
-  private final case class SchemaField(name: String, `type`: String)
-      extends Schema
-
   def main(args: Array[String]): Unit = {
     val source =
       Source.fromFile(

@@ -24,8 +24,8 @@ configurations {
 }
 
 repositories {
-	//searches in bintray's repository 'jCenter', which contains Maven Central
-	jcenter()
+	//searches in Maven Central
+	mavenCentral()
 
 	// allows github repos as dependencies
 	maven { url 'https://www.jitpack.io' }
