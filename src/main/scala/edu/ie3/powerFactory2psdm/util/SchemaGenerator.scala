@@ -29,7 +29,7 @@ object SchemaGenerator extends LazyLogging {
   def main(args: Array[String]): Unit = {
     val source =
       Source.fromFile(
-        s"${new File(".").getCanonicalPath}/src/main/python/out/pfGrid.json"
+        s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
       )
     val jsonString = try source.mkString
     finally source.close
