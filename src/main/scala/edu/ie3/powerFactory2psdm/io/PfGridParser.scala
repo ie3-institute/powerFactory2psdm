@@ -9,7 +9,7 @@ import scala.io.Source
 import java.io.File
 
 
-object GridParser extends LazyLogging {
+object PfGridParser extends LazyLogging {
   val exportedGridFile = s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
 
   def parse(gridFile: String = exportedGridFile): Option[PowerFactoryGrid] = {
