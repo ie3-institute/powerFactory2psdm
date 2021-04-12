@@ -2,7 +2,7 @@ plugins {
 	id 'groovy' // groovy support
 	id 'java' // java support
 	id 'scala' // scala support
-	id 'com.diffplug.spotless' version '5.11.1'//code format
+	id 'com.diffplug.spotless' version '5.12.0'//code format
 }
 
 ext {
