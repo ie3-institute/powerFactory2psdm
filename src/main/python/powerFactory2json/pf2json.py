@@ -36,12 +36,7 @@ def json_elements(raw_elements, invalid_field_names):
                                 elif isinstance(i[1], powerfactory.DataObject) and i[0] in nested_elements4export:
                                     element.update({safe_name(i[0]): json_elements([i[1]], excluded_fields[i[0]])})
         elements.append(element)
-    # unpack if there is only a single object
-    if len(elements) == 1:
-        return elements[0]
-    else:
-        return elements
-
+    return elements
 
 dpf = powerfactory.GetApplication()
 dpf.EchoOff()
