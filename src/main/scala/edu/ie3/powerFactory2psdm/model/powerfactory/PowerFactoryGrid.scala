@@ -142,7 +142,7 @@ object PowerFactoryGrid {
       vmin: Option[Double],
       root_id: Option[String],
       vtarget: Option[Double],
-      cpZone: Option[CpZone],
+      cpZone: Option[List[Option[CpZone]]],
       vmax: Option[Double],
       AccessTime: Option[Double],
       GPSlat: Option[Double],
