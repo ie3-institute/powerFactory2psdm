@@ -7,6 +7,7 @@ plugins {
 	id 'com.diffplug.spotless' version '5.11.1'//code format
 	id 'jacoco' // java code coverage plugin
 	id "org.sonarqube" version "3.1.1" // sonarqube
+	id "com.github.maiflai.scalatest" version "0.26" // run scalatest without specific spec task
 }
 
 ext {
@@ -20,15 +21,13 @@ ext {
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
-apply from: scriptsLocation + 'spotless.gradle'
-apply from: scriptsLocation + 'checkJavaVersion.gradle'
 apply from: scriptsLocation + 'tests.gradle'
 apply from: scriptsLocation + 'pmd.gradle'
+apply from: scriptsLocation + 'spotless.gradle'
+apply from: scriptsLocation + 'checkJavaVersion.gradle'
 apply from: scriptsLocation + 'spotbugs.gradle'
-// apply from: scriptsLocation + 'modernizer.gradle'
-// apply from: scriptsLocation + 'selfContainedJar.gradle'
 apply from: scriptsLocation + 'jacoco.gradle' // jacoco java code coverage
-// apply from: scriptsLocation + 'mavenCentralPublish.gradle'
+
 
 configurations {
 	scalaCompilerPlugin
