@@ -4,8 +4,8 @@ test {
 		events "skipped", "failed"
 	}
 }
-/* Register scala test with the overall test task */
-test.dependsOn(scalatest)
+// /* Register scala test with the overall test task */
+//  test.dependsOn(scalatest)
 
 task allTests(type: Test) {
 	description 'executes all tests'
