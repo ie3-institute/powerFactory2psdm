@@ -5,8 +5,8 @@ plugins {
 	id 'pmd' //code check, working on source code
 	id 'com.github.spotbugs' version '4.7.0' //code check, working on byte code
 	id 'com.diffplug.spotless' version '5.11.1'//code format
-	id 'jacoco' // java code coverage plugin
 	id "org.sonarqube" version "3.1.1" // sonarqube
+	id 'org.scoverage' version '4.0.2' // Code coverage plugin for scala
 	id "com.github.maiflai.scalatest" version "0.26" // run scalatest without specific spec task
 }
 
@@ -21,12 +21,11 @@ ext {
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
-apply from: scriptsLocation + 'tests.gradle'
 apply from: scriptsLocation + 'pmd.gradle'
 apply from: scriptsLocation + 'spotless.gradle'
 apply from: scriptsLocation + 'checkJavaVersion.gradle'
 apply from: scriptsLocation + 'spotbugs.gradle'
-apply from: scriptsLocation + 'jacoco.gradle' // jacoco java code coverage
+apply from: scriptsLocation + 'scoverage.gradle'
 
 
 configurations {

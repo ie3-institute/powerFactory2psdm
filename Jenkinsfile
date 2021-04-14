@@ -48,7 +48,7 @@ String featureBranchName = ""
 
 //// gradle tasks that are executed
 def gradleTasks = "--refresh-dependencies clean spotlessCheck pmdMain pmdTest spotbugsMain spotbugsTest allTests" // the gradle tasks that are executed on ALL projects
-def mainProjectGradleTasks = "jacocoTestReport jacocoTestCoverageVerification" // additional tasks that are only executed on project 0 (== main project)
+def mainProjectGradleTasks = "reportScoverage checkScoverage" // additional tasks that are only executed on project 0 (== main project)
 // if you need additional tasks for deployment add them here
 // NOTE: artifactory task with credentials will be added below
 def deployGradleTasks = ""
@@ -96,7 +96,7 @@ if (env.BRANCH_NAME == "main") {
 
 
                 // test the project
-                stage("gradle allTests ${projects.get(0)}") {
+                stage("gradle check ${projects.get(0)}") {
                     // build and test the project
                     gradle("${gradleTasks} ${mainProjectGradleTasks}")
                 }
@@ -215,8 +215,7 @@ if (env.BRANCH_NAME == "main") {
                 }
 
                 // test the project
-                stage("gradle allTests ${projects.get(0)}") {
-
+                stage("gradle check ${projects.get(0)}") {
                     // build and test the project
                     gradle("${gradleTasks} ${mainProjectGradleTasks}")
                 }
@@ -334,8 +333,8 @@ def publishReports() {
     // publish test reports
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/tests/allTests', reportFiles: 'index.html', reportName: "${projects.get(0)}_java_tests_report", reportTitles: ''])
 
-    // publish jacoco report for main project only
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/jacoco', reportFiles: 'index.html', reportName: "${projects.get(0)}_jacoco_report", reportTitles: ''])
+    // publish scoverage reports
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scoverage', reportFiles: 'scoverage.xml', reportName: "${projects.get(0)}_scoverage_report", reportTitles: ''])
 
     // publish pmd report for main project only
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/pmd', reportFiles: 'main.html', reportName: "${projects.get(0)}_pmd_report", reportTitles: ''])
