@@ -2,22 +2,29 @@ plugins {
 	id 'groovy' // groovy support
 	id 'java' // java support
 	id 'scala' // scala support
+	id 'pmd' //code check, working on source code
+	id 'com.github.spotbugs' version '4.7.0' //code check, working on byte code
 	id 'com.diffplug.spotless' version '5.11.1'//code format
+	id "org.sonarqube" version "3.1.1" // sonarqube
+	id 'org.scoverage' version '4.0.2' // Code coverage plugin for scala
+	id "com.github.maiflai.scalatest" version "0.26" // run scalatest without specific spec task
 }
 
 ext {
 	javaVersion = JavaVersion.VERSION_11
-
 	scalaVersion = '2.13'
 	scalaBinaryVersion = '2.13.5'
 	slf4jVersion = '1.7.30'
 	circeVersion = '0.13.0'
-
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
+apply from: scriptsLocation + 'pmd.gradle'
 apply from: scriptsLocation + 'spotless.gradle'
 apply from: scriptsLocation + 'checkJavaVersion.gradle'
+apply from: scriptsLocation + 'spotbugs.gradle'
+apply from: scriptsLocation + 'scoverage.gradle'
+
 
 configurations {
 	scalaCompilerPlugin
@@ -54,7 +61,7 @@ dependencies {
 
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
-	compile 'com.lmax:disruptor:3.4.2' // async logging
+	compile 'com.lmax:disruptor:3.4.3' // async logging
 	compile 'org.apache.logging.log4j:log4j-api:+' // log4j
 	compile 'org.apache.logging.log4j:log4j-core:+' // log4j
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
@@ -67,7 +74,7 @@ dependencies {
 	compile "org.scala-lang:scala-library:${scalaBinaryVersion}"
 
 	// TEST Scala //
-	testCompile "org.scalatest:scalatest_${scalaVersion}:3.3.0-SNAP3"
+	testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
 	testRuntime "org.pegdown:pegdown:1.6.0" // HTML report for scalatest
 }
 
