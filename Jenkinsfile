@@ -24,13 +24,6 @@ codeCovTokenId = "powerfactory2psdm-codecov-token"
 //// requires the ssh key to be stored in the internal jenkins credentials keystore
 def sshCredentialsId = "19f16959-8a0d-4a60-bd1f-5adb4572b702"
 
-//// internal maven central credentials
-def mavenCentralCredentialsId = "87bfb2d4-7613-4816-9fe1-70dfd7e6dec2"
-
-def mavenCentralSignKeyFileId = "dc96216c-d20a-48ff-98c0-1c7ba096d08d"
-
-def mavenCentralSignKeyId = "a1357827-1516-4fa2-ab8e-72cdea07a692"
-
 //// define and setjava version ////
 //// requires the java version to be set in the internal jenkins java version management
 //// use identifier accordingly
@@ -104,7 +97,7 @@ if (env.BRANCH_NAME == "main") {
                 // execute sonarqube code analysis
                 stage('SonarQube analysis') {
                     withSonarQubeEnv() { // Will pick the global server connection from jenkins for sonarqube, TODO: Remove exclusion, when removing deprecated quantity package
-                        gradle("sonarqube -Dsonar.branch.name=main -Dsonar.projectKey=$sonarqubeProjectKey -Dsonar.cpd.exclusions=src/main/java/edu/ie3/util/quantities/dep/PowerSystemUnits.java")
+                        gradle("sonarqube -Dsonar.branch.name=main -Dsonar.projectKey=$sonarqubeProjectKey")
                     }
                 }
 
@@ -225,7 +218,7 @@ if (env.BRANCH_NAME == "main") {
                     withSonarQubeEnv() { // Will pick the global server connection from jenkins for sonarqube
 
                         // do we have a PR?, TODO: Remove with removal of deprecated quantity package
-                        String gradleCommand = "sonarqube -Dsonar.projectKey=$sonarqubeProjectKey -Dsonar.cpd.exclusions=src/main/java/edu/ie3/util/quantities/dep/PowerSystemUnits.java"
+                        String gradleCommand = "sonarqube -Dsonar.projectKey=$sonarqubeProjectKey"
 
                         if (env.CHANGE_ID != null) {
                             gradleCommand = gradleCommand + " -Dsonar.pullrequest.branch=${featureBranchName} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.base=main -Dsonar.pullrequest.github.repository=${orgNames.get(0)}/${projects.get(0)} -Dsonar.pullrequest.provider=Github"
