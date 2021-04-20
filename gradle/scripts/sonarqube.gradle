@@ -26,7 +26,7 @@ sonarqube {
 
 		property 'sonar.groovy.binaries', 'build/classes/groovy' // groovy binaries
 
-		// remove auto generated SimbenchConfig file from analysis
+		// remove auto generated PowerFactoryGrid file from sonarqube analysis
 		property 'sonar.exclusions', [
 			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
 		]
