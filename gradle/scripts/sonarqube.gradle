@@ -28,7 +28,7 @@ sonarqube {
 
 		// remove auto generated SimbenchConfig file from analysis
 		property 'sonar.exclusions', [
-				"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
+			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
 		]
 	}
 }
