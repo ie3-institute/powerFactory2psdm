@@ -42,12 +42,6 @@ repositories {
 }
 
 dependencies {
-	// ie³ internal repository
-	compile('com.github.ie3-institute:PowerSystemUtils:1.5-SNAPSHOT') {
-		exclude group: 'org.slf4j', module: 'slf4j-api'
-		exclude group: 'com.github.ie3-institute'
-		exclude group: 'tec.uom.se'
-	}
 
 	// json parsing
 	implementation group: 'io.circe', name: "circe-generic_${scalaVersion}", version: "${circeVersion}"
@@ -58,6 +52,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
+	// ie³ internal repository
+	compile 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
 
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
