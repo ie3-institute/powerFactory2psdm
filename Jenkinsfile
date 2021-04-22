@@ -329,12 +329,17 @@ def publishReports() {
     // publish scoverage reports
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scoverage', reportFiles: 'scoverage.xml', reportName: "${projects.get(0)}_scoverage_report", reportTitles: ''])
 
-    // publish pmd report for main project only
+    // publish pmd report
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/pmd', reportFiles: 'main.html', reportName: "${projects.get(0)}_pmd_report", reportTitles: ''])
 
-    // publish spotbugs report for main project only
+    // publish spotbugs report
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/spotbugs', reportFiles: 'main.html', reportName: "${projects.get(0)}_spotbugs_report", reportTitles: ''])
 
+    // publish scapegoat src report
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scapegoat/src', reportFiles: 'scapegoat.html', reportName: "${projects.get(0)}_scapegoat_src_report", reportTitles: ''])
+
+    // publish scapegoat testsrc report
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scapegoat/testsrc', reportFiles: 'scapegoat.html', reportName: "${projects.get(0)}_scapegoat_testsrc_report", reportTitles: ''])
 }
 
 
