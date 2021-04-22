@@ -12,7 +12,7 @@ sonarqube {
 			'src/test/scala'] // test src dirs
 		// reports stuff (for all languages)
 		property 'sonar.junit.reportPaths', [
-			'build/test-results/allTests'] // Comma-delimited list of paths to Surefire XML-format reports.
+			'build/test-results/test'] // Comma-delimited list of paths to Surefire XML-format reports.
 		// scapegoat report dir
 		property "sonar.scala.scapegoat.reportPaths", [
 			"build/reports/scapegoat/src/scapegoat-scalastyle.xml",
@@ -23,8 +23,6 @@ sonarqube {
 			"build/reports/spotbugs/test.xml"] // Comma-delimited list of paths to reports from SpotBugs
 		// scala specific stuff
 		property 'sonar.scala.coverage.reportPaths', 'build/reports/scoverage/scoverage.xml'
-
-		property 'sonar.groovy.binaries', 'build/classes/groovy' // groovy binaries
 
 		// remove auto generated PowerFactoryGrid file from sonarqube analysis
 		property 'sonar.exclusions', [
