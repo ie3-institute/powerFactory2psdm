@@ -323,8 +323,8 @@ def gitCheckout(String relativeTargetDir, String baseUrl, String branch, String 
 // IMPORTANT: has to be called inside the same node{} as where the build process (report generation) took place!
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 def publishReports() {
-    // publish test reports
-    // publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/tests/allTests', reportFiles: 'index.html', reportName: "${projects.get(0)}_java_tests_report", reportTitles: ''])
+    // publish scalatest reports
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/tests/test', reportFiles: 'index.html', reportName: "${projects.get(0)}_scala_tests_report", reportTitles: ''])
 
     // publish scoverage reports
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scoverage', reportFiles: 'scoverage.xml', reportName: "${projects.get(0)}_scoverage_report", reportTitles: ''])
