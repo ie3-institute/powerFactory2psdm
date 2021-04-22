@@ -4,10 +4,10 @@ plugins {
 	id 'scala' // scala support
 	id 'pmd' //code check, working on source code
 	id 'com.github.spotbugs' version '4.7.0' //code check, working on byte code
-	id 'com.diffplug.spotless' version '5.11.1'//code format
+	id 'com.diffplug.spotless' version '5.12.1'//code format
 	id "org.sonarqube" version "3.1.1" // sonarqube
 	id 'org.scoverage' version '4.0.2' // Code coverage plugin for scala
-	id "com.github.maiflai.scalatest" version "0.26" // run scalatest without specific spec task
+	id "com.github.maiflai.scalatest" version "0.30" // run scalatest without specific spec task
 }
 
 ext {
@@ -42,12 +42,6 @@ repositories {
 }
 
 dependencies {
-	// ie³ internal repository
-	compile('com.github.ie3-institute:PowerSystemUtils:1.5-SNAPSHOT') {
-		exclude group: 'org.slf4j', module: 'slf4j-api'
-		exclude group: 'com.github.ie3-institute'
-		exclude group: 'tec.uom.se'
-	}
 
 	// json parsing
 	implementation group: 'io.circe', name: "circe-generic_${scalaVersion}", version: "${circeVersion}"
@@ -58,6 +52,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
+	// ie³ internal repository
+	compile 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
 
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
