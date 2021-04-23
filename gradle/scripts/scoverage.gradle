@@ -4,7 +4,7 @@
  */
 scoverage {
 	scoverageVersion = '1.4.1'
-	scoverageScalaVersion = '2.13.5'
+	scoverageScalaVersion = '2.13'
 	coverageOutputHTML = false
 	coverageOutputXML = true
 	coverageOutputCobertura = false
