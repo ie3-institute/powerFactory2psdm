@@ -22,7 +22,7 @@ apply from: scriptsLocation + 'pmd.gradle'
 apply from: scriptsLocation + 'spotless.gradle'
 apply from: scriptsLocation + 'checkJavaVersion.gradle'
 apply from: scriptsLocation + 'scoverage.gradle'
-
+apply from: scriptsLocation + 'sonarqube.gradle'
 
 configurations {
 	scalaCompilerPlugin
