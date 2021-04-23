@@ -3,7 +3,6 @@ plugins {
 	id 'java' // java support
 	id 'scala' // scala support
 	id 'pmd' //code check, working on source code
-	id 'com.github.spotbugs' version '4.7.0' //code check, working on byte code
 	id 'com.diffplug.spotless' version '5.12.1'//code format
 	id "org.sonarqube" version "3.1.1" // sonarqube
 	id 'org.scoverage' version '5.0.0' // Code coverage plugin for scala
@@ -22,7 +21,6 @@ ext {
 apply from: scriptsLocation + 'pmd.gradle'
 apply from: scriptsLocation + 'spotless.gradle'
 apply from: scriptsLocation + 'checkJavaVersion.gradle'
-apply from: scriptsLocation + 'spotbugs.gradle'
 apply from: scriptsLocation + 'scoverage.gradle'
 
 
@@ -62,7 +60,7 @@ dependencies {
 	compile 'org.apache.logging.log4j:log4j-core:+' // log4j
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
 
-	compile "com.typesafe.scala-logging:scala-logging_${scalaVersion}:+" // akka scala logging
+	compile "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.3" // akka scala logging
 	compile 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
 	compile "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
 
@@ -88,7 +86,7 @@ compileScala {
 		"-Xplugin:" + configurations.scalaCompilerPlugin.asPath,
 		"-P:scapegoat:dataDir:" + buildDir + "/reports/scapegoat/src/",
 		"-P:scapegoat:disabledInspections:VariableShadowing",
-		"-P:scapegoat:ignoredFiles:.*/SimonaConfig.scala" // see scapegoat-sbt page for this param
+		"-P:scapegoat:ignoredFiles:.*/PowerFactoryGrid.scala" // see scapegoat-sbt page for this param
 	]
 }
 

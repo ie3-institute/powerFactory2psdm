@@ -17,13 +17,8 @@ sonarqube {
 		property "sonar.scala.scapegoat.reportPaths", [
 			"build/reports/scapegoat/src/scapegoat-scalastyle.xml",
 			"build/reports/scapegoat/testsrc/scapegoat-scalastyle.xml"] // Comma-delimited list of paths to Scapegoat reports in the Scalastyle format
-		// spotbugs report dir
-		property "sonar.java.spotbugs.reportPaths", [
-			"build/reports/spotbugs/main.xml",
-			"build/reports/spotbugs/test.xml"] // Comma-delimited list of paths to reports from SpotBugs
 		// scala specific stuff
 		property 'sonar.scala.coverage.reportPaths', 'build/reports/scoverage/scoverage.xml'
-
 		// remove auto generated PowerFactoryGrid file from sonarqube analysis
 		property 'sonar.exclusions', [
 			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
@@ -34,8 +29,6 @@ sonarqube {
 // forces sonarqube to execute integration tests
 project.tasks["sonarqube"].dependsOn "pmdMain"
 project.tasks["sonarqube"].dependsOn "pmdTest"
-project.tasks["sonarqube"].dependsOn "spotbugsMain"
-project.tasks["sonarqube"].dependsOn "spotbugsTest"
 project.tasks["sonarqube"].dependsOn "check"
 
 project.tasks["sonarqube"].dependsOn "reportScoverage"
