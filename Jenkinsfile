@@ -40,7 +40,7 @@ void setJavaVersion(javaVersionId) {
 String featureBranchName = ""
 
 //// gradle tasks that are executed
-def gradleTasks = "--refresh-dependencies clean spotlessCheck pmdMain pmdTest spotbugsMain spotbugsTest check" // the gradle tasks that are executed on ALL projects
+def gradleTasks = "--refresh-dependencies clean spotlessCheck pmdMain pmdTest check" // the gradle tasks that are executed on ALL projects
 def mainProjectGradleTasks = "reportScoverage checkScoverage" // additional tasks that are only executed on project 0 (== main project)
 // if you need additional tasks for deployment add them here
 // NOTE: artifactory task with credentials will be added below
@@ -323,18 +323,20 @@ def gitCheckout(String relativeTargetDir, String baseUrl, String branch, String 
 // IMPORTANT: has to be called inside the same node{} as where the build process (report generation) took place!
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 def publishReports() {
-    // publish test reports
-    // publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/tests/allTests', reportFiles: 'index.html', reportName: "${projects.get(0)}_java_tests_report", reportTitles: ''])
+    // publish scalatest reports
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/tests/test', reportFiles: 'index.html', reportName: "${projects.get(0)}_scala_tests_report", reportTitles: ''])
 
     // publish scoverage reports
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scoverage', reportFiles: 'scoverage.xml', reportName: "${projects.get(0)}_scoverage_report", reportTitles: ''])
 
-    // publish pmd report for main project only
+    // publish pmd report
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/pmd', reportFiles: 'main.html', reportName: "${projects.get(0)}_pmd_report", reportTitles: ''])
 
-    // publish spotbugs report for main project only
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/spotbugs', reportFiles: 'main.html', reportName: "${projects.get(0)}_spotbugs_report", reportTitles: ''])
+    // publish scapegoat src report
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scapegoat/src', reportFiles: 'scapegoat.html', reportName: "${projects.get(0)}_scapegoat_src_report", reportTitles: ''])
 
+    // publish scapegoat testsrc report
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, escapeUnderscores: false, keepAll: true, reportDir: projects.get(0) + '/build/reports/scapegoat/testsrc', reportFiles: 'scapegoat.html', reportName: "${projects.get(0)}_scapegoat_testsrc_report", reportTitles: ''])
 }
 
 
