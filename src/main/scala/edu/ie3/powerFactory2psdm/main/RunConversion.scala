@@ -7,8 +7,11 @@
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.powerFactory2psdm.converter.GridConverter
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import java.io.File
+
+import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
 
 object RunConversion extends LazyLogging {
@@ -20,7 +23,8 @@ object RunConversion extends LazyLogging {
     val pfGrid: PowerFactoryGrid = PfGridParser
       .parse(exportedGridFile)
       .getOrElse(
-        throw new RuntimeException("Parsing the Json grid file failed")
+        throw GridParsingException("Parsing the Json grid file failed")
       )
+    val psdmGrid = GridConverter.convert(pfGrid)
   }
 }

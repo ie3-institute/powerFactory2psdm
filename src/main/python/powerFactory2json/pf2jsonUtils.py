@@ -35,7 +35,9 @@ fields4export = {
         "GPSlat",
         "GPSlon"
     ],
-    'lines': [],
+    'lines': [
+        "loc_name",
+    ],
     'lineTypes': [],
     'trafos2w': [
         "loc_name"

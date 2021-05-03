@@ -50,12 +50,17 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
+
 	/* FIXME: Rely on stable version, when available */
 	compile('com.github.ie3-institute:PowerSystemDataModel:2.0-SNAPSHOT') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
 		exclude group: 'com.github.ie3-institute'
 		exclude group: 'tec.uom.se'
 	}
+
+	// Graphs
+	compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
+
 
 	// ie³ internal repository
 	compile 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
