@@ -22,8 +22,6 @@ case object GridConverter {
     val pfNodesMap: Map[String, Nodes] =
       PowerFactoryGridUtils.getNodesMap(pfGrid)
     val graph = GridGraphBuilder.build(pfGrid.nodes, pfGrid.lines, pfNodesMap)
-    val inspect = new BiconnectivityInspector(graph)
-    println("")
 
   }
 
