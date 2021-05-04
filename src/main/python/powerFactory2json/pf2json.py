@@ -47,7 +47,7 @@ def json_elements(raw_elements, included_fields):
         element = get_members(raw_element, included_fields)
 
         # export connected elements of nodes, transformers and lines to get grid topology
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3", "ElmLne"]):
+        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3", "ElmLne", "ElmCoup"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_members(con_elm, fields4export["conElms"], True))

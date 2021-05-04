@@ -13,6 +13,7 @@ elements4export = {
     'extGrid': '*.ElmXNet',
     'powerPlants': '*.ElmSym',  # renewable power plants
     'pvs': '*.ElmPvsys',  # additional photovoltaic units
+    'switches': '*.ElmCoup'
 }
 
 nested_elements4export = {'cpZone', 'cpArea'}
@@ -40,6 +41,9 @@ fields4export = {
     'trafos2w': [
         "loc_name"
     ],
+    'switches':[
+        "loc_name"
+        ],
     'trafoTypes2w': [],
     'trafos3w': [],
     'trafoTypes3w': [],
