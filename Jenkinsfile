@@ -271,7 +271,7 @@ if (env.BRANCH_NAME == "main") {
                 println("[ERROR] [${date.format("dd/MM/yyyy")} - ${date.format("HH:mm:ss")}]" + e)
 
                 // notify rocket chat
-                rocketSend channel: rocketChatChannel, emoji: ':jenkins_explode :',
+                rocketSend channel: rocketChatChannel, emoji: ':jenkins_explode:',
                         message: "feature branch test failed!\n" +
                                 "*repo:* ${repoName}\n" +
                                 "*branch:* ${featureBranchName}\n"
