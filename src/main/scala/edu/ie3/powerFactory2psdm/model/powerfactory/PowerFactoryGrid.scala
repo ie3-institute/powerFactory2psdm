@@ -1,9 +1,3 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   ExtGrid,
@@ -12,6 +6,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   Loads,
   Lines,
   Pvs,
+  Switches,
   TrafoTypes3w,
   LoadsLV,
   LoadsMV,
@@ -30,6 +25,7 @@ final case class PowerFactoryGrid(
     trafoTypes3w: Option[List[TrafoTypes3w]],
     pvs: Option[List[Pvs]],
     lineTypes: Option[List[LineTypes]],
+    switches: Option[List[Switches]],
     loadsLV: Option[List[LoadsLV]],
     statGen: Option[List[StatGen]],
     loads: Option[List[Loads]],
@@ -41,7 +37,14 @@ final case class PowerFactoryGrid(
 
 object PowerFactoryGrid {
 
+  final case class Switches(
+      loc_name: Option[String],
+      conElms: Option[List[Option[ConElms]]]
+  )
+
   final case class Pvs()
+
+  final case class ConElms(loc_name: Option[String], pfCls: Option[String])
 
   final case class Loads()
 
@@ -51,8 +54,6 @@ object PowerFactoryGrid {
 
   final case class StatGen()
 
-  final case class ConElms(loc_name: Option[String], pfCls: Option[String])
-
   final case class Lines(
       loc_name: Option[String],
       conElms: Option[List[Option[ConElms]]]
@@ -60,23 +61,19 @@ object PowerFactoryGrid {
 
   final case class PowerPlants()
 
-  final case class Trafos3w(conElms: Option[List[Option[ConElms]]])
+  final case class Trafos3w()
 
   final case class ExtGrid()
 
   final case class LoadsLV()
 
-  final case class CpZone(loc_name: Option[String])
-
-  final case class CpArea(loc_name: Option[String])
-
   final case class Nodes(
       vtarget: Option[Double],
-      cpZone: Option[List[Option[CpZone]]],
+      cpZone: Option[String],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
       GPSlon: Option[Double],
-      cpArea: Option[List[Option[CpArea]]],
+      cpArea: Option[String],
       loc_name: Option[String]
   )
 

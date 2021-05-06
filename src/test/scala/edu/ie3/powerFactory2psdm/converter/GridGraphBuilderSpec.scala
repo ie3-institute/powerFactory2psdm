@@ -19,7 +19,7 @@ class GridGraphBuilderSpec
 
   "The grid graph builder" should {
 
-    val graph = GridGraphBuilder.build(testGrid.nodes, testGrid.lines, nodesMap)
+    val graph = GridGraphBuilder.build(pfGridMaps)
     val inspect = new BiconnectivityInspector(graph)
     val vertexSets = inspect.getConnectedComponents.asScala
       .map(
@@ -27,11 +27,11 @@ class GridGraphBuilderSpec
       )
 
     "add the correct number of nodes to the graph" in {
-      graph.vertexSet().size shouldBe 14
+      graph.vertexSet().size shouldBe 15
     }
 
     "add the correct number of edges to the graph" in {
-      graph.edgeSet().size shouldBe 16
+      graph.edgeSet().size shouldBe 17
     }
 
     "generate the correct number of subnets" in {

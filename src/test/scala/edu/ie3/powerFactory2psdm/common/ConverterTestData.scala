@@ -7,19 +7,14 @@
 package edu.ie3.powerFactory2psdm.common
 
 import java.io.File
-
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  PowerFactoryGrid,
-  PowerFactoryGridUtils
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
 
 trait ConverterTestData {
 
   val testGridFile =
-    s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/14NodeExampleGrid.json"
+    s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
   val testGrid: PowerFactoryGrid = PfGridParser
     .parse(testGridFile)
@@ -27,6 +22,5 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val nodesMap: Map[String, Nodes] = PowerFactoryGridUtils.getNodesMap(testGrid)
-
+  val pfGridMaps = new PowerFactoryGridMaps(testGrid)
 }
