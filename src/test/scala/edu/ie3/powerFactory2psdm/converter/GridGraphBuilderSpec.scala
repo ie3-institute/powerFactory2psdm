@@ -38,40 +38,40 @@ class GridGraphBuilderSpec
       inspect.getConnectedComponents.size shouldBe 4
     }
 
-    "aggregate all nodes of subnet 1 in one of the subgraphs" in {
-
-      val subnet1: Set[Nodes] =
-        Set("Bus_0001", "Bus_0002", "Bus_0003", "Bus_0004", "Bus_0005").map(
-          id => nodesMap(id)
-        )
-
-      vertexSets.contains(subnet1.asJava) shouldBe true
-    }
-
-    "aggregate all nodes of subnet 2 in one of the subgraphs" in {
-
-      val subnet2 = Set("Bus_0007").map(id => nodesMap(id))
-      vertexSets.contains(subnet2.asJava) shouldBe true
-    }
-
-    "aggregate all nodes of subnet 3 in one of the subgraphs" in {
-
-      val subnet3 = Set("Bus_0008").map(id => nodesMap(id))
-      vertexSets.contains(subnet3.asJava) shouldBe true
-    }
-
-    "aggregate all nodes of subnet 4 in one of the subgraphs" in {
-
-      val subnet4 = Set(
-        "Bus_0006",
-        "Bus_0009",
-        "Bus_0010",
-        "Bus_0011",
-        "Bus_0012",
-        "Bus_0013",
-        "Bus_0014"
-      ).map(id => nodesMap(id))
-      vertexSets.contains(subnet4.asJava) shouldBe true
-    }
+//    "aggregate all nodes of subnet 1 in one of the subgraphs" in {
+//
+//      val subnet1: Set[Nodes] =
+//        Set("Bus_0001", "Bus_0002", "Bus_0003", "Bus_0004", "Bus_0005").map(
+//          id => nodesMap(id)
+//        )
+//
+//      vertexSets.contains(subnet1.asJava) shouldBe true
+//    }
+//
+//    "aggregate all nodes of subnet 2 in one of the subgraphs" in {
+//
+//      val subnet2 = Set("Bus_0007").map(id => nodesMap(id))
+//      vertexSets.contains(subnet2.asJava) shouldBe true
+//    }
+//
+//    "aggregate all nodes of subnet 3 in one of the subgraphs" in {
+//
+//      val subnet3 = Set("Bus_0008").map(id => nodesMap(id))
+//      vertexSets.contains(subnet3.asJava) shouldBe true
+//    }
+//
+//    "aggregate all nodes of subnet 4 in one of the subgraphs" in {
+//
+//      val subnet4 = Set(
+//        "Bus_0006",
+//        "Bus_0009",
+//        "Bus_0010",
+//        "Bus_0011",
+//        "Bus_0012",
+//        "Bus_0013",
+//        "Bus_0014"
+//      ).map(id => nodesMap(id))
+//      vertexSets.contains(subnet4.asJava) shouldBe true
+//    }
   }
 }
