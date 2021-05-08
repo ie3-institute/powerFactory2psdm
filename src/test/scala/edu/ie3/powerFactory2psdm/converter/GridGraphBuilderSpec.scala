@@ -7,7 +7,11 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, PfException, TestException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  PfException,
+  TestException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.ConElms
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
@@ -90,43 +94,32 @@ class GridGraphBuilderSpec
     }
 
     "return a failure if connected elements of an edge do not contain node ids" in {
-      val invalidConElms =List(
-        ConElms(
-          None,
-          Some("ElmTerm")),
-        ConElms(
-          None,
-          Some("ElmTerm")),
+      val invalidConElms = List(
+        ConElms(None, Some("ElmTerm")),
+        ConElms(None, Some("ElmTerm"))
       )
       val exc = GridGraphBuilder
         .conElms2nodeUuids(invalidConElms, pfGridMaps) match {
-        case Success(_) => TestException("The conversion unexpectedly worked.")
+        case Success(_)                => TestException("The conversion unexpectedly worked.")
         case Failure(exc: PfException) => exc
       }
       exc.getMessage shouldBe "The connected elements do not contain an id."
     }
 
-    }
+  }
 
-    "return a Failure if an edge contains more than two connected elements" in {
-      val invalidConElms =List(
-          ConElms(
-            Some("conNodeA"),
-            Some("ElmTerm")),
-          ConElms(
-            Some("conNodeB"),
-            Some("ElmTerm")),
-          ConElms(
-            Some("conNodeC"),
-            Some("ElmTerm"))
-      )
-      val exc = GridGraphBuilder
-        .conElms2nodeUuids(invalidConElms, pfGridMaps) match {
-        case Success(_) => TestException("The conversion unexpectedly worked.")
-        case Failure(exc: PfException) => exc
-      }
-      exc.getMessage shouldBe "There are more or less connected elements for the edge."
+  "return a Failure if an edge contains more than two connected elements" in {
+    val invalidConElms = List(
+      ConElms(Some("conNodeA"), Some("ElmTerm")),
+      ConElms(Some("conNodeB"), Some("ElmTerm")),
+      ConElms(Some("conNodeC"), Some("ElmTerm"))
+    )
+    val exc = GridGraphBuilder
+      .conElms2nodeUuids(invalidConElms, pfGridMaps) match {
+      case Success(_)                => TestException("The conversion unexpectedly worked.")
+      case Failure(exc: PfException) => exc
     }
-
+    exc.getMessage shouldBe "There are more or less connected elements for the edge."
+  }
 
 }
