@@ -9,7 +9,10 @@ package edu.ie3.powerFactory2psdm.common
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  PowerFactoryGrid,
+  PowerFactoryGridMaps
+}
 
 trait ConverterTestData {
 

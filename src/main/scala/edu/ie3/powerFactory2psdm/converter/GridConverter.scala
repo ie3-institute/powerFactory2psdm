@@ -6,9 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.exception.pf.MissingGridElementException
-import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  PowerFactoryGrid,
+  PowerFactoryGridMaps
+}
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 
 case object GridConverter {
@@ -22,8 +23,6 @@ case object GridConverter {
     val graph = GridGraphBuilder.build(pfGridMaps)
     val inspect = new BiconnectivityInspector(graph)
     println("")
-
-
 
   }
 }

@@ -9,15 +9,15 @@
       "vtarget": 1.0,
       "conElms": [
         {
+          "loc_name": "Line_0001_0005",
+          "pfCls": "ElmLne"
+        },
+        {
           "loc_name": "Gen_0001",
           "pfCls": "ElmSym"
         },
         {
           "loc_name": "Line_0001_0002/1",
-          "pfCls": "ElmLne"
-        },
-        {
-          "loc_name": "Line_0001_0005",
           "pfCls": "ElmLne"
         },
         {
@@ -61,11 +61,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "loc_name": "Line_0002_0004",
+          "loc_name": "Line_0003_0004",
           "pfCls": "ElmLne"
         },
         {
-          "loc_name": "Line_0003_0004",
+          "loc_name": "Line_0002_0004",
           "pfCls": "ElmLne"
         },
         {
@@ -335,6 +335,10 @@
         {
           "loc_name": "Load_0014",
           "pfCls": "ElmLod"
+        },
+        {
+          "loc_name": "LS/TR Schalter",
+          "pfCls": "ElmCoup"
         }
       ]
     },
@@ -375,6 +379,24 @@
           "pfCls": "ElmLne"
         }
       ]
+    },
+    {
+      "GPSlat": 0.0,
+      "GPSlon": 0.0,
+      "cpArea": null,
+      "cpZone": null,
+      "loc_name": "Bus_0015",
+      "vtarget": 1.0,
+      "conElms": [
+        {
+          "loc_name": "LS/TR Schalter",
+          "pfCls": "ElmCoup"
+        },
+        {
+          "loc_name": "Load_0015",
+          "pfCls": "ElmLod"
+        }
+      ]
     }
   ],
   "lines": [
@@ -387,6 +409,19 @@
         },
         {
           "loc_name": "Bus_0002",
+          "pfCls": "ElmTerm"
+        }
+      ]
+    },
+    {
+      "loc_name": "Line_0013_0014",
+      "conElms": [
+        {
+          "loc_name": "Bus_0013",
+          "pfCls": "ElmTerm"
+        },
+        {
+          "loc_name": "Bus_0014",
           "pfCls": "ElmTerm"
         }
       ]
@@ -426,19 +461,6 @@
         },
         {
           "loc_name": "Bus_0013",
-          "pfCls": "ElmTerm"
-        }
-      ]
-    },
-    {
-      "loc_name": "Line_0013_0014",
-      "conElms": [
-        {
-          "loc_name": "Bus_0013",
-          "pfCls": "ElmTerm"
-        },
-        {
-          "loc_name": "Bus_0014",
           "pfCls": "ElmTerm"
         }
       ]
@@ -496,6 +518,19 @@
       ]
     },
     {
+      "loc_name": "Line_0006_0012",
+      "conElms": [
+        {
+          "loc_name": "Bus_0006",
+          "pfCls": "ElmTerm"
+        },
+        {
+          "loc_name": "Bus_0012",
+          "pfCls": "ElmTerm"
+        }
+      ]
+    },
+    {
       "loc_name": "Line_0003_0004",
       "conElms": [
         {
@@ -530,19 +565,6 @@
         },
         {
           "loc_name": "Bus_0006",
-          "pfCls": "ElmTerm"
-        }
-      ]
-    },
-    {
-      "loc_name": "Line_0006_0012",
-      "conElms": [
-        {
-          "loc_name": "Bus_0006",
-          "pfCls": "ElmTerm"
-        },
-        {
-          "loc_name": "Bus_0012",
           "pfCls": "ElmTerm"
         }
       ]
@@ -691,6 +713,7 @@
     {},
     {},
     {},
+    {},
     {}
   ],
   "loadsLV": [],
@@ -704,5 +727,20 @@
     {},
     {}
   ],
-  "pvs": []
+  "pvs": [],
+  "switches": [
+    {
+      "loc_name": "LS/TR Schalter",
+      "conElms": [
+        {
+          "loc_name": "Bus_0014",
+          "pfCls": "ElmTerm"
+        },
+        {
+          "loc_name": "Bus_0015",
+          "pfCls": "ElmTerm"
+        }
+      ]
+    }
+  ]
 }
