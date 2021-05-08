@@ -13,7 +13,6 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
-import org.jgrapht.alg.connectivity.BiconnectivityInspector
 
 object RunConversion extends LazyLogging {
 

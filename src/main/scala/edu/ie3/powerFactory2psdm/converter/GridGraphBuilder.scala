@@ -8,7 +8,6 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
-  GridConfigurationException,
   MissingParameterException
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{

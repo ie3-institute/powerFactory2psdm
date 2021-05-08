@@ -8,11 +8,9 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
   PfException,
   TestException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.ConElms
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.{Matchers, WordSpecLike}

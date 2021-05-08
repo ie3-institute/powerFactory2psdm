@@ -10,7 +10,6 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   PowerFactoryGrid,
   PowerFactoryGridMaps
 }
-import org.jgrapht.alg.connectivity.BiconnectivityInspector
 
 case object GridConverter {
 
@@ -21,8 +20,6 @@ case object GridConverter {
   def convertGridElements(pfGrid: PowerFactoryGrid): Unit = {
     val pfGridMaps = new PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)
-    val inspect = new BiconnectivityInspector(graph)
-    println("")
 
   }
 }
