@@ -31,7 +31,7 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
     case Some(lines) => lines.map(line => (UUID.randomUUID(), line)).toMap
     case None =>
       logger.debug("There are no lines in the grid")
-      Map()
+      Map.empty
   }
 
   val uuid2trafo2w: Map[UUID, Trafos2w] = pfGrid.trafos2w match {
@@ -39,7 +39,7 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
       trafos2w.map(trafo2w => (UUID.randomUUID(), trafo2w)).toMap
     case None =>
       logger.debug("There are no transformes in the grid")
-      Map()
+      Map.empty
   }
 
   val uuid2switch: Map[UUID, Switches] = pfGrid.switches match {
@@ -47,7 +47,7 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
       switches.map(switch => (UUID.randomUUID(), switch)).toMap
     case None =>
       logger.debug("There are no switches in the grid")
-      Map()
+      Map.empty
   }
 
   def findNodeUuidFromLocName(locName: String): Try[UUID] = {
@@ -65,25 +65,4 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
         )
       )
   }
-
-//  // TODO: still neccessary?
-//  def getNodesMap(pfGrid: PowerFactoryGrid): Map[String, Nodes] = {
-//    pfGrid.nodes match {
-//      case Some(pfNodes) =>
-//        pfNodes
-//          .map(
-//            node =>
-//              (
-//                node.loc_name
-//                  .getOrElse(
-//                    throw new RuntimeException(s"Node $node has no id")
-//                  ),
-//                node
-//              )
-//          )
-//          .toMap
-//      case None =>
-//        throw MissingGridElementException("There are no nodes in the Grid")
-//    }
-//  }
 }
