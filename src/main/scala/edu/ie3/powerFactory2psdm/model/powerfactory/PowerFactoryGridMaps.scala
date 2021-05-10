@@ -6,17 +6,15 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.MissingGridElementException
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
-  Lines,
-  Nodes,
-  Switches,
-  Trafos2w
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{MissingGridElementException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{Lines, Nodes, Switches, Trafos2w}
 
 import java.util.UUID
 import com.typesafe.scalalogging.LazyLogging
+import org.jgrapht.alg.connectivity.BiconnectivityInspector
+import org.jgrapht.graph.{DefaultEdge, Multigraph}
 
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 import scala.util.{Failure, Success, Try}
 
 class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
@@ -64,5 +62,20 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
           )
         )
       )
+  }
+}
+
+object PowerFactoryGridMaps {
+
+  def uuid2subnet(graph: Multigraph[UUID, DefaultEdge]): Map[UUID, Int] = {
+    val subgraphs = new BiconnectivityInspector(graph).getConnectedComponents.asScala.toSeq
+    subgraphs
+      .foldLeft(Seq[(UUID, Int)]())(
+        (acc, elem) => {
+          val id = if (acc.isEmpty) 0 else acc.head._2 + 1
+          (elem.vertexSet().asScala.map(uuid => (uuid, id)) ++ acc).toSeq
+        }
+      )
+      .toMap
   }
 }
