@@ -7,7 +7,6 @@
 package edu.ie3.powerFactory2psdm.util
 
 import java.io.{File, PrintWriter}
-
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.util.StringUtils
 import io.circe.Json.Folder
@@ -17,7 +16,6 @@ import io.circe.parser._
 import scala.io.Source
 
 object SchemaGenerator extends LazyLogging {
-
   def main(args: Array[String]): Unit = {
     val source =
       Source.fromFile(
@@ -71,8 +69,18 @@ object SchemaGenerator extends LazyLogging {
 
     json.asObject match {
       case Some(jsonObject) if !jsonObject.isEmpty =>
-        val classes: Vector[ComplexClass] =
-          json.foldWith(ClassFolder(className, `package`))
+        val classes: Iterable[SimpleClass] =
+          json
+            .foldWith(ClassFolder(className, `package`))
+            .flatMap(_.classes)
+            .groupBy(_.name)
+            .flatMap {
+              case (name, elems) if elems.size > 1 =>
+                // duplicated class name, merge the fields and provide default None for all of them
+                Vector(SimpleClass(name, elems.flatMap(_.fields).distinct))
+              case (_, elems) => elems
+            }
+
         val wrapperClass =
           s"""
              | final case class ${this.className(className)}(
@@ -97,9 +105,8 @@ object SchemaGenerator extends LazyLogging {
         val wrapperObj =
           s"""
              | object ${this.className(className)}{
-             |    ${classes.map(_.fields).mkString("\n")}
              |
-             |    ${classes.flatMap(_.classes).mkString("\n")}
+             |    ${classes.map(_.toString).mkString("")}
              | }
              |""".stripMargin
 
@@ -126,11 +133,24 @@ object SchemaGenerator extends LazyLogging {
     StringUtils.snakeCaseToCamelCase(StringUtils.cleanString(name)).capitalize
 
   final case class ComplexClass(
-      fields: String,
-      classes: Iterable[String] = Vector.empty,
+      fields: Iterable[String],
+      classes: Iterable[SimpleClass] = Vector.empty,
       cStack: Int = 0,
       isObj: Boolean = false
   )
+
+  final case class SimpleClass(
+      name: String,
+      fields: Iterable[String]
+  ) {
+
+    private def caseClassString(name: String, fields: String) =
+      s"""
+         |final case class ${className(name)} ($fields)
+         |""".stripMargin
+
+    override def toString: String = caseClassString(name, fields.mkString(","))
+  }
 
   final case class ClassFolder(
       name: String,
@@ -143,17 +163,25 @@ object SchemaGenerator extends LazyLogging {
 
     override def onNull: Vector[ComplexClass] =
       Vector(
-        ComplexClass(simpleString(name, defaultOnNullType, collectionStack))
+        ComplexClass(
+          Vector(simpleString(name, defaultOnNullType, collectionStack))
+        )
       )
 
     override def onBoolean(value: Boolean): Vector[ComplexClass] =
-      Vector(ComplexClass(simpleString(name, "Boolean", collectionStack)))
+      Vector(
+        ComplexClass(Vector(simpleString(name, "Boolean", collectionStack)))
+      )
 
     override def onNumber(value: JsonNumber): Vector[ComplexClass] =
-      Vector(ComplexClass(simpleString(name, "Double", collectionStack)))
+      Vector(
+        ComplexClass(Vector(simpleString(name, "Double", collectionStack)))
+      )
 
     override def onString(value: String): Vector[ComplexClass] =
-      Vector(ComplexClass(simpleString(name, "String", collectionStack)))
+      Vector(
+        ComplexClass(Vector(simpleString(name, "String", collectionStack)))
+      )
 
     override def onArray(value: Vector[Json]): Vector[ComplexClass] =
       value.headOption
@@ -164,23 +192,20 @@ object SchemaGenerator extends LazyLogging {
         )
         .getOrElse(
           Vector(
-            ComplexClass(simpleString(name, "String", collectionStack + 1))
+            ComplexClass(
+              Vector(simpleString(name, "String", collectionStack + 1))
+            )
           )
         )
 
     override def onObject(value: JsonObject): Vector[ComplexClass] = {
-
-      def caseClassString(name: String, fields: String) =
-        s"""
-           |final case class ${className(name)} ($fields)
-           |""".stripMargin
 
       val fieldsOrClasses: Iterable[ComplexClass] = value.toMap
         .map {
           case (objName, jsonObjs) =>
             (objName, jsonObjs.asArray match {
               case Some(objArr) =>
-                // filter multiple objects
+                // filter multiple json objects
                 objArr.headOption
                   .map(
                     _.foldWith(
@@ -209,16 +234,21 @@ object SchemaGenerator extends LazyLogging {
         .flatMap {
           case (className, cplxClasses) if isRoot && cplxClasses.isEmpty =>
             // empty case class @ root level
-            Vector(ComplexClass("", Vector(caseClassString(className, ""))))
+            Vector(
+              ComplexClass(
+                Vector(""),
+                Vector(SimpleClass(className, Vector.empty))
+              )
+            )
           case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
             // case class @ root level
             cplxClasses
               .map(
                 cplxClass =>
                   ComplexClass(
-                    "",
+                    Vector(""),
                     cplxClasses.flatMap(_.classes) ++ Vector(
-                      caseClassString(className, cplxClass.fields)
+                      SimpleClass(className, cplxClass.fields)
                     )
                   )
               )
@@ -229,18 +259,20 @@ object SchemaGenerator extends LazyLogging {
             // complex nested case class
             val field =
               simpleString(cName, className(cName), cplxClasses.head.cStack)
-            val cClassString = caseClassString(cName, cplxClasses.head.fields)
             Vector(
               ComplexClass(
-                field,
-                cplxClasses.flatMap(_.classes) ++ Vector(cClassString)
+                Vector(field),
+                cplxClasses.flatMap(_.classes) :+ SimpleClass(
+                  cName,
+                  cplxClasses.head.fields
+                )
               )
             )
           case (_, cplxClasses) =>
             // if not root level and not an object, map the field vals
             Vector(
               ComplexClass(
-                cplxClasses.map(_.fields).mkString("\n"),
+                cplxClasses.flatMap(_.fields),
                 cplxClasses.flatMap(_.classes)
               )
             )
@@ -249,10 +281,9 @@ object SchemaGenerator extends LazyLogging {
       Vector(
         ComplexClass(
           fieldsOrClasses
-            .map(_.fields)
+            .flatMap(_.fields)
             .filterNot(_.isBlank)
-            .filterNot(_.isEmpty)
-            .mkString(",\n"),
+            .filterNot(_.isEmpty),
           fieldsOrClasses.flatMap(_.classes),
           collectionStack,
           isObj

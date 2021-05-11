@@ -81,9 +81,9 @@ class SchemaGeneratorSpec
            |
            |object PowerFactoryGrid {
            |
-           |  final case class Lines()
-           |
            |  final case class Nodes()
+           |
+           |  final case class Lines()
            |
            |}
            |""".stripMargin
@@ -201,154 +201,220 @@ class SchemaGeneratorSpec
     }
   }
 
-  "generate a valid class for a complex json" in {
+  "generate a valid class if we have multiple nested complex fields that are nested in several objects" in {
 
     val json =
       """
         |{
-        |  "nodes": [
+        | "lines": [
         |    {
-        |      "AccessTime": 0.0,
-        |      "GPSlat": 0.0,
-        |      "GPSlon": 0.0,
-        |      "Vtarget": 11.0,
-        |      "cpSubstat": null,
-        |      "bar": {
-        |        "a": "asd",
-        |        "b": "ass"
-        |      },
-        |      "foo": {
-        |      },
-        |      "cpZone": [
+        |      "conElms": [
         |        {
-        |          "loc_name": "myZone",
-        |          "additionalParam": "myParam",
-        |          "leet": [
-        |            {
-        |              "loc_name": "myZone",
-        |              "additionalParam": "myParam"
-        |            }
-        |          ]
+        |          "loc_name": "Klemmleiste(1)",
+        |          "pfCls": "ElmTerm"
         |        },
         |        {
-        |          "loc_name": "myZone",
-        |          "additionalParam": "myParam",
-        |          "leet": [
-        |            {
-        |              "loc_name": "myZone",
-        |              "additionalParam": "myParam"
-        |            }
-        |          ]
+        |          "loc_name": "Klemmleiste",
+        |          "pfCls": "ElmTerm"
         |        }
-        |      ],
-        |      "nestedArray": [
-        |        []
-        |      ],
-        |      "loc_name": "Klemmleiste MS2",
-        |      "root_id": null,
-        |      "uknom": 11.0,
-        |      "vmax": 1.0499999523162842,
-        |      "vmin": 0.0,
-        |      "vtarget": 1.0
-        |    },
-        |    {
-        |      "AccessTime": 0.0,
-        |      "GPSlat": 0.0,
-        |      "GPSlon": 0.0,
-        |      "Vtarget": 11.0,
-        |      "cpSubstat": null,
-        |      "cpZone": [
-        |        {
-        |          "loc_name": "myZone",
-        |          "additionalParam": "myParam",
-        |          "leet": [
-        |            {
-        |              "loc_name": "myZone",
-        |              "additionalParam": "myParam"
-        |            }
-        |          ]
-        |        },
-        |        {
-        |          "loc_name": "myZone",
-        |          "additionalParam": "myParam",
-        |          "leet": [
-        |            {
-        |              "loc_name": "myZone",
-        |              "additionalParam": "myParam"
-        |            }
-        |          ]
-        |        }
-        |      ],
-        |      "nestedArray": [
-        |        []
-        |      ],
-        |      "loc_name": "Klemmleiste MS2",
-        |      "root_id": null,
-        |      "uknom": 11.0,
-        |      "vmax": 1.0499999523162842,
-        |      "vmin": 0.0,
-        |      "vtarget": 1.0
+        |      ]
         |    }
         |  ],
-        |  "lines": [
+        |  "trafos3w": [
         |    {
-        |      "length": 1
+        |      "conElms": [
+        |        {
+        |          "loc_name": "Klemmleiste OS",
+        |          "pfCls": "ElmTerm"
+        |        },
+        |        {
+        |          "loc_name": "Klemmleiste MS",
+        |          "pfCls": "ElmTerm"
+        |        },
+        |        {
+        |          "loc_name": "Klemmleiste MS2",
+        |          "pfCls": "ElmTerm"
+        |        }
+        |      ]
         |    }
-        |  ]
+        | ]
         |}
         |""".stripMargin
 
     genCode(json) shouldBe Some(
       """|package edu.ie3.powerFactory2psdm.model.powerfactory
          |import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
-         |  Nodes,
-         |  Lines
+         |  Lines,
+         |  Trafos3w
          |}
          |
          |final case class PowerFactoryGrid(
-         |    nodes: Option[List[Nodes]],
-         |    lines: Option[List[Lines]]
+         |    lines: Option[List[Lines]],
+         |    trafos3w: Option[List[Trafos3w]]
          |)
          |
          |object PowerFactoryGrid {
          |
-         |  final case class Leet(
-         |      loc_name: Option[String],
-         |      additionalParam: Option[String]
-         |  )
+         |  final case class Trafos3w(conElms: Option[List[Option[ConElms]]])
          |
-         |  final case class CpZone(
-         |      loc_name: Option[String],
-         |      additionalParam: Option[String],
-         |      leet: Option[List[Option[Leet]]]
-         |  )
+         |  final case class ConElms(loc_name: Option[String], pfCls: Option[String])
          |
-         |  final case class Bar(a: Option[String], b: Option[String])
-         |
-         |  final case class Foo()
-         |
-         |  final case class Nodes(
-         |      vmin: Option[Double],
-         |      root_id: Option[String],
-         |      vtarget: Option[Double],
-         |      nestedArray: Option[List[Option[List[Option[String]]]]],
-         |      cpZone: Option[List[Option[CpZone]]],
-         |      vmax: Option[Double],
-         |      AccessTime: Option[Double],
-         |      GPSlat: Option[Double],
-         |      GPSlon: Option[Double],
-         |      bar: Option[Bar],
-         |      loc_name: Option[String],
-         |      cpSubstat: Option[String],
-         |      Vtarget: Option[Double],
-         |      uknom: Option[Double],
-         |      foo: Option[Foo]
-         |  )
-         |
-         |  final case class Lines(length: Option[Double])
+         |  final case class Lines(conElms: Option[List[Option[ConElms]]])
          |
          |}
          |""".stripMargin
+    )
+
+  }
+
+  "generate a valid class for a complex json" in {
+
+    val json =
+      """
+    |{
+    |  "nodes": [
+    |    {
+    |      "AccessTime": 0.0,
+    |      "GPSlat": 0.0,
+    |      "GPSlon": 0.0,
+    |      "Vtarget": 11.0,
+    |      "cpSubstat": null,
+    |      "bar": {
+    |        "a": "asd",
+    |        "b": "ass"
+    |      },
+    |      "foo": {
+    |      },
+    |      "cpZone": [
+    |        {
+    |          "loc_name": "myZone",
+    |          "additionalParam": "myParam",
+    |          "leet": [
+    |            {
+    |              "loc_name": "myZone",
+    |              "additionalParam": "myParam"
+    |            }
+    |          ]
+    |        },
+    |        {
+    |          "loc_name": "myZone",
+    |          "additionalParam": "myParam",
+    |          "leet": [
+    |            {
+    |              "loc_name": "myZone",
+    |              "additionalParam": "myParam"
+    |            }
+    |          ]
+    |        }
+    |      ],
+    |      "nestedArray": [
+    |        []
+    |      ],
+    |      "loc_name": "Klemmleiste MS2",
+    |      "root_id": null,
+    |      "uknom": 11.0,
+    |      "vmax": 1.0499999523162842,
+    |      "vmin": 0.0,
+    |      "vtarget": 1.0
+    |    },
+    |    {
+    |      "AccessTime": 0.0,
+    |      "GPSlat": 0.0,
+    |      "GPSlon": 0.0,
+    |      "Vtarget": 11.0,
+    |      "cpSubstat": null,
+    |      "cpZone": [
+    |        {
+    |          "loc_name": "myZone",
+    |          "additionalParam": "myParam",
+    |          "leet": [
+    |            {
+    |              "loc_name": "myZone",
+    |              "additionalParam": "myParam"
+    |            }
+    |          ]
+    |        },
+    |        {
+    |          "loc_name": "myZone",
+    |          "additionalParam": "myParam",
+    |          "leet": [
+    |            {
+    |              "loc_name": "myZone",
+    |              "additionalParam": "myParam"
+    |            }
+    |          ]
+    |        }
+    |      ],
+    |      "nestedArray": [
+    |        []
+    |      ],
+    |      "loc_name": "Klemmleiste MS2",
+    |      "root_id": null,
+    |      "uknom": 11.0,
+    |      "vmax": 1.0499999523162842,
+    |      "vmin": 0.0,
+    |      "vtarget": 1.0
+    |    }
+    |  ],
+    |  "lines": [
+    |    {
+    |      "length": 1
+    |    }
+    |  ]
+    |}
+    |""".stripMargin
+
+    genCode(json) shouldBe Some(
+      """|package edu.ie3.powerFactory2psdm.model.powerfactory
+     |import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+     |  Nodes,
+     |  Lines
+     |}
+     |
+     |final case class PowerFactoryGrid(
+     |    nodes: Option[List[Nodes]],
+     |    lines: Option[List[Lines]]
+     |)
+     |
+     |object PowerFactoryGrid {
+     |
+     |  final case class CpZone(
+     |      loc_name: Option[String],
+     |      additionalParam: Option[String],
+     |      leet: Option[List[Option[Leet]]]
+     |  )
+     |
+     |  final case class Nodes(
+     |      vmin: Option[Double],
+     |      root_id: Option[String],
+     |      vtarget: Option[Double],
+     |      nestedArray: Option[List[Option[List[Option[String]]]]],
+     |      cpZone: Option[List[Option[CpZone]]],
+     |      vmax: Option[Double],
+     |      AccessTime: Option[Double],
+     |      GPSlat: Option[Double],
+     |      GPSlon: Option[Double],
+     |      bar: Option[Bar],
+     |      loc_name: Option[String],
+     |      cpSubstat: Option[String],
+     |      Vtarget: Option[Double],
+     |      uknom: Option[Double],
+     |      foo: Option[Foo]
+     |  )
+     |
+     |  final case class Leet(
+     |      loc_name: Option[String],
+     |      additionalParam: Option[String]
+     |  )
+     |
+     |  final case class Bar(a: Option[String], b: Option[String])
+     |
+     |  final case class Lines(length: Option[Double])
+     |
+     |  final case class Foo()
+     |
+     |}
+     |""".stripMargin
     )
 
   }
