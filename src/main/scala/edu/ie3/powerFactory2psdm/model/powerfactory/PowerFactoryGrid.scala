@@ -12,6 +12,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   Loads,
   Lines,
   Pvs,
+  Switches,
   TrafoTypes3w,
   LoadsLV,
   LoadsMV,
@@ -30,6 +31,7 @@ final case class PowerFactoryGrid(
     trafoTypes3w: Option[List[TrafoTypes3w]],
     pvs: Option[List[Pvs]],
     lineTypes: Option[List[LineTypes]],
+    switches: Option[List[Switches]],
     loadsLV: Option[List[LoadsLV]],
     statGen: Option[List[StatGen]],
     loads: Option[List[Loads]],
@@ -40,6 +42,12 @@ final case class PowerFactoryGrid(
 )
 
 object PowerFactoryGrid {
+
+  final case class Switches(
+      uid: Option[String],
+      loc_name: Option[String],
+      conElms: Option[List[Option[ConElms]]]
+  )
 
   final case class Pvs()
 
