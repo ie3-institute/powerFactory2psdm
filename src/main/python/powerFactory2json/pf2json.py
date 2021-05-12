@@ -25,7 +25,7 @@ def safe_name(unsafe_str):
     return unsafe_str
 
 def get_members(raw_element, included_fields, append_type=False):
-    element = {"uid": raw_element.GetFullName()}
+    element = {"id": raw_element.GetFullName()}
     for i in inspect.getmembers(raw_element):
         if not i[0].startswith('_'):
             if not inspect.ismethod(i[1]):
