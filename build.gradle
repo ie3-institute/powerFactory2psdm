@@ -68,7 +68,7 @@ dependencies {
 	compile "org.scala-lang:scala-library:${scalaBinaryVersion}"
 
 	// TEST Scala //
-	testCompile "org.scalatest:scalatest_${scalaVersion}:3.3.0-SNAP2"
+	testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
 	testRuntime "org.pegdown:pegdown:1.6.0" // HTML report for scalatest
 
 	// Linter Scala //
