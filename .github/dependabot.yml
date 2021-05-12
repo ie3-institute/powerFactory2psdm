@@ -12,5 +12,5 @@ updates:
     - 5.12.0
   - dependency-name: org.scalatest:scalatest_2.13
     versions:
-      - '*-SNAP*'
-      - '*-M*'
+      - x.x.x-SNAP+
+      - x.x.x-M+
