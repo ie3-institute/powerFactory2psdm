@@ -36,14 +36,14 @@ repositories {
 	maven { url 'https://www.jitpack.io' }
 
 	// sonatype snapshot repo
-	maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
 
 	// json parsing
-	implementation group: 'io.circe', name: "circe-generic_${scalaVersion}", version: "${circeVersion}"
-	implementation group: 'io.circe', name: "circe-parser_${scalaVersion}", version: "${circeVersion}"
+	implementation "io.circe:circe-generic_${scalaVersion}:${circeVersion}"
+	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
 	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '2.7.5'
@@ -51,34 +51,34 @@ dependencies {
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
 	// ie³ internal repository
-	compile 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
+	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
 
 	// logging
-	compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
-	compile 'com.lmax:disruptor:3.4.4' // async logging
-	compile 'org.apache.logging.log4j:log4j-api:+' // log4j
-	compile 'org.apache.logging.log4j:log4j-core:+' // log4j
-	compile 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
+	implementation "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
+	implementation 'com.lmax:disruptor:3.4.4' // async logging
+	implementation 'org.apache.logging.log4j:log4j-api:+' // log4j
+	implementation 'org.apache.logging.log4j:log4j-core:+' // log4j
+	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
 
-	compile "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.3" // akka scala logging
-	compile 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
-	compile "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
+	implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.3" // akka scala logging
+	implementation 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
+	implementation "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
 
 	// CORE Scala //
-	compile "org.scala-lang:scala-library:${scalaBinaryVersion}"
+	implementation "org.scala-lang:scala-library:${scalaBinaryVersion}"
 
 	// TEST Scala //
-	testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
-	testRuntime "org.pegdown:pegdown:1.6.0" // HTML report for scalatest
+	testImplementation "org.scalatest:scalatest_${scalaVersion}:3.2.0"
+	testImplementation 'com.vladsch.flexmark:flexmark-all:0.35.10'
 
 	// Linter Scala //
-	compile "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
+	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
 }
 
 /* scapegoat hook configuration
  * https://github.com/sksamuel/scapegoat
- * using compileScala instead of tasks.withType(ScalaCompile) prevents applying scapegoat to scala test classes
+ * using compileScala instead of tasks.withType(ScalaImplementation) prevents applying scapegoat to scala test classes
  * see https://docs.gradle.org/current/userguide/scala_plugin.html#sec:configure_scala_classpath for details
  */
 compileScala {
