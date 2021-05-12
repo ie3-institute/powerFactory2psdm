@@ -78,7 +78,7 @@ dependencies {
 
 /* scapegoat hook configuration
  * https://github.com/sksamuel/scapegoat
- * using compileScala instead of tasks.withType(ScalaImplementation) prevents applying scapegoat to scala test classes
+ * using compileScala instead of tasks.withType(ScalaCompile) prevents applying scapegoat to scala test classes
  * see https://docs.gradle.org/current/userguide/scala_plugin.html#sec:configure_scala_classpath for details
  */
 compileScala {
