@@ -8,7 +8,6 @@ imp.reload(pf2jsonUtils)
 from pf2jsonUtils import fields4export, elements4export, nested_elements4export, reserved_keywords
 
 
-
 #################
 # Configuration #
 #################
