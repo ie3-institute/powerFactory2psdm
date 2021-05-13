@@ -18,7 +18,7 @@ elements4export = {
 
 nested_elements4export = {'cpZone', 'cpArea'}
 
-fields4export = {
+attributes4export = {
     'conElms': [],
     'cpZone': [],
     'cpArea': [],

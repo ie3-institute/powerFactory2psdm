@@ -3,9 +3,9 @@ import json
 import inspect
 import os
 import pf2jsonUtils
-import imp
-imp.reload(pf2jsonUtils)
-from pf2jsonUtils import fields4export, elements4export, nested_elements4export, reserved_keywords
+import importlib
+importlib.reload(pf2jsonUtils)
+from pf2jsonUtils import attributes4export, elements4export, nested_elements4export, reserved_keywords
 
 
 #################
@@ -24,32 +24,41 @@ def safe_name(unsafe_str):
         return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
     return unsafe_str
 
-def get_members(raw_element, included_fields, append_type=False):
+
+def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
+    """
+    Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
+    """
     element = {"uid": raw_element.GetFullName()}
-    for i in inspect.getmembers(raw_element):
-        if not i[0].startswith('_'):
-            if not inspect.ismethod(i[1]):
-                if not isinstance(i[1], powerfactory.Method):
-                    if not inspect.isclass(i[1]):
-                        if i[0] in included_fields:
-                            if not isinstance(i[1], powerfactory.DataObject):
-                                element[safe_name(i[0])] = i[1]
-                            elif isinstance(i[1], powerfactory.DataObject) and i[0] in nested_elements4export:
-                                element[safe_name(i[0])] = json_elements([i[1]], fields4export[i[0]])
+    for member in inspect.getmembers(raw_element):
+        if not (
+                member[0].startswith('_')
+                and inspect.ismethod(member[1])
+                and isinstance(member[1], powerfactory.Method)
+                and inspect.isclass(member[1])
+        ) and member[0] in attributes_to_include:
+            if not isinstance(member[1], powerfactory.DataObject):
+                element[safe_name(member[0])] = member[1]
+            elif isinstance(member[1], powerfactory.DataObject) and member[0] in nested_elements4export:
+                element[safe_name(member[0])] = get_attribute_dicts([member[1]], attributes4export[member[0]])
     if append_type:
         element["pfCls"] = raw_element.GetClassName()
     return element
 
-def json_elements(raw_elements, included_fields):
+
+def get_attribute_dicts(raw_elements, attributes_to_include):
+    """
+    Creates a list with an attribute dictionary for each raw PowerFactory element
+    """
     elements = []
     for raw_element in raw_elements:
-        element = get_members(raw_element, included_fields)
+        element = get_attribute_dict(raw_element, attributes_to_include)
 
         # export connected elements of nodes, transformers and lines to get grid topology
         if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3", "ElmLne", "ElmCoup"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
-                element["conElms"].append(get_members(con_elm, fields4export["conElms"], True))
+                element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
         elements.append(element)
     return elements
@@ -61,8 +70,8 @@ pfGrid = {}  # resulting pf grid json export
 
 # generate json strings
 for element_name in elements4export:
-    pfGrid.update({element_name: json_elements(dpf.GetCalcRelevantObjects(elements4export[element_name]),
-                                               fields4export[element_name])})
+    pfGrid.update({element_name: get_attribute_dicts(dpf.GetCalcRelevantObjects(elements4export[element_name]),
+                                                     attributes4export[element_name])})
 
 # write
 if not os.path.exists(exported_grid_dir):
