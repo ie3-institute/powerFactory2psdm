@@ -26,22 +26,33 @@ import scala.util.{Failure, Success, Try}
   */
 object GridGraphBuilder {
 
+  /**
+   * Checks if a switch is only connected to a single element. These switches commonly occur in non-used connections of
+   * substations, so they are no reason to throw an exception, but should be filtered out
+   */
+  def isSinglyConnectedSwitch(
+      switch: Switches
+  ): Boolean = {
+    switch.conElms
+      .getOrElse(
+        throw ElementConfigurationException(s"Switch ${switch.id.getOrElse("NO_ID")} isn't connected to anything")
+      )
+      .flatten
+      .size == 1
+  }
+
   def conElms2nodeUuids(
       conElms: List[ConElms],
       pfGridMaps: PowerFactoryGridMaps
   ): Try[(UUID, UUID)] = {
     conElms match {
       case List(nodeAConElem, nodeBConElem) =>
-        nodeAConElem.loc_name.zip(nodeBConElem.loc_name) match {
-          case Some((nodeALocName, nodeBLocName)) =>
-            pfGridMaps
-              .findNodeUuidFromLocName(nodeALocName)
-              .flatMap(
-                nodeAUuid =>
-                  pfGridMaps
-                    .findNodeUuidFromLocName(nodeBLocName)
-                    .map((nodeAUuid, _))
-              )
+        nodeAConElem.id.zip(nodeBConElem.id) match {
+          case Some((nodeAId, nodeBId)) =>
+            Success(
+              pfGridMaps.nodeId2UUID(nodeAId),
+              pfGridMaps.nodeId2UUID(nodeBId)
+            )
           case None =>
             Failure(
               MissingParameterException(
@@ -52,7 +63,7 @@ object GridGraphBuilder {
       case _ =>
         Failure(
           ElementConfigurationException(
-            "There are more or less connected elements for the edge."
+            "The edge has more or less than two connected elements."
           )
         )
     }
@@ -88,21 +99,22 @@ object GridGraphBuilder {
 
     val graph = new Multigraph[UUID, DefaultEdge](classOf[DefaultEdge])
 
-    pfGridMaps.uuid2node.keys.foreach(uuid => graph.addVertex(uuid))
+    pfGridMaps.UUID2node.keys.foreach(uuid => graph.addVertex(uuid))
 
-    (pfGridMaps.uuid2line ++ pfGridMaps.uuid2switch).values
-      .map {
+    (pfGridMaps.UUID2line.values ++ pfGridMaps.UUID2switch.values.filter(
+      switch => !isSinglyConnectedSwitch(switch)
+    )).map {
         case edge: Lines =>
-          (edge.loc_name, edge.conElms)
+          (edge.id, edge.conElms)
         case edge: Switches =>
-          (edge.loc_name, edge.conElms)
+          (edge.id, edge.conElms)
       }
       .foreach {
-        case (locName, conElms) =>
+        case (id, conElms) =>
           maybeConElms2nodeUuids(
             conElms,
             pfGridMaps,
-            addingEdgeException(locName.getOrElse("NO_LOC_NAME_GIVEN"))
+            addingEdgeException(id.getOrElse("NO_ID_GIVEN"))
           ).map { case (nodeA, nodeB) => graph.addEdge(nodeA, nodeB) }
       }
     graph
