@@ -28,7 +28,12 @@ object GridPreparator extends LazyLogging {
    * connections of substations, so they are no reason to throw an exception, but should be filtered out
    */
   def removeSinglyConnetedSwitches(maybeSwitchs: Option[List[Switches]]): Option[List[Switches]] = maybeSwitchs match {
-    case Some(switches) => Some(switches.filter(!isSinglyConnectedSwitch(_)))
+    case Some(switches) =>
+      val(singlyConnectedSwitch, remainder) = switches.partition(isSinglyConnectedSwitch)
+      val singlyConnectedSwitchIds = singlyConnectedSwitch.map(node => node.id.getOrElse("NO_ID"))
+      logger.debug(s"Nodes with the ids $singlyConnectedSwitchIds are filtered out since they are substation helper nodes")
+      Some(remainder)
+
     case None => None
   }
 
