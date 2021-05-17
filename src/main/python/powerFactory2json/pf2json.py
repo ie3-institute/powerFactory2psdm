@@ -42,14 +42,20 @@ def get_members(raw_element, included_fields, append_type=True):
 
 def json_elements(raw_elements, included_fields):
     elements = []
+    pf_edges = ["ElmLne", "ElmCoup"]
     for raw_element in raw_elements:
         element = get_members(raw_element, included_fields)
 
         # export connected elements of nodes, transformers and lines to get grid topology
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3", "ElmLne", "ElmCoup"]):
+        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_members(con_elm, fields4export["conElms"], True))
+
+        # export ids of nodes the edges are connected to
+        if (raw_element.GetClassName() in pf_edges):
+            element["bus1Id"] = raw_element.bus1.cterm.GetFullName()
+            element["bus2Id"] = raw_element.bus2.cterm.GetFullName()
 
         elements.append(element)
     return elements
