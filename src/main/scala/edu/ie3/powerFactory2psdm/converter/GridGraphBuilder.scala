@@ -6,19 +6,12 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
-  ConElms,
-  Lines,
-  Switches
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{ConElms, Lines, Switches}
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
 import org.jgrapht.graph._
 
-import java.util.UUID
+import java.util.{NoSuchElementException, UUID}
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -27,15 +20,17 @@ import scala.util.{Failure, Success, Try}
 object GridGraphBuilder {
 
   /**
-   * Checks if a switch is only connected to a single element. These switches commonly occur in non-used connections of
-   * substations, so they are no reason to throw an exception, but should be filtered out
-   */
+    * Checks if a switch is only connected to a single element. These switches commonly occur in non-used connections of
+    * substations, so they are no reason to throw an exception, but should be filtered out
+    */
   def isSinglyConnectedSwitch(
       switch: Switches
   ): Boolean = {
     switch.conElms
       .getOrElse(
-        throw ElementConfigurationException(s"Switch ${switch.id.getOrElse("NO_ID")} isn't connected to anything")
+        throw ElementConfigurationException(
+          s"Switch ${switch.id.getOrElse("NO_ID")} isn't connected to anything"
+        )
       )
       .flatten
       .size == 1
@@ -46,12 +41,17 @@ object GridGraphBuilder {
       pfGridMaps: PowerFactoryGridMaps
   ): Try[(UUID, UUID)] = {
     conElms match {
-      case List(nodeAConElem, nodeBConElem) =>
-        nodeAConElem.id.zip(nodeBConElem.id) match {
+      case List(nodeAConElm, nodeBConElm) =>
+        nodeAConElm.id.zip(nodeBConElm.id) match {
           case Some((nodeAId, nodeBId)) =>
             Success(
               pfGridMaps.nodeId2UUID(nodeAId),
+              try{
               pfGridMaps.nodeId2UUID(nodeBId)
+              }
+              catch {
+                case e: Exception => throw new NoSuchElementException(s"There is no node with id $nodeBId in the grid")
+              }
             )
           case None =>
             Failure(

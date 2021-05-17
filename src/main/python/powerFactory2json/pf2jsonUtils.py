@@ -27,7 +27,8 @@ fields4export = {
         "cpZone",
         "cpArea",
         "GPSlat",
-        "GPSlon"
+        "GPSlon",
+        "iUsage"
     ],
     'lines': [
         "loc_name",

@@ -30,19 +30,18 @@ class GridGraphBuilderSpec
         graph => graph.vertexSet()
       )
 
-    def nodeSetToUuidSet(ids: Set[String]) = {
-      ids.map(id => pfGridMaps.findNodeUuidFromLocName(id)).map {
-        case Success(uuid)      => uuid
-        case Failure(exception) => throw exception
-      }
+    def nodeIdsToUUIDs(ids: Set[String]) = {
+      ids.map(id => pfGridMaps.nodeId2UUID(id))
     }
 
     "add the correct number of nodes to the graph" in {
-      graph.vertexSet().size shouldBe 15
+      graph.vertexSet().size shouldBe pfGridMaps.UUID2node.size
     }
 
     "add the correct number of edges to the graph" in {
-      graph.edgeSet().size shouldBe 17
+      graph
+        .edgeSet()
+        .size shouldBe (pfGridMaps.UUID2switch ++ pfGridMaps.UUID2line).size
     }
 
     "generate the correct number of subnets" in {
@@ -50,7 +49,7 @@ class GridGraphBuilderSpec
     }
 
     "aggregate all nodes of subnet 1 in one of the subgraphs" in {
-      val subnet1: Set[UUID] = nodeSetToUuidSet(
+      val subnet1: Set[UUID] = nodeIdsToUUIDs(
         Set(
           "Bus_0001",
           "Bus_0002",
@@ -63,17 +62,17 @@ class GridGraphBuilderSpec
     }
 
     "aggregate all nodes of subnet 2 in one of the subgraphs" in {
-      val subnet2 = nodeSetToUuidSet(Set("Bus_0007"))
+      val subnet2 = nodeIdsToUUIDs(Set("Bus_0007"))
       vertexSets.contains(subnet2.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 3 in one of the subgraphs" in {
-      val subnet3 = nodeSetToUuidSet(Set("Bus_0008"))
+      val subnet3 = nodeIdsToUUIDs(Set("Bus_0008"))
       vertexSets.contains(subnet3.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 4 in one of the subgraphs" in {
-      val subnet4 = nodeSetToUuidSet(
+      val subnet4 = nodeIdsToUUIDs(
         Set(
           "Bus_0006",
           "Bus_0009",

@@ -18,7 +18,6 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
 }
 import java.util.UUID
 import com.typesafe.scalalogging.LazyLogging
-import scala.util.{Failure, Success, Try}
 
 class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
 

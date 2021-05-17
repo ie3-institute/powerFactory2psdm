@@ -24,7 +24,7 @@ def safe_name(unsafe_str):
         return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
     return unsafe_str
 
-def get_members(raw_element, included_fields, append_type=False):
+def get_members(raw_element, included_fields, append_type=True):
     element = {"id": raw_element.GetFullName()}
     for i in inspect.getmembers(raw_element):
         if not i[0].startswith('_'):
