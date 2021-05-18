@@ -25,7 +25,8 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val idPrefix = "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\"
+  val idPrefix =
+    "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\"
 
   val pfGridMaps = new PowerFactoryGridMaps(testGrid)
 }

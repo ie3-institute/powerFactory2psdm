@@ -49,23 +49,25 @@ class GridGraphBuilderSpec
     "aggregate all nodes of subnet 1 in one of the subgraphs" in {
       val subnet1: Set[UUID] = nodeIdsToUUIDs(
         Set(
-         idPrefix + "Grid.ElmNet\\Bus_0001.ElmTerm",
-         idPrefix + "Grid.ElmNet\\Bus_0002.ElmTerm",
-         idPrefix + "Grid.ElmNet\\Bus_0003.ElmTerm",
-         idPrefix + "Grid.ElmNet\\Bus_0004.ElmTerm",
-         idPrefix + "Grid.ElmNet\\Bus_0005.ElmTerm"
+          idPrefix + "Grid.ElmNet\\Bus_0001.ElmTerm",
+          idPrefix + "Grid.ElmNet\\Bus_0002.ElmTerm",
+          idPrefix + "Grid.ElmNet\\Bus_0003.ElmTerm",
+          idPrefix + "Grid.ElmNet\\Bus_0004.ElmTerm",
+          idPrefix + "Grid.ElmNet\\Bus_0005.ElmTerm"
         )
       )
       vertexSets.contains(subnet1.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 2 in one of the subgraphs" in {
-      val subnet2 = nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
+      val subnet2 =
+        nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
       vertexSets.contains(subnet2.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 3 in one of the subgraphs" in {
-      val subnet3 = nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
+      val subnet3 =
+        nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
       vertexSets.contains(subnet3.asJava) shouldBe true
     }
 
