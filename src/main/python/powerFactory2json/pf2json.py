@@ -28,7 +28,7 @@ def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
     """
     Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
     """
-    element = {"uid": raw_element.GetFullName()}
+    element = {"id": raw_element.GetFullName()}
     for member in inspect.getmembers(raw_element):
         if not (
                 member[0].startswith('_')
