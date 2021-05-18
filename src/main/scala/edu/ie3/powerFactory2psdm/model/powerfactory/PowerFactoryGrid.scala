@@ -1,3 +1,9 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   ExtGrid,
@@ -39,32 +45,36 @@ object PowerFactoryGrid {
 
   final case class Switches(
       id: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      pfCls: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
   final case class Pvs()
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(id: Option[String])
+  final case class Loads(id: Option[String], pfCls: Option[String])
 
-  final case class TrafoTypes2w(id: Option[String])
+  final case class TrafoTypes2w(id: Option[String], pfCls: Option[String])
 
-  final case class LineTypes(id: Option[String])
+  final case class LineTypes(id: Option[String], pfCls: Option[String])
 
   final case class StatGen()
 
   final case class Lines(
+      bus1Id: Option[String],
+      bus2Id: Option[String],
+      pfCls: Option[String],
       id: Option[String],
-      loc_name: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      loc_name: Option[String]
   )
 
-  final case class PowerPlants(id: Option[String])
+  final case class PowerPlants(id: Option[String], pfCls: Option[String])
 
   final case class Trafos3w()
 
-  final case class ExtGrid(id: Option[String])
+  final case class ExtGrid(id: Option[String], pfCls: Option[String])
 
   final case class LoadsLV()
 
@@ -73,6 +83,7 @@ object PowerFactoryGrid {
       iUsage: Option[Double],
       cpZone: Option[String],
       conElms: Option[List[Option[ConElms]]],
+      pfCls: Option[String],
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
@@ -81,6 +92,7 @@ object PowerFactoryGrid {
 
   final case class Trafos2w(
       id: Option[String],
+      pfCls: Option[String],
       conElms: Option[List[Option[ConElms]]]
   )
 
