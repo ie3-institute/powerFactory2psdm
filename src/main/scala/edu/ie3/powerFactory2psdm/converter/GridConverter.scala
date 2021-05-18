@@ -10,6 +10,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   PowerFactoryGrid,
   PowerFactoryGridMaps
 }
+import edu.ie3.powerFactory2psdm.util.GridPreparator
 
 case object GridConverter {
 
@@ -17,9 +18,9 @@ case object GridConverter {
     val gridElements = convertGridElements(pfGrid)
   }
 
-  def convertGridElements(pfGrid: PowerFactoryGrid): Unit = {
+  def convertGridElements(rawPfGrid: PowerFactoryGrid): Unit = {
+    val pfGrid = GridPreparator.prepare(rawPfGrid)
     val pfGridMaps = new PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)
-
   }
 }

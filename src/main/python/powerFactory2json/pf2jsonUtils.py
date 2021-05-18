@@ -18,34 +18,23 @@ elements4export = {
 
 nested_elements4export = {'cpZone', 'cpArea'}
 
-fields4export = {
-    'conElms': [
-        "loc_name"
-    ],
-    'cpZone': [
-        "loc_name"
-    ],
-    'cpArea': [
-        "loc_name"
-    ],
+
+attributes4export = {
+    'conElms': [],
+    'cpZone': [],
+    'cpArea': [],
     'nodes': [
-        "loc_name",
         "vtarget",
         "cpZone",
         "cpArea",
         "GPSlat",
-        "GPSlon"
+        "GPSlon",
+        "iUsage"
     ],
-    'lines': [
-        "loc_name",
-    ],
+    'lines': [],
     'lineTypes': [],
-    'trafos2w': [
-        "loc_name"
-    ],
-    'switches':[
-        "loc_name"
-        ],
+    'trafos2w': [],
+    'switches':[],
     'trafoTypes2w': [],
     'trafos3w': [],
     'trafoTypes3w': [],

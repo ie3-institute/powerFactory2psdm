@@ -6,11 +6,13 @@
 
 package edu.ie3.powerFactory2psdm.util
 
-import org.scalatest.{Matchers, PrivateMethodTester, WordSpecLike}
+import org.scalatest.PrivateMethodTester
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 
 class SchemaGeneratorSpec
     extends Matchers
-    with WordSpecLike
+    with AnyWordSpecLike
     with PrivateMethodTester {
 
   private val className = "PowerFactoryGrid"

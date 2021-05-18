@@ -8,10 +8,9 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
-  MissingParameterException
+  MissingGridElementException
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
-  ConElms,
   Lines,
   Switches
 }
@@ -19,92 +18,78 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
 import org.jgrapht.graph._
 
 import java.util.UUID
-import scala.util.{Failure, Success, Try}
 
 /**
   * Builds a graph representation of the powerfactory grid
   */
 object GridGraphBuilder {
 
-  def conElms2nodeUuids(
-      conElms: List[ConElms],
-      pfGridMaps: PowerFactoryGridMaps
-  ): Try[(UUID, UUID)] = {
-    conElms match {
-      case List(nodeAConElem, nodeBConElem) =>
-        nodeAConElem.loc_name.zip(nodeBConElem.loc_name) match {
-          case Some((nodeALocName, nodeBLocName)) =>
-            pfGridMaps
-              .findNodeUuidFromLocName(nodeALocName)
-              .flatMap(
-                nodeAUuid =>
-                  pfGridMaps
-                    .findNodeUuidFromLocName(nodeBLocName)
-                    .map((nodeAUuid, _))
-              )
-          case None =>
-            Failure(
-              MissingParameterException(
-                "The connected elements do not contain an id."
-              )
-            )
-        }
-      case _ =>
-        Failure(
-          ElementConfigurationException(
-            "There are more or less connected elements for the edge."
-          )
-        )
-    }
-  }
-
-  def maybeConElms2nodeUuids(
-      maybeConElms: Option[List[Option[ConElms]]],
-      pfGridMaps: PowerFactoryGridMaps,
-      ex: Throwable => IllegalArgumentException
-  ): Option[(UUID, UUID)] = {
-    maybeConElms.map(
-      conElem =>
-        conElms2nodeUuids(conElem.flatten, pfGridMaps) match {
-          case Failure(exception) => //
-            throw ex(exception)
-          case Success((nodeA, nodeB)) =>
-            (nodeA, nodeB)
-        }
-    )
-  }
-
-  private val addingEdgeException
-      : String => Throwable => IllegalArgumentException = edgeName =>
-    ex =>
-      new IllegalArgumentException(
-        s"Exception occurred while adding " +
-          s"$edgeName to grid graph. Exception: $ex"
+  /**
+    * Unpacks the optional ids of two busses, connected by an edge.
+    *
+    * @param edgeId id of edge connecting busses with bus1Id and bus2Id
+    * @param maybeBus1Id Option of id of bus 1
+    * @param maybeBus2Id Option of id of bus 2
+    * @return Tuple of the ids of bus 1 and bus 2
+    */
+  def unpackConnectedBusses(
+      edgeId: String,
+      maybeBus1Id: Option[String],
+      maybeBus2Id: Option[String]
+  ): (String, String) = maybeBus1Id.zip(maybeBus2Id) match {
+    case Some((bus1Id, bus2Id)) => (bus1Id, bus2Id)
+    case None =>
+      throw ElementConfigurationException(
+        s"Exception occurred while adding an edge. Exc: Edge with id: $edgeId is missing at least one connected node"
       )
+  }
 
+  /**
+    * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
+    * edges (lines and switches) are added to the graph.The resulting subgraphs inside the graph represent the subnets of
+    * the grid.
+    *
+    * @param pfGridMaps maps of grid elements of the power factory grid
+    * @return Mutltigraph of all the uuids of the nodes and their connection
+    */
   def build(
       pfGridMaps: PowerFactoryGridMaps
   ): Multigraph[UUID, DefaultEdge] = {
-
     val graph = new Multigraph[UUID, DefaultEdge](classOf[DefaultEdge])
+    pfGridMaps.UUID2node.keys.foreach(uuid => graph.addVertex(uuid))
+    val connectedBusIdPairs: Iterable[(String, String)] =
+      (pfGridMaps.UUID2line.values ++ pfGridMaps.UUID2switch.values)
+        .map {
+          case edge: Lines =>
+            unpackConnectedBusses(
+              edge.id.getOrElse("NO_ID"),
+              edge.bus1Id,
+              edge.bus2Id
+            )
+          case edge: Switches =>
+            unpackConnectedBusses(
+              edge.id.getOrElse("NO_ID"),
+              edge.bus1Id,
+              edge.bus2Id
+            )
+        }
 
-    pfGridMaps.uuid2node.keys.foreach(uuid => graph.addVertex(uuid))
-
-    (pfGridMaps.uuid2line ++ pfGridMaps.uuid2switch).values
-      .map {
-        case edge: Lines =>
-          (edge.loc_name, edge.conElms)
-        case edge: Switches =>
-          (edge.loc_name, edge.conElms)
-      }
-      .foreach {
-        case (locName, conElms) =>
-          maybeConElms2nodeUuids(
-            conElms,
-            pfGridMaps,
-            addingEdgeException(locName.getOrElse("NO_LOC_NAME_GIVEN"))
-          ).map { case (nodeA, nodeB) => graph.addEdge(nodeA, nodeB) }
-      }
+    connectedBusIdPairs.foreach { ids =>
+      val (bus1Id, bus2Id) = ids
+      val nodeAUUID = pfGridMaps.nodeId2UUID.getOrElse(
+        bus1Id,
+        throw MissingGridElementException(
+          s"There is no node with id: $bus1Id in pfGridMaps"
+        )
+      )
+      val nodeBUUID = pfGridMaps.nodeId2UUID.getOrElse(
+        bus2Id,
+        throw MissingGridElementException(
+          s"There is no node with id: $bus2Id in pfGridMaps"
+        )
+      )
+      graph.addEdge(nodeAUUID, nodeBUUID)
+    }
     graph
   }
 }

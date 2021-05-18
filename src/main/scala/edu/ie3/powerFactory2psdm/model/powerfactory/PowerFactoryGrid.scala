@@ -44,52 +44,62 @@ final case class PowerFactoryGrid(
 object PowerFactoryGrid {
 
   final case class Switches(
-      loc_name: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      id: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
-  final case class Pvs()
+  final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class ConElms(loc_name: Option[String], pfCls: Option[String])
+  final case class Loads(id: Option[String])
 
-  final case class Loads()
+  final case class TrafoTypes2w(id: Option[String])
 
-  final case class TrafoTypes2w()
+  final case class LineTypes(id: Option[String])
 
-  final case class LineTypes()
+  final case class StatGen(id: Option[String])
 
-  final case class StatGen()
+  final case class CpArea(id: Option[String])
 
   final case class Lines(
-      loc_name: Option[String],
+      id: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
+  )
+
+  final case class PowerPlants(id: Option[String])
+
+  final case class Trafos3w(
+      id: Option[String],
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class PowerPlants()
+  final case class ExtGrid(id: Option[String])
 
-  final case class Trafos3w()
+  final case class CpZone(id: Option[String])
 
-  final case class ExtGrid()
+  final case class Pvs(id: Option[String])
 
-  final case class LoadsLV()
+  final case class LoadsLV(id: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
-      cpZone: Option[String],
+      iUsage: Option[Double],
+      cpZone: Option[List[Option[CpZone]]],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
+      id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[String],
-      loc_name: Option[String]
+      cpArea: Option[List[Option[CpArea]]]
   )
 
   final case class Trafos2w(
-      loc_name: Option[String],
+      id: Option[String],
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class TrafoTypes3w()
+  final case class TrafoTypes3w(id: Option[String])
 
-  final case class LoadsMV()
+  final case class LoadsMV(id: Option[String])
 
 }
