@@ -46,7 +46,7 @@ def json_elements(raw_elements, included_fields):
     for raw_element in raw_elements:
         element = get_members(raw_element, included_fields)
 
-        # export connected elements of nodes, transformers and lines to get grid topology
+        # export connected elements of nodes and transformers
         if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
@@ -54,8 +54,14 @@ def json_elements(raw_elements, included_fields):
 
         # export ids of nodes the edges are connected to
         if (raw_element.GetClassName() in pf_edges):
-            element["bus1Id"] = raw_element.bus1.cterm.GetFullName()
-            element["bus2Id"] = raw_element.bus2.cterm.GetFullName()
+            try:
+                element["bus1Id"] = raw_element.bus1.cterm.GetFullName()
+            except Exception:
+                element["bus1Id"] = None
+            try:
+                element["bus2Id"] = raw_element.bus2.cterm.GetFullName()
+            except Exception:
+                element["bus2Id"] = None
 
         elements.append(element)
     return elements
