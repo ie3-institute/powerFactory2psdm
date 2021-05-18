@@ -7,9 +7,10 @@
 package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Switches
-import org.scalatest.{Matchers, WordSpecLike}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 
-class GridPreparatorSpec extends Matchers with WordSpecLike {
+class GridPreparatorSpec extends Matchers with AnyWordSpecLike {
 
   "The grid preparator" should {
 

@@ -9,7 +9,8 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
-import org.scalatest.{Matchers, WordSpecLike}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 
 import java.util.UUID
 import scala.jdk.CollectionConverters._
@@ -17,7 +18,7 @@ import scala.jdk.CollectionConverters._
 class GridGraphBuilderSpec
     extends Matchers
     with ConverterTestData
-    with WordSpecLike {
+    with AnyWordSpecLike {
 
   "The grid graph builder" should {
 

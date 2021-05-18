@@ -15,7 +15,7 @@ ext {
 	scalaBinaryVersion = '2.13.5'
 	slf4jVersion = '1.7.30'
 	circeVersion = '0.13.0'
-	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
+	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator // location of script plugins
 }
 
 apply from: scriptsLocation + 'pmd.gradle'
@@ -52,14 +52,14 @@ dependencies {
 
 
 	/* FIXME: Rely on stable version, when available */
-	compile('com.github.ie3-institute:PowerSystemDataModel:2.0-SNAPSHOT') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0-SNAPSHOT') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
+		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
-		exclude group: 'tec.uom.se'
 	}
 
 	// Graphs
-	compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.0'
+	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.0'
 
 
 	// ie³ internal repository
