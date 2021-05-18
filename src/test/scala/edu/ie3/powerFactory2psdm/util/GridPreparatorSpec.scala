@@ -17,19 +17,16 @@ class GridPreparatorSpec extends Matchers with AnyWordSpecLike {
     "filter out a singly connected switch" in {
       val singlyConnectedSwitch = Switches(
         Some("singlyConnectedSwitch"),
-        Some(".ElmCoup"),
         Some("someNodeId"),
         None
       )
       val anotherSinglyConnectedSwitch = Switches(
         Some("anotherSinglyConnectedSwitch"),
-        Some(".ElmCoup"),
         None,
         Some("someNodeId")
       )
       val fullyConnectedSwitch = Switches(
         Some("fullyConnectedSwitch"),
-        Some(".ElmCoup"),
         Some("someNodeId"),
         Some("aDifferentNodeId")
       )
