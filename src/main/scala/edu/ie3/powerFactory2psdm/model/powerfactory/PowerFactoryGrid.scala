@@ -50,8 +50,6 @@ object PowerFactoryGrid {
       bus2Id: Option[String]
   )
 
-  final case class Pvs()
-
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
   final case class Loads(id: Option[String], pfCls: Option[String])
@@ -60,7 +58,9 @@ object PowerFactoryGrid {
 
   final case class LineTypes(id: Option[String], pfCls: Option[String])
 
-  final case class StatGen()
+  final case class StatGen(id: Option[String], pfCls: Option[String])
+
+  final case class CpArea(id: Option[String], pfCls: Option[String])
 
   final case class Lines(
       bus1Id: Option[String],
@@ -72,22 +72,30 @@ object PowerFactoryGrid {
 
   final case class PowerPlants(id: Option[String], pfCls: Option[String])
 
-  final case class Trafos3w()
+  final case class Trafos3w(
+      id: Option[String],
+      pfCls: Option[String],
+      conElms: Option[List[Option[ConElms]]]
+  )
 
   final case class ExtGrid(id: Option[String], pfCls: Option[String])
 
-  final case class LoadsLV()
+  final case class CpZone(id: Option[String], pfCls: Option[String])
+
+  final case class Pvs(id: Option[String], pfCls: Option[String])
+
+  final case class LoadsLV(id: Option[String], pfCls: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
       iUsage: Option[Double],
-      cpZone: Option[String],
+      cpZone: Option[List[Option[CpZone]]],
       conElms: Option[List[Option[ConElms]]],
       pfCls: Option[String],
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[String]
+      cpArea: Option[List[Option[CpArea]]]
   )
 
   final case class Trafos2w(
@@ -96,8 +104,8 @@ object PowerFactoryGrid {
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class TrafoTypes3w()
+  final case class TrafoTypes3w(id: Option[String], pfCls: Option[String])
 
-  final case class LoadsMV()
+  final case class LoadsMV(id: Option[String], pfCls: Option[String])
 
 }

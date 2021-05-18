@@ -24,11 +24,19 @@ import java.util.UUID
   */
 object GridGraphBuilder {
 
+  /**
+    * Unpacks the optional ids of two busses, connected by an edge.
+    *
+    * @param edgeId id of edge connecting busses with bus1Id and bus2Id
+    * @param maybeBus1Id Option of id of bus 1
+    * @param maybeBus2Id Option of id of bus 2
+    * @return Tuple of the ids of bus 1 and bus 2
+    */
   def unpackConnectedBusses(
       edgeId: String,
-      bus1Id: Option[String],
-      bus2Id: Option[String]
-  ): (String, String) = bus1Id.zip(bus2Id) match {
+      maybeBus1Id: Option[String],
+      maybeBus2Id: Option[String]
+  ): (String, String) = maybeBus1Id.zip(maybeBus2Id) match {
     case Some((bus1Id, bus2Id)) => (bus1Id, bus2Id)
     case None =>
       throw ElementConfigurationException(
@@ -36,6 +44,14 @@ object GridGraphBuilder {
       )
   }
 
+  /**
+    * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
+    * edges (lines and switches) are added to the graph.The resulting subgraphs inside the graph represent the subnets of
+    * the grid.
+    *
+    * @param pfGridMaps maps of grid elements of the power factory grid
+    * @return Mutltigraph of all the uuids of the nodes and their connection
+    */
   def build(
       pfGridMaps: PowerFactoryGridMaps
   ): Multigraph[UUID, DefaultEdge] = {

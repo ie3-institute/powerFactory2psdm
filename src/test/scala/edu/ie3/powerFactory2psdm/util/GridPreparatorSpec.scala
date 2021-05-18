@@ -20,6 +20,12 @@ class GridPreparatorSpec extends Matchers with WordSpecLike {
         Some("someNodeId"),
         None
       )
+      val anotherSinglyConnectedSwitch = Switches(
+        Some("anotherSinglyConnectedSwitch"),
+        Some(".ElmCoup"),
+        None,
+        Some("someNodeId")
+      )
       val fullyConnectedSwitch = Switches(
         Some("fullyConnectedSwitch"),
         Some(".ElmCoup"),
@@ -28,7 +34,11 @@ class GridPreparatorSpec extends Matchers with WordSpecLike {
       )
       val filteredSwitches = GridPreparator.removeSinglyConnectedSwitches(
         Some(
-          List(singlyConnectedSwitch, fullyConnectedSwitch)
+          List(
+            singlyConnectedSwitch,
+            anotherSinglyConnectedSwitch,
+            fullyConnectedSwitch
+          )
         )
       )
       filteredSwitches shouldEqual Some(List(fullyConnectedSwitch))

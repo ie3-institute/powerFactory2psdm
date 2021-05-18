@@ -13,8 +13,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   Lines,
   Nodes,
-  Switches,
-  Trafos2w
+  Switches
 }
 import java.util.UUID
 import com.typesafe.scalalogging.LazyLogging
@@ -41,14 +40,6 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
     case Some(lines) => lines.map(line => (UUID.randomUUID(), line)).toMap
     case None =>
       logger.debug("There are no lines in the grid")
-      Map.empty
-  }
-
-  val UUID2trafo2w: Map[UUID, Trafos2w] = pfGrid.trafos2w match {
-    case Some(trafos2w) =>
-      trafos2w.map(trafo2w => (UUID.randomUUID(), trafo2w)).toMap
-    case None =>
-      logger.debug("There are no transformes in the grid")
       Map.empty
   }
 

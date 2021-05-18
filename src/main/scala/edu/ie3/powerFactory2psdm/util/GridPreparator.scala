@@ -15,6 +15,11 @@ object GridPreparator extends LazyLogging {
   def isFullyConnectedSwitch(switch: Switches): Boolean =
     switch.bus1Id.isDefined & switch.bus2Id.isDefined
 
+  /**
+    * Removes [[Switches]] from a [[PowerFactoryGrid]] that are only connected to a single node.
+    * @param maybeSwitches
+    * @return
+    */
   def removeSinglyConnectedSwitches(
       maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
   ): Option[List[PowerFactoryGrid.Switches]] = maybeSwitches match {
@@ -24,14 +29,17 @@ object GridPreparator extends LazyLogging {
       singlyConnected.foreach(
         switch =>
           logger.debug(
-            s"Removed switch with id: ${switch.id.getOrElse("NO_ID")}, since it only has a single connection"
+            s"Removed switch with id: ${switch.id.getOrElse("NO_ID")}, since it only has a single connection."
           )
       )
       Some(fullyConnected)
   }
 
   /**
-    * Performs various preparations to the power factory grid before it can be transformed.
+    * Perform preparation of the [[PowerFactoryGrid]] before the actual conversion can happen.
+    *
+    * @param pfGrid the [[PowerFactoryGrid]] to prepare
+    * @return the prepared [[PowerFactoryGrid]]
     */
   def prepare(pfGrid: PowerFactoryGrid): PowerFactoryGrid = {
     val filteredSwitches = removeSinglyConnectedSwitches(pfGrid.switches)

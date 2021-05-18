@@ -11,7 +11,6 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   PowerFactoryGridMaps
 }
 import edu.ie3.powerFactory2psdm.util.GridPreparator
-import org.jgrapht.alg.connectivity.BiconnectivityInspector
 
 case object GridConverter {
 
