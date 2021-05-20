@@ -27,39 +27,36 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val idPrefix =
-    "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\"
-
   val pfGridMaps = new PowerFactoryGridMaps(testGrid)
 
   val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
     Set(
-      idPrefix + "Grid.ElmNet\\Bus_0001.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0002.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0003.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0004.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0005.ElmTerm"
+      "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "Grid.ElmNet\\Bus_0001.ElmTerm",
+      "Grid.ElmNet\\Bus_0003.ElmTerm",
+      "Grid.ElmNet\\Bus_0004.ElmTerm",
+      "Grid.ElmNet\\Bus_0005.ElmTerm"
     )
   )
   val subnet2UUIDs: Set[UUID] =
-    pfGridMaps.nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
+    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0007.ElmTerm"))
 
   val subnet3UUIDs: Set[UUID] =
-    pfGridMaps.nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
+    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0008.ElmTerm"))
 
   val subnet4UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
     Set(
-      idPrefix + "Grid.ElmNet\\Bus_0006.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0009.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0011.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0010.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0012.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0013.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0014.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Bus_0015.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
-      idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
+      "Grid.ElmNet\\Bus_0006.ElmTerm",
+      "Grid.ElmNet\\Bus_0009.ElmTerm",
+      "Grid.ElmNet\\Bus_0011.ElmTerm",
+      "Grid.ElmNet\\Bus_0010.ElmTerm",
+      "Grid.ElmNet\\Bus_0012.ElmTerm",
+      "Grid.ElmNet\\Bus_0013.ElmTerm",
+      "Grid.ElmNet\\Bus_0014.ElmTerm",
+      "Grid.ElmNet\\Bus_0015.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
     )
   )
 

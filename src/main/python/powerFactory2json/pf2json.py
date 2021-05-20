@@ -19,6 +19,16 @@ exported_grid_file = os.path.join(exported_grid_dir, "pfGrid.json")
 # Script #
 ##########
 
+def name_without_preamble(full_name):
+    """
+    Remove name pollution by omitting uniform file path preamble
+    """
+    flags = ["\\Network Data.IntPrjfolder\\", "\\Equipment Type Library.IntPrjfolder\\"]
+    for flag in flags:
+        if flag in full_name:
+            return full_name.split(flag)[-1]
+    return full_name
+
 def safe_name(unsafe_str):
     if unsafe_str in reserved_keywords or unsafe_str.endswith('_'):
         return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
@@ -28,7 +38,7 @@ def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
     """
     Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
     """
-    element = {"id": raw_element.GetFullName()}
+    element = {"id": name_without_preamble(raw_element.GetFullName())}
     for member in inspect.getmembers(raw_element):
         if not (
                 member[0].startswith('_')
@@ -63,11 +73,11 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
         # export ids of nodes the edges are connected to
         if (raw_element.GetClassName() in pf_edges):
             try:
-                element["bus1Id"] = raw_element.bus1.cterm.GetFullName()
+                element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
                 element["bus1Id"] = None
             try:
-                element["bus2Id"] = raw_element.bus2.cterm.GetFullName()
+                element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
             except Exception:
                 element["bus2Id"] = None
 

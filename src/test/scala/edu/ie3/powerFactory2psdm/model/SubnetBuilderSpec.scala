@@ -31,7 +31,7 @@ class SubnetBuilderSpec
     }
 
     "throw an exception if at least one of the nodes has a deviating nominal voltage" in {
-      val nodeId = idPrefix + "Grid.ElmNet\\Bus_0003.ElmTerm"
+      val nodeId = "Grid.ElmNet\\Bus_0003.ElmTerm"
       val nodeUUID = pfGridMaps.nodeId2UUID(nodeId)
       val node = pfGridMaps.UUID2node(nodeUUID)
       val faultyNode = node.copy(uknom = Some(131.0))
