@@ -32,11 +32,7 @@ trait ConverterTestData {
 
   val pfGridMaps = new PowerFactoryGridMaps(testGrid)
 
-  def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
-    ids.map(id => pfGridMaps.nodeId2UUID(id))
-  }
-
-  val subnet1UUIDs: Set[UUID] = nodeIdsToUUIDs(
+  val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
     Set(
       idPrefix + "Grid.ElmNet\\Bus_0001.ElmTerm",
       idPrefix + "Grid.ElmNet\\Bus_0002.ElmTerm",
@@ -46,12 +42,12 @@ trait ConverterTestData {
     )
   )
   val subnet2UUIDs: Set[UUID] =
-    nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
+    pfGridMaps.nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
 
   val subnet3UUIDs: Set[UUID] =
-    nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
+    pfGridMaps.nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
 
-  val subnet4UUIDs: Set[UUID] = nodeIdsToUUIDs(
+  val subnet4UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
     Set(
       idPrefix + "Grid.ElmNet\\Bus_0006.ElmTerm",
       idPrefix + "Grid.ElmNet\\Bus_0009.ElmTerm",

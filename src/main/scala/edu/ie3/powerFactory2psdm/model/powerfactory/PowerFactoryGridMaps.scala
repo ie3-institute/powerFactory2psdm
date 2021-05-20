@@ -50,4 +50,8 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
       logger.debug("There are no switches in the grid")
       Map.empty
   }
+
+  def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
+    ids.map(id => nodeId2UUID(id))
+  }
 }
