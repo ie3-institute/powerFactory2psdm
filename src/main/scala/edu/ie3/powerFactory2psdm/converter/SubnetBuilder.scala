@@ -20,6 +20,7 @@ import org.jgrapht.graph.{DefaultEdge, Multigraph}
 import tech.units.indriya.quantity.Quantities.getQuantity
 
 import java.util.UUID
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SubnetBuilder extends LazyLogging {
 
