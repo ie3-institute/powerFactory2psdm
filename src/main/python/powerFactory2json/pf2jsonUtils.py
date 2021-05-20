@@ -25,6 +25,7 @@ attributes4export = {
     'cpArea': [],
     'nodes': [
         "vtarget",
+        "uknom",
         "cpZone",
         "cpArea",
         "GPSlat",
