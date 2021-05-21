@@ -1,505 +1,505 @@
 {
   "nodes": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0001.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0001.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 132.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0005.ElmLne",
-          "pfCls": "ElmLne"
-        },
-        {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0001.ElmSym",
+          "id": "Grid.ElmNet\\Gen_0001.ElmSym",
           "pfCls": "ElmSym"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/1.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0002/1.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/2.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
+          "pfCls": "ElmLne"
+        },
+        {
+          "id": "Grid.ElmNet\\Line_0001_0002/2.ElmLne",
           "pfCls": "ElmLne"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0003.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0003.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 132.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0003.ElmSym",
+          "id": "Grid.ElmNet\\Gen_0003.ElmSym",
           "pfCls": "ElmSym"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0003.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0003_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0003.ElmLod",
+          "id": "Grid.ElmNet\\Load_0003.ElmLod",
           "pfCls": "ElmLod"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0004.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 132.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0003_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0004_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0004_0005.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0004.ElmLod",
+          "id": "Grid.ElmNet\\Load_0004.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0007.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0004_0007.ElmTr2",
           "pfCls": "ElmTr2"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0009.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0004_0009.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0005.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0005.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 132.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0005.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0004_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0004_0005.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0005.ElmLod",
+          "id": "Grid.ElmNet\\Load_0005.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0005_0006.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0006.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0006.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0006.ElmSym",
+          "id": "Grid.ElmNet\\Gen_0006.ElmSym",
           "pfCls": "ElmSym"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0011.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0011.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0012.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0013.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0013.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0006.ElmLod",
+          "id": "Grid.ElmNet\\Load_0006.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0005_0006.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0007.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0007.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 1.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0007.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0004_0007.ElmTr2",
           "pfCls": "ElmTr2"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0008.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0007_0008.ElmTr2",
           "pfCls": "ElmTr2"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0009.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0007_0009.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0008.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0008.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 11.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0008.ElmSym",
+          "id": "Grid.ElmNet\\Gen_0008.ElmSym",
           "pfCls": "ElmSym"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0008.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0007_0008.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0009.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0009.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0010.ElmLne",
+          "id": "Grid.ElmNet\\Line_0009_0010.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0014.ElmLne",
+          "id": "Grid.ElmNet\\Line_0009_0014.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0009.ElmLod",
+          "id": "Grid.ElmNet\\Load_0009.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Shnt_0009.ElmShnt",
+          "id": "Grid.ElmNet\\Shnt_0009.ElmShnt",
           "pfCls": "ElmShnt"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0009.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0004_0009.ElmTr2",
           "pfCls": "ElmTr2"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0009.ElmTr2",
+          "id": "Grid.ElmNet\\Trf_0007_0009.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0010.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0010.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0010_0011.ElmLne",
+          "id": "Grid.ElmNet\\Line_0010_0011.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0010.ElmLne",
+          "id": "Grid.ElmNet\\Line_0009_0010.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0010.ElmLod",
+          "id": "Grid.ElmNet\\Load_0010.ElmLod",
           "pfCls": "ElmLod"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0011.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0011.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0010_0011.ElmLne",
+          "id": "Grid.ElmNet\\Line_0010_0011.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0011.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0011.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0011.ElmLod",
+          "id": "Grid.ElmNet\\Load_0011.ElmLod",
           "pfCls": "ElmLod"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0012.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0012.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0012_0013.ElmLne",
+          "id": "Grid.ElmNet\\Line_0012_0013.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0012.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0012.ElmLod",
+          "id": "Grid.ElmNet\\Load_0012.ElmLod",
           "pfCls": "ElmLod"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0013.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0013.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0012_0013.ElmLne",
+          "id": "Grid.ElmNet\\Line_0012_0013.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0013_0014.ElmLne",
+          "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0013.ElmLne",
+          "id": "Grid.ElmNet\\Line_0006_0013.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0013.ElmLod",
+          "id": "Grid.ElmNet\\Load_0013.ElmLod",
           "pfCls": "ElmLod"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0014.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0014.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0013_0014.ElmLne",
+          "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0014.ElmLne",
+          "id": "Grid.ElmNet\\Line_0009_0014.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0014.ElmLod",
+          "id": "Grid.ElmNet\\Load_0014.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0002.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 132.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0002.ElmSym",
+          "id": "Grid.ElmNet\\Gen_0002.ElmSym",
           "pfCls": "ElmSym"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/1.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0002/1.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0003.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0005.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0002.ElmLod",
+          "id": "Grid.ElmNet\\Load_0002.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/2.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0002/2.ElmLne",
           "pfCls": "ElmLne"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0015.ElmTerm",
+      "id": "Grid.ElmNet\\Bus_0015.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0015.ElmLod",
+          "id": "Grid.ElmNet\\Load_0015.ElmLod",
           "pfCls": "ElmLod"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 2,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
           "pfCls": "ElmTr2"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 2,
+      "uknom": 33.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Upper.ElmTerm",
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Upper.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
       "cpArea": null,
       "cpZone": null,
       "iUsage": 0,
+      "uknom": 110.0,
       "vtarget": 1.0,
-      "pfCls": "ElmTerm",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
           "pfCls": "ElmTr2"
         }
       ]
@@ -507,261 +507,208 @@
   ],
   "lines": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/2.ElmLne",
-      "loc_name": "Line_0001_0002/2",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0001.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0001_0002/2.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0001.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0013_0014.ElmLne",
-      "loc_name": "Line_0013_0014",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0013.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0014.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0001_0002/1.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0001.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0002/1.ElmLne",
-      "loc_name": "Line_0001_0002/1",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0001.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0010_0011.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0010.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0011.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0010_0011.ElmLne",
-      "loc_name": "Line_0010_0011",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0010.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0011.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0012_0013.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0012.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0013.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0012_0013.ElmLne",
-      "loc_name": "Line_0012_0013",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0012.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0013.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0014.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0003.ElmLne",
-      "loc_name": "Line_0002_0003",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0003.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0003.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0001_0005.ElmLne",
-      "loc_name": "Line_0001_0005",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0001.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0005.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0001.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0005.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0004.ElmLne",
-      "loc_name": "Line_0002_0004",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0002_0004.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0002_0005.ElmLne",
-      "loc_name": "Line_0002_0005",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0002.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0005.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0002_0005.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0005.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0012.ElmLne",
-      "loc_name": "Line_0006_0012",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0006.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0012.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0003.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0003_0004.ElmLne",
-      "loc_name": "Line_0003_0004",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0003.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0004_0005.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0005.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0004_0005.ElmLne",
-      "loc_name": "Line_0004_0005",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0005.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0006_0011.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0011.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0006.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0011.ElmLne",
-      "loc_name": "Line_0006_0011",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0011.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0006.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0006_0013.ElmLne",
-      "loc_name": "Line_0006_0013",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0013.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0006.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0006_0013.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0006.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0010.ElmLne",
-      "loc_name": "Line_0009_0010",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0009.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0010.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0009_0010.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0009.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0010.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Line_0009_0014.ElmLne",
-      "loc_name": "Line_0009_0014",
-      "pfCls": "ElmLne",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0014.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0009.ElmTerm"
+      "id": "Grid.ElmNet\\Line_0009_0014.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0009.ElmTerm"
     }
   ],
   "lineTypes": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0001 to 0002.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0001 to 0002.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0013 to 0014.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0010 to 0011.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0010 to 0011.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0012 to 0013.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0012 to 0013.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0013 to 0014.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0002 to 0003.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0002 to 0003.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0001 to 0005.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0001 to 0005.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0002 to 0004.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0002 to 0004.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0002 to 0005.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0002 to 0005.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0006 to 0012.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0003 to 0004.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0003 to 0004.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0004 to 0005.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0004 to 0005.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0006 to 0011.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0006 to 0011.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0006 to 0012.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0006 to 0013.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0006 to 0013.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0009 to 0010.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0009 to 0010.TypLne"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypLne 0009 to 0014.TypLne",
-      "pfCls": "TypLne"
+      "id": "TypLne 0009 to 0014.TypLne"
     }
   ],
   "trafos2w": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0007.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Trf_0004_0007.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0004.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0007.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0007.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0004_0009.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Trf_0004_0009.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0004.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0004.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0009.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0009.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0005_0006.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0005.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0005.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0006.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0006.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0008.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Trf_0007_0008.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0008.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0008.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0007.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0007.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Trf_0007_0009.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Trf_0007_0009.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0009.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0009.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0007.ElmTerm",
+          "id": "Grid.ElmNet\\Bus_0007.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
-      "pfCls": "ElmTr2",
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
       "conElms": [
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Upper.ElmTerm",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Upper.ElmTerm",
           "pfCls": "ElmTerm"
         },
         {
-          "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
           "pfCls": "ElmTerm"
         }
       ]
@@ -769,76 +716,59 @@
   ],
   "trafoTypes2w": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypTr2 0004 to 0007.TypTr2",
-      "pfCls": "TypTr2"
+      "id": "TypTr2 0004 to 0007.TypTr2"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypTr2 0004 to 0009.TypTr2",
-      "pfCls": "TypTr2"
+      "id": "TypTr2 0004 to 0009.TypTr2"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypTr2 0005 to 0006.TypTr2",
-      "pfCls": "TypTr2"
+      "id": "TypTr2 0005 to 0006.TypTr2"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypTr2 0007 to 0008.TypTr2",
-      "pfCls": "TypTr2"
+      "id": "TypTr2 0007 to 0008.TypTr2"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Library.IntPrjfolder\\Equipment Type Library.IntPrjfolder\\TypTr2 0007 to 0009.TypTr2",
-      "pfCls": "TypTr2"
+      "id": "TypTr2 0007 to 0009.TypTr2"
     }
   ],
   "trafos3w": [],
   "trafoTypes3w": [],
   "loads": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0010.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0010.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0011.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0011.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0012.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0012.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0013.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0013.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0014.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0014.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0002.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0002.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0003.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0003.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0004.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0004.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0005.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0005.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0006.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0006.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0009.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0009.ElmLod"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load_0015.ElmLod",
-      "pfCls": "ElmLod"
+      "id": "Grid.ElmNet\\Load_0015.ElmLod"
     }
   ],
   "loadsLV": [],
@@ -847,51 +777,42 @@
   "extGrid": [],
   "powerPlants": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0001.ElmSym",
-      "pfCls": "ElmSym"
+      "id": "Grid.ElmNet\\Gen_0001.ElmSym"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0002.ElmSym",
-      "pfCls": "ElmSym"
+      "id": "Grid.ElmNet\\Gen_0002.ElmSym"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0003.ElmSym",
-      "pfCls": "ElmSym"
+      "id": "Grid.ElmNet\\Gen_0003.ElmSym"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0006.ElmSym",
-      "pfCls": "ElmSym"
+      "id": "Grid.ElmNet\\Gen_0006.ElmSym"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Gen_0008.ElmSym",
-      "pfCls": "ElmSym"
+      "id": "Grid.ElmNet\\Gen_0008.ElmSym"
     }
   ],
   "pvs": [],
   "switches": [
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
-      "pfCls": "ElmCoup",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+      "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
-      "pfCls": "ElmCoup",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
+      "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter.ElmCoup",
-      "pfCls": "ElmCoup",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0014.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0015.ElmTerm"
+      "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
+      "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     },
     {
-      "id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
-      "pfCls": "ElmCoup",
-      "bus1Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
-      "bus2Id": "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus_0015.ElmTerm"
+      "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+      "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     }
   ]
 }

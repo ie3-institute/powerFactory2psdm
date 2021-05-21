@@ -14,6 +14,8 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   PowerFactoryGridMaps
 }
 
+import java.util.UUID
+
 trait ConverterTestData {
 
   val testGridFile =
@@ -25,8 +27,37 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val idPrefix =
-    "\\smttober.IntUser\\ConverterDevGrid.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\"
-
   val pfGridMaps = new PowerFactoryGridMaps(testGrid)
+
+  val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
+    Set(
+      "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "Grid.ElmNet\\Bus_0001.ElmTerm",
+      "Grid.ElmNet\\Bus_0003.ElmTerm",
+      "Grid.ElmNet\\Bus_0004.ElmTerm",
+      "Grid.ElmNet\\Bus_0005.ElmTerm"
+    )
+  )
+  val subnet2UUIDs: Set[UUID] =
+    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0007.ElmTerm"))
+
+  val subnet3UUIDs: Set[UUID] =
+    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0008.ElmTerm"))
+
+  val subnet4UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
+    Set(
+      "Grid.ElmNet\\Bus_0006.ElmTerm",
+      "Grid.ElmNet\\Bus_0009.ElmTerm",
+      "Grid.ElmNet\\Bus_0011.ElmTerm",
+      "Grid.ElmNet\\Bus_0010.ElmTerm",
+      "Grid.ElmNet\\Bus_0012.ElmTerm",
+      "Grid.ElmNet\\Bus_0013.ElmTerm",
+      "Grid.ElmNet\\Bus_0014.ElmTerm",
+      "Grid.ElmNet\\Bus_0015.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
+      "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
+    )
+  )
+
 }

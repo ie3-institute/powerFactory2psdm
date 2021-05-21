@@ -20,25 +20,21 @@ class GridGraphBuilderSpec
     with ConverterTestData
     with AnyWordSpecLike {
 
-  "The grid graph builder" should {
+  "The GridGraphBuilder" should {
 
-    val graph = GridGraphBuilder.build(pfGridMaps)
-    val inspect = new BiconnectivityInspector(graph)
+    val gridGraph = GridGraphBuilder.build(pfGridMaps)
+    val inspect = new BiconnectivityInspector(gridGraph)
     val vertexSets = inspect.getConnectedComponents.asScala
       .map(
         graph => graph.vertexSet()
       )
 
-    def nodeIdsToUUIDs(ids: Set[String]) = {
-      ids.map(id => pfGridMaps.nodeId2UUID(id))
+    "add the correct number of nodes to the gridGraph" in {
+      gridGraph.vertexSet().size shouldBe pfGridMaps.UUID2node.size
     }
 
-    "add the correct number of nodes to the graph" in {
-      graph.vertexSet().size shouldBe pfGridMaps.UUID2node.size
-    }
-
-    "add the correct number of edges to the graph" in {
-      graph
+    "add the correct number of edges to the gridGraph" in {
+      gridGraph
         .edgeSet()
         .size shouldBe (pfGridMaps.UUID2switch ++ pfGridMaps.UUID2line).size
     }
@@ -48,47 +44,19 @@ class GridGraphBuilderSpec
     }
 
     "aggregate all nodes of subnet 1 in one of the subgraphs" in {
-      val subnet1: Set[UUID] = nodeIdsToUUIDs(
-        Set(
-          idPrefix + "Grid.ElmNet\\Bus_0001.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0002.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0003.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0004.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0005.ElmTerm"
-        )
-      )
-      vertexSets.contains(subnet1.asJava) shouldBe true
+      vertexSets.contains(subnet1UUIDs.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 2 in one of the subgraphs" in {
-      val subnet2 =
-        nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0007.ElmTerm"))
-      vertexSets.contains(subnet2.asJava) shouldBe true
+      vertexSets.contains(subnet2UUIDs.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 3 in one of the subgraphs" in {
-      val subnet3 =
-        nodeIdsToUUIDs(Set(idPrefix + "Grid.ElmNet\\Bus_0008.ElmTerm"))
-      vertexSets.contains(subnet3.asJava) shouldBe true
+      vertexSets.contains(subnet3UUIDs.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 4 in one of the subgraphs" in {
-      val subnet4 = nodeIdsToUUIDs(
-        Set(
-          idPrefix + "Grid.ElmNet\\Bus_0006.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0009.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0011.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0010.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0012.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0013.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0014.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Bus_0015.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
-          idPrefix + "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
-        )
-      )
-      vertexSets.contains(subnet4.asJava) shouldBe true
+      vertexSets.contains(subnet4UUIDs.asJava) shouldBe true
     }
 
     "throw an Exception when trying to unpack busses of singly connected edge" in {
@@ -99,7 +67,6 @@ class GridGraphBuilderSpec
 
       thrown.getMessage shouldBe "Exception occurred while adding an edge. " +
         "Exc: Edge with id: myEdge is missing at least one connected node"
-
     }
   }
 }

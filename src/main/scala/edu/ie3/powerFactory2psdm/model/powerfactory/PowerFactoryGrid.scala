@@ -90,7 +90,8 @@ object PowerFactoryGrid {
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[List[Option[CpArea]]]
+      cpArea: Option[List[Option[CpArea]]],
+      uknom: Option[Double]
   )
 
   final case class Trafos2w(
