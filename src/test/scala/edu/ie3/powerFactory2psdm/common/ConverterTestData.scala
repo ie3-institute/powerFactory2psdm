@@ -46,8 +46,8 @@ trait ConverterTestData {
   val bus15Id = "Grid.ElmNet\\Bus_0015.ElmTerm"
   val busOns1Id = "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
   val busOns2Id = "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
-  val busOnsLv = "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
-
+  val busOnsLv =
+    "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
 
   val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIds2UUIDs(
     Set(

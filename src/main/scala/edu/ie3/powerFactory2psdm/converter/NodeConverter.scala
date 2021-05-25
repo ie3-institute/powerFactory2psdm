@@ -37,12 +37,12 @@ object NodeConverter {
     maybeConElms match {
       case Some(conElms) =>
         conElms.flatten match {
-          case flattenedConElms if flattenedConElms.nonEmpty=>
+          case flattenedConElms if flattenedConElms.nonEmpty =>
             flattenedConElms.filter(
               conElm => conElm.pfCls.getOrElse("NO_CLASS_DEFINED") == "ElmXnet"
             ) match {
               case Seq(_) => Success(true)
-              case Nil => Success(false)
+              case Nil    => Success(false)
               case _ =>
                 Failure(
                   GridConfigurationException(
@@ -78,7 +78,7 @@ object NodeConverter {
       case None        => Quantities.getQuantity(1d, PU)
     }
     val geoPosition: Point =
-      CoordinateConverter.convert(pfNode.GPSlon, pfNode.GPSlat)
+      CoordinateConverter.convert(pfNode.GPSlat, pfNode.GPSlon)
     val voltLvl: VoltageLevel = subnet.voltLvl
     val subnetNr: Int = subnet.id
     val slack: Boolean = isSlack(pfNode.conElms) match {

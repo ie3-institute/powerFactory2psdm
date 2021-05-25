@@ -12,14 +12,22 @@ import org.locationtech.jts.geom.{Coordinate, Point}
 
 case object CoordinateConverter {
 
+  /**
+    * Converts optional lat and lon values of PowerFactory elements to the expected position description of the PSDM.
+    *
+    * @param maybeLat optional lat value
+    * @param maybeLon optional lon value
+    * @return position as described by a [[Point]]
+    */
   def convert(maybeLat: Option[Double], maybeLon: Option[Double]): Point = {
-    val maybePoint: Option[Point] = for {
-      lat <- maybeLat
-      lon <- maybeLon
-    } yield GeoUtils.DEFAULT_GEOMETRY_FACTORY.createPoint(
-      new Coordinate(lat, lon)
-    )
-
-    maybePoint.getOrElse(NodeInput.DEFAULT_GEO_POSITION)
+    maybeLat.zip(maybeLon) match {
+      // if no coord is specifically set in the power factory grid, lat and lon are 0.0
+      case Some((0.0, 0.0)) =>
+        NodeInput.DEFAULT_GEO_POSITION
+      case Some((lat, lon)) =>
+        GeoUtils.DEFAULT_GEOMETRY_FACTORY.createPoint(new Coordinate(lon, lat))
+      case None =>
+        NodeInput.DEFAULT_GEO_POSITION
+    }
   }
 }
