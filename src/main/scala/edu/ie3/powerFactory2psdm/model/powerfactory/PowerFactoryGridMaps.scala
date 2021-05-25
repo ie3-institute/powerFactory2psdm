@@ -51,7 +51,7 @@ class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
       Map.empty
   }
 
-  def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
-    ids.map(id => nodeId2UUID(id))
+  def nodeIds2UUIDs(ids: Set[String]): Set[UUID] = {
+      ids.map(id => nodeId2UUID.getOrElse(id, throw new NoSuchElementException(s"There is no node with id: $id in the map.")))
   }
 }

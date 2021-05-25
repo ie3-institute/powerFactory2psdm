@@ -12,7 +12,6 @@ import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-import java.util.UUID
 import scala.jdk.CollectionConverters._
 
 class GridGraphBuilderSpec
