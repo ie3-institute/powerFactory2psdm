@@ -10,7 +10,7 @@ elements4export = {
     'loadsLV': '*.ElmLodlv',
     'loadsMV': '*.ElmLodmv',
     'statGen': '*.ElmGenstat',  # heat pumps, storage, electric vehicles, photovoltaic units ...
-    'extGrid': '*.ElmXNet',
+    'extGrid': '*.ElmXnet',
     'powerPlants': '*.ElmSym',  # renewable power plants
     'pvs': '*.ElmPvsys',  # additional photovoltaic units
     'switches': '*.ElmCoup'
