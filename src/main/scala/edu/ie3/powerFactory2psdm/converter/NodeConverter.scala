@@ -66,6 +66,14 @@ object NodeConverter {
         )
     }
 
+  /**
+    * Converts a PowerFactory node into a PSDM node.
+    *
+    * @param nodeUUID UUID of the PF node to convert
+    * @param UUID2node Map of UUIDs and their associated [[Nodes]]
+    * @param subnet subnet the PF node lives in
+    * @return a PSDM [[NodeInput]]
+    */
   def convertNode(
       nodeUUID: UUID,
       UUID2node: Map[UUID, Nodes],
@@ -102,6 +110,13 @@ object NodeConverter {
     )
   }
 
+  /**
+    * Converts all nodes within a subnet to PSDM [[NodeInput]]
+    *
+    * @param subnet the subnet with reference to all PF nodes that live within
+    * @param uuid2node map that connects uuids with the associate PF [[Nodes]]
+    * @return list of all converted [[NodeInput]]
+    */
   def convertNodesOfSubnet(
       subnet: Subnet,
       uuid2node: Map[UUID, Nodes]

@@ -30,5 +30,8 @@ case object GridConverter {
     val pfGridMaps = new PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)
     val subnets = SubnetBuilder.buildSubnets(graph, pfGridMaps.UUID2node)
+    val psdmNodes = subnets.flatMap(
+      subnet => NodeConverter.convertNodesOfSubnet(subnet, pfGridMaps.UUID2node)
+    )
   }
 }
