@@ -8,50 +8,89 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
+import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  GridConfigurationException
+}
+import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   ConElms,
   Nodes
 }
 import edu.ie3.util.quantities.PowerSystemUnits.PU
-import org.jgrapht.graph.{DefaultEdge, Multigraph}
+import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
+import scala.util.{Failure, Success, Try}
 
 object NodeConverter {
 
-  def isSlack(conElms: Option[List[Option[ConElms]]]): Boolean = {
-    ???
-  }
+  /**
+    * Checks if a node is a slack node by checking if there is an external grid connected to the node.
+    *
+    * @param maybeConElms an optional List of connected elements to the node
+    * @return either whether the node is a slack node or an exception
+    */
+  def isSlack(maybeConElms: Option[List[Option[ConElms]]]): Try[Boolean] =
+    maybeConElms match {
+      case Some(conElms) =>
+        conElms.flatten match {
+          case flattenedConElms if flattenedConElms.nonEmpty=>
+            flattenedConElms.filter(
+              conElm => conElm.pfCls.getOrElse("NO_CLASS_DEFINED") == "ElmXnet"
+            ) match {
+              case Seq(_) => Success(true)
+              case Nil => Success(false)
+              case _ =>
+                Failure(
+                  GridConfigurationException(
+                    "There is more than one external grid connected to the node."
+                  )
+                )
+            }
+          case Nil =>
+            Failure(
+              GridConfigurationException(
+                "The list of connected elements is empty."
+              )
+            )
 
-  def convert(
-      nodeUuid: UUID,
-      gridGraph: Multigraph[UUID, DefaultEdge],
-      uuid2node: Map[UUID, Nodes]
+        }
+      case None =>
+        Failure(
+          ElementConfigurationException(
+            "The optional connected elements attribute is None."
+          )
+        )
+    }
+
+  def convertNode(
+      nodeUUID: UUID,
+      UUID2node: Map[UUID, Nodes],
+      subnet: Subnet
   ): NodeInput = {
-
-    val pfNode = uuid2node(nodeUuid)
-
-    // todo: how to handle missing id?
-    val id = uuid2node(nodeUuid).loc_name.getOrElse("")
-
+    val pfNode = UUID2node(nodeUUID)
+    val id = UUID2node(nodeUUID).id.getOrElse("NO_ID")
     val vTarget = pfNode.vtarget match {
       case Some(value) => Quantities.getQuantity(value, PU)
       case None        => Quantities.getQuantity(1d, PU)
     }
-    val geoPosition = CoordinateConverter.convert(pfNode.GPSlon, pfNode.GPSlat)
-
-    val voltLvl = ???
-
-    val subnet = ???
-
-    // todo: how to check whether node is a slack node
-    val slack = isSlack(pfNode.conElms)
-
-    // todo: check if there already is a slack node for the given subnet
-
+    val geoPosition: Point =
+      CoordinateConverter.convert(pfNode.GPSlon, pfNode.GPSlat)
+    val voltLvl: VoltageLevel = subnet.voltLvl
+    val subnetNr: Int = subnet.id
+    val slack: Boolean = isSlack(pfNode.conElms) match {
+      case Success(res) => res
+      case Failure(exc) =>
+        throw new IllegalArgumentException(
+          s"Exception occurred while checking if node with id ${pfNode.id
+            .getOrElse("NO_ID")} is a slack node. Exception: $exc"
+        )
+    }
     new NodeInput(
-      UUID.randomUUID(),
+      nodeUUID,
       id,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
@@ -59,7 +98,15 @@ object NodeConverter {
       slack,
       geoPosition,
       voltLvl,
-      subnet
+      subnetNr
     )
+  }
+
+  def convertNodesOfSubnet(
+      subnet: Subnet,
+      uuid2node: Map[UUID, Nodes]
+  ): List[NodeInput] = {
+    (for (nodeUUID <- subnet.nodeUUIDs)
+      yield convertNode(nodeUUID, uuid2node, subnet)).toList
   }
 }
