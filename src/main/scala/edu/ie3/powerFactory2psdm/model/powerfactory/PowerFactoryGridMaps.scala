@@ -38,7 +38,7 @@ object PowerFactoryGridMaps extends LazyLogging {
       elem =>
         (
           elem._2.id.getOrElse(
-            throw MissingParameterException(s"Node $elem._2 has no id")
+            throw MissingParameterException(s"Node ${elem._2} has no id")
           ),
           elem._1
         )
