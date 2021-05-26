@@ -12,17 +12,25 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Switches
 
 object GridPreparator extends LazyLogging {
 
-  def isFullyConnectedSwitch(switch: Switches): Boolean =
-    switch.bus1Id.isDefined & switch.bus2Id.isDefined
-
   /**
-    * Removes [[Switches]] from a [[PowerFactoryGrid]] that are only connected to a single node.
-    * @param maybeSwitches
-    * @return
+    * Perform preparation of the [[PowerFactoryGrid]] before the actual conversion can happen.
+    *
+    * @param pfGrid the [[PowerFactoryGrid]] to prepare
+    * @return the prepared [[PowerFactoryGrid]]
     */
+  def prepare(pfGrid: PowerFactoryGrid): PowerFactoryGrid = {
+    val filteredSwitches = removeSinglyConnectedSwitches(pfGrid.switches)
+    pfGrid.copy(switches = filteredSwitches)
+  }
+ 
+  /**
+   * Removes [[Switches]] from a [[PowerFactoryGrid]] that are only connected to a single node.
+   * @param maybeSwitches
+   * @return
+   */
   def removeSinglyConnectedSwitches(
-      maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
-  ): Option[List[PowerFactoryGrid.Switches]] =
+                                     maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
+                                   ): Option[List[PowerFactoryGrid.Switches]] =
     maybeSwitches.map(switches => {
       val (fullyConnected, singlyConnected) =
         switches.partition(isFullyConnectedSwitch)
@@ -35,15 +43,6 @@ object GridPreparator extends LazyLogging {
       fullyConnected
     })
 
-  /**
-    * Perform preparation of the [[PowerFactoryGrid]] before the actual conversion can happen.
-    *
-    * @param pfGrid the [[PowerFactoryGrid]] to prepare
-    * @return the prepared [[PowerFactoryGrid]]
-    */
-  def prepare(pfGrid: PowerFactoryGrid): PowerFactoryGrid = {
-    val filteredSwitches = removeSinglyConnectedSwitches(pfGrid.switches)
-    pfGrid.copy(switches = filteredSwitches)
-  }
-
+  def isFullyConnectedSwitch(switch: Switches): Boolean =
+    switch.bus1Id.isDefined & switch.bus2Id.isDefined
 }
