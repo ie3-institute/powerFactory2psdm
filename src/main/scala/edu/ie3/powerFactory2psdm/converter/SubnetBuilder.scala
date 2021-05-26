@@ -25,16 +25,16 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 object SubnetBuilder extends LazyLogging {
 
   /**
-   * Takes the grid graph and builds up the different [[SubnetBuilder]]s from it.
-   *
-   * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
-   * @param UUID2node the mapping between UUID and the corresponding node
-   * @return the list of all subnets of the grid
-   */
+    * Takes the grid graph and builds up the different [[SubnetBuilder]]s from it.
+    *
+    * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
+    * @param UUID2node the mapping between UUID and the corresponding node
+    * @return the list of all subnets of the grid
+    */
   def buildSubnets(
-                    gridGraph: Multigraph[UUID, DefaultEdge],
-                    UUID2node: Map[UUID, Nodes]
-                  ): List[Subnet] = {
+      gridGraph: Multigraph[UUID, DefaultEdge],
+      UUID2node: Map[UUID, Nodes]
+  ): List[Subnet] = {
     val indexedSubgraphs = new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex
     indexedSubgraphs.map(
       indexedSubgraph =>
@@ -47,18 +47,18 @@ object SubnetBuilder extends LazyLogging {
   }
 
   /**
-   * Builds a [[SubnetBuilder]] after checking if all nodes have the same nominal voltage
-   *
-   * @param subnetId  id of the subnet
-   * @param nodeIds   UUIDS of all nodes that live in the subnet
-   * @param UUID2node mapping between UUID and node
-   * @return the built [[SubnetBuilder]]
-   */
+    * Builds a [[SubnetBuilder]] after checking if all nodes have the same nominal voltage
+    *
+    * @param subnetId  id of the subnet
+    * @param nodeIds   UUIDS of all nodes that live in the subnet
+    * @param UUID2node mapping between UUID and node
+    * @return the built [[SubnetBuilder]]
+    */
   def buildSubnet(
-                   subnetId: Int,
-                   nodeIds: Set[UUID],
-                   UUID2node: Map[UUID, Nodes]
-                 ): Subnet = {
+      subnetId: Int,
+      nodeIds: Set[UUID],
+      UUID2node: Map[UUID, Nodes]
+  ): Subnet = {
     val nodes = nodeIds.map(uuid => UUID2node(uuid)).toList
     val nomVoltage = getNomVoltage(
       nodes.headOption.getOrElse(

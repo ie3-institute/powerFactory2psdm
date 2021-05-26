@@ -25,16 +25,16 @@ import java.util.UUID
 object GridGraphBuilder {
 
   /**
-   * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
-   * edges (lines and switches) are added to the graph.The resulting subgraphs inside the graph represent the subnets of
-   * the grid.
-   *
-   * @param pfGridMaps maps of grid elements of the power factory grid
-   * @return Mutltigraph of all the uuids of the nodes and their connection
-   */
+    * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
+    * edges (lines and switches) are added to the graph.The resulting subgraphs inside the graph represent the subnets of
+    * the grid.
+    *
+    * @param pfGridMaps maps of grid elements of the power factory grid
+    * @return Mutltigraph of all the uuids of the nodes and their connection
+    */
   def build(
-             pfGridMaps: PowerFactoryGridMaps
-           ): Multigraph[UUID, DefaultEdge] = {
+      pfGridMaps: PowerFactoryGridMaps
+  ): Multigraph[UUID, DefaultEdge] = {
     val graph = new Multigraph[UUID, DefaultEdge](classOf[DefaultEdge])
     pfGridMaps.UUID2node.keys.foreach(uuid => graph.addVertex(uuid))
     val connectedBusIdPairs: Iterable[(String, String)] =
