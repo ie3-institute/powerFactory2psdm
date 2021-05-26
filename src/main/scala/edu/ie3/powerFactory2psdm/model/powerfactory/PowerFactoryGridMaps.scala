@@ -34,15 +34,15 @@ object PowerFactoryGridMaps extends LazyLogging {
         throw MissingGridElementException("There are no nodes in the Grid")
     }
 
-    val nodeId2Uuid: Map[String, UUID] = uuid2Node.map(
-      elem =>
+    val nodeId2Uuid: Map[String, UUID] = uuid2Node map {
+      case (uuid, node) =>
         (
-          elem._2.id.getOrElse(
-            throw MissingParameterException(s"Node ${elem._2} has no id")
+          node.id.getOrElse(
+            throw MissingParameterException(s"Node ${node.id} has no id")
           ),
-          elem._1
+          uuid
         )
-    )
+    }
 
     val uuid2Line: Map[UUID, Lines] = pfGrid.lines match {
       case Some(lines) => lines.map(line => (UUID.randomUUID(), line)).toMap

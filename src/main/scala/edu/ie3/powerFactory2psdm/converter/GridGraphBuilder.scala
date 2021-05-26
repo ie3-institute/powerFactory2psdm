@@ -54,21 +54,22 @@ object GridGraphBuilder {
             )
         }
 
-    connectedBusIdPairs.foreach { ids =>
-      val (bus1Id, bus2Id) = ids
-      val nodeAUUID = pfGridMaps.nodeId2Uuid.getOrElse(
-        bus1Id,
-        throw MissingGridElementException(
-          s"There is no node with id: $bus1Id in pfGridMaps"
+    connectedBusIdPairs.foreach {
+      case (bus1Id, bus2Id) => {
+        val nodeAUuid = pfGridMaps.nodeId2Uuid.getOrElse(
+          bus1Id,
+          throw MissingGridElementException(
+            s"There is no node with id: $bus1Id in pfGridMaps"
+          )
         )
-      )
-      val nodeBUUID = pfGridMaps.nodeId2Uuid.getOrElse(
-        bus2Id,
-        throw MissingGridElementException(
-          s"There is no node with id: $bus2Id in pfGridMaps"
+        val nodeBUuid = pfGridMaps.nodeId2Uuid.getOrElse(
+          bus2Id,
+          throw MissingGridElementException(
+            s"There is no node with id: $bus2Id in pfGridMaps"
+          )
         )
-      )
-      graph.addEdge(nodeAUUID, nodeBUUID)
+        graph.addEdge(nodeAUuid, nodeBUuid)
+      }
     }
     graph
   }

@@ -35,15 +35,14 @@ object SubnetBuilder extends LazyLogging {
       gridGraph: Multigraph[UUID, DefaultEdge],
       uuid2Node: Map[UUID, Nodes]
   ): List[Subnet] = {
-    val indexedSubgraphs = new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex
-    indexedSubgraphs.map(
-      indexedSubgraph =>
+    new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex map {
+      case (subgraph, index) =>
         buildSubnet(
-          indexedSubgraph._2,
-          indexedSubgraph._1.vertexSet().asScala.toSet,
+          index,
+          subgraph.vertexSet().asScala.toSet,
           uuid2Node
         )
-    )
+    }
   }
 
   /**
