@@ -9,6 +9,7 @@ package edu.ie3.powerFactory2psdm.common
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
   PowerFactoryGrid,
   PowerFactoryGridMaps
@@ -17,6 +18,13 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
 import java.util.UUID
 
 trait ConverterTestData {
+
+  def nodeIdsToUuids(
+      nodeId2Uuid: Map[String, UUID],
+      ids: Set[String]
+  ): Set[UUID] = {
+    ids.map(id => nodeId2Uuid(id))
+  }
 
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
@@ -27,9 +35,10 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val pfGridMaps = new PowerFactoryGridMaps(testGrid)
+  val pfGridMaps: PowerFactoryGridMaps = PowerFactoryGridMaps(testGrid)
 
-  val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
+  val subnet1Uuids: Set[UUID] = nodeIdsToUuids(
+    pfGridMaps.nodeId2Uuid,
     Set(
       "Grid.ElmNet\\Bus_0002.ElmTerm",
       "Grid.ElmNet\\Bus_0001.ElmTerm",
@@ -38,13 +47,14 @@ trait ConverterTestData {
       "Grid.ElmNet\\Bus_0005.ElmTerm"
     )
   )
-  val subnet2UUIDs: Set[UUID] =
-    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0007.ElmTerm"))
+  val subnet2Uuids: Set[UUID] =
+    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set("Grid.ElmNet\\Bus_0007.ElmTerm"))
 
-  val subnet3UUIDs: Set[UUID] =
-    pfGridMaps.nodeIdsToUUIDs(Set("Grid.ElmNet\\Bus_0008.ElmTerm"))
+  val subnet3Uuids: Set[UUID] =
+    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set("Grid.ElmNet\\Bus_0008.ElmTerm"))
 
-  val subnet4UUIDs: Set[UUID] = pfGridMaps.nodeIdsToUUIDs(
+  val subnet4Uuids: Set[UUID] = nodeIdsToUuids(
+    pfGridMaps.nodeId2Uuid,
     Set(
       "Grid.ElmNet\\Bus_0006.ElmTerm",
       "Grid.ElmNet\\Bus_0009.ElmTerm",

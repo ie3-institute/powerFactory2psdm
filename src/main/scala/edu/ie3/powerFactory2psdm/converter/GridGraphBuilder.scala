@@ -36,9 +36,9 @@ object GridGraphBuilder {
       pfGridMaps: PowerFactoryGridMaps
   ): Multigraph[UUID, DefaultEdge] = {
     val graph = new Multigraph[UUID, DefaultEdge](classOf[DefaultEdge])
-    pfGridMaps.UUID2node.keys.foreach(uuid => graph.addVertex(uuid))
+    pfGridMaps.uuid2Node.keys.foreach(uuid => graph.addVertex(uuid))
     val connectedBusIdPairs: Iterable[(String, String)] =
-      (pfGridMaps.UUID2line.values ++ pfGridMaps.UUID2switch.values)
+      (pfGridMaps.uuid2Line.values ++ pfGridMaps.uuid2Switch.values)
         .map {
           case edge: Lines =>
             unpackConnectedBusses(
@@ -56,13 +56,13 @@ object GridGraphBuilder {
 
     connectedBusIdPairs.foreach { ids =>
       val (bus1Id, bus2Id) = ids
-      val nodeAUUID = pfGridMaps.nodeId2UUID.getOrElse(
+      val nodeAUUID = pfGridMaps.nodeId2Uuid.getOrElse(
         bus1Id,
         throw MissingGridElementException(
           s"There is no node with id: $bus1Id in pfGridMaps"
         )
       )
-      val nodeBUUID = pfGridMaps.nodeId2UUID.getOrElse(
+      val nodeBUUID = pfGridMaps.nodeId2Uuid.getOrElse(
         bus2Id,
         throw MissingGridElementException(
           s"There is no node with id: $bus2Id in pfGridMaps"

@@ -28,12 +28,12 @@ object SubnetBuilder extends LazyLogging {
     * Takes the grid graph and builds up the different [[SubnetBuilder]]s from it.
     *
     * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
-    * @param UUID2node the mapping between UUID and the corresponding node
+    * @param uuid2Node the mapping between UUID and the corresponding node
     * @return the list of all subnets of the grid
     */
   def buildSubnets(
       gridGraph: Multigraph[UUID, DefaultEdge],
-      UUID2node: Map[UUID, Nodes]
+      uuid2Node: Map[UUID, Nodes]
   ): List[Subnet] = {
     val indexedSubgraphs = new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex
     indexedSubgraphs.map(
@@ -41,7 +41,7 @@ object SubnetBuilder extends LazyLogging {
         buildSubnet(
           indexedSubgraph._2,
           indexedSubgraph._1.vertexSet().asScala.toSet,
-          UUID2node
+          uuid2Node
         )
     )
   }
@@ -51,15 +51,15 @@ object SubnetBuilder extends LazyLogging {
     *
     * @param subnetId  id of the subnet
     * @param nodeIds   UUIDS of all nodes that live in the subnet
-    * @param UUID2node mapping between UUID and node
+    * @param uuid2node mapping between UUID and node
     * @return the built [[SubnetBuilder]]
     */
   def buildSubnet(
       subnetId: Int,
       nodeIds: Set[UUID],
-      UUID2node: Map[UUID, Nodes]
+      uuid2node: Map[UUID, Nodes]
   ): Subnet = {
-    val nodes = nodeIds.map(uuid => UUID2node(uuid)).toList
+    val nodes = nodeIds.map(uuid => uuid2node(uuid)).toList
     val nomVoltage = getNomVoltage(
       nodes.headOption.getOrElse(
         throw GridConfigurationException("There are no nodes in the subnet!")

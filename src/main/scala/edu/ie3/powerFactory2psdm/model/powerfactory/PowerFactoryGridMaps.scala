@@ -18,40 +18,56 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
 import java.util.UUID
 import com.typesafe.scalalogging.LazyLogging
 
-class PowerFactoryGridMaps(pfGrid: PowerFactoryGrid) extends LazyLogging {
+case class PowerFactoryGridMaps(
+    uuid2Node: Map[UUID, Nodes],
+    nodeId2Uuid: Map[String, UUID],
+    uuid2Line: Map[UUID, Lines],
+    uuid2Switch: Map[UUID, Switches]
+)
 
-  val UUID2node: Map[UUID, Nodes] = pfGrid.nodes match {
-    case Some(nodes) => nodes.map(node => (UUID.randomUUID(), node)).toMap
-    case None =>
-      throw MissingGridElementException("There are no nodes in the Grid")
-  }
+object PowerFactoryGridMaps extends LazyLogging {
+  def apply(pfGrid: PowerFactoryGrid): PowerFactoryGridMaps = {
 
-  val nodeId2UUID: Map[String, UUID] = UUID2node.map(
-    elem =>
-      (
-        elem._2.id.getOrElse(
-          throw MissingParameterException(s"Node $elem._2 has no id")
-        ),
-        elem._1
-      )
-  )
+    val uuid2Node: Map[UUID, Nodes] = pfGrid.nodes match {
+      case Some(nodes) => nodes.map(node => (UUID.randomUUID(), node)).toMap
+      case None =>
+        throw MissingGridElementException("There are no nodes in the Grid")
+    }
 
-  val UUID2line: Map[UUID, Lines] = pfGrid.lines match {
-    case Some(lines) => lines.map(line => (UUID.randomUUID(), line)).toMap
-    case None =>
-      logger.debug("There are no lines in the grid")
-      Map.empty
-  }
+    val nodeId2Uuid: Map[String, UUID] = uuid2Node.map(
+      elem =>
+        (
+          elem._2.id.getOrElse(
+            throw MissingParameterException(s"Node $elem._2 has no id")
+          ),
+          elem._1
+        )
+    )
 
-  val UUID2switch: Map[UUID, Switches] = pfGrid.switches match {
-    case Some(switches) =>
-      switches.map(switch => (UUID.randomUUID(), switch)).toMap
-    case None =>
-      logger.debug("There are no switches in the grid")
-      Map.empty
-  }
+    val uuid2Line: Map[UUID, Lines] = pfGrid.lines match {
+      case Some(lines) => lines.map(line => (UUID.randomUUID(), line)).toMap
+      case None =>
+        logger.debug("There are no lines in the grid")
+        Map.empty
+    }
 
-  def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
-    ids.map(id => nodeId2UUID(id))
+    val uuid2Switch: Map[UUID, Switches] = pfGrid.switches match {
+      case Some(switches) =>
+        switches.map(switch => (UUID.randomUUID(), switch)).toMap
+      case None =>
+        logger.debug("There are no switches in the grid")
+        Map.empty
+    }
+
+    def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
+      ids.map(id => nodeId2Uuid(id))
+    }
+
+    PowerFactoryGridMaps(
+      uuid2Node,
+      nodeId2Uuid,
+      uuid2Line,
+      uuid2Switch
+    )
   }
 }

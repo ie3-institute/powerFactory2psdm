@@ -14,7 +14,7 @@ import java.util.UUID
   * Data type that wraps necessary information for the different subnets
   *
   * @param id of the subnet
-  * @param nodeUUIDs UUIDS of the nodes inside the subnet
+  * @param nodeUuids UUIDS of the nodes inside the subnet
   * @param voltLvl voltage level that the nodes live in
   */
-final case class Subnet(id: Int, nodeUUIDs: Set[UUID], voltLvl: VoltageLevel)
+final case class Subnet(id: Int, nodeUuids: Set[UUID], voltLvl: VoltageLevel)
