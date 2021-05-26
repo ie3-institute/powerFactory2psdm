@@ -22,8 +22,8 @@ object GridPreparator extends LazyLogging {
     */
   def removeSinglyConnectedSwitches(
       maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
-  ): Option[List[PowerFactoryGrid.Switches]] = maybeSwitches match {
-    case Some(switches) =>
+  ): Option[List[PowerFactoryGrid.Switches]] =
+    maybeSwitches.map(switches => {
       val (fullyConnected, singlyConnected) =
         switches.partition(isFullyConnectedSwitch)
       singlyConnected.foreach(
@@ -32,8 +32,8 @@ object GridPreparator extends LazyLogging {
             s"Removed switch with id: ${switch.id.getOrElse("NO_ID")}, since it only has a single connection."
           )
       )
-      Some(fullyConnected)
-  }
+      fullyConnected
+    })
 
   /**
     * Perform preparation of the [[PowerFactoryGrid]] before the actual conversion can happen.
