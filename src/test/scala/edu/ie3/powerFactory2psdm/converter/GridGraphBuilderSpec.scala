@@ -44,7 +44,7 @@ class GridGraphBuilderSpec
     }
 
     "aggregate all nodes of subnet 1 in one of the subgraphs" in {
-      vertexSets.contains(subnet1UUIDs.asJava) shouldBe true
+      vertexSets.contains(subnet1Uuids.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 2 in one of the subgraphs" in {

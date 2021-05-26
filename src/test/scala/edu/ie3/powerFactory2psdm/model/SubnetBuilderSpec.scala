@@ -37,13 +37,13 @@ class SubnetBuilderSpec
       val faultyNode = node.copy(uknom = Some(131.0))
       val newMap = pfGridMaps.uuid2Node.updated(nodeUUID, faultyNode)
       intercept[ElementConfigurationException] {
-        SubnetBuilder.buildSubnet(1, subnet1UUIDs, newMap)
+        SubnetBuilder.buildSubnet(1, subnet1Uuids, newMap)
       }.getMessage shouldBe (s"There are the following divergences from the nominal voltage 132.0 : List($nodeId -> 131.0)")
     }
 
     "identify the correct voltage level id for the voltage level " in {
       val subnet1: Subnet =
-        SubnetBuilder.buildSubnet(1, subnet1UUIDs, pfGridMaps.uuid2Node)
+        SubnetBuilder.buildSubnet(1, subnet1Uuids, pfGridMaps.uuid2Node)
       subnet1.voltLvl.getId shouldBe "Hochspannung"
       val subnet2: Subnet =
         SubnetBuilder.buildSubnet(2, subnet2Uuids, pfGridMaps.uuid2Node)
