@@ -59,10 +59,6 @@ object PowerFactoryGridMaps extends LazyLogging {
         Map.empty
     }
 
-    def nodeIdsToUUIDs(ids: Set[String]): Set[UUID] = {
-      ids.map(id => nodeId2Uuid(id))
-    }
-
     PowerFactoryGridMaps(
       uuid2Node,
       nodeId2Uuid,
