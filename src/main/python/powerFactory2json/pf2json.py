@@ -2,6 +2,7 @@ import powerfactory  # @UnresolvedImport @UnusedVariable
 import json
 import inspect
 import os
+import re
 import pf2jsonUtils
 # fixme: Delete reload after development
 import importlib
@@ -23,11 +24,8 @@ def name_without_preamble(full_name):
     """
     Remove name pollution by omitting uniform file path preamble
     """
-    flags = ["\\Network Data.IntPrjfolder\\", "\\Equipment Type Library.IntPrjfolder\\"]
-    for flag in flags:
-        if flag in full_name:
-            return full_name.split(flag)[-1]
-    return full_name
+    match = re.search('(?<=Network Data\.IntPrjfolder\\\\|Type Library\.IntPrjfolder\\\\).*', full_name)
+    return match.group() if match is not None else full_name
 
 def safe_name(unsafe_str):
     if unsafe_str in reserved_keywords or unsafe_str.endswith('_'):
