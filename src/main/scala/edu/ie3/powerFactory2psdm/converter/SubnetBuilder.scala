@@ -64,19 +64,19 @@ object SubnetBuilder extends LazyLogging {
         throw GridConfigurationException("There are no nodes in the subnet!")
       )
     )
-    val differentNomVoltages =
-      nodes.filter(node => Math.abs(nomVoltage - getNomVoltage(node)) > 0.001)
-    if (differentNomVoltages.nonEmpty) {
-      val divergences = differentNomVoltages.map(
-        node =>
-          node.id.getOrElse("NO_ID") + " -> " + node.uknom.getOrElse(
-            "NO_NOMVOLT"
-          )
-      )
+
+    val divergences = nodes
+      .filter(node => Math.abs(nomVoltage - getNomVoltage(node)) > 0.001)
+      .map { node =>
+        node.id.getOrElse("NO_ID") + " -> " + node.uknom.getOrElse(
+          "NO_NOMVOLT"
+        )
+      }
+    if (divergences.nonEmpty)
       throw ElementConfigurationException(
         s"There are the following divergences from the nominal voltage $nomVoltage : $divergences"
       )
-    }
+
     val voltLvl = new VoltageLevel(
       getVoltageLvlId(nomVoltage),
       getQuantity(nomVoltage, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
