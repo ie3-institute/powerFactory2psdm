@@ -27,22 +27,22 @@ class NodeConverterSpec
       "Hochspannung",
       Quantities.getQuantity(132, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
-    val bus3UUID = pfGridMaps.nodeId2UUID(bus3Id)
-    val bus4UUID = pfGridMaps.nodeId2UUID(bus4Id)
-    val pfXnetBus = pfGridMaps.UUID2node(pfGridMaps.nodeId2UUID(bus1Id))
+    val bus3UUID = pfGridMaps.nodeId2Uuid(bus3Id)
+    val bus4UUID = pfGridMaps.nodeId2Uuid(bus4Id)
+    val pfXnetBus = pfGridMaps.uuid2Node(pfGridMaps.nodeId2Uuid(bus1Id))
     val nodeUUIDs = Set(bus3UUID, bus4UUID)
     val testSubnet = Subnet(2, nodeUUIDs, voltageLevel)
 
     "convert all Nodes of a given subnet" in {
       NodeConverter
-        .convertNodesOfSubnet(testSubnet, pfGridMaps.UUID2node)
+        .convertNodesOfSubnet(testSubnet, pfGridMaps.uuid2Node)
         .size shouldBe 2
     }
 
     "convert a pf node to a correctly configured PSDM Node" in {
       val convertedNode = NodeConverter.convertNode(
-        pfGridMaps.nodeId2UUID(bus3Id),
-        pfGridMaps.UUID2node,
+        pfGridMaps.nodeId2Uuid(bus3Id),
+        pfGridMaps.uuid2Node,
         testSubnet
       )
       convertedNode.getUuid shouldBe bus3UUID

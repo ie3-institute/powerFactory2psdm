@@ -121,7 +121,7 @@ object NodeConverter {
       subnet: Subnet,
       uuid2node: Map[UUID, Nodes]
   ): List[NodeInput] = {
-    (for (nodeUUID <- subnet.nodeUUIDs)
+    (for (nodeUUID <- subnet.nodeUuids)
       yield convertNode(nodeUUID, uuid2node, subnet)).toList
   }
 }
