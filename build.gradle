@@ -51,7 +51,7 @@ dependencies {
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
 	// ie³ internal repository
-	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
+	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.3'
 
 	// logging
 	implementation "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
