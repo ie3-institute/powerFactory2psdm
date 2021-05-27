@@ -29,13 +29,13 @@ class GridGraphBuilderSpec
       )
 
     "add the correct number of nodes to the gridGraph" in {
-      gridGraph.vertexSet().size shouldBe pfGridMaps.UUID2node.size
+      gridGraph.vertexSet().size shouldBe pfGridMaps.uuid2Node.size
     }
 
     "add the correct number of edges to the gridGraph" in {
       gridGraph
         .edgeSet()
-        .size shouldBe (pfGridMaps.UUID2switch ++ pfGridMaps.UUID2line).size
+        .size shouldBe (pfGridMaps.uuid2Switch ++ pfGridMaps.uuid2Line).size
     }
 
     "generate the correct number of subnets" in {
@@ -43,19 +43,19 @@ class GridGraphBuilderSpec
     }
 
     "aggregate all nodes of subnet 1 in one of the subgraphs" in {
-      vertexSets.contains(subnet1UUIDs.asJava) shouldBe true
+      vertexSets.contains(subnet1Uuids.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 2 in one of the subgraphs" in {
-      vertexSets.contains(subnet2UUIDs.asJava) shouldBe true
+      vertexSets.contains(subnet2Uuids.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 3 in one of the subgraphs" in {
-      vertexSets.contains(subnet3UUIDs.asJava) shouldBe true
+      vertexSets.contains(subnet3Uuids.asJava) shouldBe true
     }
 
     "aggregate all nodes of subnet 4 in one of the subgraphs" in {
-      vertexSets.contains(subnet4UUIDs.asJava) shouldBe true
+      vertexSets.contains(subnet4Uuids.asJava) shouldBe true
     }
 
     "throw an Exception when trying to unpack busses of singly connected edge" in {

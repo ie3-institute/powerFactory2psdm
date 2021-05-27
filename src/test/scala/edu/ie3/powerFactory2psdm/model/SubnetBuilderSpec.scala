@@ -26,27 +26,27 @@ class SubnetBuilderSpec
 
     "build a subnet for each subgraph" in {
       SubnetBuilder
-        .buildSubnets(gridGraph, pfGridMaps.UUID2node)
+        .buildSubnets(gridGraph, pfGridMaps.uuid2Node)
         .size shouldBe subgraphs.size
     }
 
     "throw an exception if at least one of the nodes has a deviating nominal voltage" in {
       val nodeId = "Grid.ElmNet\\Bus_0003.ElmTerm"
-      val nodeUUID = pfGridMaps.nodeId2UUID(nodeId)
-      val node = pfGridMaps.UUID2node(nodeUUID)
+      val nodeUUID = pfGridMaps.nodeId2Uuid(nodeId)
+      val node = pfGridMaps.uuid2Node(nodeUUID)
       val faultyNode = node.copy(uknom = Some(131.0))
-      val newMap = pfGridMaps.UUID2node.updated(nodeUUID, faultyNode)
+      val newMap = pfGridMaps.uuid2Node.updated(nodeUUID, faultyNode)
       intercept[ElementConfigurationException] {
-        SubnetBuilder.buildSubnet(1, subnet1UUIDs, newMap)
+        SubnetBuilder.buildSubnet(1, subnet1Uuids, newMap)
       }.getMessage shouldBe (s"There are the following divergences from the nominal voltage 132.0 : List($nodeId -> 131.0)")
     }
 
     "identify the correct voltage level id for the voltage level " in {
       val subnet1: Subnet =
-        SubnetBuilder.buildSubnet(1, subnet1UUIDs, pfGridMaps.UUID2node)
+        SubnetBuilder.buildSubnet(1, subnet1Uuids, pfGridMaps.uuid2Node)
       subnet1.voltLvl.getId shouldBe "Hochspannung"
       val subnet2: Subnet =
-        SubnetBuilder.buildSubnet(2, subnet2UUIDs, pfGridMaps.UUID2node)
+        SubnetBuilder.buildSubnet(2, subnet2Uuids, pfGridMaps.uuid2Node)
       subnet2.voltLvl.getId shouldBe "Niederspannung"
     }
 

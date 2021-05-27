@@ -12,29 +12,6 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Switches
 
 object GridPreparator extends LazyLogging {
 
-  def isFullyConnectedSwitch(switch: Switches): Boolean =
-    switch.bus1Id.isDefined & switch.bus2Id.isDefined
-
-  /**
-    * Removes [[Switches]] from a [[PowerFactoryGrid]] that are only connected to a single node.
-    * @param maybeSwitches
-    * @return
-    */
-  def removeSinglyConnectedSwitches(
-      maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
-  ): Option[List[PowerFactoryGrid.Switches]] = maybeSwitches match {
-    case Some(switches) =>
-      val (fullyConnected, singlyConnected) =
-        switches.partition(isFullyConnectedSwitch)
-      singlyConnected.foreach(
-        switch =>
-          logger.debug(
-            s"Removed switch with id: ${switch.id.getOrElse("NO_ID")}, since it only has a single connection."
-          )
-      )
-      Some(fullyConnected)
-  }
-
   /**
     * Perform preparation of the [[PowerFactoryGrid]] before the actual conversion can happen.
     *
@@ -46,4 +23,26 @@ object GridPreparator extends LazyLogging {
     pfGrid.copy(switches = filteredSwitches)
   }
 
+  /**
+    * Removes [[Switches]] from a [[PowerFactoryGrid]] that are only connected to a single node.
+    * @param maybeSwitches
+    * @return
+    */
+  def removeSinglyConnectedSwitches(
+      maybeSwitches: Option[List[PowerFactoryGrid.Switches]]
+  ): Option[List[PowerFactoryGrid.Switches]] =
+    maybeSwitches.map(switches => {
+      val (fullyConnected, singlyConnected) =
+        switches.partition(isFullyConnectedSwitch)
+      singlyConnected.foreach(
+        switch =>
+          logger.debug(
+            s"Removed switch with id: ${switch.id.getOrElse("NO_ID")}, since it only has a single connection."
+          )
+      )
+      fullyConnected
+    })
+
+  def isFullyConnectedSwitch(switch: Switches): Boolean =
+    switch.bus1Id.isDefined & switch.bus2Id.isDefined
 }

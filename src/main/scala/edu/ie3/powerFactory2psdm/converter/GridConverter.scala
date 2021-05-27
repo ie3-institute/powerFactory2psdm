@@ -27,11 +27,11 @@ case object GridConverter {
     */
   def convertGridElements(rawPfGrid: PowerFactoryGrid): Unit = {
     val pfGrid = GridPreparator.prepare(rawPfGrid)
-    val pfGridMaps = new PowerFactoryGridMaps(pfGrid)
+    val pfGridMaps = PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)
-    val subnets = SubnetBuilder.buildSubnets(graph, pfGridMaps.UUID2node)
+    val subnets = SubnetBuilder.buildSubnets(graph, pfGridMaps.uuid2Node)
     val psdmNodes = subnets.flatMap(
-      subnet => NodeConverter.convertNodesOfSubnet(subnet, pfGridMaps.UUID2node)
+      subnet => NodeConverter.convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
     )
   }
 }

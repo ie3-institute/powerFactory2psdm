@@ -18,6 +18,13 @@ import java.util.UUID
 
 trait ConverterTestData {
 
+  def nodeIdsToUuids(
+      nodeId2Uuid: Map[String, UUID],
+      ids: Set[String]
+  ): Set[UUID] = {
+    ids.map(id => nodeId2Uuid(id))
+  }
+
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
@@ -27,7 +34,7 @@ trait ConverterTestData {
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
     )
 
-  val pfGridMaps = new PowerFactoryGridMaps(testGrid)
+  val pfGridMaps: PowerFactoryGridMaps = PowerFactoryGridMaps(testGrid)
 
   val bus1Id = "Grid.ElmNet\\Bus_0001.ElmTerm"
   val bus2Id = "Grid.ElmNet\\Bus_0002.ElmTerm"
@@ -49,7 +56,8 @@ trait ConverterTestData {
   val busOnsLv =
     "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
 
-  val subnet1UUIDs: Set[UUID] = pfGridMaps.nodeIds2UUIDs(
+  val subnet1Uuids: Set[UUID] = nodeIdsToUuids(
+    pfGridMaps.nodeId2Uuid,
     Set(
       bus1Id,
       bus2Id,
@@ -58,13 +66,15 @@ trait ConverterTestData {
       bus5Id
     )
   )
-  val subnet2UUIDs: Set[UUID] =
-    pfGridMaps.nodeIds2UUIDs(Set(bus7Id))
 
-  val subnet3UUIDs: Set[UUID] =
-    pfGridMaps.nodeIds2UUIDs(Set(bus8Id))
+  val subnet2Uuids: Set[UUID] =
+    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set(bus7Id))
 
-  val subnet4UUIDs: Set[UUID] = pfGridMaps.nodeIds2UUIDs(
+  val subnet3Uuids: Set[UUID] =
+    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set(bus8Id))
+
+  val subnet4Uuids: Set[UUID] = nodeIdsToUuids(
+    pfGridMaps.nodeId2Uuid,
     Set(
       bus6Id,
       bus9Id,

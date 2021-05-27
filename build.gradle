@@ -14,8 +14,8 @@ ext {
 	scalaVersion = '2.13'
 	scalaBinaryVersion = '2.13.5'
 	slf4jVersion = '1.7.30'
-	circeVersion = '0.13.0'
-	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator // location of script plugins
+	circeVersion = '0.14.1'
+	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
 apply from: scriptsLocation + 'pmd.gradle'
@@ -51,8 +51,7 @@ dependencies {
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
 
-	/* FIXME: Rely on stable version, when available */
-	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0-SNAPSHOT') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.0') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
@@ -63,7 +62,7 @@ dependencies {
 
 
 	// ie³ internal repository
-	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.2'
+	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.3'
 
 	// logging
 	implementation "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
