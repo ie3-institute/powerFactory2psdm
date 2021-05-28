@@ -8,7 +8,10 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
-import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
+import edu.ie3.datamodel.models.voltagelevels.{
+  GermanVoltageLevelUtils,
+  VoltageLevel
+}
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   GridConfigurationException
@@ -77,8 +80,7 @@ object SubnetBuilder extends LazyLogging {
         s"There are the following divergences from the nominal voltage $nomVoltage : $divergences"
       )
 
-    val voltLvl = new VoltageLevel(
-      getVoltageLvlId(nomVoltage),
+    val voltLvl = GermanVoltageLevelUtils.parse(
       getQuantity(nomVoltage, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
     Subnet(subnetId, nodeIds, voltLvl)
@@ -91,19 +93,4 @@ object SubnetBuilder extends LazyLogging {
       )
     )
 
-  /**
-    * Returns a voltage level id based on the nominal voltage of the subnet
-    *
-    * @return id of the voltage level
-    */
-  def getVoltageLvlId(nomVoltage: Double): String = nomVoltage match {
-    case volt if 220 <= volt && volt < 560 => "Höchstspannung"
-    case volt if 110 <= volt && volt < 220 => "Hochspannung"
-    case volt if 10 <= volt && volt < 110  => "Mittelspannung"
-    case volt if 0 <= volt && volt < 10    => "Niederspannung"
-    case volt =>
-      throw new MatchError(
-        s"Couldn't assign an id to a nominal Voltage of: $volt"
-      )
-  }
 }
