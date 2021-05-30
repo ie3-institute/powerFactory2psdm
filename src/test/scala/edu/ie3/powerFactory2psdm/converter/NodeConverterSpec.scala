@@ -33,12 +33,6 @@ class NodeConverterSpec
     val nodeUUIDs = Set(bus3UUID, bus4UUID)
     val testSubnet = Subnet(2, nodeUUIDs, voltageLevel)
 
-    "convert all Nodes of a given subnet" in {
-      NodeConverter
-        .convertNodesOfSubnet(testSubnet, pfGridMaps.uuid2Node)
-        .size shouldBe 2
-    }
-
     "convert a pf node to a correctly configured PSDM Node" in {
       val convertedNode = NodeConverter.convertNode(
         pfGridMaps.nodeId2Uuid(bus3Id),
@@ -52,18 +46,14 @@ class NodeConverterSpec
       convertedNode.isSlack shouldBe false
     }
 
-    "correctly identify that an external grid is a slack node" in {
+    "correctly identify that a node connected to an external grid is a slack node" in {
       NodeConverter.isSlack(pfXnetBus.conElms) shouldBe Success(true)
     }
 
     "should throw a failure checking for a slack node if the list of connected elements is empty" in {
-      val withEmptyConElms = pfXnetBus.copy(conElms = Some(List()))
-      NodeConverter.isSlack(withEmptyConElms.conElms) match {
-        case Success(true) =>
-          throw TestException("This should not be a slack node!")
-        case Failure(ex) =>
-          ex.getMessage shouldBe "The list of connected elements is empty."
-      }
+      NodeConverter.isSlack(pfGridMaps.uuid2Node(bus3UUID).conElms) shouldBe Success(
+        false
+      )
     }
 
     "should throw a failure checking for a slack node if the connected elements are None" in {
@@ -71,6 +61,8 @@ class NodeConverterSpec
       NodeConverter.isSlack(withEmptyConElms.conElms) match {
         case Success(true) =>
           throw TestException("This should not be a slack node!")
+        case Success(false) =>
+          throw TestException("This should have returned a Failure!")
         case Failure(ex) =>
           ex.getMessage shouldBe "The optional connected elements attribute is None."
       }
