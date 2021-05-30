@@ -80,9 +80,9 @@ object NodeConverter {
     }
     val geoPosition: Point =
       CoordinateConverter.convert(pfNode.GPSlat, pfNode.GPSlon)
-    val voltLvl: VoltageLevel = subnet.voltLvl
-    val subnetNr: Int = subnet.id
-    val slack: Boolean = isSlack(pfNode.conElms) match {
+    val voltLvl = subnet.voltLvl
+    val subnetNr = subnet.id
+    val slack = isSlack(pfNode.conElms) match {
       case Success(res) => res
       case Failure(exc) =>
         throw new IllegalArgumentException(
