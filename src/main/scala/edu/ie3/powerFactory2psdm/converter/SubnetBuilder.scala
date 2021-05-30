@@ -28,7 +28,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 object SubnetBuilder extends LazyLogging {
 
   /**
-    * Takes the grid graph and builds up the different [[SubnetBuilder]]s from it.
+    * Takes the grid graph and builds up the different [[Subnet]]s from it.
     *
     * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
     * @param uuid2Node the mapping between UUID and the corresponding node
@@ -49,12 +49,12 @@ object SubnetBuilder extends LazyLogging {
   }
 
   /**
-    * Builds a [[SubnetBuilder]] after checking if all nodes have the same nominal voltage
+    * Builds a [[Subnet]] after checking if all nodes have the same nominal voltage
     *
     * @param subnetId  id of the subnet
     * @param nodeIds   UUIDS of all nodes that live in the subnet
     * @param uuid2node mapping between UUID and node
-    * @return the built [[SubnetBuilder]]
+    * @return the built [[Subnet]]
     */
   def buildSubnet(
       subnetId: Int,
