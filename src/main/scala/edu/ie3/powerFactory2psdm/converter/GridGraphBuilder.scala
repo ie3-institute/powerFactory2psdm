@@ -30,7 +30,7 @@ object GridGraphBuilder {
     * the grid.
     *
     * @param pfGridMaps maps of grid elements of the power factory grid
-    * @return Mutltigraph of all the uuids of the nodes and their connection
+    * @return Multigraph of all the uuids of the nodes and their connection
     */
   def build(
       pfGridMaps: PowerFactoryGridMaps
