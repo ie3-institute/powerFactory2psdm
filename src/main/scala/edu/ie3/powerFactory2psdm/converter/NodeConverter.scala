@@ -109,19 +109,4 @@ object NodeConverter {
       subnetNr
     )
   }
-
-  /**
-    * Converts all nodes within a subnet to PSDM [[NodeInput]]
-    *
-    * @param subnet the subnet with reference to all PF nodes that live within
-    * @param uuid2node map that connects uuids with the associate PF [[Nodes]]
-    * @return list of all converted [[NodeInput]]
-    */
-  def convertNodesOfSubnet(
-      subnet: Subnet,
-      uuid2node: Map[UUID, Nodes]
-  ): List[NodeInput] = {
-    (for (nodeUUID <- subnet.nodeUuids)
-      yield convertNode(nodeUUID, uuid2node, subnet)).toList
-  }
 }
