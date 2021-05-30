@@ -8,7 +8,6 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
-import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   GridConfigurationException
