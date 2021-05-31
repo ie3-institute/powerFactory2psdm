@@ -18,16 +18,19 @@ elements4export = {
 
 nested_elements4export = {'cpZone', 'cpArea'}
 
+
 attributes4export = {
     'conElms': [],
     'cpZone': [],
     'cpArea': [],
     'nodes': [
         "vtarget",
+        "uknom",
         "cpZone",
         "cpArea",
         "GPSlat",
-        "GPSlon"
+        "GPSlon",
+        "iUsage"
     ],
     'lines': [],
     'lineTypes': [],

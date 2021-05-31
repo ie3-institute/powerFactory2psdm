@@ -44,59 +44,63 @@ final case class PowerFactoryGrid(
 object PowerFactoryGrid {
 
   final case class Switches(
-      uid: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      id: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
-  final case class ConElms(uid: Option[String], pfCls: Option[String])
+  final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(uid: Option[String])
+  final case class Loads(id: Option[String])
 
-  final case class TrafoTypes2w(uid: Option[String])
+  final case class TrafoTypes2w(id: Option[String])
 
-  final case class LineTypes(uid: Option[String])
+  final case class LineTypes(id: Option[String])
 
-  final case class StatGen(uid: Option[String])
+  final case class StatGen(id: Option[String])
 
-  final case class CpArea(uid: Option[String])
+  final case class CpArea(id: Option[String])
 
   final case class Lines(
-      uid: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      id: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
-  final case class PowerPlants(uid: Option[String])
+  final case class PowerPlants(id: Option[String])
 
   final case class Trafos3w(
-      uid: Option[String],
+      id: Option[String],
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class ExtGrid(uid: Option[String])
+  final case class ExtGrid(id: Option[String])
 
-  final case class CpZone(uid: Option[String])
+  final case class CpZone(id: Option[String])
 
-  final case class Pvs(uid: Option[String])
+  final case class Pvs(id: Option[String])
 
-  final case class LoadsLV(uid: Option[String])
+  final case class LoadsLV(id: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
+      iUsage: Option[Double],
       cpZone: Option[List[Option[CpZone]]],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
+      id: Option[String],
       GPSlon: Option[Double],
       cpArea: Option[List[Option[CpArea]]],
-      uid: Option[String]
+      uknom: Option[Double]
   )
 
   final case class Trafos2w(
-      uid: Option[String],
+      id: Option[String],
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class TrafoTypes3w(uid: Option[String])
+  final case class TrafoTypes3w(id: Option[String])
 
-  final case class LoadsMV(uid: Option[String])
+  final case class LoadsMV(id: Option[String])
 
 }
