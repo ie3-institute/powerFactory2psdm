@@ -16,12 +16,6 @@ class CoordinateConverterSpec extends Matchers with AnyWordSpecLike {
 
   "A coordinate converter" should {
 
-    "return the default geo_position for default PowerFactory values" in {
-      val maybeDefaultLat = Some(0.0)
-      val maybeDefaultLon = Some(0.0)
-      CoordinateConverter.convert(maybeDefaultLat, maybeDefaultLon) shouldBe NodeInput.DEFAULT_GEO_POSITION
-    }
-
     "convert the given values to the proper coordinate" in {
       val maybeTestLat = Some(40.415634765229235)
       val maybeTestLon = Some(-3.7071948736763316)
@@ -30,6 +24,17 @@ class CoordinateConverterSpec extends Matchers with AnyWordSpecLike {
         new Coordinate(-3.7071948736763316, 40.415634765229235)
       )
       actual shouldBe expected
+    }
+
+    "return the default geo position for default PowerFactory values" in {
+      val maybeDefaultLat = Some(0.0)
+      val maybeDefaultLon = Some(0.0)
+      CoordinateConverter.convert(maybeDefaultLat, maybeDefaultLon) shouldBe NodeInput.DEFAULT_GEO_POSITION
+    }
+
+    "return the default geo position when given None" in {
+      val actual = CoordinateConverter.convert(None, None)
+      actual shouldBe NodeInput.DEFAULT_GEO_POSITION
     }
   }
 }
