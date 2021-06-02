@@ -9,7 +9,10 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, TestException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  TestException
+}
 import edu.ie3.powerFactory2psdm.model.Subnet
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -68,15 +71,17 @@ class NodeConverterSpec
       convertedNode.isSlack shouldBe false
     }
 
-    "should throw an exception when converting a node if the node has no id" in{
+    "should throw an exception when converting a node if the node has no id" in {
       val bus3NoId = pfGridMaps.uuid2Node(bus3Uuid).copy(id = None)
       val adjustedPfGridMaps = pfGridMaps.uuid2Node.updated(bus3Uuid, bus3NoId)
 
-      val thrown = intercept[ElementConfigurationException](NodeConverter.convertNode(
-        bus3Uuid,
-        adjustedPfGridMaps,
-        testSubnet
-      ))
+      val thrown = intercept[ElementConfigurationException](
+        NodeConverter.convertNode(
+          bus3Uuid,
+          adjustedPfGridMaps,
+          testSubnet
+        )
+      )
       thrown.getMessage shouldBe s"The PF node $bus3NoId has no ID"
 
     }
