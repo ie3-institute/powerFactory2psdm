@@ -22,9 +22,7 @@ import javax.measure.MetricPrefix
 object LineTypeConverter {
 
   def convert(input: LineTypes): LineTypeInput = {
-
     val id = input.id.getOrElse("NO_ID")
-
     val b = Quantities.getQuantity(
       input.bline.getOrElse(
         throw ElementConfigurationException(
@@ -33,7 +31,6 @@ object LineTypeConverter {
       ),
       MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
     )
-
     val g = Quantities.getQuantity(
       input.gline.getOrElse(
         throw ElementConfigurationException(
@@ -86,7 +83,5 @@ object LineTypeConverter {
       iMax,
       vRated
     )
-
   }
-
 }
