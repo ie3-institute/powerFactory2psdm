@@ -40,7 +40,7 @@ class NodeConverterSpec
       NodeConverter.isSlack(pfXnetBus.conElms) shouldBe Success(true)
     }
 
-    "should throw a failure checking for a slack node if the list of connected elements is empty" in {
+    "should correctly identify that regular nodes aren't slack nodes" in {
       NodeConverter.isSlack(pfGridMaps.uuid2Node(bus3Uuid).conElms) shouldBe Success(
         false
       )
