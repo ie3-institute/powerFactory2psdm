@@ -14,6 +14,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   TestException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.ConElms
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
@@ -46,7 +47,7 @@ class NodeConverterSpec
       )
     }
 
-    "should throw a failure checking for a slack node if the connected elements are None" in {
+    "should return a failure checking for a slack node if the connected elements are None" in {
       val withEmptyConElms = pfXnetBus.copy(conElms = None)
       NodeConverter.isSlack(withEmptyConElms.conElms) match {
         case Success(true) =>
@@ -55,6 +56,21 @@ class NodeConverterSpec
           throw TestException("This should have returned a Failure!")
         case Failure(ex) =>
           ex.getMessage shouldBe "The optional connected elements attribute is None."
+      }
+    }
+
+    "isslack should return a failure if there are more than one external nets connected to a node" in {
+      val conElmA = ConElms(Some("conElmA"), Some("ElmXnet"))
+      val conElmB = ConElms(Some("conElmB"), Some("ElmXnet"))
+      val testConElms = Some(List(Some(conElmA), Some(conElmB)))
+
+      NodeConverter.isSlack(testConElms) match {
+        case Success(true) =>
+          throw TestException("This should not be a slack node!")
+        case Success(false) =>
+          throw TestException("This should have returned a Failure!")
+        case Failure(ex) =>
+          ex.getMessage shouldBe "There is more than one external grid connected to the node."
       }
     }
 
