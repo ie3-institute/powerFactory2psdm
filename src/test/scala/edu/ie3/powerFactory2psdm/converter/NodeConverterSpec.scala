@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.TestException
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, TestException}
 import edu.ie3.powerFactory2psdm.model.Subnet
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -27,31 +27,18 @@ class NodeConverterSpec
       "Hochspannung",
       Quantities.getQuantity(132, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
-    val bus3UUID = pfGridMaps.nodeId2Uuid(bus3Id)
-    val bus4UUID = pfGridMaps.nodeId2Uuid(bus4Id)
+    val bus3Uuid = pfGridMaps.nodeId2Uuid(bus3Id)
+    val bus4Uuid = pfGridMaps.nodeId2Uuid(bus4Id)
     val pfXnetBus = pfGridMaps.uuid2Node(pfGridMaps.nodeId2Uuid(bus1Id))
-    val nodeUUIDs = Set(bus3UUID, bus4UUID)
+    val nodeUUIDs = Set(bus3Uuid, bus4Uuid)
     val testSubnet = Subnet(2, nodeUUIDs, voltageLevel)
-
-    "convert a pf node to a correctly configured PSDM Node" in {
-      val convertedNode = NodeConverter.convertNode(
-        pfGridMaps.nodeId2Uuid(bus3Id),
-        pfGridMaps.uuid2Node,
-        testSubnet
-      )
-      convertedNode.getUuid shouldBe bus3UUID
-      convertedNode.getId shouldBe bus3Id
-      convertedNode.getVoltLvl shouldBe voltageLevel
-      convertedNode.getSubnet shouldBe testSubnet.id
-      convertedNode.isSlack shouldBe false
-    }
 
     "correctly identify that a node connected to an external grid is a slack node" in {
       NodeConverter.isSlack(pfXnetBus.conElms) shouldBe Success(true)
     }
 
     "should throw a failure checking for a slack node if the list of connected elements is empty" in {
-      NodeConverter.isSlack(pfGridMaps.uuid2Node(bus3UUID).conElms) shouldBe Success(
+      NodeConverter.isSlack(pfGridMaps.uuid2Node(bus3Uuid).conElms) shouldBe Success(
         false
       )
     }
@@ -67,5 +54,32 @@ class NodeConverterSpec
           ex.getMessage shouldBe "The optional connected elements attribute is None."
       }
     }
+
+    "convert a correctly configured pf node to a correctly configured PSDM Node" in {
+      val convertedNode = NodeConverter.convertNode(
+        bus3Uuid,
+        pfGridMaps.uuid2Node,
+        testSubnet
+      )
+      convertedNode.getUuid shouldBe bus3Uuid
+      convertedNode.getId shouldBe bus3Id
+      convertedNode.getVoltLvl shouldBe voltageLevel
+      convertedNode.getSubnet shouldBe testSubnet.id
+      convertedNode.isSlack shouldBe false
+    }
+
+    "should throw an exception when converting a node if the node has no id" in{
+      val bus3NoId = pfGridMaps.uuid2Node(bus3Uuid).copy(id = None)
+      val adjustedPfGridMaps = pfGridMaps.uuid2Node.updated(bus3Uuid, bus3NoId)
+
+      val thrown = intercept[ElementConfigurationException](NodeConverter.convertNode(
+        bus3Uuid,
+        adjustedPfGridMaps,
+        testSubnet
+      ))
+      thrown.getMessage shouldBe s"The PF node $bus3NoId has no ID"
+
+    }
+
   }
 }
