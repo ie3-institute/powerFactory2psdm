@@ -15,42 +15,18 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
   OHM_PER_KILOMETRE,
   SIEMENS_PER_KILOMETRE
 }
-import edu.ie3.util.quantities.interfaces.{
-  SpecificConductance,
-  SpecificResistance
-}
-import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.unit.Units.AMPERE
 
 import java.util.UUID
 import javax.measure.MetricPrefix
-import javax.measure.quantity.{ElectricCurrent, ElectricPotential}
 
 object LineTypeConverter {
 
   def convert(input: LineTypes): LineTypeInput = {
 
-    /*
-      args:
+    val id = input.id.getOrElse("NO_ID")
 
-      uuid: UUID,
-      id: String, -> loc_name
-      Specific phase-to-ground conductance
-      b: ComparableQuantity[SpecificConductance], -> bline (Mitsystem ?)
-      Specific phase-to-ground susceptance
-      g: ComparableQuantity[SpecificConductance], -> gline???
-      specific resistance
-      r: ComparableQuantity[SpecificResistance], -> rline
-      specific reactance
-      x: ComparableQuantity[SpecificResistance], -> xline
-      maximum thermal current
-      iMax: ComparableQuantity[ElectricCurrent], -> sline
-      rated voltage
-      vRated: ComparableQuantity[ElectricPotential]) -> uline
-     */
-
-    val id: String = input.id.getOrElse("NO_ID")
-    val bQty: ComparableQuantity[SpecificConductance] = Quantities.getQuantity(
+    val b = Quantities.getQuantity(
       input.bline.getOrElse(
         throw ElementConfigurationException(
           s"There is no phase-to-ground condcutance defined for line type: $id"
@@ -58,8 +34,8 @@ object LineTypeConverter {
       ),
       MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
     )
-    // todo: CHECK IF THAT IS ACTUALLY THE CORRECT PARAMETER
-    val gQty: ComparableQuantity[SpecificConductance] = Quantities.getQuantity(
+
+    val g = Quantities.getQuantity(
       input.gline.getOrElse(
         throw ElementConfigurationException(
           s"There is no phase-to-ground susceptance defined for line type: $id"
@@ -67,7 +43,7 @@ object LineTypeConverter {
       ),
       MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
     )
-    val rQty: ComparableQuantity[SpecificResistance] = Quantities.getQuantity(
+    val r = Quantities.getQuantity(
       input.rline.getOrElse(
         throw ElementConfigurationException(
           s"There is no specific resistance defined for line type: $id"
@@ -75,7 +51,7 @@ object LineTypeConverter {
       ),
       OHM_PER_KILOMETRE
     )
-    val xQty: ComparableQuantity[SpecificResistance] = Quantities.getQuantity(
+    val x = Quantities.getQuantity(
       input.xline.getOrElse(
         throw ElementConfigurationException(
           s"There is no specific reactance defined for line type: $id"
@@ -83,7 +59,7 @@ object LineTypeConverter {
       ),
       OHM_PER_KILOMETRE
     )
-    val iMaxQty: ComparableQuantity[ElectricCurrent] = Quantities.getQuantity(
+    val iMax = Quantities.getQuantity(
       input.sline.getOrElse(
         throw ElementConfigurationException(
           s"There is no maximum thermal current defined for line type: $id"
@@ -91,7 +67,7 @@ object LineTypeConverter {
       ),
       MetricPrefix.KILO(AMPERE)
     )
-    val vRatedQty: ComparableQuantity[ElectricPotential] =
+    val vRated =
       Quantities.getQuantity(
         input.uline.getOrElse(
           throw ElementConfigurationException(
@@ -104,12 +80,12 @@ object LineTypeConverter {
     new LineTypeInput(
       UUID.randomUUID(),
       id,
-      bQty,
-      gQty,
-      rQty,
-      xQty,
-      iMaxQty,
-      vRatedQty
+      b,
+      g,
+      r,
+      x,
+      iMax,
+      vRated
     )
 
   }
