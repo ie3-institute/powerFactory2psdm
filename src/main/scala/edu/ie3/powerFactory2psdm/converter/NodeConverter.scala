@@ -70,10 +70,9 @@ object NodeConverter {
   ): NodeInput = {
     val pfNode = UUID2node(nodeUUID)
     val subnetNr = subnet.id
-    val vTarget = pfNode.vtarget match {
-      case Some(value) => Quantities.getQuantity(value, PU)
-      case None        => Quantities.getQuantity(1d, PU)
-    }
+    val vTarget = pfNode.vtarget
+      .map(Quantities.getQuantity(_, PU))
+      .getOrElse(Quantities.getQuantity(1d, PU))
     val geoPosition: Point =
       CoordinateConverter.convert(pfNode.GPSlat, pfNode.GPSlon)
     val voltLvl = subnet.voltLvl
