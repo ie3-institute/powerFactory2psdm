@@ -69,7 +69,7 @@ object NodeConverter {
       subnet: Subnet
   ): NodeInput = {
     val pfNode = UUID2node(nodeUUID)
-    val subnetNr = subnet.id
+    val subnetId = subnet.id
     val vTarget = pfNode.vtarget
       .map(Quantities.getQuantity(_, PU))
       .getOrElse(Quantities.getQuantity(1d, PU))
@@ -87,7 +87,7 @@ object NodeConverter {
           isSlack,
           geoPosition,
           voltLvl,
-          subnetNr
+          subnetId
         )
       case (None, _) =>
         throw ElementConfigurationException(s"The PF node $pfNode has no ID")
