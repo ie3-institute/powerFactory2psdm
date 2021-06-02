@@ -32,7 +32,11 @@ attributes4export = {
         "GPSlon",
         "iUsage"
     ],
-    'lines': [],
+    'lines': [
+        "dline",
+        "nlnum",
+        "typ_id"
+    ],
     'lineTypes': [
         "rline",
         "xline",

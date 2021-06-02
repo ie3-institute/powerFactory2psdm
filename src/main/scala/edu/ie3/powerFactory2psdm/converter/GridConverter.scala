@@ -7,12 +7,13 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
+import edu.ie3.datamodel.models.input.connector.LineInput
+import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException}
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  PowerFactoryGrid,
-  PowerFactoryGridMaps
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{Lines, Nodes}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
 import edu.ie3.powerFactory2psdm.util.GridPreparator
 
 import java.util.UUID
@@ -39,6 +40,32 @@ case object GridConverter {
     val psdmNodes = subnets.flatMap(
       subnet => convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
     )
+    val maybePsdmLines = convertLines(rawPfGrid)
+  }
+
+  private def convertLines(rawPfGrid: PowerFactoryGrid): Option[List[LineInput]] = {
+    val maybeLineId2lineTypeInput: Option[Map[String, LineTypeInput]] =
+      rawPfGrid.lineTypes.map(
+        _.map(
+          lineType =>
+            (
+              lineType.id.getOrElse(
+                throw ElementConfigurationException(
+                  s"LineType: $lineType has no id."
+                )
+              ),
+              LineTypeConverter.convert(lineType)
+            )
+        ).toMap
+      )
+      (rawPfGrid.lines, maybeLineId2lineTypeInput) match {
+      case (Some(lines), Some(lineId2LineTypeInput)) => Option(lines.map(LineConverter.convert(_, lineId2LineTypeInput)))
+      case (Some(_), None) =>
+        throw ConversionException(
+          "Converting lines without defined line types is not supported."
+        )
+      case _ => None
+    }
   }
 
   /**
