@@ -11,6 +11,10 @@
       "vtarget": 1.0,
       "conElms": [
         {
+          "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
+          "pfCls": "ElmLne"
+        },
+        {
           "id": "Grid.ElmNet\\Gen_0001.ElmSym",
           "pfCls": "ElmSym"
         },
@@ -19,12 +23,12 @@
           "pfCls": "ElmLne"
         },
         {
-          "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
+          "id": "Grid.ElmNet\\Line_0001_0002/2.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "Grid.ElmNet\\Line_0001_0002/2.ElmLne",
-          "pfCls": "ElmLne"
+          "id": "Grid.ElmNet\\Externes Netz.ElmXnet",
+          "pfCls": "ElmXnet"
         }
       ]
     },
@@ -67,11 +71,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Line_0002_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
-          "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
+          "id": "Grid.ElmNet\\Line_0002_0004.ElmLne",
           "pfCls": "ElmLne"
         },
         {
@@ -512,6 +516,11 @@
       "bus2Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
     },
     {
+      "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0014.ElmTerm"
+    },
+    {
       "id": "Grid.ElmNet\\Line_0001_0002/1.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0001.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
@@ -525,11 +534,6 @@
       "id": "Grid.ElmNet\\Line_0012_0013.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0012.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0013.ElmTerm"
-    },
-    {
-      "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
-      "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Bus_0014.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
@@ -552,6 +556,11 @@
       "bus2Id": "Grid.ElmNet\\Bus_0005.ElmTerm"
     },
     {
+      "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
+    },
+    {
       "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0003.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
@@ -565,11 +574,6 @@
       "id": "Grid.ElmNet\\Line_0006_0011.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0011.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0006.ElmTerm"
-    },
-    {
-      "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
-      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Line_0006_0013.ElmLne",
@@ -592,13 +596,13 @@
       "id": "TypLne 0001 to 0002.TypLne"
     },
     {
+      "id": "TypLne 0013 to 0014.TypLne"
+    },
+    {
       "id": "TypLne 0010 to 0011.TypLne"
     },
     {
       "id": "TypLne 0012 to 0013.TypLne"
-    },
-    {
-      "id": "TypLne 0013 to 0014.TypLne"
     },
     {
       "id": "TypLne 0002 to 0003.TypLne"
@@ -613,6 +617,9 @@
       "id": "TypLne 0002 to 0005.TypLne"
     },
     {
+      "id": "TypLne 0006 to 0012.TypLne"
+    },
+    {
       "id": "TypLne 0003 to 0004.TypLne"
     },
     {
@@ -620,9 +627,6 @@
     },
     {
       "id": "TypLne 0006 to 0011.TypLne"
-    },
-    {
-      "id": "TypLne 0006 to 0012.TypLne"
     },
     {
       "id": "TypLne 0006 to 0013.TypLne"
@@ -774,7 +778,11 @@
   "loadsLV": [],
   "loadsMV": [],
   "statGen": [],
-  "extGrid": [],
+  "extGrid": [
+    {
+      "id": "Grid.ElmNet\\Externes Netz.ElmXnet"
+    }
+  ],
   "powerPlants": [
     {
       "id": "Grid.ElmNet\\Gen_0001.ElmSym"
