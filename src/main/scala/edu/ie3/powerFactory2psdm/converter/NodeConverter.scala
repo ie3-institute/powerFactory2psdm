@@ -32,31 +32,28 @@ object NodeConverter {
     * @param maybeConElms an optional List of connected elements to the node
     * @return either whether the node is a slack node or an exception
     */
-  def isSlack(maybeConElms: Option[List[Option[ConElms]]]): Try[Boolean] = {
-    maybeConElms
-      .map(
-        conElms =>
-          conElms.flatten.filter(
-            conElm => conElm.pfCls.getOrElse("NO_CLASS_DEFINED") == "ElmXnet"
-          ) match {
-            case Seq(_) => Success(true)
-            case Nil    => Success(false)
-            case _ =>
-              Failure(
-                GridConfigurationException(
-                  "There is more than one external grid connected to the node."
-                )
+  def isSlack(maybeConElms: Option[List[Option[ConElms]]]): Try[Boolean] =
+    maybeConElms match {
+      case Some(conElms) =>
+        conElms.flatten.filter(
+          conElm => conElm.pfCls.getOrElse("NO_CLASS_DEFINED") == "ElmXnet"
+        ) match {
+          case Seq(_) => Success(true)
+          case Nil    => Success(false)
+          case _ =>
+            Failure(
+              GridConfigurationException(
+                "There is more than one external grid connected to the node."
               )
-          }
-      )
-      .getOrElse(
+            )
+        }
+      case None =>
         Failure(
           ElementConfigurationException(
             "The optional connected elements attribute is None."
           )
         )
-      )
-  }
+    }
 
   /**
     * Converts a PowerFactory node into a PSDM node.
