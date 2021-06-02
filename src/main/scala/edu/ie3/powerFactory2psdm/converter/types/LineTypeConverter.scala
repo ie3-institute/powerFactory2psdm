@@ -4,8 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.converter.`type`
-
+package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.LineTypes
@@ -71,7 +70,7 @@ object LineTypeConverter {
       Quantities.getQuantity(
         input.uline.getOrElse(
           throw ElementConfigurationException(
-            s"There is no maximum thermal current defined for line type: $id"
+            s"There is no rated voltage defined for line type: $id"
           )
         ),
         KILOVOLT
