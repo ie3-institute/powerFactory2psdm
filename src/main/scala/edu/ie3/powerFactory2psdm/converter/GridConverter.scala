@@ -10,9 +10,9 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException}
+import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException, GridConfigurationException}
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{Lines, Nodes}
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{LineTypes, Lines, Nodes}
 import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
 import edu.ie3.powerFactory2psdm.util.GridPreparator
 
@@ -40,13 +40,16 @@ case object GridConverter {
     val psdmNodes = subnets.flatMap(
       subnet => convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
     )
-    val maybePsdmLines = convertLines(rawPfGrid)
+    val maybePsdmLines = (rawPfGrid.lines, rawPfGrid.lineTypes) match {
+      case (Some(lines), Some(types)) => convertLines(lines, types, pfGridMaps)
+      case (Some(lines), None) => throw ConversionException("Conversion of lines without specified line types is not supported.")
+      case (None, _) => None
+    }
   }
 
-  private def convertLines(rawPfGrid: PowerFactoryGrid): Option[List[LineInput]] = {
-    val maybeLineId2lineTypeInput: Option[Map[String, LineTypeInput]] =
-      rawPfGrid.lineTypes.map(
-        _.map(
+  private def convertLines(lines: List[Lines], types: List[LineTypes], pfGridMaps: PowerFactoryGridMaps): List[LineInput] = {
+    val typeId2lineTypeInput: Map[String, LineTypeInput] =
+      types.map(
           lineType =>
             (
               lineType.id.getOrElse(
@@ -57,15 +60,7 @@ case object GridConverter {
               LineTypeConverter.convert(lineType)
             )
         ).toMap
-      )
-      (rawPfGrid.lines, maybeLineId2lineTypeInput) match {
-      case (Some(lines), Some(lineId2LineTypeInput)) => Option(lines.map(LineConverter.convert(_, lineId2LineTypeInput)))
-      case (Some(_), None) =>
-        throw ConversionException(
-          "Converting lines without defined line types is not supported."
-        )
-      case _ => None
-    }
+      lines.map(LineConverter.convert(_, typeId2lineTypeInput, pfGridMaps))
   }
 
   /**

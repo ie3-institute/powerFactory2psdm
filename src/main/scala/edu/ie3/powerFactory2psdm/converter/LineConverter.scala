@@ -8,33 +8,38 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Lines
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
 
 object LineConverter {
 
-  def convert(input: Lines, lineId2LineTypeInput: Map[String, LineTypeInput]): LineInput = {
+  def convert(input: Lines, lineTypeId2LineTypeInput: Map[String, LineTypeInput], pfGridMaps: PowerFactoryGridMaps): LineInput = {
 
-//    uuid: UUID
+    //    uuid: UUID
 
-//    id: String
+    //    id: String
+    val id = input.id.getOrElse(throw ElementConfigurationException(s"The line: $input has no ID."))
 
-//    operator: OperatorInput
+    //    operator: OperatorInput
 
-//    operationTime: OperationTime
+    //    operationTime: OperationTime
 
-//    nodeA: NodeInput
+    //    nodeA: NodeInput
+    val nodeA = input.bus1Id.getOrElse()
 
-//    nodeB: NodeInput
+    //    nodeB: NodeInput
 
-//    parallelDevices: Int
+    //    parallelDevices: Int
 
-//    `type`: LineTypeInput
+    //    `type`: LineTypeInput
 
-//    length: ComparableQuantity[Length]
+    //    length: ComparableQuantity[Length]
 
-//    geoPosition: LineString
+    //    geoPosition: LineString
 
-//    olmCharacteristic: OlmCharacteristicInput
+    //    olmCharacteristic: OlmCharacteristicInput
+    (input.id, input.bus1Id, input.bus2Id, input.dline, )
 
     ???
   }
