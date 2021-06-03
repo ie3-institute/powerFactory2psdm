@@ -11,6 +11,7 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Lines
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
+import org.locationtech.jts.geom.LineString
 
 object LineConverter {
 
@@ -37,9 +38,12 @@ object LineConverter {
     //    length: ComparableQuantity[Length]
 
     //    geoPosition: LineString
+    val geopos = input.GPScoords match {
+      case Some(List(Some(List(Some(coordA), Some(coordB)))))  => ???
+    }
 
     //    olmCharacteristic: OlmCharacteristicInput
-    (input.id, input.bus1Id, input.bus2Id, input.dline, )
+    // (input.id, input.bus1Id, input.bus2Id, input.dline, )
 
     ???
   }

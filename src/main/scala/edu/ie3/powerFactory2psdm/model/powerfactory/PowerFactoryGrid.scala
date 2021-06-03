@@ -1,9 +1,3 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   ExtGrid,
@@ -74,6 +68,7 @@ object PowerFactoryGrid {
       bus2Id: Option[String],
       dline: Option[Double],
       nlnum: Option[Double],
+      GPScoords: Option[List[Option[List[Option[String]]]]],
       id: Option[String],
       typId: Option[String]
   )

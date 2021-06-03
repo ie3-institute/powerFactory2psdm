@@ -35,7 +35,7 @@ attributes4export = {
     'lines': [
         "dline",
         "nlnum",
-        "typ_id"
+        "GPScoords",
     ],
     'lineTypes': [
         "rline",
