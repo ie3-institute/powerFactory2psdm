@@ -32,7 +32,9 @@ attributes4export = {
         "GPSlon",
         "iUsage"
     ],
-    'lines': [],
+    'lines': [
+        "GPScoords",
+    ],
     'lineTypes': [],
     'trafos2w': [],
     'switches':[],
