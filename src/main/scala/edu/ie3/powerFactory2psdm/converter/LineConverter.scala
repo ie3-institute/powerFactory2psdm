@@ -40,7 +40,6 @@ object LineConverter {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"The line: $input has no ID.")
     )
-
     val nodeAId = input.bus1Id.getOrElse(
       throw MissingParameterException(s"Line $id has no defined bus1Id.")
     )
@@ -49,7 +48,6 @@ object LineConverter {
     )
     val nodeA = uuid2NodeInput(nodeId2Uuid(nodeAId))
     val nodeB = uuid2NodeInput(nodeId2Uuid(nodeBId))
-
     val lineType = lineTypeId2LineTypeInput(
       input.typId.getOrElse(
         throw MissingParameterException(
@@ -57,7 +55,6 @@ object LineConverter {
         )
       )
     )
-
     val length = Quantities.getQuantity(
       input.dline.getOrElse(
         throw MissingParameterException(
@@ -66,10 +63,8 @@ object LineConverter {
       ),
       KILOMETRE
     )
-
     val geopos: LineString =
       GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
-
     new LineInput(
       UUID.randomUUID(),
       id,
@@ -82,5 +77,4 @@ object LineConverter {
       OlmCharacteristicInput.CONSTANT_CHARACTERISTIC
     )
   }
-
 }

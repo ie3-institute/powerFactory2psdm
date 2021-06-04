@@ -12,7 +12,7 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
-  ElementConfigurationException,
+  ElementConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
