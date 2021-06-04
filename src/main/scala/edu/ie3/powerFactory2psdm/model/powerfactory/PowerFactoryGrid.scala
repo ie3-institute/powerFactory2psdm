@@ -55,7 +55,15 @@ object PowerFactoryGrid {
 
   final case class TrafoTypes2w(id: Option[String])
 
-  final case class LineTypes(id: Option[String])
+  final case class LineTypes(
+      bline: Option[Double],
+      gline: Option[Double],
+      id: Option[String],
+      sline: Option[Double],
+      uline: Option[Double],
+      xline: Option[Double],
+      rline: Option[Double]
+  )
 
   final case class StatGen(id: Option[String])
 
