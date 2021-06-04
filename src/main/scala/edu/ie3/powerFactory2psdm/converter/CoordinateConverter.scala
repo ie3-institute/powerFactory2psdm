@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.util.geo.GeoUtils
-import org.locationtech.jts.geom.{Coordinate, Point}
+import org.locationtech.jts.geom.{Coordinate, LineString, Point}
 
 case object CoordinateConverter {
 

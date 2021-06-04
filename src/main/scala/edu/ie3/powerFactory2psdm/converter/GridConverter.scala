@@ -10,10 +10,20 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException, GridConfigurationException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  ElementConfigurationException,
+}
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{LineTypes, Lines, Nodes}
-import edu.ie3.powerFactory2psdm.model.powerfactory.{PowerFactoryGrid, PowerFactoryGridMaps}
+import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+  LineTypes,
+  Lines,
+  Nodes
+}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  PowerFactoryGrid,
+  PowerFactoryGridMaps
+}
 import edu.ie3.powerFactory2psdm.util.GridPreparator
 
 import java.util.UUID
@@ -37,19 +47,36 @@ case object GridConverter {
     val pfGridMaps = PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)
     val subnets = SubnetBuilder.buildSubnets(graph, pfGridMaps.uuid2Node)
-    val psdmNodes = subnets.flatMap(
-      subnet => convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
-    )
-    val maybePsdmLines = (rawPfGrid.lines, rawPfGrid.lineTypes) match {
-      case (Some(lines), Some(types)) => convertLines(lines, types, pfGridMaps)
-      case (Some(lines), None) => throw ConversionException("Conversion of lines without specified line types is not supported.")
+    val uuid2NodeInput: Map[UUID, NodeInput] =
+      subnets.foldLeft(Map[UUID, NodeInput]())(
+        (acc, subnet) =>
+          acc ++ convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
+      )
+    val maybeLines = (rawPfGrid.lines, rawPfGrid.lineTypes) match {
+      case (Some(lines), Some(types)) =>
+        convertLines(
+          lines,
+          types,
+          pfGridMaps.nodeId2Uuid,
+          uuid2NodeInput
+        )
+      case (Some(lines), None) =>
+        throw ConversionException(
+          "Conversion of lines without specified line types is not supported."
+        )
       case (None, _) => None
     }
   }
 
-  private def convertLines(lines: List[Lines], types: List[LineTypes], pfGridMaps: PowerFactoryGridMaps): List[LineInput] = {
+  private def convertLines(
+      lines: List[Lines],
+      types: List[LineTypes],
+      nodeId2Uuid: Map[String, UUID],
+      uuid2NodeInput: Map[UUID, NodeInput]
+  ): List[LineInput] = {
     val typeId2lineTypeInput: Map[String, LineTypeInput] =
-      types.map(
+      types
+        .map(
           lineType =>
             (
               lineType.id.getOrElse(
@@ -59,8 +86,12 @@ case object GridConverter {
               ),
               LineTypeConverter.convert(lineType)
             )
-        ).toMap
-      lines.map(LineConverter.convert(_, typeId2lineTypeInput, pfGridMaps))
+        )
+        .toMap
+    lines.map(
+      LineConverter
+        .convert(_, typeId2lineTypeInput, nodeId2Uuid, uuid2NodeInput)
+    )
   }
 
   /**
@@ -73,9 +104,12 @@ case object GridConverter {
   def convertNodesOfSubnet(
       subnet: Subnet,
       uuid2node: Map[UUID, Nodes]
-  ): List[NodeInput] =
+  ): Map[UUID, NodeInput] =
     subnet.nodeUuids
-      .map(nodeUuid => NodeConverter.convertNode(nodeUuid, uuid2node, subnet))
-      .toList
+      .map(
+        nodeUuid =>
+          (nodeUuid, NodeConverter.convertNode(nodeUuid, uuid2node, subnet))
+      )
+      .toMap
 
 }
