@@ -33,7 +33,14 @@ attributes4export = {
         "iUsage"
     ],
     'lines': [],
-    'lineTypes': [],
+    'lineTypes': [
+        "rline",
+        "xline",
+        "gline",
+        "bline",
+        "sline",
+        "uline"
+    ],
     'trafos2w': [],
     'switches':[],
     'trafoTypes2w': [],
