@@ -6,8 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.model.powerfactory.LineType
 import tech.units.indriya.quantity.Quantities
 import edu.ie3.util.quantities.PowerSystemUnits.{
   KILOVOLT,
@@ -15,67 +14,41 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
   SIEMENS_PER_KILOMETRE
 }
 import tech.units.indriya.unit.Units.AMPERE
-
 import java.util.UUID
 import javax.measure.MetricPrefix
 
 object LineTypeConverter {
 
-  def convert(input: LineTypes): LineTypeInput = {
-    val id = input.id.getOrElse("NO_ID")
+  def convert(input: LineType): LineTypeInput = {
     val b = Quantities.getQuantity(
-      input.bline.getOrElse(
-        throw ElementConfigurationException(
-          s"There is no phase-to-ground condcutance defined for line type: $id"
-        )
-      ),
+      input.b,
       MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
     )
     val g = Quantities.getQuantity(
-      input.gline.getOrElse(
-        throw ElementConfigurationException(
-          s"There is no phase-to-ground susceptance defined for line type: $id"
-        )
-      ),
+      input.g,
       MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
     )
     val r = Quantities.getQuantity(
-      input.rline.getOrElse(
-        throw ElementConfigurationException(
-          s"There is no specific resistance defined for line type: $id"
-        )
-      ),
+      input.r,
       OHM_PER_KILOMETRE
     )
     val x = Quantities.getQuantity(
-      input.xline.getOrElse(
-        throw ElementConfigurationException(
-          s"There is no specific reactance defined for line type: $id"
-        )
-      ),
+      input.x,
       OHM_PER_KILOMETRE
     )
     val iMax = Quantities.getQuantity(
-      input.sline.getOrElse(
-        throw ElementConfigurationException(
-          s"There is no maximum thermal current defined for line type: $id"
-        )
-      ),
+      input.iMax,
       MetricPrefix.KILO(AMPERE)
     )
     val vRated =
       Quantities.getQuantity(
-        input.uline.getOrElse(
-          throw ElementConfigurationException(
-            s"There is no rated voltage defined for line type: $id"
-          )
-        ),
+        input.vRated,
         KILOVOLT
       )
 
     new LineTypeInput(
       UUID.randomUUID(),
-      id,
+      input.id,
       b,
       g,
       r,
