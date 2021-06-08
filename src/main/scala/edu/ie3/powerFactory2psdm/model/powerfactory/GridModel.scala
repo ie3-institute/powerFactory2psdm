@@ -24,17 +24,15 @@ object GridModel extends LazyLogging {
       .map(Node.build)
     val lineTypes = rawGrid.lineTypes match {
       case Some(lineTypes) => lineTypes.map(LineType.build)
-      case None => {
+      case None =>
         logger.debug("There are no lines in the grid.")
         List[LineType]()
-      }
     }
     val lines = rawGrid.lines match {
       case Some(lines) => lines.map(Line.build)
-      case None => {
+      case None =>
         logger.debug("There are no lines in the grid.")
         List[Line]()
-      }
     }
     GridModel(
       nodes,
