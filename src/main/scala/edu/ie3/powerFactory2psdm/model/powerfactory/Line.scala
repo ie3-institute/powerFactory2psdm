@@ -24,7 +24,8 @@ final case class Line(
     nodeAId: String,
     nodeBId: String,
     length: Double
-) extends EntityModel with Edge
+) extends EntityModel
+    with Edge
 
 object Line {
   def build(rawLine: Lines): Line = {

@@ -12,7 +12,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.MissingGridElementException
 final case class GridModel(
     nodes: List[Node],
     lineTypes: List[LineType],
-    lines: List[Line]
+    lines: List[Line],
+    switches: List[Switch]
 )
 
 object GridModel extends LazyLogging {
@@ -34,10 +35,18 @@ object GridModel extends LazyLogging {
         logger.debug("There are no lines in the grid.")
         List[Line]()
     }
+    val switches = rawGrid.switches match {
+      case Some(switches) => switches.flatMap(Switch.maybeBuild)
+      case None =>
+        logger.debug("There are no switches in the grid.")
+        List[Switch]()
+    }
+
     GridModel(
       nodes,
       lineTypes,
-      lines
+      lines,
+      switches
     )
   }
 }

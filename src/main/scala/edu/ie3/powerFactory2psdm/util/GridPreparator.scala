@@ -25,8 +25,8 @@ object GridPreparator extends LazyLogging {
 
   /**
     * Removes [[Switches]] from a [[RawGridModel]] that are only connected to a single node.
-   *
-   * @param maybeSwitches
+    *
+    * @param maybeSwitches
     * @return
     */
   def removeSinglyConnectedSwitches(
