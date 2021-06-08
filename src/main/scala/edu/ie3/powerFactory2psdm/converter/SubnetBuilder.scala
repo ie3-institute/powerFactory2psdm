@@ -26,7 +26,7 @@ object SubnetBuilder extends LazyLogging {
     * Takes the grid graph and builds up the different [[Subnet]]s from it.
     *
     * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
-    * @param uuid2Node the mapping between UUID and the corresponding node
+    * @param id2Node the mapping between UUID and the corresponding node
     * @return the list of all subnets of the grid
     */
   def buildSubnets(
@@ -48,7 +48,7 @@ object SubnetBuilder extends LazyLogging {
     *
     * @param subnetId  id of the subnet
     * @param nodeIds   UUIDS of all nodes that live in the subnet
-    * @param uuid2node mapping between UUID and node
+    * @param id2node mapping between UUID and node
     * @return the built [[Subnet]]
     */
   def buildSubnet(
