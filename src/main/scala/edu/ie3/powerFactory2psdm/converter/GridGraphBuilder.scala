@@ -10,7 +10,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   MissingGridElementException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   Lines,
   Switches
 }

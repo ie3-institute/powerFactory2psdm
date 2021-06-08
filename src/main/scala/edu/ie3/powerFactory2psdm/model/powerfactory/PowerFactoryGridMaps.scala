@@ -10,7 +10,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingGridElementException,
   MissingParameterException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   Lines,
   Nodes,
   Switches
@@ -26,7 +26,7 @@ case class PowerFactoryGridMaps(
 )
 
 object PowerFactoryGridMaps extends LazyLogging {
-  def apply(pfGrid: PowerFactoryGrid): PowerFactoryGridMaps = {
+  def apply(pfGrid: RawGridModel): PowerFactoryGridMaps = {
 
     val uuid2Node: Map[UUID, Nodes] = pfGrid.nodes match {
       case Some(nodes) => nodes.map(node => (UUID.randomUUID(), node)).toMap

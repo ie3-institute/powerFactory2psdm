@@ -14,7 +14,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   TestException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.ConElms
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.ConElms
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities

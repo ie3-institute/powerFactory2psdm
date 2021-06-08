@@ -8,9 +8,9 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  PowerFactoryGrid,
+  RawGridModel,
   PowerFactoryGridMaps
 }
 import edu.ie3.powerFactory2psdm.util.GridPreparator
@@ -22,7 +22,7 @@ import java.util.UUID
   */
 case object GridConverter {
 
-  def convert(pfGrid: PowerFactoryGrid) = {
+  def convert(pfGrid: RawGridModel) = {
     val gridElements = convertGridElements(pfGrid)
   }
 
@@ -31,7 +31,7 @@ case object GridConverter {
     *
     * @param rawPfGrid the raw parsed PowerFactoryGrid
     */
-  def convertGridElements(rawPfGrid: PowerFactoryGrid): Unit = {
+  def convertGridElements(rawPfGrid: RawGridModel): Unit = {
     val pfGrid = GridPreparator.prepare(rawPfGrid)
     val pfGridMaps = PowerFactoryGridMaps(pfGrid)
     val graph = GridGraphBuilder.build(pfGridMaps)

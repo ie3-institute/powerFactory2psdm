@@ -10,7 +10,7 @@ import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  PowerFactoryGrid,
+  RawGridModel,
   PowerFactoryGridMaps
 }
 
@@ -28,7 +28,7 @@ trait ConverterTestData {
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: PowerFactoryGrid = PfGridParser
+  val testGrid: RawGridModel = PfGridParser
     .parse(testGridFile)
     .getOrElse(
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")

@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.LineTypes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 import tech.units.indriya.quantity.Quantities
 import edu.ie3.util.quantities.PowerSystemUnits.{
   KILOVOLT,

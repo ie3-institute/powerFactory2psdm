@@ -17,7 +17,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   GridConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.jgrapht.graph.{DefaultEdge, Multigraph}
 import tech.units.indriya.quantity.Quantities.getQuantity

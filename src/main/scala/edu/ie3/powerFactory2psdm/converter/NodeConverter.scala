@@ -13,7 +13,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   GridConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   ConElms,
   Nodes
 }

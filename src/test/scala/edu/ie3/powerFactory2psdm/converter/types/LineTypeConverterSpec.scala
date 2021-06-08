@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.LineTypes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
