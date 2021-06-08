@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 
 /**
@@ -37,31 +37,21 @@ object Switch extends LazyLogging {
     */
   def maybeBuild(rawSwitch: Switches): Option[Switch] = {
     val id = rawSwitch.id.getOrElse(
-      throw MissingParameterException(s"Switch: $rawSwitch is missng an id.")
+      throw MissingParameterException(s"There is no id for switch $rawSwitch")
     )
-    val nodeAId = rawSwitch.bus1Id match {
-      case Some(nodeAId) => nodeAId
-      case None =>
-        logger.warn(
-          s"Switch: $id has not been built as it is missing its bus1Id"
+    (rawSwitch.bus1Id, rawSwitch.bus2Id) match {
+      case (Some(bus1Id), Some(bus2Id)) =>
+        Some(
+          Switch(
+            id,
+            bus1Id,
+            bus2Id
+          )
         )
-        return None
+      case (None, Some(_)) | (Some(_), None) =>
+        logger.warn(s"Switch: $id is not being built, as it's only connected to a single node")
+        None
+      case _ => throw MissingParameterException(s"Switch: $id is not connected to any node")
     }
-    val nodeBId = rawSwitch.bus2Id match {
-      case Some(nodeBId) => nodeBId
-      case None =>
-        logger.warn(
-          s"Switch: $id has not been built as it is missing its bus2Id"
-        )
-        return None
-    }
-    Some(
-      Switch(
-        id,
-        nodeAId,
-        nodeBId
-      )
-    )
-
   }
 }

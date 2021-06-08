@@ -70,11 +70,9 @@ object RawGridModel {
   final case class StatGen()
 
   final case class Lines(
-      bus1Id: Option[String],
-      bus2Id: Option[String],
-      dline: Option[Double],
       id: Option[String],
-      typId: Option[String]
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
   final case class PowerPlants(id: Option[String])
@@ -87,13 +85,10 @@ object RawGridModel {
 
   final case class Nodes(
       vtarget: Option[Double],
-      iUsage: Option[Double],
-      cpZone: Option[String],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[String],
       uknom: Option[Double]
   )
 

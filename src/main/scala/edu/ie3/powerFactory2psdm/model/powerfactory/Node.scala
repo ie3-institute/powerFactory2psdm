@@ -20,7 +20,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   *
   * @param id identifier
   * @param nominalVoltage nominal voltage in kV
-  * @param vTarget rated voltage in p.u.
+  * @param vTarget target voltage in p.u.
   * @param lat latitude
   * @param lon longitude
   * @param conElms connected elements to the node
@@ -37,10 +37,10 @@ final case class Node(
 object Node {
 
   /**
-    * Build a node from a raw [[Nodes]]
+    * Build a [[Node]] from a raw [[Nodes]]
     *
-    * @param rawNode
-    * @return
+    * @param rawNode raw schema generated node
+    * @return [[Node]]
     */
   def build(rawNode: Nodes): Node = {
     val id = rawNode.id match {
@@ -56,7 +56,7 @@ object Node {
       )
     )
     val vTarget = rawNode.vtarget.getOrElse(
-      throw MissingParameterException(s"Node: $id has no defined rated Voltage")
+      throw MissingParameterException(s"Node: $id has no defined target voltage")
     )
     val conElms = rawNode.conElms
       .getOrElse(

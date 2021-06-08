@@ -6,35 +6,43 @@
 
 package edu.ie3.powerFactory2psdm.common
 
+import edu.ie3.datamodel.models.UniqueEntity
+import edu.ie3.datamodel.models.input.NodeInput
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
+import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  RawGridModel,
-  PowerFactoryGridMaps
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.ConElms
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, Node, RawGridModel}
 
 import java.util.UUID
 
 trait ConverterTestData {
 
-  def nodeIdsToUuids(
-      nodeId2Uuid: Map[String, UUID],
-      ids: Set[String]
-  ): Set[UUID] = {
-    ids.map(id => nodeId2Uuid(id))
+  /**
+   * Case class to denote a consistent pair of input and expected output of a conversion
+   *
+   * @param input  Input model
+   * @param result Resulting, converted model
+   * @tparam I     Type of input model
+   * @tparam R     Type of result class
+   */
+  final case class ConversionPair[I <: EntityModel, R <: UniqueEntity](
+    input: I,
+    result: R
+  ) {
+    def getPair: (I, R) = (input, result)
   }
 
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: RawGridModel = PfGridParser
+  val testGrid: GridModel = GridModel.build(PfGridParser
     .parse(testGridFile)
     .getOrElse(
       throw GridParsingException(s"Couldn't parse the grid file $testGridFile")
-    )
-
-  val pfGridMaps: PowerFactoryGridMaps = PowerFactoryGridMaps(testGrid)
+    ))
 
   val bus1Id = "Grid.ElmNet\\Bus_0001.ElmTerm"
   val bus2Id = "Grid.ElmNet\\Bus_0002.ElmTerm"
@@ -56,25 +64,20 @@ trait ConverterTestData {
   val busOnsLv =
     "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm"
 
-  val subnet1Uuids: Set[UUID] = nodeIdsToUuids(
-    pfGridMaps.nodeId2Uuid,
+  val subnet1Ids: Set[String] =
     Set(
       bus1Id,
       bus2Id,
       bus3Id,
       bus4Id,
       bus5Id
-    )
   )
 
-  val subnet2Uuids: Set[UUID] =
-    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set(bus7Id))
+  val subnet2Ids: Set[String] = Set(bus7Id)
 
-  val subnet3Uuids: Set[UUID] =
-    nodeIdsToUuids(pfGridMaps.nodeId2Uuid, Set(bus8Id))
+  val subnet3Ids: Set[String] = Set(bus8Id)
 
-  val subnet4Uuids: Set[UUID] = nodeIdsToUuids(
-    pfGridMaps.nodeId2Uuid,
+  val subnet4Ids: Set[String] =
     Set(
       bus6Id,
       bus9Id,
@@ -87,7 +90,6 @@ trait ConverterTestData {
       busOns1Id,
       busOns2Id,
       busOnsLv
-    )
   )
 
 }

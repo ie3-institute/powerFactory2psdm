@@ -8,16 +8,11 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
   GridModel,
   Node,
-  PowerFactoryGridMaps,
   RawGridModel
 }
-import edu.ie3.powerFactory2psdm.util.GridPreparator
-
-import java.util.UUID
 
 /**
   * Functionalities to transform an exported and then parsed PowerFactory grid to the PSDM.
