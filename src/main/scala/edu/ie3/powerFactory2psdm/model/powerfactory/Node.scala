@@ -6,11 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  ConElms,
-  Nodes
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{ConElms, Nodes}
 
 /**
   * Electrical node
@@ -40,9 +37,11 @@ object Node {
     * @return
     */
   def build(rawNode: Nodes): Node = {
-    val id = rawNode.id.getOrElse(
-      throw MissingParameterException(s"Node: $rawNode has no id")
-    )
+    val id = rawNode.id match {
+      case Some(id) if EntityModel.isUniqueId(id) => id
+      case Some(id) => throw ElementConfigurationException(s"ID: $id is not unique")
+      case None => throw MissingParameterException(s"There is no id for node $rawNode")
+    }
     val nominalVoltage = rawNode.uknom.getOrElse(
       throw MissingParameterException(
         s"Node: $id has no defined nominal voltage"
