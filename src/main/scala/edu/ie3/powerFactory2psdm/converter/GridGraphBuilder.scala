@@ -6,15 +6,9 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingGridElementException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  Lines,
-  Switches
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingGridElementException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{Lines, Switches}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{Edge, Node, PowerFactoryGridMaps}
 import org.jgrapht.graph._
 
 import java.util.UUID
@@ -23,6 +17,30 @@ import java.util.UUID
   * Builds a graph representation of the powerfactory grid
   */
 object GridGraphBuilder {
+
+
+  /**
+   * Builds up the graph topology of the grid. All nodes (represented by their ids) and the connection between nodes by
+   * edges (lines and switches) are added to the graph. The resulting subgraphs inside the graph represent the subnets
+   * of the grid.
+   *
+   * @param nodes nodes of the power factory grid
+   * @param edges edges (lines and switches) of the power factory grid
+   * @return [[Multigraph]] of all the ids of the nodes and their connection
+   */
+  def build[I <: Edge](
+                        nodes: List[Node] ,
+                        edges: List[I]
+                      ): Multigraph[String, DefaultEdge] = {
+
+    val graph = new Multigraph[String, DefaultEdge](classOf[DefaultEdge])
+    nodes.foreach(node => graph.addVertex(node.id))
+    edges.map(edge => {
+      graph.addEdge(edge.nodeAId, edge.nodeBId)
+    })
+    graph
+  }
+
 
   /**
     * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
