@@ -6,7 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 
 /**
@@ -34,8 +37,12 @@ object LineType {
   def build(rawLineType: LineTypes): LineType = {
     val id = rawLineType.id match {
       case Some(id) if EntityModel.isUniqueId(id) => id
-      case Some(id) => throw ElementConfigurationException(s"ID: $id is not unique")
-      case None => throw MissingParameterException(s"There is no id for line type $rawLineType")
+      case Some(id) =>
+        throw ElementConfigurationException(s"ID: $id is not unique")
+      case None =>
+        throw MissingParameterException(
+          s"There is no id for line type $rawLineType"
+        )
     }
     val vRated = rawLineType.uline.getOrElse(
       throw MissingParameterException(

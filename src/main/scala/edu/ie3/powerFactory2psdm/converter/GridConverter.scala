@@ -10,8 +10,10 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  RawGridModel,
-  PowerFactoryGridMaps
+  GridModel,
+  Node,
+  PowerFactoryGridMaps,
+  RawGridModel
 }
 import edu.ie3.powerFactory2psdm.util.GridPreparator
 
@@ -32,28 +34,30 @@ case object GridConverter {
     * @param rawPfGrid the raw parsed PowerFactoryGrid
     */
   def convertGridElements(rawPfGrid: RawGridModel): Unit = {
-    val pfGrid = GridPreparator.prepare(rawPfGrid)
-    val pfGridMaps = PowerFactoryGridMaps(pfGrid)
-    val graph = GridGraphBuilder.build(pfGridMaps)
-    val subnets = SubnetBuilder.buildSubnets(graph, pfGridMaps.uuid2Node)
+    val grid = GridModel.build(rawPfGrid)
+    val graph =
+      GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
+    val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
+    val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
     val psdmNodes = subnets.flatMap(
-      subnet => convertNodesOfSubnet(subnet, pfGridMaps.uuid2Node)
+      subnet => convertNodesOfSubnet(subnet, nodeId2node)
     )
+    println("")
   }
 
   /**
     * Converts all nodes within a subnet to PSDM [[NodeInput]]
     *
     * @param subnet    the subnet with reference to all PF nodes that live within
-    * @param uuid2node map that connects uuids with the associate PF [[Nodes]]
+    * @param id2node map that connects uuids with the associate PF [[Nodes]]
     * @return list of all converted [[NodeInput]]
     */
   def convertNodesOfSubnet(
       subnet: Subnet,
-      uuid2node: Map[UUID, Nodes]
+      id2node: Map[String, Node]
   ): List[NodeInput] =
-    subnet.nodeUuids
-      .map(nodeUuid => NodeConverter.convertNode(nodeUuid, uuid2node, subnet))
+    subnet.nodeIds
+      .map(nodeId => NodeConverter.convertNode(nodeId, id2node, subnet))
       .toList
 
 }

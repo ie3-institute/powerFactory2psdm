@@ -8,8 +8,14 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
-import edu.ie3.datamodel.models.voltagelevels.{GermanVoltageLevelUtils, VoltageLevel}
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, GridConfigurationException}
+import edu.ie3.datamodel.models.voltagelevels.{
+  GermanVoltageLevelUtils,
+  VoltageLevel
+}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  GridConfigurationException
+}
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.Node
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
@@ -57,9 +63,11 @@ object SubnetBuilder extends LazyLogging {
       id2node: Map[String, Node]
   ): Subnet = {
     val nodes = nodeIds.map(id => id2node(id)).toList
-    val nomVoltage = nodes.headOption.getOrElse(
+    val nomVoltage = nodes.headOption
+      .getOrElse(
         throw GridConfigurationException("There are no nodes in the subnet!")
-      ).nominalVoltage
+      )
+      .nominalVoltage
     val divergences = nodes
       .filter(node => Math.abs(nomVoltage - node.nominalVoltage) > 0.001)
       .map { node =>
