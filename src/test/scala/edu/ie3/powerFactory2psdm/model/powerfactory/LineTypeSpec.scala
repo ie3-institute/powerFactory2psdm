@@ -1,15 +1,22 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.{MissingParameterException, TestException}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{LineTypes, Switches}
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class LineTypeSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
+class LineTypeSpec
+    extends Matchers
+    with AnyWordSpecLike
+    with ConverterTestData {
   "A line type" should {
-
-    val id = "SomeSwitch.ElmCoup"
 
     val input = LineTypes(
       id = Some("testLineType"),
@@ -44,28 +51,28 @@ class LineTypeSpec extends Matchers with AnyWordSpecLike with ConverterTestData 
       val id = "BrokenLineType3"
       val lineType = input.copy(id = Some(id), rline = None)
       val exc = intercept[MissingParameterException](LineType.build(lineType))
-      exc.getMessage shouldBe  s"There is no specific resistance defined for line type: $id"
+      exc.getMessage shouldBe s"There is no specific resistance defined for line type: $id"
     }
 
     "throw an exception when building if no specific reactance is defined" in {
       val id = "BrokenLineType4"
       val lineType = input.copy(id = Some(id), xline = None)
       val exc = intercept[MissingParameterException](LineType.build(lineType))
-      exc.getMessage shouldBe  s"There is no specific reactance defined for line type: $id"
+      exc.getMessage shouldBe s"There is no specific reactance defined for line type: $id"
     }
 
     "throw an exception when building if no phase-to-ground conductance is defined" in {
       val id = "BrokenLineType5"
       val lineType = input.copy(id = Some(id), bline = None)
       val exc = intercept[MissingParameterException](LineType.build(lineType))
-      exc.getMessage shouldBe  s"There is no phase-to-ground conductance defined for line type: $id"
+      exc.getMessage shouldBe s"There is no phase-to-ground conductance defined for line type: $id"
     }
 
     "throw an exception when building if no phase-to-ground susceptance is defined" in {
       val id = "BrokenLineType6"
       val lineType = input.copy(id = Some(id), gline = None)
       val exc = intercept[MissingParameterException](LineType.build(lineType))
-      exc.getMessage shouldBe  s"There is no phase-to-ground susceptance defined for line type: $id"
+      exc.getMessage shouldBe s"There is no phase-to-ground susceptance defined for line type: $id"
     }
   }
 }

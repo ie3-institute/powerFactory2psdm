@@ -56,7 +56,9 @@ object Node {
       )
     )
     val vTarget = rawNode.vtarget.getOrElse(
-      throw MissingParameterException(s"Node: $id has no defined target voltage")
+      throw MissingParameterException(
+        s"Node: $id has no defined target voltage"
+      )
     )
     val conElms = rawNode.conElms
       .getOrElse(

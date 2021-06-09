@@ -22,7 +22,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
 final case class Line(
     id: String,
     nodeAId: String,
-    nodeBId: String,
+    nodeBId: String
 ) extends EntityModel
     with Edge
 

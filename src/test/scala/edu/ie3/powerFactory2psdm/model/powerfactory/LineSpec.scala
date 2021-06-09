@@ -1,3 +1,9 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
@@ -14,7 +20,7 @@ class LineSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
     val input = Lines(
       id = Some(id),
       bus1Id = Some("SomeBusA"),
-      bus2Id = Some("SomeBusB"),
+      bus2Id = Some("SomeBusB")
     )
 
     "throw an exception if the id is missing" in {

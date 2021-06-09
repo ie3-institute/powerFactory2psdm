@@ -1,7 +1,16 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.{MissingParameterException, TestException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  MissingParameterException,
+  TestException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -14,7 +23,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
     val input = Switches(
       id = Some(id),
       bus1Id = Some("SomeBusA"),
-      bus2Id = Some("SomeBusB"),
+      bus2Id = Some("SomeBusB")
     )
 
     "throw an exception when building if the id is missing" in {
@@ -36,7 +45,9 @@ class SwitchSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
     }
 
     "build a fully configured switch correctly" in {
-      val switch = Switch.maybeBuild(input).getOrElse(throw TestException("We shouldn't get None here!"))
+      val switch = Switch
+        .maybeBuild(input)
+        .getOrElse(throw TestException("We shouldn't get None here!"))
       switch.id shouldBe "Some_Switch.ElmCoup"
       switch.nodeAId shouldBe "SomeBusA"
       switch.nodeBId shouldBe "SomeBusB"

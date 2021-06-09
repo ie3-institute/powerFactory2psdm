@@ -7,7 +7,10 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 
 /**
@@ -49,9 +52,14 @@ object Switch extends LazyLogging {
           )
         )
       case (None, Some(_)) | (Some(_), None) =>
-        logger.warn(s"Switch: $id is not being built, as it's only connected to a single node")
+        logger.warn(
+          s"Switch: $id is not being built, as it's only connected to a single node"
+        )
         None
-      case _ => throw MissingParameterException(s"Switch: $id is not connected to any node")
+      case _ =>
+        throw MissingParameterException(
+          s"Switch: $id is not connected to any node"
+        )
     }
   }
 }
