@@ -6,14 +6,14 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  getNodePair,
+  getSubnet
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class NodeConverterSpec
-    extends Matchers
-    with ConverterTestData
-    with AnyWordSpecLike {
+class NodeConverterSpec extends Matchers with AnyWordSpecLike {
 
   "The node converter" should {
 

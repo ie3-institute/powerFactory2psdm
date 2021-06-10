@@ -7,16 +7,19 @@
 package edu.ie3.powerFactory2psdm.model
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  id2node,
+  subnet1Ids,
+  subnet2Ids,
+  testGrid
+}
 import edu.ie3.powerFactory2psdm.converter.{GridGraphBuilder, SubnetBuilder}
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class SubnetBuilderSpec
-    extends Matchers
-    with ConverterTestData
-    with AnyWordSpecLike {
+class SubnetBuilderSpec extends Matchers with AnyWordSpecLike {
 
   "The SubnetBuilder" should {
 

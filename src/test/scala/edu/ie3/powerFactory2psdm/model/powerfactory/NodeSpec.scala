@@ -15,7 +15,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class NodeSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
+class NodeSpec extends Matchers with AnyWordSpecLike {
   "A Node " should {
 
     val conElm = ConElms(

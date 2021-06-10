@@ -6,16 +6,12 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class LineTypeSpec
-    extends Matchers
-    with AnyWordSpecLike
-    with ConverterTestData {
+class LineTypeSpec extends Matchers with AnyWordSpecLike {
   "A line type" should {
 
     val input = LineTypes(

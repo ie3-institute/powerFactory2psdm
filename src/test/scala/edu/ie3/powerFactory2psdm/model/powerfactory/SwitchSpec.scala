@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingParameterException,
   TestException
@@ -15,7 +14,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class SwitchSpec extends Matchers with AnyWordSpecLike with ConverterTestData {
+class SwitchSpec extends Matchers with AnyWordSpecLike {
   "A switch " should {
 
     val id = "Some_Switch.ElmCoup"

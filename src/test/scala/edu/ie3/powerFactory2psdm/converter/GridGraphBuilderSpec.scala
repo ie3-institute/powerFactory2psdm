@@ -7,6 +7,13 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  subnet1Ids,
+  subnet2Ids,
+  subnet3Ids,
+  subnet4Ids,
+  testGrid
+}
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
@@ -14,10 +21,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.jdk.CollectionConverters._
 
-class GridGraphBuilderSpec
-    extends Matchers
-    with ConverterTestData
-    with AnyWordSpecLike {
+class GridGraphBuilderSpec extends Matchers with AnyWordSpecLike {
 
   "The GridGraphBuilder" should {
 
