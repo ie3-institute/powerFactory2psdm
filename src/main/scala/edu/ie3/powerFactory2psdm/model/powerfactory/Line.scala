@@ -22,7 +22,9 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
 final case class Line(
     id: String,
     nodeAId: String,
-    nodeBId: String
+    nodeBId: String,
+    typId: String,
+    length: Double
 ) extends EntityModel
     with Edge
 
@@ -41,10 +43,22 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
+    val typId = rawLine.typId.getOrElse(
+      throw MissingParameterException(s"Line: $id has no defined type - line conversion without defined type" +
+        s" is not supported ")
+    )
+    val length = rawLine.dline.getOrElse(
+      throw MissingParameterException(
+        s"Line: $id has no defined length"
+      )
+    )
+
     Line(
       id,
       nodeAId,
-      nodeBId
+      nodeBId,
+      typId,
+      length
     )
   }
 }

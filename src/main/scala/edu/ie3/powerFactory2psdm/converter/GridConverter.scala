@@ -32,26 +32,36 @@ case object GridConverter {
     val grid = GridModel.build(rawGrid)
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
-    val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
-    val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
-    val psdmNodes = subnets.flatMap(
-      subnet => convertNodesOfSubnet(subnet, nodeId2node)
-    )
+    val id2pfNodes = grid.nodes.map(node => (node.id, node)).toMap
+    val subnets = SubnetBuilder.buildSubnets(graph, id2pfNodes)
+    val id2psdmNodes = convertNodes(subnets, id2pfNodes)
   }
+
+  /**
+   * Converts [[Node]]s to PSDM [[NodeInput]]
+   * @param subnets subnet data
+   * @param id2pfnode map of all pf nodes
+   * @return map of all PSDM nodes
+   */
+  def convertNodes(
+    subnets: List[Subnet],
+    id2pfnode: Map[String, Node],
+  ): Map[String, NodeInput] = subnets.flatMap(subnet =>
+    convertNodesOfSubnet(subnet, id2pfnode)).toMap
 
   /**
     * Converts all nodes within a subnet to PSDM [[NodeInput]]
     *
     * @param subnet    the subnet with reference to all PF nodes that live within
     * @param id2node map that connects uuids with the associate PF [[Nodes]]
-    * @return list of all converted [[NodeInput]]
+    * @return map containing all converted [[NodeInput]]
     */
   def convertNodesOfSubnet(
       subnet: Subnet,
       id2node: Map[String, Node]
-  ): List[NodeInput] =
+  ): Map[String, NodeInput] =
     subnet.nodeIds
-      .map(nodeId => NodeConverter.convertNode(nodeId, id2node, subnet))
-      .toList
+      .map(nodeId => (nodeId, NodeConverter.convertNode(nodeId, id2node, subnet)))
+      .toMap
 
 }

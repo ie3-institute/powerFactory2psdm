@@ -12,55 +12,31 @@ import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  GridConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Lines
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
-import org.jgrapht.graph.{DefaultEdge, Multigraph}
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
+import edu.ie3.powerFactory2psdm.model.powerfactory.Line
 import org.locationtech.jts.geom.LineString
 import tech.units.indriya.quantity.Quantities
-
-import java.util
 import java.util.UUID
-import scala.jdk.CollectionConverters.CollectionHasAsScala
-import scala.util.{Failure, Success, Try}
 
 object LineConverter {
 
   def convert(
-      input: Lines,
-      lineTypeId2LineTypeInput: Map[String, LineTypeInput],
-      nodeId2Uuid: Map[String, UUID],
-      uuid2NodeInput: Map[UUID, NodeInput]
+               input: Line,
+               lineTypeId2lineTypeInput: Map[String, LineTypeInput],
+               id2psdmNodes: Map[String, NodeInput]
   ): LineInput = {
 
-    val id = input.id.getOrElse(
-      throw MissingParameterException(s"The line: $input has no ID.")
-    )
-    val nodeAId = input.bus1Id.getOrElse(
-      throw MissingParameterException(s"Line $id has no defined bus1Id.")
-    )
-    val nodeBId = input.bus2Id.getOrElse(
-      throw MissingParameterException(s"Line $id has no defined bus2Id.")
-    )
-    val nodeA = uuid2NodeInput(nodeId2Uuid(nodeAId))
-    val nodeB = uuid2NodeInput(nodeId2Uuid(nodeBId))
-    val lineType = lineTypeId2LineTypeInput(
-      input.typId.getOrElse(
-        throw MissingParameterException(
-          s"Id of the line type of line: $id, isn't defined"
-        )
+    val id = input.id
+    val nodeA = id2psdmNodes(input.nodeAId)
+    val nodeB = id2psdmNodes(input.nodeBId)
+    val lineType = lineTypeId2lineTypeInput.getOrElse(
+      input.typId,
+      throw ConversionException(
+        s"Line type: ${input.typId} of line ${input.id} couldn't be found."
       )
     )
     val length = Quantities.getQuantity(
-      input.dline.getOrElse(
-        throw MissingParameterException(
-          "Length of the line: $id, isn't defined"
-        )
-      ),
+      input.length,
       KILOMETRE
     )
     val geopos: LineString =
