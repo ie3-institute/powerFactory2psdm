@@ -12,7 +12,7 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel
 
 object RunConversion extends LazyLogging {
 
@@ -20,7 +20,7 @@ object RunConversion extends LazyLogging {
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
     logger.info("Parsing the json grid file.")
-    val pfGrid: PowerFactoryGrid = PfGridParser
+    val pfGrid: RawGridModel = PfGridParser
       .parse(exportedGridFile)
       .getOrElse(
         throw GridParsingException("Parsing the Json grid file failed")

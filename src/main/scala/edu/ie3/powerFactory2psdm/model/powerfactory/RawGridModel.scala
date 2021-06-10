@@ -5,7 +5,7 @@
  */
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   ExtGrid,
   PowerPlants,
   Trafos3w,
@@ -23,7 +23,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   TrafoTypes2w
 }
 
-final case class PowerFactoryGrid(
+final case class RawGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
@@ -41,7 +41,7 @@ final case class PowerFactoryGrid(
     lines: Option[List[Lines]]
 )
 
-object PowerFactoryGrid {
+object RawGridModel {
 
   final case class Switches(
       id: Option[String],
@@ -70,13 +70,9 @@ object PowerFactoryGrid {
   final case class StatGen()
 
   final case class Lines(
-      bus1Id: Option[String],
-      bus2Id: Option[String],
-      dline: Option[Double],
-      nlnum: Option[Double],
-      GPScoords: Option[List[Option[List[Option[String]]]]],
       id: Option[String],
-      typId: Option[String]
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
   final case class PowerPlants(id: Option[String])
@@ -89,13 +85,10 @@ object PowerFactoryGrid {
 
   final case class Nodes(
       vtarget: Option[Double],
-      iUsage: Option[Double],
-      cpZone: Option[String],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[String],
       uknom: Option[Double]
   )
 
