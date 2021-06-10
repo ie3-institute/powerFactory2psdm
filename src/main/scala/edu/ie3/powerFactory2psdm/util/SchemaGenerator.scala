@@ -69,6 +69,8 @@ object SchemaGenerator extends LazyLogging {
 
     json.asObject match {
       case Some(jsonObject) if !jsonObject.isEmpty =>
+        val x = json
+          .foldWith(ClassFolder(className, `package`))
         val classes: Iterable[SimpleClass] =
           json
             .foldWith(ClassFolder(className, `package`))
@@ -132,8 +134,16 @@ object SchemaGenerator extends LazyLogging {
   private def className(name: String) =
     StringUtils.snakeCaseToCamelCase(StringUtils.cleanString(name)).capitalize
 
+  private type RawFieldType = String
+  private type RawFieldName = String
+  private type Field = String
+  private type CollectionStack = Int
+  private type Fields =
+    Iterable[(RawFieldType, RawFieldName, CollectionStack, Field)]
+
   final case class ComplexClass(
-      fields: Iterable[String],
+      name: String,
+      fields: Fields,
       classes: Iterable[SimpleClass] = Vector.empty,
       cStack: Int = 0,
       isObj: Boolean = false
@@ -164,50 +174,108 @@ object SchemaGenerator extends LazyLogging {
     override def onNull: Vector[ComplexClass] =
       Vector(
         ComplexClass(
-          Vector(simpleString(name, defaultOnNullType, collectionStack))
+          name,
+          Vector(
+            (
+              defaultOnNullType,
+              name,
+              collectionStack,
+              simpleString(name, defaultOnNullType, collectionStack)
+            )
+          )
         )
       )
 
     override def onBoolean(value: Boolean): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "Boolean", collectionStack)))
+        ComplexClass(
+          name,
+          Vector(
+            (
+              "Boolean",
+              name,
+              collectionStack,
+              simpleString(name, "Boolean", collectionStack)
+            )
+          )
+        )
       )
 
     override def onNumber(value: JsonNumber): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "Double", collectionStack)))
+        ComplexClass(
+          name,
+          Vector(
+            (
+              "Double",
+              name,
+              collectionStack,
+              simpleString(name, "Double", collectionStack)
+            )
+          )
+        )
       )
 
     override def onString(value: String): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "String", collectionStack)))
-      )
-
-    override def onArray(value: Vector[Json]): Vector[ComplexClass] =
-      value.headOption
-        .map(
-          _.foldWith(
-            this.copy(isRoot = false, collectionStack = collectionStack + 1)
-          )
-        )
-        .getOrElse(
+        ComplexClass(
+          name,
           Vector(
-            ComplexClass(
-              Vector(simpleString(name, "String", collectionStack + 1))
+            (
+              "String",
+              name,
+              collectionStack,
+              simpleString(name, "String", collectionStack)
             )
           )
         )
+      )
+
+    override def onArray(value: Vector[Json]): Vector[ComplexClass] = {
+      val u = value
+        .flatMap(
+          _.foldWith(
+            this.copy(isRoot = false, collectionStack = collectionStack + 1)
+          )
+        ) match {
+        case array
+            if array.isEmpty => // if empty default to collection with default type
+          Vector(
+            ComplexClass(
+              name,
+              Vector(
+                (
+                  defaultOnNullType,
+                  name,
+                  collectionStack + 1,
+                  simpleString(name, defaultOnNullType, collectionStack + 1)
+                )
+              )
+            )
+          )
+        case nonEmptyArray =>
+          nonEmptyArray.distinct // keep only uniques
+      }
+      u
+    }
+    //        .getOrElse(
+    //          Vector(
+    //            ComplexClass(
+    //              Vector(simpleString(name, "String", collectionStack + 1))
+    //            )
+    //          )
+    //        )
 
     override def onObject(value: JsonObject): Vector[ComplexClass] = {
 
-      val fieldsOrClasses: Iterable[ComplexClass] = value.toMap
+      val fieldsOrClasses1 = value.toMap
         .map {
           case (objName, jsonObjs) =>
             (objName, jsonObjs.asArray match {
               case Some(objArr) =>
                 // filter multiple json objects
-                objArr.headOption
-                  .map(
+                objArr
+                  .flatMap(
                     _.foldWith(
                       this.copy(
                         name = objName,
@@ -217,9 +285,14 @@ object SchemaGenerator extends LazyLogging {
                       )
                     )
                   )
-                  .getOrElse(
-                    Vector.empty
-                  )
+
+              //                match {
+              //                  case nonEmpty => nonEmpty // todo JH double check
+              //                  case array if array.isEmpty => Vector.empty
+              //                }
+              //                  .getOrElse(
+              //                    Vector.empty
+              //                  )
               case _ =>
                 jsonObjs.foldWith(
                   this.copy(
@@ -231,65 +304,189 @@ object SchemaGenerator extends LazyLogging {
                 )
             })
         }
-        .flatMap {
-          case (className, cplxClasses) if isRoot && cplxClasses.isEmpty =>
-            // empty case class @ root level
-            Vector(
-              ComplexClass(
-                Vector(""),
-                Vector(SimpleClass(className, Vector.empty))
-              )
+
+      val fieldsOrClasses = fieldsOrClasses1.flatMap {
+        case (className, cplxClasses) if isRoot && cplxClasses.isEmpty =>
+          // empty case class @ root level
+          Vector(
+            ComplexClass(
+              name,
+              Vector.empty,
+              Vector(SimpleClass(className, Vector.empty))
             )
-          case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
-            // case class @ root level
-            cplxClasses
-              .map(
-                cplxClass =>
-                  ComplexClass(
-                    Vector(""),
-                    cplxClasses.flatMap(_.classes) ++ Vector(
-                      SimpleClass(className, cplxClass.fields)
-                    )
+          )
+        case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
+          // case class @ root level
+          val reducedClasses = collapseClasses(
+            cplxClasses,
+            defaultOnNullType,
+            collectionStack,
+            isObj
+          )
+
+          val u = reducedClasses
+            .map(
+              cplxClass =>
+                ComplexClass(
+                  name,
+                  Vector.empty,
+                  cplxClasses.flatMap(_.classes) ++ Vector(
+                    SimpleClass(className, cplxClass.fields.map(_._4)) // todo JH adapt + collapse field types
                   )
-              )
-          case (cName, cplxClasses)
-              if cplxClasses.size == 1 &&
-                cplxClasses.head.isObj &&
-                !isRoot =>
-            // complex nested case class
-            val field =
-              simpleString(cName, className(cName), cplxClasses.head.cStack)
-            Vector(
-              ComplexClass(
-                Vector(field),
-                cplxClasses.flatMap(_.classes) :+ SimpleClass(
-                  cName,
-                  cplxClasses.head.fields
                 )
+            )
+          u
+        case (cName, cplxClasses)
+            //          if cplxClasses.size == 1 &&
+            if cplxClasses.head.isObj &&
+              !isRoot =>
+          // complex nested case class
+          val field =
+            simpleString(cName, className(cName), cplxClasses.head.cStack)
+          Vector(
+            ComplexClass(
+              name,
+              Vector((className(cName), cName, 0, field)),
+              cplxClasses.flatMap(_.classes) :+ SimpleClass(
+                cName,
+                cplxClasses.head.fields
+                  .map(_._4) // todo JH adapt in order to double check complex classes with default type
               )
             )
-          case (_, cplxClasses) =>
-            // if not root level and not an object, map the field vals
-            Vector(
-              ComplexClass(
+          )
+        case (_, cplxClasses) =>
+          // if not root level and not an object, map the field vals
+          Vector(
+            ComplexClass(
+              name,
+              collapseSameFieldTypes(
                 cplxClasses.flatMap(_.fields),
-                cplxClasses.flatMap(_.classes)
-              )
+                defaultOnNullType
+              ), // todo replace map with collapse field types
+              cplxClasses.flatMap(_.classes)
             )
-        }
+          )
+      }
 
       Vector(
         ComplexClass(
+          name,
           fieldsOrClasses
             .flatMap(_.fields)
-            .filterNot(_.isBlank)
-            .filterNot(_.isEmpty),
+            .filterNot(_._4.isBlank) // todo jh adapt
+            .filterNot(_._4.isEmpty), // todo jh adapt
           fieldsOrClasses.flatMap(_.classes),
           collectionStack,
           isObj
         )
       )
     }
+  }
+
+  private def collapseSameFieldTypes(
+      fields: Fields,
+      defaultOnNullType: String
+  ): Fields =
+    // check if field types contains a non default value
+    // if any use this one, of not, keep string
+    fields.filterNot(_._1.equals(defaultOnNullType)).toSet match {
+      case noneDefaultType if noneDefaultType.size == 1 =>
+        noneDefaultType.headOption
+      case noneDefaultType if noneDefaultType.size > 1 =>
+        throw new IllegalArgumentException(
+          s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+        )
+      case empty if empty.isEmpty =>
+        fields
+    }
+
+  private def collapseClasses(
+      classes: Seq[ComplexClass],
+      defaultOnNullType: String,
+      collectionStack: Int,
+      isObj: Boolean
+  ) = {
+
+    // todo collapse classes + fields
+
+    val x = classes.distinct.groupBy(_.name).flatMap {
+      case (_, distClasses)
+          if distClasses.size == 1 => // all classes are equal, return only one of them
+        distClasses
+      case (name, distClasses) => // multiple classes with same name but maybe different fields, try to merge them ...
+        // merge and collapse fields
+        val y = distClasses
+          .flatMap(_.fields)
+          .groupMap(x => (x._2, x._3))(_._1)
+        val allFields = distClasses
+          .flatMap(_.fields)
+          .groupMap(x => (x._2, x._3))(_._1)
+          .flatMap {
+            case ((name, colStack), types) =>
+              types.distinct.filterNot(_.equals(defaultOnNullType)) match {
+                case noneDefaultType if noneDefaultType.size == 1 =>
+                  noneDefaultType.headOption.map(
+                    fieldType =>
+                      (
+                        fieldType,
+                        name,
+                        colStack,
+                        simpleString(name, fieldType, colStack)
+                      )
+                  )
+//              case noneDefaultType if name.equals(name) => // fields @ ma
+                case noneDefaultType if noneDefaultType.size > 1 =>
+                  throw new IllegalArgumentException(
+                    s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+                  )
+                case empty
+                    if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
+                  Some(
+                    defaultOnNullType,
+                    name,
+                    colStack,
+                    simpleString(name, defaultOnNullType, colStack)
+                  )
+              }
+          }
+        Iterable(
+          ComplexClass(
+            name,
+            allFields,
+            distClasses.flatMap(_.classes),
+            collectionStack,
+            isObj
+          )
+        )
+    }
+
+    //    classes.distinct match {
+    //      case distClasses if distClasses.size == 1 => // all classes are equal, return only one of them
+    //        distClasses
+    //      case distClasses => // multiple classes with same name but maybe different fields, try to merge them ...
+    //        val s = distClasses
+    //
+    //
+    //        val fields = distClasses.flatMap(_.fields)
+    //          .groupMap(x => (x._2, x._3))(_._1).flatMap {
+    //          case ((name, colStack), types) =>
+    //            types.distinct.filterNot(_.equals(defaultOnNullType)) match {
+    //              case noneDefaultType if noneDefaultType.size == 1 =>
+    //                noneDefaultType.headOption.map(fieldType => (fieldType, name, colStack, simpleString(name, fieldType, colStack)))
+    //              case noneDefaultType if noneDefaultType.size > 1 =>
+    //                throw new IllegalArgumentException(s"More than one field type identified: ${noneDefaultType.mkString(",")}")
+    //              case empty if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
+    //                Some(defaultOnNullType, name, colStack, simpleString(name, defaultOnNullType, colStack))
+    //            }
+    //        }
+    //
+    //        val k = ""
+    //
+    //    }
+
+    val s = ""
+
+    x
   }
 
 }
