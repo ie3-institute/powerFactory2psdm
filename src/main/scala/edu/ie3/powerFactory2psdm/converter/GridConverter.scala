@@ -26,10 +26,10 @@ case object GridConverter {
   /**
     * Converts the grid elements of the PowerFactory grid
     *
-    * @param rawPfGrid the raw parsed PowerFactoryGrid
+    * @param rawGrid the raw parsed PowerFactoryGrid
     */
-  def convertGridElements(rawPfGrid: RawGridModel): Unit = {
-    val grid = GridModel.build(rawPfGrid)
+  def convertGridElements(rawGrid: RawGridModel): Unit = {
+    val grid = GridModel.build(rawGrid)
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
@@ -37,7 +37,6 @@ case object GridConverter {
     val psdmNodes = subnets.flatMap(
       subnet => convertNodesOfSubnet(subnet, nodeId2node)
     )
-    println("")
   }
 
   /**
