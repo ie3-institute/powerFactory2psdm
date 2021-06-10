@@ -17,6 +17,9 @@ import tech.units.indriya.unit.Units.AMPERE
 import java.util.UUID
 import javax.measure.MetricPrefix
 
+/**
+  * Functionality to translate a [[LineType]] to a [[LineTypeInput]]
+  */
 object LineTypeConverter {
 
   def convert(input: LineType): LineTypeInput = {
