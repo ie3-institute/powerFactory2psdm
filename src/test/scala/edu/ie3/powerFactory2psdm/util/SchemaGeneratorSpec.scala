@@ -392,7 +392,7 @@ class SchemaGeneratorSpec
          |      AccessTime: Option[Double],
          |      GPSlon: Option[Double],
          |      nestedArray: Option[List[Option[List[Option[String]]]]],
-         |      cpZone: Option[CpZone],
+         |      cpZone: Option[List[Option[CpZone]]],
          |      vmin: Option[Double],
          |      GPSlat: Option[Double],
          |      foo: Option[Foo],

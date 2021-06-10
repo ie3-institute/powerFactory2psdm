@@ -13,7 +13,6 @@ import io.circe.Json.Folder
 import io.circe.{Json, JsonNumber, JsonObject}
 import io.circe.parser._
 
-import scala.collection.immutable
 import scala.io.Source
 
 object SchemaGenerator extends LazyLogging {
@@ -70,8 +69,6 @@ object SchemaGenerator extends LazyLogging {
 
     json.asObject match {
       case Some(jsonObject) if !jsonObject.isEmpty =>
-        val x = json
-          .foldWith(ClassFolder(className, `package`))
         val classes: Iterable[SimpleClass] =
           json
             .foldWith(ClassFolder(className, `package`))
@@ -120,31 +117,34 @@ object SchemaGenerator extends LazyLogging {
 
   }
 
-  private def simpleString(
-      name: String,
-      `type`: String,
-      collectionStack: Int
-  ): String =
-    if (collectionStack == 0) {
-      s"$name: Option[${`type`}]"
-    } else {
-      s"$name:" + (0 until collectionStack)
-        .foldLeft("Option[")((cur, _) => cur + s"List[Option[") + `type` + "]" * (collectionStack * 2 + 1)
-    }
-
   private def className(name: String) =
     StringUtils.snakeCaseToCamelCase(StringUtils.cleanString(name)).capitalize
 
-  private type RawFieldType = String
-  private type RawFieldName = String
-  private type Field = String
-  private type CollectionStack = Int
-  private type Fields =
-    Iterable[(RawFieldType, RawFieldName, CollectionStack, Field)]
+  final case class FieldMeta(
+      rawFieldType: String,
+      rawFieldName: String,
+      collectionStack: Int
+  ) {
+
+    def fieldString: String =
+      simpleString(rawFieldName, rawFieldType, collectionStack)
+
+    private def simpleString(
+        name: String,
+        `type`: String,
+        collectionStack: Int
+    ): String =
+      if (collectionStack == 0) {
+        s"$name: Option[${`type`}]"
+      } else {
+        s"$name:" + (0 until collectionStack)
+          .foldLeft("Option[")((cur, _) => cur + s"List[Option[") + `type` + "]" * (collectionStack * 2 + 1)
+      }
+  }
 
   final case class ComplexClass(
       name: String,
-      fields: Fields,
+      fields: Iterable[FieldMeta],
       classes: Iterable[SimpleClass] = Vector.empty,
       cStack: Int = 0,
       isObj: Boolean = false
@@ -177,12 +177,7 @@ object SchemaGenerator extends LazyLogging {
         ComplexClass(
           name,
           Vector(
-            (
-              defaultOnNullType,
-              name,
-              collectionStack,
-              simpleString(name, defaultOnNullType, collectionStack)
-            )
+            FieldMeta(defaultOnNullType, name, collectionStack)
           )
         )
       )
@@ -192,12 +187,7 @@ object SchemaGenerator extends LazyLogging {
         ComplexClass(
           name,
           Vector(
-            (
-              "Boolean",
-              name,
-              collectionStack,
-              simpleString(name, "Boolean", collectionStack)
-            )
+            FieldMeta("Boolean", name, collectionStack)
           )
         )
       )
@@ -207,12 +197,7 @@ object SchemaGenerator extends LazyLogging {
         ComplexClass(
           name,
           Vector(
-            (
-              "Double",
-              name,
-              collectionStack,
-              simpleString(name, "Double", collectionStack)
-            )
+            FieldMeta("Double", name, collectionStack)
           )
         )
       )
@@ -222,12 +207,7 @@ object SchemaGenerator extends LazyLogging {
         ComplexClass(
           name,
           Vector(
-            (
-              "String",
-              name,
-              collectionStack,
-              simpleString(name, "String", collectionStack)
-            )
+            FieldMeta("String", name, collectionStack)
           )
         )
       )
@@ -245,12 +225,7 @@ object SchemaGenerator extends LazyLogging {
             ComplexClass(
               name,
               Vector(
-                (
-                  defaultOnNullType,
-                  name,
-                  collectionStack + 1,
-                  simpleString(name, defaultOnNullType, collectionStack + 1)
-                )
+                FieldMeta(defaultOnNullType, name, collectionStack + 1)
               )
             )
           )
@@ -312,7 +287,7 @@ object SchemaGenerator extends LazyLogging {
                 name,
                 Vector.empty,
                 cplxClasses.flatMap(_.classes) ++ Vector(
-                  SimpleClass(className, cplxClass.fields.map(_._4)) // todo JH adapt + collapse field types
+                  SimpleClass(className, cplxClass.fields.map(_.fieldString))
                 )
               )
           )
@@ -322,16 +297,15 @@ object SchemaGenerator extends LazyLogging {
               cplxClasses.head.isObj &&
               !isRoot =>
           // complex nested case class
-          val field =
-            simpleString(cName, className(cName), cplxClasses.head.cStack)
           Vector(
             ComplexClass(
               name,
-              Vector((className(cName), cName, 0, field)),
+              Vector(
+                FieldMeta(className(cName), cName, cplxClasses.head.cStack)
+              ),
               cplxClasses.flatMap(_.classes) :+ SimpleClass(
                 cName,
-                cplxClasses.head.fields
-                  .map(_._4) // todo JH adapt in order to double check complex classes with default type
+                cplxClasses.head.fields.map(_.fieldString)
               )
             )
           )
@@ -354,8 +328,8 @@ object SchemaGenerator extends LazyLogging {
           name,
           fieldsOrClasses
             .flatMap(_.fields)
-            .filterNot(_._4.isBlank)
-            .filterNot(_._4.isEmpty),
+            .filterNot(_.fieldString.isBlank)
+            .filterNot(_.fieldString.isEmpty),
           fieldsOrClasses.flatMap(_.classes),
           collectionStack,
           isObj
@@ -365,12 +339,12 @@ object SchemaGenerator extends LazyLogging {
   }
 
   private def collapseSameFieldTypes(
-      fields: Fields,
+      fields: Iterable[FieldMeta],
       defaultOnNullType: String
-  ): Fields =
+  ): Iterable[FieldMeta] = {
     // check if field types contains a non default value
     // if any use this one, of not, keep string
-    fields.filterNot(_._1.equals(defaultOnNullType)).toSet match {
+    fields.filterNot(_.rawFieldType.equals(defaultOnNullType)).toSet match {
       case noneDefaultType if noneDefaultType.size == 1 =>
         noneDefaultType.headOption
       case noneDefaultType if noneDefaultType.size > 1 =>
@@ -378,8 +352,11 @@ object SchemaGenerator extends LazyLogging {
           s"More than one field type identified: ${noneDefaultType.mkString(",")}"
         )
       case empty if empty.isEmpty =>
+        // we just filtered the defaultOnNullType and the vector is empty
+        // => field is the same as the defaultType and we can just return
         fields
     }
+  }
 
   private def collapseClasses(
       classes: Seq[ComplexClass],
@@ -394,18 +371,19 @@ object SchemaGenerator extends LazyLogging {
       // merge and collapse fields
       val allFields = distClasses
         .flatMap(_.fields)
-        .groupMap(x => (x._2, x._3))(_._1)
+        .groupMap(
+          fieldMeta => (fieldMeta.rawFieldName, fieldMeta.collectionStack)
+        )(_.rawFieldType)
         .flatMap {
           case ((name, colStack), types) =>
             types.distinct.filterNot(_.equals(defaultOnNullType)) match {
               case noneDefaultType if noneDefaultType.size == 1 =>
                 noneDefaultType.headOption.map(
                   fieldType =>
-                    (
+                    FieldMeta(
                       fieldType,
                       name,
-                      colStack,
-                      simpleString(name, fieldType, colStack)
+                      colStack
                     )
                 )
               case noneDefaultType if noneDefaultType.size > 1 =>
@@ -415,10 +393,11 @@ object SchemaGenerator extends LazyLogging {
               case empty
                   if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
                 Some(
-                  defaultOnNullType,
-                  name,
-                  colStack,
-                  simpleString(name, defaultOnNullType, colStack)
+                  FieldMeta(
+                    defaultOnNullType,
+                    name,
+                    colStack
+                  )
                 )
             }
         }
