@@ -13,6 +13,7 @@ import io.circe.Json.Folder
 import io.circe.{Json, JsonNumber, JsonObject}
 import io.circe.parser._
 
+import scala.collection.immutable
 import scala.io.Source
 
 object SchemaGenerator extends LazyLogging {
@@ -231,8 +232,8 @@ object SchemaGenerator extends LazyLogging {
         )
       )
 
-    override def onArray(value: Vector[Json]): Vector[ComplexClass] = {
-      val u = value
+    override def onArray(value: Vector[Json]): Vector[ComplexClass] =
+      value
         .flatMap(
           _.foldWith(
             this.copy(isRoot = false, collectionStack = collectionStack + 1)
@@ -256,15 +257,6 @@ object SchemaGenerator extends LazyLogging {
         case nonEmptyArray =>
           nonEmptyArray.distinct // keep only uniques
       }
-      u
-    }
-    //        .getOrElse(
-    //          Vector(
-    //            ComplexClass(
-    //              Vector(simpleString(name, "String", collectionStack + 1))
-    //            )
-    //          )
-    //        )
 
     override def onObject(value: JsonObject): Vector[ComplexClass] = {
 
@@ -285,14 +277,6 @@ object SchemaGenerator extends LazyLogging {
                       )
                     )
                   )
-
-              //                match {
-              //                  case nonEmpty => nonEmpty // todo JH double check
-              //                  case array if array.isEmpty => Vector.empty
-              //                }
-              //                  .getOrElse(
-              //                    Vector.empty
-              //                  )
               case _ =>
                 jsonObjs.foldWith(
                   this.copy(
@@ -317,28 +301,25 @@ object SchemaGenerator extends LazyLogging {
           )
         case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
           // case class @ root level
-          val reducedClasses = collapseClasses(
+          collapseClasses(
             cplxClasses,
             defaultOnNullType,
             collectionStack,
             isObj
+          ).map(
+            cplxClass =>
+              ComplexClass(
+                name,
+                Vector.empty,
+                cplxClasses.flatMap(_.classes) ++ Vector(
+                  SimpleClass(className, cplxClass.fields.map(_._4)) // todo JH adapt + collapse field types
+                )
+              )
           )
 
-          val u = reducedClasses
-            .map(
-              cplxClass =>
-                ComplexClass(
-                  name,
-                  Vector.empty,
-                  cplxClasses.flatMap(_.classes) ++ Vector(
-                    SimpleClass(className, cplxClass.fields.map(_._4)) // todo JH adapt + collapse field types
-                  )
-                )
-            )
-          u
         case (cName, cplxClasses)
-            //          if cplxClasses.size == 1 &&
-            if cplxClasses.head.isObj &&
+            if cplxClasses.nonEmpty &&
+              cplxClasses.head.isObj &&
               !isRoot =>
           // complex nested case class
           val field =
@@ -362,7 +343,7 @@ object SchemaGenerator extends LazyLogging {
               collapseSameFieldTypes(
                 cplxClasses.flatMap(_.fields),
                 defaultOnNullType
-              ), // todo replace map with collapse field types
+              ),
               cplxClasses.flatMap(_.classes)
             )
           )
@@ -373,8 +354,8 @@ object SchemaGenerator extends LazyLogging {
           name,
           fieldsOrClasses
             .flatMap(_.fields)
-            .filterNot(_._4.isBlank) // todo jh adapt
-            .filterNot(_._4.isEmpty), // todo jh adapt
+            .filterNot(_._4.isBlank)
+            .filterNot(_._4.isEmpty),
           fieldsOrClasses.flatMap(_.classes),
           collectionStack,
           isObj
@@ -405,88 +386,51 @@ object SchemaGenerator extends LazyLogging {
       defaultOnNullType: String,
       collectionStack: Int,
       isObj: Boolean
-  ) = {
-
-    // todo collapse classes + fields
-
-    val x = classes.distinct.groupBy(_.name).flatMap {
-      case (_, distClasses)
-          if distClasses.size == 1 => // all classes are equal, return only one of them
-        distClasses
-      case (name, distClasses) => // multiple classes with same name but maybe different fields, try to merge them ...
-        // merge and collapse fields
-        val y = distClasses
-          .flatMap(_.fields)
-          .groupMap(x => (x._2, x._3))(_._1)
-        val allFields = distClasses
-          .flatMap(_.fields)
-          .groupMap(x => (x._2, x._3))(_._1)
-          .flatMap {
-            case ((name, colStack), types) =>
-              types.distinct.filterNot(_.equals(defaultOnNullType)) match {
-                case noneDefaultType if noneDefaultType.size == 1 =>
-                  noneDefaultType.headOption.map(
-                    fieldType =>
-                      (
-                        fieldType,
-                        name,
-                        colStack,
-                        simpleString(name, fieldType, colStack)
-                      )
-                  )
-//              case noneDefaultType if name.equals(name) => // fields @ ma
-                case noneDefaultType if noneDefaultType.size > 1 =>
-                  throw new IllegalArgumentException(
-                    s"More than one field type identified: ${noneDefaultType.mkString(",")}"
-                  )
-                case empty
-                    if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
-                  Some(
-                    defaultOnNullType,
-                    name,
-                    colStack,
-                    simpleString(name, defaultOnNullType, colStack)
-                  )
-              }
-          }
-        Iterable(
-          ComplexClass(
-            name,
-            allFields,
-            distClasses.flatMap(_.classes),
-            collectionStack,
-            isObj
-          )
+  ): Iterable[ComplexClass] = classes.distinct.groupBy(_.name).flatMap {
+    case (_, distClasses)
+        if distClasses.size == 1 => // all classes are equal, return only one of them
+      distClasses
+    case (name, distClasses) => // multiple classes with same name but maybe different fields, try to merge them ...
+      // merge and collapse fields
+      val allFields = distClasses
+        .flatMap(_.fields)
+        .groupMap(x => (x._2, x._3))(_._1)
+        .flatMap {
+          case ((name, colStack), types) =>
+            types.distinct.filterNot(_.equals(defaultOnNullType)) match {
+              case noneDefaultType if noneDefaultType.size == 1 =>
+                noneDefaultType.headOption.map(
+                  fieldType =>
+                    (
+                      fieldType,
+                      name,
+                      colStack,
+                      simpleString(name, fieldType, colStack)
+                    )
+                )
+              case noneDefaultType if noneDefaultType.size > 1 =>
+                throw new IllegalArgumentException(
+                  s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+                )
+              case empty
+                  if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
+                Some(
+                  defaultOnNullType,
+                  name,
+                  colStack,
+                  simpleString(name, defaultOnNullType, colStack)
+                )
+            }
+        }
+      Iterable(
+        ComplexClass(
+          name,
+          allFields,
+          distClasses.flatMap(_.classes),
+          collectionStack,
+          isObj
         )
-    }
-
-    //    classes.distinct match {
-    //      case distClasses if distClasses.size == 1 => // all classes are equal, return only one of them
-    //        distClasses
-    //      case distClasses => // multiple classes with same name but maybe different fields, try to merge them ...
-    //        val s = distClasses
-    //
-    //
-    //        val fields = distClasses.flatMap(_.fields)
-    //          .groupMap(x => (x._2, x._3))(_._1).flatMap {
-    //          case ((name, colStack), types) =>
-    //            types.distinct.filterNot(_.equals(defaultOnNullType)) match {
-    //              case noneDefaultType if noneDefaultType.size == 1 =>
-    //                noneDefaultType.headOption.map(fieldType => (fieldType, name, colStack, simpleString(name, fieldType, colStack)))
-    //              case noneDefaultType if noneDefaultType.size > 1 =>
-    //                throw new IllegalArgumentException(s"More than one field type identified: ${noneDefaultType.mkString(",")}")
-    //              case empty if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
-    //                Some(defaultOnNullType, name, colStack, simpleString(name, defaultOnNullType, colStack))
-    //            }
-    //        }
-    //
-    //        val k = ""
-    //
-    //    }
-
-    val s = ""
-
-    x
+      )
   }
 
 }
