@@ -1,44 +1,50 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
 
 /**
- * Transformer type
- *
- * @param id       Identifier
- * @param sRated   Rated apparent power in MVA
- * @param vRatedA  Rated voltage of the high voltage winding in kW
- * @param vRatedB  Rated voltage of the low voltage winding in kW
- * @param dV       Voltage magnitude deviation per tap position in %
- * @param dPhi     Voltage angle deviation per tap position in °
- * @param tapSide  Selection of winding, where the tap changer is installed (0 = OS, 1 = US).
- * @param tapNeutr Neutral tap position
- * @param tapMin   Minimum available tap position
- * @param tapMax   Maximum available tap position
- * @param uk       Short circuit current in pu
- * @param iNoLoad  No load current in %
- * @param pFe      Iron losses in kW
- * @param pCu      Copper losses in kW
- */
+  * Transformer type
+  *
+  * @param id       Identifier
+  * @param sRated   Rated apparent power in MVA
+  * @param vRatedA  Rated voltage of the high voltage winding in kW
+  * @param vRatedB  Rated voltage of the low voltage winding in kW
+  * @param dV       Voltage magnitude deviation per tap position in %
+  * @param dPhi     Voltage angle deviation per tap position in °
+  * @param tapSide  Selection of winding, where the tap changer is installed (0 = OS, 1 = US).
+  * @param tapNeutr Neutral tap position
+  * @param tapMin   Minimum available tap position
+  * @param tapMax   Maximum available tap position
+  * @param uk       Short circuit current in pu
+  * @param iNoLoad  No load current in %
+  * @param pFe      Iron losses in kW
+  * @param pCu      Copper losses in kW
+  */
 case class TransformerType2w(
-                              id: String,
-                              sRated: Double,
-                              vRatedA: Double,
-                              vRatedB: Double,
-                              dV: Double,
-                              dPhi: Double,
-                              tapSide: Double,
-                              tapNeutr: Double,
-                              tapMin: Double,
-                              tapMax:  Double,
-                              uk: Double,
-                              iNoLoad: Double,
-                              pFe: Double,
-                              pCu: Double
-                            ) {
+    id: String,
+    sRated: Double,
+    vRatedA: Double,
+    vRatedB: Double,
+    dV: Double,
+    dPhi: Double,
+    tapSide: Double,
+    tapNeutr: Double,
+    tapMin: Double,
+    tapMax: Double,
+    uk: Double,
+    iNoLoad: Double,
+    pFe: Double,
+    pCu: Double
+) {
 
-  def build(rawType: TrafoTypes2w):TransformerType2w = {
+  def build(rawType: TrafoTypes2w): TransformerType2w = {
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
@@ -99,11 +105,11 @@ case class TransformerType2w(
       )
     )
 
-     val uk = rawType.uktr.getOrElse(
-       throw MissingParameterException(
-         s"There is no short circuit voltage defined for transformer-type: $id"
-       )
-     )
+    val uk = rawType.uktr.getOrElse(
+      throw MissingParameterException(
+        s"There is no short circuit voltage defined for transformer-type: $id"
+      )
+    )
 
     val iNoLoad = rawType.curmg.getOrElse(
       throw MissingParameterException(
