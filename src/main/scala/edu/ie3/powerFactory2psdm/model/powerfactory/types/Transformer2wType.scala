@@ -27,7 +27,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
   * @param pFe      Iron losses in kW
   * @param pCu      Copper losses in kW
   */
-case class TransformerType2w(
+case class Transformer2wType(
     id: String,
     sRated: Double,
     vRatedA: Double,
@@ -42,9 +42,11 @@ case class TransformerType2w(
     iNoLoad: Double,
     pFe: Double,
     pCu: Double
-) {
+)
 
-  def build(rawType: TrafoTypes2w): TransformerType2w = {
+object Transformer2wType{
+
+  def build(rawType: TrafoTypes2w): Transformer2wType = {
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
@@ -129,7 +131,7 @@ case class TransformerType2w(
       )
     )
 
-    TransformerType2w(
+    Transformer2wType(
       id,
       sRated,
       vRatedA,
