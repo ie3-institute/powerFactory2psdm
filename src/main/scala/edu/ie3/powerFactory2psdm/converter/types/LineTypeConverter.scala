@@ -6,14 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.powerFactory2psdm.model.powerfactory.LineType
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
 import tech.units.indriya.quantity.Quantities
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  KILOVOLT,
-  OHM_PER_KILOMETRE,
-  SIEMENS_PER_KILOMETRE
-}
+import edu.ie3.util.quantities.PowerSystemUnits.{KILOVOLT, OHM_PER_KILOMETRE, SIEMENS_PER_KILOMETRE}
 import tech.units.indriya.unit.Units.AMPERE
+
 import java.util.UUID
 import javax.measure.MetricPrefix
 

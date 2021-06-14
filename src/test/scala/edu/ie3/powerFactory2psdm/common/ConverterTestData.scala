@@ -11,18 +11,14 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  LineType,
-  Node
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, Node}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities

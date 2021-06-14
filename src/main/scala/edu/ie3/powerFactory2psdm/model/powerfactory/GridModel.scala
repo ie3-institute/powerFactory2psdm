@@ -8,6 +8,7 @@ package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.exception.pf.MissingGridElementException
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
 
 final case class GridModel(
     nodes: List[Node],

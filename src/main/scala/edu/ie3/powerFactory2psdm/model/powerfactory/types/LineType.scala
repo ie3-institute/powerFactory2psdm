@@ -4,12 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.powerfactory.types
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 
 /**
