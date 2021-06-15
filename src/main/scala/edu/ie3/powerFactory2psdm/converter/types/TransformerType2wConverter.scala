@@ -10,12 +10,12 @@ import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2wType
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
+import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
 import edu.ie3.util.quantities.PowerSystemUnits.{
   DEGREE_GEOM,
-  KILOVOLT,
   VOLTAMPERE
 }
+import math.{pow, sqrt}
 
 import java.util.UUID
 import javax.measure.MetricPrefix
@@ -25,18 +25,27 @@ object TransformerType2wConverter {
   // todo DO SOME PROPER TESTING
   def convert(input: Transformer2wType): Transformer2WTypeInput = {
 
-    val iRated = input.sRated / (math.sqrt(3) * input.vRatedA) // MVA / kV -> kA
+    val sRated = input.sRated * 1e6
+    val vRatedA = input.vRatedA * 1e3
+    val vRatedB = input.vRatedB * 1e3
+    val pCu = input.pCu * 1e3
+    val pFe = input.pFe * 1e3
+    val uk = (input.uk / 100) * vRatedA
+
+
+    val iRated = sRated / (math.sqrt(3) * vRatedA)
 
     // short circuit experiment
-    val rk = input.pCu / (3 * iRated) // kW / kA -> Ohm
-    val zk = (input.vRatedA / math.sqrt(3)) / iRated // kV / kA -> Ohm
-    val xk = math.sqrt(math.pow(zk, 2) - math.pow(rk, 2)) // Ohm
+    val rk = pCu / (3 * pow(iRated, 2))
+    val zk = (uk / sqrt(3)) / iRated
+    val xk = sqrt(pow(zk, 2) - pow(rk, 2))
 
     // no load experiment
-    val iNoLoadNom = input.iNoLoad * iRated
-    val zNoLoad = (input.vRatedA / math.sqrt(3)) / iNoLoadNom // kV / kA -> Ohm
-    val rp = math.pow(input.vRatedA, 2) / (input.pFe * 10e-3) // MV / MW -> Ohm
-    val xh = 1 / math.sqrt((1 / math.pow(zNoLoad, 2)) - 1 / math.pow(rp, 2)) // -> Ohm
+    val iNoLoadNom = (input.iNoLoad / 100)  * iRated
+    val zNoLoad = (vRatedA / sqrt(3)) / iNoLoadNom
+    // fixme check why chris has a factor of 3 here
+    val rp = pow(vRatedA, 2) / pFe
+    val xh = 1 / sqrt((1 / pow(zNoLoad, 2)) - 1 / pow(rp, 2))
 
     val tapSide = input.tapSide match {
       case 0 => false
@@ -53,8 +62,8 @@ object TransformerType2wConverter {
       Quantities.getQuantity(rk, OHM),
       Quantities.getQuantity(xk, OHM),
       Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
-      Quantities.getQuantity(input.vRatedA, KILOVOLT),
-      Quantities.getQuantity(input.vRatedB, KILOVOLT),
+      Quantities.getQuantity(vRatedA, VOLT),
+      Quantities.getQuantity(vRatedB, VOLT),
       Quantities.getQuantity(1 / rp, SIEMENS),
       Quantities.getQuantity(1 / xh, SIEMENS),
       Quantities.getQuantity(input.dV, PERCENT),

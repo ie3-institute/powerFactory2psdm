@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.datamodel.models.input.connector.`type`.{LineTypeInput, Transformer2WTypeInput}
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
@@ -17,18 +17,20 @@ import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  Node
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.{LineType, Transformer2wType}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, Node}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities
+import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
+import edu.ie3.util.quantities.PowerSystemUnits.{
+  DEGREE_GEOM,
+  KILOVOLT,
+  VOLTAMPERE
+}
 
 import java.util.UUID
+import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
@@ -240,6 +242,55 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val transformerTypes = Map(
+    "SomeTrafo2wType" -> ConversionPair(
+      Transformer2wType(
+        id = "SomeTrafo2wType",
+        sRated = 40d,
+        vRatedA = 110d,
+        vRatedB = 10d,
+        dV = 2.5,
+        dPhi = 5d,
+        tapSide = 0,
+        tapNeutr = 0,
+        tapMin = -10,
+        tapMax = 10,
+        uk = 5,
+        iNoLoad = 1,
+        pFe = 10,
+        pCu = 6)
+        ,
+      new Transformer2WTypeInput(
+        UUID.randomUUID(),
+        "SomeTrafo2wType",
+        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
+        Quantities.getQuantity(15.1249319, OHM),
+        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
+        Quantities.getQuantity(110d, KILOVOLT),
+        Quantities.getQuantity(10d, KILOVOLT),
+        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
+        Quantities
+          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
+          .to(MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(2.5, PERCENT),
+        Quantities.getQuantity(5d, DEGREE_GEOM),
+        false,
+        0,
+        -10,
+        10
+      )
+    )
+  )
+
+  def getTransformer2wType(key: String): ConversionPair[Transformer2wType, Transformer2WTypeInput] = {
+    transformerTypes.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Transformer2wType.getClass.getSimpleName} with key: $key "
       )
     )
   }

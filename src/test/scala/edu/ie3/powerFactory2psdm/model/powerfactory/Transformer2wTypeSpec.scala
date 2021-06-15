@@ -6,9 +6,9 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2wType
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class TransformerType2wSpec extends Matchers with AnyWordSpecLike{
+class Transformer2wTypeSpec extends Matchers with AnyWordSpecLike{
 
- "A TransformerType2w" should {
+ "A Transformer2wTypeSpec" should {
 
   val id = "Some2wTransformerType"
 

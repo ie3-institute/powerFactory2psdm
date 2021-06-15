@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
 
 /**
@@ -22,7 +23,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
   * @param tapNeutr Neutral tap position
   * @param tapMin   Minimum available tap position
   * @param tapMax   Maximum available tap position
-  * @param uk       Short circuit current in pu
+  * @param uk       Short circuit voltage in %
   * @param iNoLoad  No load current in %
   * @param pFe      Iron losses in kW
   * @param pCu      Copper losses in kW
@@ -42,7 +43,7 @@ case class Transformer2wType(
     iNoLoad: Double,
     pFe: Double,
     pCu: Double
-)
+) extends EntityModel
 
 object Transformer2wType{
 
