@@ -6,10 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException, MissingParameterException}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
 
 /**
@@ -24,7 +21,8 @@ final case class Line(
     nodeAId: String,
     nodeBId: String,
     typId: String,
-    length: Double
+    length: Double,
+    gpsCoords: Option[(List[(Double, Double)])]
 ) extends EntityModel
     with Edge
 
@@ -52,13 +50,20 @@ object Line {
         s"Line: $id has no defined length"
       )
     )
+    val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords.map(
+      coords => coords.flatten.map {
+        case List(Some(lat), Some(lon)) => (lat, lon)
+        case _ => throw ConversionException(s"The gps coords of line: $id have an unexpected format.")
+      }
+    )
 
     Line(
       id,
       nodeAId,
       nodeBId,
       typId,
-      length
+      length,
+      gpsCoords
     )
   }
 }

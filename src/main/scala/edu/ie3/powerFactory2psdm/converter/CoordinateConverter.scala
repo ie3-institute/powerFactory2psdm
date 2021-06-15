@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.util.geo.GeoUtils
-import org.locationtech.jts.geom.{Coordinate, LineString, Point}
+import org.locationtech.jts.geom.{Coordinate, GeometryFactory, LineString, Point}
 
 case object CoordinateConverter {
 
@@ -29,5 +29,10 @@ case object CoordinateConverter {
       case None =>
         NodeInput.DEFAULT_GEO_POSITION
     }
+  }
+
+  def buildLineString(gpsCoords: List[(Double, Double)]): LineString = {
+    val coords = gpsCoords.map(coord => new Coordinate(coord._2, coord._1)).toArray
+    new GeometryFactory().createLineString(coords)
   }
 }

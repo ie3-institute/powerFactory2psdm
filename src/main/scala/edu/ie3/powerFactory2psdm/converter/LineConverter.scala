@@ -39,8 +39,12 @@ object LineConverter {
       input.length,
       KILOMETRE
     )
-    val geopos: LineString =
-      GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
+
+    val geopos  = input.gpsCoords match {
+      case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
+      case None => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
+    }
+
     new LineInput(
       UUID.randomUUID(),
       id,
