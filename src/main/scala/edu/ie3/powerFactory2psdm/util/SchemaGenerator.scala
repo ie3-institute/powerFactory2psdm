@@ -117,23 +117,34 @@ object SchemaGenerator extends LazyLogging {
 
   }
 
-  private def simpleString(
-      name: String,
-      `type`: String,
-      collectionStack: Int
-  ): String =
-    if (collectionStack == 0) {
-      s"$name: Option[${`type`}]"
-    } else {
-      s"$name:" + (0 until collectionStack)
-        .foldLeft("Option[")((cur, _) => cur + s"List[Option[") + `type` + "]" * (collectionStack * 2 + 1)
-    }
-
   private def className(name: String) =
     StringUtils.snakeCaseToCamelCase(StringUtils.cleanString(name)).capitalize
 
+  final case class FieldMeta(
+      rawFieldType: String,
+      rawFieldName: String,
+      collectionStack: Int
+  ) {
+
+    def fieldString: String =
+      simpleString(rawFieldName, rawFieldType, collectionStack)
+
+    private def simpleString(
+        name: String,
+        `type`: String,
+        collectionStack: Int
+    ): String =
+      if (collectionStack == 0) {
+        s"$name: Option[${`type`}]"
+      } else {
+        s"$name:" + (0 until collectionStack)
+          .foldLeft("Option[")((cur, _) => cur + s"List[Option[") + `type` + "]" * (collectionStack * 2 + 1)
+      }
+  }
+
   final case class ComplexClass(
-      fields: Iterable[String],
+      name: String,
+      fields: Iterable[FieldMeta],
       classes: Iterable[SimpleClass] = Vector.empty,
       cStack: Int = 0,
       isObj: Boolean = false
@@ -164,50 +175,74 @@ object SchemaGenerator extends LazyLogging {
     override def onNull: Vector[ComplexClass] =
       Vector(
         ComplexClass(
-          Vector(simpleString(name, defaultOnNullType, collectionStack))
+          name,
+          Vector(
+            FieldMeta(defaultOnNullType, name, collectionStack)
+          )
         )
       )
 
     override def onBoolean(value: Boolean): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "Boolean", collectionStack)))
+        ComplexClass(
+          name,
+          Vector(
+            FieldMeta("Boolean", name, collectionStack)
+          )
+        )
       )
 
     override def onNumber(value: JsonNumber): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "Double", collectionStack)))
+        ComplexClass(
+          name,
+          Vector(
+            FieldMeta("Double", name, collectionStack)
+          )
+        )
       )
 
     override def onString(value: String): Vector[ComplexClass] =
       Vector(
-        ComplexClass(Vector(simpleString(name, "String", collectionStack)))
+        ComplexClass(
+          name,
+          Vector(
+            FieldMeta("String", name, collectionStack)
+          )
+        )
       )
 
     override def onArray(value: Vector[Json]): Vector[ComplexClass] =
-      value.headOption
-        .map(
+      value
+        .flatMap(
           _.foldWith(
             this.copy(isRoot = false, collectionStack = collectionStack + 1)
           )
-        )
-        .getOrElse(
+        ) match {
+        case array
+            if array.isEmpty => // if empty default to collection with default type
           Vector(
             ComplexClass(
-              Vector(simpleString(name, "String", collectionStack + 1))
+              name,
+              Vector(
+                FieldMeta(defaultOnNullType, name, collectionStack + 1)
+              )
             )
           )
-        )
+        case nonEmptyArray =>
+          nonEmptyArray.distinct // keep only uniques
+      }
 
     override def onObject(value: JsonObject): Vector[ComplexClass] = {
 
-      val fieldsOrClasses: Iterable[ComplexClass] = value.toMap
+      val fieldsOrClasses1 = value.toMap
         .map {
           case (objName, jsonObjs) =>
             (objName, jsonObjs.asArray match {
               case Some(objArr) =>
                 // filter multiple json objects
-                objArr.headOption
-                  .map(
+                objArr
+                  .flatMap(
                     _.foldWith(
                       this.copy(
                         name = objName,
@@ -216,9 +251,6 @@ object SchemaGenerator extends LazyLogging {
                         isObj = true
                       )
                     )
-                  )
-                  .getOrElse(
-                    Vector.empty
                   )
               case _ =>
                 jsonObjs.foldWith(
@@ -231,65 +263,153 @@ object SchemaGenerator extends LazyLogging {
                 )
             })
         }
-        .flatMap {
-          case (className, cplxClasses) if isRoot && cplxClasses.isEmpty =>
-            // empty case class @ root level
-            Vector(
-              ComplexClass(
-                Vector(""),
-                Vector(SimpleClass(className, Vector.empty))
-              )
+
+      val fieldsOrClasses = fieldsOrClasses1.flatMap {
+        case (className, cplxClasses) if isRoot && cplxClasses.isEmpty =>
+          // empty case class @ root level
+          Vector(
+            ComplexClass(
+              name,
+              Vector.empty,
+              Vector(SimpleClass(className, Vector.empty))
             )
-          case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
-            // case class @ root level
-            cplxClasses
-              .map(
-                cplxClass =>
-                  ComplexClass(
-                    Vector(""),
-                    cplxClasses.flatMap(_.classes) ++ Vector(
-                      SimpleClass(className, cplxClass.fields)
-                    )
-                  )
-              )
-          case (cName, cplxClasses)
-              if cplxClasses.size == 1 &&
-                cplxClasses.head.isObj &&
-                !isRoot =>
-            // complex nested case class
-            val field =
-              simpleString(cName, className(cName), cplxClasses.head.cStack)
-            Vector(
+          )
+        case (className, cplxClasses) if isRoot && cplxClasses.nonEmpty =>
+          // case class @ root level
+          collapseClasses(
+            cplxClasses,
+            defaultOnNullType,
+            collectionStack,
+            isObj
+          ).map(
+            cplxClass =>
               ComplexClass(
-                Vector(field),
-                cplxClasses.flatMap(_.classes) :+ SimpleClass(
-                  cName,
-                  cplxClasses.head.fields
+                name,
+                Vector.empty,
+                cplxClasses.flatMap(_.classes) ++ Vector(
+                  SimpleClass(className, cplxClass.fields.map(_.fieldString))
                 )
               )
-            )
-          case (_, cplxClasses) =>
-            // if not root level and not an object, map the field vals
-            Vector(
-              ComplexClass(
-                cplxClasses.flatMap(_.fields),
-                cplxClasses.flatMap(_.classes)
+          )
+
+        case (cName, cplxClasses)
+            if cplxClasses.nonEmpty &&
+              cplxClasses.head.isObj &&
+              !isRoot =>
+          // complex nested case class
+          Vector(
+            ComplexClass(
+              name,
+              Vector(
+                FieldMeta(className(cName), cName, cplxClasses.head.cStack)
+              ),
+              cplxClasses.flatMap(_.classes) :+ SimpleClass(
+                cName,
+                cplxClasses.head.fields.map(_.fieldString)
               )
             )
-        }
+          )
+        case (_, cplxClasses) =>
+          // if not root level and not an object, map the field vals
+          Vector(
+            ComplexClass(
+              name,
+              collapseSameFieldTypes(
+                cplxClasses.flatMap(_.fields),
+                defaultOnNullType
+              ),
+              cplxClasses.flatMap(_.classes)
+            )
+          )
+      }
 
       Vector(
         ComplexClass(
+          name,
           fieldsOrClasses
             .flatMap(_.fields)
-            .filterNot(_.isBlank)
-            .filterNot(_.isEmpty),
+            .filterNot(_.fieldString.isBlank)
+            .filterNot(_.fieldString.isEmpty),
           fieldsOrClasses.flatMap(_.classes),
           collectionStack,
           isObj
         )
       )
     }
+  }
+
+  private def collapseSameFieldTypes(
+      fields: Iterable[FieldMeta],
+      defaultOnNullType: String
+  ): Iterable[FieldMeta] = {
+    // check if field types contains a non default value
+    // if any use this one, of not, keep string
+    fields.filterNot(_.rawFieldType.equals(defaultOnNullType)).toSet match {
+      case noneDefaultType if noneDefaultType.size == 1 =>
+        noneDefaultType.headOption
+      case noneDefaultType if noneDefaultType.size > 1 =>
+        throw new IllegalArgumentException(
+          s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+        )
+      case empty if empty.isEmpty =>
+        // we just filtered the defaultOnNullType and the vector is empty
+        // => field is the same as the defaultType and we can just return
+        fields
+    }
+  }
+
+  private def collapseClasses(
+      classes: Seq[ComplexClass],
+      defaultOnNullType: String,
+      collectionStack: Int,
+      isObj: Boolean
+  ): Iterable[ComplexClass] = classes.distinct.groupBy(_.name).flatMap {
+    case (_, distClasses)
+        if distClasses.size == 1 => // all classes are equal, return only one of them
+      distClasses
+    case (name, distClasses) => // multiple classes with same name but maybe different fields, try to merge them ...
+      // merge and collapse fields
+      val allFields = distClasses
+        .flatMap(_.fields)
+        .groupMap(
+          fieldMeta => (fieldMeta.rawFieldName, fieldMeta.collectionStack)
+        )(_.rawFieldType)
+        .flatMap {
+          case ((name, colStack), types) =>
+            types.distinct.filterNot(_.equals(defaultOnNullType)) match {
+              case noneDefaultType if noneDefaultType.size == 1 =>
+                noneDefaultType.headOption.map(
+                  fieldType =>
+                    FieldMeta(
+                      fieldType,
+                      name,
+                      colStack
+                    )
+                )
+              case noneDefaultType if noneDefaultType.size > 1 =>
+                throw new IllegalArgumentException(
+                  s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+                )
+              case empty
+                  if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
+                Some(
+                  FieldMeta(
+                    defaultOnNullType,
+                    name,
+                    colStack
+                  )
+                )
+            }
+        }
+      Iterable(
+        ComplexClass(
+          name,
+          allFields,
+          distClasses.flatMap(_.classes),
+          collectionStack,
+          isObj
+        )
+      )
   }
 
 }
