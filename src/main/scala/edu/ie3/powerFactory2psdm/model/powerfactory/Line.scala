@@ -6,7 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  ElementConfigurationException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
 
 /**
@@ -42,8 +46,10 @@ object Line {
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
     val typId = rawLine.typId.getOrElse(
-      throw MissingParameterException(s"Line: $id has no defined type - line conversion without defined type" +
-        s" is not supported ")
+      throw MissingParameterException(
+        s"Line: $id has no defined type - line conversion without defined type" +
+          s" is not supported "
+      )
     )
     val length = rawLine.dline.getOrElse(
       throw MissingParameterException(
@@ -52,10 +58,11 @@ object Line {
     )
 
     val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords match {
-      case Some(List(Some(Nil)))  => None
-      case Some(coords) => Option(coords.flatten.map {
-        case List(Some(lat), Some(lon)) => (lat, lon)
-      })
+      case Some(List(Some(Nil))) => None
+      case Some(coords) =>
+        Option(coords.flatten.map {
+          case List(Some(lat), Some(lon)) => (lat, lon)
+        })
       case None => None
     }
 

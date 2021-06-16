@@ -20,9 +20,9 @@ import java.util.UUID
 object LineConverter {
 
   def convert(
-   input: Line,
-   lineTypeId2lineTypeInput: Map[String, LineTypeInput],
-   id2psdmNodes: Map[String, NodeInput]
+      input: Line,
+      lineTypeId2lineTypeInput: Map[String, LineTypeInput],
+      id2psdmNodes: Map[String, NodeInput]
   ): LineInput = {
 
     val id = input.id
@@ -39,9 +39,9 @@ object LineConverter {
       KILOMETRE
     )
 
-    val geopos  = input.gpsCoords match {
+    val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
-      case None => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
+      case None            => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
     }
 
     new LineInput(

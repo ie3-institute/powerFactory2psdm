@@ -1,6 +1,16 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.{getLinePair, getLineTypePair, getNodePair}
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  getLinePair,
+  getLineTypePair,
+  getNodePair
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -10,9 +20,12 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
   "A line converter" should {
 
     val conversionPair = getLinePair("someLine")
-    val lineTypeId2LineTypeInput = Map("someLineType" -> getLineTypePair("someLineType").result)
-    val nodeId2NodeInput = Map("someNode" -> getNodePair("someNode").result,
-      "someSlackNode" -> getNodePair("someSlackNode").result)
+    val lineTypeId2LineTypeInput =
+      Map("someLineType" -> getLineTypePair("someLineType").result)
+    val nodeId2NodeInput = Map(
+      "someNode" -> getNodePair("someNode").result,
+      "someSlackNode" -> getNodePair("someSlackNode").result
+    )
 
     val actual = LineConverter.convert(
       conversionPair.input,

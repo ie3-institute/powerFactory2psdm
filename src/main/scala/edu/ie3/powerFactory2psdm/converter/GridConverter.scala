@@ -38,16 +38,16 @@ case object GridConverter {
   }
 
   /**
-   * Converts [[Node]]s to PSDM [[NodeInput]]
-   * @param subnets subnet data
-   * @param id2pfnode map of all pf nodes
-   * @return map of all PSDM nodes
-   */
+    * Converts [[Node]]s to PSDM [[NodeInput]]
+    * @param subnets subnet data
+    * @param id2pfnode map of all pf nodes
+    * @return map of all PSDM nodes
+    */
   def convertNodes(
-    subnets: List[Subnet],
-    id2pfnode: Map[String, Node],
-  ): Map[String, NodeInput] = subnets.flatMap(subnet =>
-    convertNodesOfSubnet(subnet, id2pfnode)).toMap
+      subnets: List[Subnet],
+      id2pfnode: Map[String, Node]
+  ): Map[String, NodeInput] =
+    subnets.flatMap(subnet => convertNodesOfSubnet(subnet, id2pfnode)).toMap
 
   /**
     * Converts all nodes within a subnet to PSDM [[NodeInput]]
@@ -61,7 +61,9 @@ case object GridConverter {
       id2node: Map[String, Node]
   ): Map[String, NodeInput] =
     subnet.nodeIds
-      .map(nodeId => (nodeId, NodeConverter.convertNode(nodeId, id2node, subnet)))
+      .map(
+        nodeId => (nodeId, NodeConverter.convertNode(nodeId, id2node, subnet))
+      )
       .toMap
 
 }
