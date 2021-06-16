@@ -19,7 +19,11 @@ class LineSpec extends Matchers with AnyWordSpecLike {
     val input = Lines(
       id = Some(id),
       bus1Id = Some("SomeBusA"),
-      bus2Id = Some("SomeBusB")
+      bus2Id = Some("SomeBusB"),
+      GPScoords = Some(
+        List(Some(List(Some(11.1123), Some(52.1425))), Some(List(Some(11.1153), Some(52.1445))))),
+      dline = Some(1.5),
+      typId = Some("SomeLineType")
     )
 
     "throw an exception if the id is missing" in {

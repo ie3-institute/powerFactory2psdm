@@ -14,16 +14,15 @@ import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInp
 import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.powerfactory.Line
-import org.locationtech.jts.geom.LineString
 import tech.units.indriya.quantity.Quantities
 import java.util.UUID
 
 object LineConverter {
 
   def convert(
-               input: Line,
-               lineTypeId2lineTypeInput: Map[String, LineTypeInput],
-               id2psdmNodes: Map[String, NodeInput]
+   input: Line,
+   lineTypeId2lineTypeInput: Map[String, LineTypeInput],
+   id2psdmNodes: Map[String, NodeInput]
   ): LineInput = {
 
     val id = input.id

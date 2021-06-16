@@ -50,12 +50,14 @@ object Line {
         s"Line: $id has no defined length"
       )
     )
-    val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords.map(
-      coords => coords.flatten.map {
+
+    val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords match {
+      case Some(List(Some(Nil)))  => None
+      case Some(coords) => Option(coords.flatten.map {
         case List(Some(lat), Some(lon)) => (lat, lon)
-        case _ => throw ConversionException(s"The gps coords of line: $id have an unexpected format.")
-      }
-    )
+      })
+      case None => None
+    }
 
     Line(
       id,
@@ -66,4 +68,5 @@ object Line {
       gpsCoords
     )
   }
+
 }

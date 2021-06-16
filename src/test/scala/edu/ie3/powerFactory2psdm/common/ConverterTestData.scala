@@ -8,22 +8,20 @@ package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.datamodel.models.input.connector.LineInput
+import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+import edu.ie3.powerFactory2psdm.converter.CoordinateConverter
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  LineType,
-  Node
-}
-import edu.ie3.util.quantities.PowerSystemUnits.PU
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, Line, LineType, Node}
+import edu.ie3.util.quantities.PowerSystemUnits.{KILOMETRE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities
 
@@ -159,8 +157,8 @@ object ConverterTestData extends LazyLogging {
         "someSlackNode",
         0.4,
         1.0,
-        Some(11.1123),
-        Some(52.1425),
+        Some(11.1153),
+        Some(52.1445),
         List(
           ConnectedElement(
             "someConnectedElement",
@@ -234,11 +232,44 @@ object ConverterTestData extends LazyLogging {
       )
   )
 
-  def getLineType(key: String): ConversionPair[LineType, LineTypeInput] = {
+  def getLineTypePair(key: String): ConversionPair[LineType, LineTypeInput] = {
     lineTypes.getOrElse(
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val lines = Map(
+    "someLine" ->
+      ConversionPair(
+        Line(
+          "someLine",
+          "someNode",
+          "someSlackNode",
+          "someLineType",
+          1.5,
+          Some(List((11.1123, 52.1425),(11.1153, 52.1445)))
+        ),
+        new LineInput(
+          UUID.randomUUID(),
+          "someLine",
+          getNodePair("someNode").result,
+          getNodePair("someSlackNode").result,
+          1,
+          getLineTypePair("someLineType").result,
+          Quantities.getQuantity(1.5, KILOMETRE),
+          CoordinateConverter.buildLineString(List((11.1123, 52.1425),(11.1153, 52.1445))),
+          OlmCharacteristicInput.CONSTANT_CHARACTERISTIC
+        )
+      )
+  )
+  def getLinePair(key: String): ConversionPair[Line, LineInput] = {
+    lines.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Line.getClass.getSimpleName} with key: $key "
       )
     )
   }
