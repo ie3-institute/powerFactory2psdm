@@ -13,6 +13,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 
+import scala.annotation.tailrec
+
 /**
   * Electrical Switch
   *
@@ -28,6 +30,29 @@ final case class Switch(
     with Edge
 
 object Switch extends LazyLogging {
+
+  @tailrec
+  def buildSwitches(
+      rawSwitches: List[Switches],
+      takenIds: Set[String],
+      switches: List[Option[Switch]] = List.empty
+  ): (List[Option[Switch]], Set[String]) = {
+    if (rawSwitches.isEmpty) {
+      return (switches, takenIds)
+    }
+    val rawSwitch = rawSwitches.head
+    val rawSwitchId = rawSwitch.id.getOrElse(
+      throw ElementConfigurationException(s"There is no id for node $rawSwitch")
+    )
+    if (takenIds contains rawSwitchId)
+      throw ElementConfigurationException(s"ID: $rawSwitchId is not unique")
+    else
+      buildSwitches(
+        rawSwitches.tail,
+        takenIds + rawSwitchId,
+        maybeBuild(rawSwitch) :: switches
+      )
+  }
 
   /**
     * Builds an Option that probably contains a [[Switch]]
