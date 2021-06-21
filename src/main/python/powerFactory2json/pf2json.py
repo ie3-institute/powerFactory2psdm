@@ -58,18 +58,19 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     Creates a list with an attribute dictionary for each raw PowerFactory element
     """
     elements = []
-    pf_edges = ["ElmLne", "ElmCoup"]
+    edges = ["ElmLne", "ElmCoup"]
+    typedModels = ["ElmLne", "ElmTr2"]
     for raw_element in raw_elements:
         element = get_attribute_dict(raw_element, attributes_to_include)
 
         # export connected elements of nodes and transformers
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        if (raw_element.GetClassName() in ["ElmTerm"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
         # export ids of nodes the edges are connected to
-        if (raw_element.GetClassName() in pf_edges):
+        if (raw_element.GetClassName() in edges):
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
@@ -78,6 +79,26 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
                 element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
             except Exception:
                 element["bus2Id"] = None
+
+        if (raw_element.GetClassName() == "ElmTr2"):
+            try:
+                element["busHvId"] = name_without_preamble(raw_element.bushv.cterm.GetFullName())
+            except Exception:
+                element["busHvId"] = None
+            try:
+                element["busLvId"] = name_without_preamble(raw_element.buslv.cterm.GetFullName())
+            except Exception:
+                element["busLvId"] = None
+            try:
+                element["cPtapc"] = name_without_preamble(raw_element.c_ptapc.GetFullName())
+            except Exception:
+                element["cPtapc"] = None
+
+        if (raw_element.GetClassName() in typedModels):
+            if raw_element.typ_id:
+                element["typeId"] = name_without_preamble(raw_element.typ_id.GetFullName())
+            else:
+                element["typeId"] = None
 
         elements.append(element)
     return elements

@@ -11,10 +11,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2wType
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  VOLTAMPERE
-}
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
 import math.{pow, sqrt}
 
 import java.util.UUID
@@ -32,7 +29,6 @@ object TransformerType2wConverter {
     val pFe = input.pFe * 1e3
     val uk = (input.uk / 100) * vRatedA
 
-
     val iRated = sRated / (math.sqrt(3) * vRatedA)
 
     // short circuit experiment
@@ -41,7 +37,7 @@ object TransformerType2wConverter {
     val xk = sqrt(pow(zk, 2) - pow(rk, 2))
 
     // no load experiment
-    val iNoLoadNom = (input.iNoLoad / 100)  * iRated
+    val iNoLoadNom = (input.iNoLoad / 100) * iRated
     val zNoLoad = (vRatedA / sqrt(3)) / iNoLoadNom
     // fixme check why chris has a factor of 3 here
     val rp = pow(vRatedA, 2) / pFe
@@ -55,7 +51,6 @@ object TransformerType2wConverter {
           s"The tap side of the transformer-type ${input.id} is neither 0 nor 1 - I am confused!"
         )
     }
-
     new Transformer2WTypeInput(
       UUID.randomUUID(),
       input.id,

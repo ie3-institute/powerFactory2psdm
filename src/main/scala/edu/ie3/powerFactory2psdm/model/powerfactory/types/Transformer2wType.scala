@@ -45,7 +45,7 @@ case class Transformer2wType(
     pCu: Double
 ) extends EntityModel
 
-object Transformer2wType{
+object Transformer2wType {
 
   def build(rawType: TrafoTypes2w): Transformer2wType = {
     val id = rawType.id.getOrElse(
