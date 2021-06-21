@@ -7,24 +7,8 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  GridConfigurationException,
-  MissingGridElementException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  Lines,
-  Nodes,
-  Switches,
-  Trafos2w
-}
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.{
-  MissingParameterException,
-  TypeConversionException
-}
-
-import scala.annotation.tailrec
+import edu.ie3.powerFactory2psdm.exception.pf.{GridConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{LineTypes, Lines, Nodes, Switches, Trafos2w}
 
 final case class GridModel(
     nodes: List[Node],
@@ -47,7 +31,7 @@ object GridModel extends LazyLogging {
         line.id.getOrElse(
           throw MissingParameterException(s"Line $line has no defined id")
         )
-      case lineType: Lines =>
+      case lineType: LineTypes =>
         lineType.id.getOrElse(
           throw MissingParameterException(
             s"Line type $lineType has no defined id"
