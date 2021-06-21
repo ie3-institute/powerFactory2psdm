@@ -30,25 +30,6 @@ final case class Line(
 
 object Line {
 
-  @tailrec
-  def buildLines(
-      rawLines: List[Lines],
-      takenIds: Set[String],
-      lines: List[Line] = List.empty
-  ): (List[Line], Set[String]) = {
-    if (rawLines.isEmpty) {
-      return (lines, takenIds)
-    }
-    val rawLine = rawLines.head
-    val rawLineId = rawLine.id.getOrElse(
-      throw ElementConfigurationException(s"There is no id for node $rawLine")
-    )
-    if (takenIds contains rawLineId)
-      throw ElementConfigurationException(s"ID: $rawLineId is not unique")
-    else
-      buildLines(rawLines.tail, takenIds + rawLineId, build(rawLine) :: lines)
-  }
-
   def build(rawLine: Lines): Line = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")

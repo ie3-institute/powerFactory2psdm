@@ -37,31 +37,6 @@ case class LineType(
 
 object LineType {
 
-  @tailrec
-  def buildLineTypes(
-      rawLineTypes: List[LineTypes],
-      takenIds: Set[String],
-      lineTypes: List[LineType] = List.empty
-  ): (List[LineType], Set[String]) = {
-    if (rawLineTypes.isEmpty) {
-      return (lineTypes, takenIds)
-    }
-    val rawLineType = rawLineTypes.head
-    val rawLineTypeId = rawLineType.id.getOrElse(
-      throw ElementConfigurationException(
-        s"There is no id for node $rawLineType"
-      )
-    )
-    if (takenIds contains rawLineTypeId)
-      throw ElementConfigurationException(s"ID: $rawLineTypeId is not unique")
-    else
-      buildLineTypes(
-        rawLineTypes.tail,
-        takenIds + rawLineTypeId,
-        build(rawLineType) :: lineTypes
-      )
-  }
-
   def build(rawLineType: LineTypes): LineType = {
     val id = rawLineType.id.getOrElse(
       throw MissingParameterException(

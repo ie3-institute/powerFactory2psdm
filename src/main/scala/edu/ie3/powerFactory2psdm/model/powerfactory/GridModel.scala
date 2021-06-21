@@ -9,14 +9,20 @@ package edu.ie3.powerFactory2psdm.model.powerfactory
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
-  MissingGridElementException
+  GridConfigurationException,
+  MissingGridElementException,
+  MissingParameterException
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   Lines,
   Nodes,
-  Switches
+  Switches,
+  Trafos2w
 }
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.TypeConversionException
+import org.apache.logging.log4j.core.tools.picocli.CommandLine.{
+  MissingParameterException,
+  TypeConversionException
+}
 
 import scala.annotation.tailrec
 
@@ -29,32 +35,65 @@ final case class GridModel(
 
 object GridModel extends LazyLogging {
   def build(rawGrid: RawGridModel): GridModel = {
-    val (nodes, takenIds) = buildModels(
-      rawGrid.nodes
-        .getOrElse(
-          throw MissingGridElementException("There are no nodes in the grid.")
-        ),
-      Set.empty
-    )
+
+    val models =
+      (rawGrid.nodes ++ rawGrid.lines ++ rawGrid.switches ++ rawGrid.trafos2w).flatten
+    val modelIds: Iterable[String] = models.map {
+      case node: Nodes =>
+        node.id.getOrElse(
+          throw MissingParameterException(s"Node $node has no defined id")
+        )
+      case line: Lines =>
+        line.id.getOrElse(
+          throw MissingParameterException(s"Line $line has no defined id")
+        )
+      case lineType: Lines =>
+        lineType.id.getOrElse(
+          throw MissingParameterException(
+            s"Line type $lineType has no defined id"
+          )
+        )
+      case switch: Switches =>
+        switch.id.getOrElse(
+          throw MissingParameterException(s"Switch $switch has no defined id")
+        )
+      case trafo2w: Trafos2w =>
+        trafo2w.id.getOrElse(
+          throw MissingParameterException(
+            s"Transformer $trafo2w has no defined id"
+          )
+        )
+    }
+    val duplicateIds =
+      modelIds.groupBy(identity).collect { case (x, List(_, _, _*)) => x }
+    if (duplicateIds.nonEmpty) {
+      throw GridConfigurationException(
+        s"Can't build grid as there are grid elements with duplicated ids: $duplicateIds"
+      )
+    }
+
+    val nodes = rawGrid.nodes match {
+      case Some(nodes) => nodes.map(Node.build)
+      case None =>
+        throw GridConfigurationException("There are no nodes in the grid.")
+    }
+    val lines = rawGrid.lines match {
+      case Some(lines) => lines.map(Line.build)
+      case None =>
+        logger.debug("There are no lines in the grid.")
+        List.empty
+    }
     val lineTypes = rawGrid.lineTypes match {
       case Some(lineTypes) => lineTypes.map(LineType.build)
       case None =>
         logger.debug("There are no lines in the grid.")
-        List[LineType]()
+        List.empty
     }
-    val (lines, takenIds2) = rawGrid.lines match {
-      case Some(lines) => Line.buildLines(lines, takenIds)
-      case None =>
-        logger.debug("There are no lines in the grid.")
-        (List[Line](), takenIds)
-    }
-    val (switches, takenIds3) = rawGrid.switches match {
-      case Some(switches) =>
-        val (switches, taken) = Switch.buildSwitches(switches, takenIds2)
-        (switches.flatten, taken)
+    val switches = rawGrid.switches match {
+      case Some(switches) => switches.flatMap(Switch.maybeBuild)
       case None =>
         logger.debug("There are no switches in the grid.")
-        (List[Switch](), takenIds2)
+        List.empty
     }
 
     GridModel(
@@ -64,36 +103,5 @@ object GridModel extends LazyLogging {
       switches
     )
   }
-
-// TODO how the fuck do i generalize the building of models while checking for uniqueness of ids ???
-  def buildModels[C <: EntityModel](
-      rawModels: List[Any],
-      takenIds: Set[String],
-      models: List[C] = List()
-  ): (List[C], Set[String]) = {
-    if (rawModels.isEmpty) {
-      return (models, takenIds)
-    }
-    val rawModel = rawModels.head
-    rawModel match {
-      case node: Nodes =>
-        val id = node.id.getOrElse(
-          throw ElementConfigurationException(s"There is no id for node $node")
-        )
-        throwForTakenId(takenIds, id)
-        buildModels(
-          rawModels.tail,
-          takenIds + id,
-          Node.build(node) :: models
-        )
-      case line: Lines => ???
-      case _           => throw new IllegalArgumentException("")
-    }
-
-  }
-
-  def throwForTakenId(takenIds: Set[String], id: String) =
-    if (takenIds contains id)
-      throw ElementConfigurationException(s"ID: $id is not unique")
 
 }
