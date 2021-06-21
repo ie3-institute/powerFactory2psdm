@@ -13,6 +13,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
 
+import scala.annotation.tailrec
+
 /**
   * Electrical Switch
   *

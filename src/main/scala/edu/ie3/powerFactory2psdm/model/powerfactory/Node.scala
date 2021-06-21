@@ -15,6 +15,8 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   Nodes
 }
 
+import scala.annotation.tailrec
+
 /**
   * Electrical node
   *
@@ -43,13 +45,9 @@ object Node {
     * @return [[Node]]
     */
   def build(rawNode: Nodes): Node = {
-    val id = rawNode.id match {
-      case Some(id) if EntityModel.isUniqueId(id) => id
-      case Some(id) =>
-        throw ElementConfigurationException(s"ID: $id is not unique")
-      case None =>
-        throw MissingParameterException(s"There is no id for node $rawNode")
-    }
+    val id = rawNode.id.getOrElse(
+      throw MissingParameterException(s"There is no id for node $rawNode")
+    )
     val nominalVoltage = rawNode.uknom.getOrElse(
       throw MissingParameterException(
         s"Node: $id has no defined nominal voltage"
