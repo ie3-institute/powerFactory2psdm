@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter.types
 
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2wType
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2WType
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
@@ -20,7 +20,7 @@ import javax.measure.MetricPrefix
 object TransformerType2wConverter {
 
   // todo DO SOME PROPER TESTING
-  def convert(input: Transformer2wType): Transformer2WTypeInput = {
+  def convert(input: Transformer2WType): Transformer2WTypeInput = {
 
     val sRated = input.sRated * 1e6
     val vRatedA = input.vRatedA * 1e3

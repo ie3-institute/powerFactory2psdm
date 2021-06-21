@@ -1,13 +1,19 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.converter.types
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.getTransformer2wType
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.getTransformer2WTypePair
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class Transformer2wTypeConverterSpec extends Matchers with AnyWordSpecLike{
+class Transformer2WTypeConverterSpec extends Matchers with AnyWordSpecLike {
 
   "A Transformer2wTypeConverter" should {
-    val conversionPair = getTransformer2wType("SomeTrafo2wType")
+    val conversionPair = getTransformer2WTypePair("SomeTrafo2wType")
     val input = conversionPair.input
     val expected = conversionPair.result
 

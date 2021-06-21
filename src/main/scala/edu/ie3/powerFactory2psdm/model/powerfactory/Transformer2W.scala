@@ -38,7 +38,9 @@ object Transformer2W {
       throw MissingParameterException(s"Trafo2w: $id has no tap position.")
     )
     val autoTap = rawTrafo.ntrcn.getOrElse(
-      throw MissingParameterException(s"Trafo2w: $id has no auto tap signifier.")
+      throw MissingParameterException(
+        s"Trafo2w: $id has no auto tap signifier."
+      )
     )
     val extTapCont = rawTrafo.cPtapc
     Transformer2W(

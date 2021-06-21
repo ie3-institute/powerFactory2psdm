@@ -23,9 +23,9 @@ object Transformer2WConverter {
   ): Transformer2WInput = {
 
     val autotap = (rawTrafo.autoTap, rawTrafo.extTapCont) match {
-      case (1, _)            => true
+      case (1, _)       => true
       case (_, Some(_)) => true
-      case _                 => false
+      case _            => false
     }
 
     new Transformer2WInput(

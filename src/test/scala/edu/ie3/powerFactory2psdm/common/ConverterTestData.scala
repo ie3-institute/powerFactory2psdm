@@ -7,18 +7,34 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.{LineTypeInput, Transformer2WTypeInput}
+import edu.ie3.datamodel.models.input.connector.Transformer2WInput
+import edu.ie3.datamodel.models.input.connector.`type`.{
+  LineTypeInput,
+  Transformer2WTypeInput
+}
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
-import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.{
+  LV,
+  MV_10KV
+}
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.{LineType, Transformer2wType}
-import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, Node}
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
+  LineType,
+  Transformer2WType
+}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  ConnectedElement,
+  EntityModel,
+  GridModel,
+  Node,
+  Transformer2W
+}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities
@@ -182,6 +198,32 @@ object ConverterTestData extends LazyLogging {
         LV,
         2
       )
+    ),
+    "someMvNode" -> ConversionPair(
+      Node(
+        "someMvNode",
+        10.0,
+        1.0,
+        Some(11.1123),
+        Some(52.1425),
+        List(
+          ConnectedElement(
+            "someConnectedElement",
+            "ElmXnet"
+          )
+        )
+      ),
+      new NodeInput(
+        UUID.randomUUID(),
+        "someMvNode",
+        OperatorInput.NO_OPERATOR_ASSIGNED,
+        OperationTime.notLimited(),
+        Quantities.getQuantity(1d, PU),
+        true,
+        geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
+        MV_10KV,
+        2
+      )
     )
   )
 
@@ -247,9 +289,9 @@ object ConverterTestData extends LazyLogging {
   }
 
   val transformerTypes = Map(
-    "SomeTrafo2wType" -> ConversionPair(
-      Transformer2wType(
-        id = "SomeTrafo2wType",
+    "SomeTrafo2WType" -> ConversionPair(
+      Transformer2WType(
+        id = "SomeTrafo2WType",
         sRated = 40d,
         vRatedA = 110d,
         vRatedB = 10d,
@@ -262,11 +304,11 @@ object ConverterTestData extends LazyLogging {
         uk = 5,
         iNoLoad = 1,
         pFe = 10,
-        pCu = 6)
-        ,
+        pCu = 6
+      ),
       new Transformer2WTypeInput(
         UUID.randomUUID(),
-        "SomeTrafo2wType",
+        "SomeTrafo2WType",
         Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
         Quantities.getQuantity(15.1249319, OHM),
         Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
@@ -283,14 +325,90 @@ object ConverterTestData extends LazyLogging {
         -10,
         10
       )
+    ),
+    "10 -> 0.4" -> ConversionPair(
+      Transformer2WType(
+        id = "10 -> 0.4",
+        sRated = 40d,
+        vRatedA = 10d,
+        vRatedB = 0.4,
+        dV = 2.5,
+        dPhi = 5d,
+        tapSide = 0,
+        tapNeutr = 0,
+        tapMin = -10,
+        tapMax = 10,
+        uk = 5,
+        iNoLoad = 1,
+        pFe = 10,
+        pCu = 6
+      ),
+      new Transformer2WTypeInput(
+        UUID.randomUUID(),
+        "10 -> 0.4",
+        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
+        Quantities.getQuantity(15.1249319, OHM),
+        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
+        Quantities.getQuantity(10d, KILOVOLT),
+        Quantities.getQuantity(0.4, KILOVOLT),
+        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
+        Quantities
+          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
+          .to(MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(2.5, PERCENT),
+        Quantities.getQuantity(5d, DEGREE_GEOM),
+        false,
+        0,
+        -10,
+        10
+      )
     )
   )
 
-  def getTransformer2wType(key: String): ConversionPair[Transformer2wType, Transformer2WTypeInput] = {
+  def getTransformer2WTypePair(
+      key: String
+  ): ConversionPair[Transformer2WType, Transformer2WTypeInput] = {
     transformerTypes.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${Transformer2wType.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for ${Transformer2WType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val transformers2w = Map(
+    "someTransformer2W" -> ConversionPair(
+      Transformer2W(
+        "someTransformer2W",
+        "someNode",
+        "someMvNode",
+        "10 -> 0.4",
+        1d,
+        1d,
+        None
+      ),
+      new Transformer2WInput(
+        UUID.randomUUID(),
+        "someTransformer2W",
+        OperatorInput.NO_OPERATOR_ASSIGNED,
+        OperationTime.notLimited(),
+        getNodePair("someMvNode").result,
+        getNodePair("someNode").result,
+        1,
+        getTransformer2WTypePair("10 -> 0.4").result,
+        1,
+        true
+      )
+    )
+  )
+
+  def getTransformer2WPair(
+      key: String
+  ): ConversionPair[Transformer2W, Transformer2WInput] = {
+    transformers2w.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Transformer2W.getClass.getSimpleName} with key: $key "
       )
     )
   }
