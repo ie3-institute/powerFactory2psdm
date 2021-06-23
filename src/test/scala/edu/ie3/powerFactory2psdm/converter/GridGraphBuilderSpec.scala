@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   subnet1Ids,
   subnet2Ids,

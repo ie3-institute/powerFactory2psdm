@@ -6,10 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
-  getNodePair,
-  getSubnet
-}
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.getNodePair
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -31,9 +29,9 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
 
     "convert a correctly configured pf node to a correctly configured PSDM Node" in {
       val actual = NodeConverter.convertNode(
-        "someNode",
-        Map("someNode" -> input),
-        getSubnet("someSubnet")
+        input,
+        1,
+        GermanVoltageLevelUtils.LV
       )
       actual.getId shouldBe expected.getId
       actual.getVoltLvl shouldBe expected.getVoltLvl

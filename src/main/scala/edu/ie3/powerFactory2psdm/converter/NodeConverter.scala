@@ -35,7 +35,6 @@ object NodeConverter {
   ): NodeInput = {
     val vTarget = Quantities.getQuantity(node.vTarget, PU)
     val geoPosition: Point = CoordinateConverter.convert(node.lat, node.lon)
-    val voltLvl = voltLvl
     val slack = isSlack(node)
     new NodeInput(
       UUID.randomUUID(),
