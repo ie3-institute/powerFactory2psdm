@@ -83,7 +83,7 @@ dependencies {
 	testImplementation 'com.vladsch.flexmark:flexmark-all:0.35.10'
 
 	// Linter Scala //
-	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
+	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
 }
 
