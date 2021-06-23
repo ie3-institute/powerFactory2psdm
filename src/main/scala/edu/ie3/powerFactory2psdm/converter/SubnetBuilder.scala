@@ -8,10 +8,7 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
-import edu.ie3.datamodel.models.voltagelevels.{
-  GermanVoltageLevelUtils,
-  VoltageLevel
-}
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   ElementConfigurationException,
@@ -19,12 +16,10 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.Node
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
-import org.jgrapht.graph.{AsUnmodifiableGraph, DefaultEdge, Multigraph}
+import org.jgrapht.graph.{AsUnmodifiableGraph, DefaultEdge}
 import tech.units.indriya.quantity.Quantities.getQuantity
 
-import java.util.UUID
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SubnetBuilder extends LazyLogging {

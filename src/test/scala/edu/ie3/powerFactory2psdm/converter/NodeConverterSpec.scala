@@ -15,19 +15,11 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
 
   "The node converter" should {
 
-    val conversionPair = getNodePair("someNode")
-    val input = conversionPair.input
-    val expected = conversionPair.result
-
-    "correctly identify that a node connected to an external grid is a slack node" in {
-      NodeConverter.isSlack(getNodePair("someSlackNode").input) shouldBe true
-    }
-
-    "should correctly identify that regular nodes aren't slack nodes" in {
-      NodeConverter.isSlack(input) shouldBe false
-    }
-
     "convert a correctly configured pf node to a correctly configured PSDM Node" in {
+      val conversionPair = getNodePair("someNode")
+      val input = conversionPair.input
+      val expected = conversionPair.result
+
       val actual = NodeConverter.convertNode(
         input,
         1,
@@ -40,4 +32,21 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
     }
 
   }
+
+  "convert a correctly configured slack pf node to a correctly configured slack PSDM Node" in {
+    val conversionPair = getNodePair("someSlackNode")
+    val input = conversionPair.input
+    val expected = conversionPair.result
+
+    val actual = NodeConverter.convertNode(
+      input,
+      2,
+      GermanVoltageLevelUtils.LV
+    )
+    actual.getId shouldBe expected.getId
+    actual.getVoltLvl shouldBe expected.getVoltLvl
+    actual.getSubnet shouldBe expected.getSubnet
+    actual.isSlack shouldBe expected.isSlack
+  }
+
 }
