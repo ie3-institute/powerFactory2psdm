@@ -45,6 +45,7 @@ object RawGridModel {
 
   final case class Switches(
       id: Option[String],
+      on_off: Option[Double],
       bus1Id: Option[String],
       bus2Id: Option[String]
   )
