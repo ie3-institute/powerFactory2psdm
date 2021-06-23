@@ -45,6 +45,10 @@ dependencies {
 	implementation "io.circe:circe-generic_${scalaVersion}:${circeVersion}"
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
+	//[org.scalameta:scalafmt-core_2.11:2.0.1]
+
+	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
+	implementation group: 'org.scalameta', name: 'scalafmt-core_2.11', version: '2.0.1'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
 	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '2.7.5'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
