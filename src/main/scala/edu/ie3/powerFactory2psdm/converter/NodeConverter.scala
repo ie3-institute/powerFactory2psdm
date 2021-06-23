@@ -55,7 +55,7 @@ object NodeConverter {
     * @param node node to check
     * @return true or false
     */
-  def isSlack(node: Node): Boolean =
+  private def isSlack(node: Node): Boolean =
     node.conElms.filter(_.pfCls == "ElmXnet") match {
       case Seq(_) => true
       case Nil    => false
