@@ -49,7 +49,7 @@ object GridModel extends LazyLogging {
     })
 
     val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
-    val modelIds: Seq[String] = models.map {
+    val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
           throw MissingParameterException(s"Node $node has no defined id")
