@@ -33,19 +33,19 @@ object GridModel extends LazyLogging {
     )
     val rawLines = rawGrid.lines.getOrElse({
       logger.debug("There are no lines in the grid.")
-      List.empty
+      List.empty[Lines]
     })
     val rawLineTypes = rawGrid.lineTypes.getOrElse({
       logger.debug("There are no lines in the grid.")
-      List.empty
+      List.empty[LineTypes]
     })
     val rawSwitches = rawGrid.switches.getOrElse({
       logger.debug("There are no switches in the grid.")
-      List.empty
+      List.empty[Switches]
     })
     val rawTrafos2W = rawGrid.trafos2w.getOrElse({
       logger.debug("There are no switches in the grid.")
-      List.empty
+      List.empty[Trafos2w]
     })
 
     val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
@@ -84,7 +84,7 @@ object GridModel extends LazyLogging {
     }
 
     val nodes = rawNodes.map(Node.build)
-    val lines = rawLines.map(Line.build)
+    val lines = rawLines.map(line => Line.build(line))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
 
