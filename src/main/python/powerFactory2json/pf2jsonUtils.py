@@ -26,11 +26,8 @@ attributes4export = {
     'nodes': [
         "vtarget",
         "uknom",
-        "cpZone",
-        "cpArea",
         "GPSlat",
-        "GPSlon",
-        "iUsage"
+        "GPSlon"
     ],
     'lines': [],
     'lineTypes': [

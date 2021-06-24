@@ -8,21 +8,18 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
-import edu.ie3.datamodel.models.voltagelevels.{
-  GermanVoltageLevelUtils,
-  VoltageLevel
-}
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
 import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
   ElementConfigurationException,
   GridConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.Nodes
+import edu.ie3.powerFactory2psdm.model.powerfactory.Node
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
-import org.jgrapht.graph.{DefaultEdge, Multigraph}
+import org.jgrapht.graph.{AsUnmodifiableGraph, DefaultEdge}
 import tech.units.indriya.quantity.Quantities.getQuantity
 
-import java.util.UUID
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SubnetBuilder extends LazyLogging {
@@ -31,19 +28,19 @@ object SubnetBuilder extends LazyLogging {
     * Takes the grid graph and builds up the different [[Subnet]]s from it.
     *
     * @param gridGraph the built grid graph represented by the UUIDS of the nodes and the lines connecting them
-    * @param uuid2Node the mapping between UUID and the corresponding node
+    * @param id2Node the mapping between UUID and the corresponding node
     * @return the list of all subnets of the grid
     */
   def buildSubnets(
-      gridGraph: Multigraph[UUID, DefaultEdge],
-      uuid2Node: Map[UUID, Nodes]
+      gridGraph: AsUnmodifiableGraph[String, DefaultEdge],
+      id2Node: Map[String, Node]
   ): List[Subnet] = {
     new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex map {
       case (subgraph, index) =>
         buildSubnet(
           index,
           subgraph.vertexSet().asScala.toSet,
-          uuid2Node
+          id2Node
         )
     }
   }
@@ -53,44 +50,38 @@ object SubnetBuilder extends LazyLogging {
     *
     * @param subnetId  id of the subnet
     * @param nodeIds   UUIDS of all nodes that live in the subnet
-    * @param uuid2node mapping between UUID and node
+    * @param id2node mapping between UUID and node
     * @return the built [[Subnet]]
     */
   def buildSubnet(
       subnetId: Int,
-      nodeIds: Set[UUID],
-      uuid2node: Map[UUID, Nodes]
+      nodeIds: Set[String],
+      id2node: Map[String, Node]
   ): Subnet = {
-    val nodes = nodeIds.map(uuid => uuid2node(uuid)).toList
-    val nomVoltage = getNomVoltage(
-      nodes.headOption.getOrElse(
+    val nodes = nodeIds.map(
+      id =>
+        id2node.getOrElse(
+          id,
+          throw ConversionException(s"Can't find node id $id in id2node map")
+        )
+    )
+    val nomVoltage = nodes.headOption
+      .getOrElse(
         throw GridConfigurationException("There are no nodes in the subnet!")
       )
-    )
-
+      .nominalVoltage
     val divergences = nodes
-      .filter(node => Math.abs(nomVoltage - getNomVoltage(node)) > 0.001)
+      .filter(node => Math.abs(nomVoltage - node.nominalVoltage) > 0.001)
       .map { node =>
-        node.id.getOrElse("NO_ID") + " -> " + node.uknom.getOrElse(
-          "NO_NOMVOLT"
-        )
+        node.id + " -> " + node.nominalVoltage
       }
     if (divergences.nonEmpty)
       throw ElementConfigurationException(
         s"There are the following divergences from the nominal voltage $nomVoltage : $divergences"
       )
-
     val voltLvl = GermanVoltageLevelUtils.parse(
       getQuantity(nomVoltage, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
-    Subnet(subnetId, nodeIds, voltLvl)
+    Subnet(subnetId, nodes, voltLvl)
   }
-
-  def getNomVoltage(node: Nodes): Double =
-    node.uknom.getOrElse(
-      throw ElementConfigurationException(
-        s"Node: ${node.id.getOrElse("NO_ID")} has no defined nominal voltage."
-      )
-    )
-
 }

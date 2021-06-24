@@ -7,14 +7,13 @@
 package edu.ie3.powerFactory2psdm.model
 
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
-
-import java.util.UUID
+import edu.ie3.powerFactory2psdm.model.powerfactory.Node
 
 /**
   * Data type that wraps necessary information for the different subnets
   *
   * @param id of the subnet
-  * @param nodeUuids UUIDS of the nodes inside the subnet
+  * @param nodeIds UUIDS of the nodes inside the subnet
   * @param voltLvl voltage level that the nodes live in
   */
-final case class Subnet(id: Int, nodeUuids: Set[UUID], voltLvl: VoltageLevel)
+final case class Subnet(id: Int, nodes: Set[Node], voltLvl: VoltageLevel)

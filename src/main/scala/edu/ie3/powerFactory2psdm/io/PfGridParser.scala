@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.io
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel
 import io.circe.parser.decode
 import io.circe.generic.auto._
 import io.circe.parser._
@@ -16,13 +16,13 @@ import java.io.File
 
 object PfGridParser extends LazyLogging {
 
-  def parse(gridFile: String): Option[PowerFactoryGrid] = {
+  def parse(gridFile: String): Option[RawGridModel] = {
     val source =
       Source.fromFile(gridFile)
     val jsonString = try source.mkString
     finally source.close
 
-    decode[PowerFactoryGrid](jsonString) match {
+    decode[RawGridModel](jsonString) match {
       case Left(error) =>
         logger.error(error.getMessage())
         None

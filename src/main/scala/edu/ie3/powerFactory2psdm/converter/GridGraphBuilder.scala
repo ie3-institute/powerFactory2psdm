@@ -6,18 +6,9 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingGridElementException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
-  Lines,
-  Switches
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGridMaps
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
+import edu.ie3.powerFactory2psdm.model.powerfactory.{Edge, Node}
 import org.jgrapht.graph._
-
-import java.util.UUID
 
 /**
   * Builds a graph representation of the powerfactory grid
@@ -25,53 +16,25 @@ import java.util.UUID
 object GridGraphBuilder {
 
   /**
-    * Builds up the graph topology of the grid. All nodes (represented by their UUID) and the connection between nodes by
-    * edges (lines and switches) are added to the graph.The resulting subgraphs inside the graph represent the subnets of
-    * the grid.
+    * Builds up the graph topology of the grid. All nodes (represented by their ids) and the connection between nodes by
+    * edges (lines and switches) are added to the graph. The resulting subgraphs inside the graph represent the subnets
+    * of the grid.
     *
-    * @param pfGridMaps maps of grid elements of the power factory grid
-    * @return Multigraph of all the uuids of the nodes and their connection
+    * @param nodes nodes of the power factory grid
+    * @param edges edges (lines and switches) of the power factory grid
+    * @return [[Multigraph]] of all the ids of the nodes and their connection
     */
-  def build(
-      pfGridMaps: PowerFactoryGridMaps
-  ): Multigraph[UUID, DefaultEdge] = {
-    val graph = new Multigraph[UUID, DefaultEdge](classOf[DefaultEdge])
-    pfGridMaps.uuid2Node.keys.foreach(uuid => graph.addVertex(uuid))
-    val connectedBusIdPairs: Iterable[(String, String)] =
-      (pfGridMaps.uuid2Line.values ++ pfGridMaps.uuid2Switch.values)
-        .map {
-          case edge: Lines =>
-            unpackConnectedBusses(
-              edge.id.getOrElse("NO_ID"),
-              edge.bus1Id,
-              edge.bus2Id
-            )
-          case edge: Switches =>
-            unpackConnectedBusses(
-              edge.id.getOrElse("NO_ID"),
-              edge.bus1Id,
-              edge.bus2Id
-            )
-        }
+  def build[I <: Edge](
+      nodes: List[Node],
+      edges: List[I]
+  ): AsUnmodifiableGraph[String, DefaultEdge] = {
 
-    connectedBusIdPairs.foreach {
-      case (bus1Id, bus2Id) => {
-        val nodeAUuid = pfGridMaps.nodeId2Uuid.getOrElse(
-          bus1Id,
-          throw MissingGridElementException(
-            s"There is no node with id: $bus1Id in pfGridMaps"
-          )
-        )
-        val nodeBUuid = pfGridMaps.nodeId2Uuid.getOrElse(
-          bus2Id,
-          throw MissingGridElementException(
-            s"There is no node with id: $bus2Id in pfGridMaps"
-          )
-        )
-        graph.addEdge(nodeAUuid, nodeBUuid)
-      }
-    }
-    graph
+    val graph = new Multigraph[String, DefaultEdge](classOf[DefaultEdge])
+    nodes.foreach(node => graph.addVertex(node.id))
+    edges.map(edge => {
+      graph.addEdge(edge.nodeAId, edge.nodeBId)
+    })
+    new AsUnmodifiableGraph(graph)
   }
 
   /**

@@ -5,7 +5,7 @@
  */
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   ExtGrid,
   PowerPlants,
   Trafos3w,
@@ -23,7 +23,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.PowerFactoryGrid.{
   TrafoTypes2w
 }
 
-final case class PowerFactoryGrid(
+final case class RawGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
@@ -41,13 +41,15 @@ final case class PowerFactoryGrid(
     lines: Option[List[Lines]]
 )
 
-object PowerFactoryGrid {
+object RawGridModel {
 
   final case class Switches(
       id: Option[String],
       bus1Id: Option[String],
       bus2Id: Option[String]
   )
+
+  final case class Pvs()
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
@@ -65,9 +67,7 @@ object PowerFactoryGrid {
       rline: Option[Double]
   )
 
-  final case class StatGen(id: Option[String])
-
-  final case class CpArea(id: Option[String])
+  final case class StatGen()
 
   final case class Lines(
       id: Option[String],
@@ -77,28 +77,18 @@ object PowerFactoryGrid {
 
   final case class PowerPlants(id: Option[String])
 
-  final case class Trafos3w(
-      id: Option[String],
-      conElms: Option[List[Option[ConElms]]]
-  )
+  final case class Trafos3w()
 
   final case class ExtGrid(id: Option[String])
 
-  final case class CpZone(id: Option[String])
-
-  final case class Pvs(id: Option[String])
-
-  final case class LoadsLV(id: Option[String])
+  final case class LoadsLV()
 
   final case class Nodes(
       vtarget: Option[Double],
-      iUsage: Option[Double],
-      cpZone: Option[List[Option[CpZone]]],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
       id: Option[String],
       GPSlon: Option[Double],
-      cpArea: Option[List[Option[CpArea]]],
       uknom: Option[Double]
   )
 
@@ -107,8 +97,8 @@ object PowerFactoryGrid {
       conElms: Option[List[Option[ConElms]]]
   )
 
-  final case class TrafoTypes3w(id: Option[String])
+  final case class TrafoTypes3w()
 
-  final case class LoadsMV(id: Option[String])
+  final case class LoadsMV()
 
 }
