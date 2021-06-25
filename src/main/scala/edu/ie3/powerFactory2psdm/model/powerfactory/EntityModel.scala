@@ -16,28 +16,3 @@ trait EntityModel {
     */
   val id: String
 }
-
-object EntityModel {
-
-  private var assignedIds: Set[String] = Set()
-
-  /**
-    * Checks if id is already assigned and adds it to assignedIds
-    *
-    * @param id
-    * @return
-    */
-  def isUniqueId(id: String): Boolean = {
-    if (getAssignedIds.contains(id)) return false
-    addId(id)
-    true
-  }
-
-  def getAssignedIds: Set[String] = assignedIds
-
-  private def addId(id: String): Unit = {
-    assignedIds += id
-    println("")
-  }
-
-}

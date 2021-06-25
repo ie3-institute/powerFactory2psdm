@@ -3,7 +3,7 @@ plugins {
 	id 'java' // java support
 	id 'scala' // scala support
 	id 'pmd' //code check, working on source code
-	id 'com.diffplug.spotless' version '5.13.0'//code format
+	id 'com.diffplug.spotless' version '5.14.0'//code format
 	id "org.sonarqube" version "3.3" // sonarqube
 	id 'org.scoverage' version '5.0.0' // Code coverage plugin for scala
 	id "com.github.maiflai.scalatest" version "0.31" // run scalatest without specific spec task
@@ -13,7 +13,7 @@ ext {
 	javaVersion = JavaVersion.VERSION_11
 	scalaVersion = '2.13'
 	scalaBinaryVersion = '2.13.5'
-	slf4jVersion = '1.7.30'
+	slf4jVersion = '1.7.31'
 	circeVersion = '0.14.1'
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
@@ -71,7 +71,7 @@ dependencies {
 	implementation 'org.apache.logging.log4j:log4j-core:+' // log4j
 	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
 
-	implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.3" // akka scala logging
+	implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.4" // akka scala logging
 	implementation 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
 	implementation "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
 
@@ -83,7 +83,7 @@ dependencies {
 	testImplementation 'com.vladsch.flexmark:flexmark-all:0.35.10'
 
 	// Linter Scala //
-	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
+	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
 }
 
