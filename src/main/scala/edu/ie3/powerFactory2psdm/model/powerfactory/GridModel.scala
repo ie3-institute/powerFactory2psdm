@@ -7,6 +7,17 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  GridConfigurationException,
+  MissingParameterException
+}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
+  LineTypes,
+  Lines,
+  Nodes,
+  Switches,
+  Trafos2w
+}
 import edu.ie3.powerFactory2psdm.exception.pf.MissingGridElementException
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
 
@@ -19,29 +30,65 @@ final case class GridModel(
 
 object GridModel extends LazyLogging {
   def build(rawGrid: RawGridModel): GridModel = {
-    val nodes = rawGrid.nodes
-      .getOrElse(
-        throw MissingGridElementException("There are no nodes in the grid.")
+    val rawNodes = rawGrid.nodes.getOrElse(
+      throw GridConfigurationException("There are no nodes in the grid.")
+    )
+    val rawLines = rawGrid.lines.getOrElse({
+      logger.debug("There are no lines in the grid.")
+      List.empty[Lines]
+    })
+    val rawLineTypes = rawGrid.lineTypes.getOrElse({
+      logger.debug("There are no lines in the grid.")
+      List.empty[LineTypes]
+    })
+    val rawSwitches = rawGrid.switches.getOrElse({
+      logger.debug("There are no switches in the grid.")
+      List.empty[Switches]
+    })
+    val rawTrafos2W = rawGrid.trafos2w.getOrElse({
+      logger.debug("There are no switches in the grid.")
+      List.empty[Trafos2w]
+    })
+
+    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
+    val modelIds = models.map {
+      case node: Nodes =>
+        node.id.getOrElse(
+          throw MissingParameterException(s"Node $node has no defined id")
+        )
+      case line: Lines =>
+        line.id.getOrElse(
+          throw MissingParameterException(s"Line $line has no defined id")
+        )
+      case lineType: LineTypes =>
+        lineType.id.getOrElse(
+          throw MissingParameterException(
+            s"Line type $lineType has no defined id"
+          )
+        )
+      case switch: Switches =>
+        switch.id.getOrElse(
+          throw MissingParameterException(s"Switch $switch has no defined id")
+        )
+      case trafo2w: Trafos2w =>
+        trafo2w.id.getOrElse(
+          throw MissingParameterException(
+            s"Transformer $trafo2w has no defined id"
+          )
+        )
+    }
+    val uniqueIds = modelIds.distinct
+    if (uniqueIds.size < modelIds.size) {
+      val duplicateIds = modelIds.diff(uniqueIds)
+      throw GridConfigurationException(
+        s"Can't build grid as there are grid elements with duplicated ids: $duplicateIds"
       )
-      .map(Node.build)
-    val lineTypes = rawGrid.lineTypes match {
-      case Some(lineTypes) => lineTypes.map(LineType.build)
-      case None =>
-        logger.debug("There are no lines in the grid.")
-        List[LineType]()
     }
-    val lines = rawGrid.lines match {
-      case Some(lines) => lines.map(Line.build)
-      case None =>
-        logger.debug("There are no lines in the grid.")
-        List[Line]()
-    }
-    val switches = rawGrid.switches match {
-      case Some(switches) => switches.flatMap(Switch.maybeBuild)
-      case None =>
-        logger.debug("There are no switches in the grid.")
-        List[Switch]()
-    }
+
+    val nodes = rawNodes.map(Node.build)
+    val lines = rawLines.map(line => Line.build(line))
+    val lineTypes = rawLineTypes.map(LineType.build)
+    val switches = rawSwitches.flatMap(Switch.maybeBuild)
 
     GridModel(
       nodes,
@@ -50,4 +97,5 @@ object GridModel extends LazyLogging {
       switches
     )
   }
+
 }

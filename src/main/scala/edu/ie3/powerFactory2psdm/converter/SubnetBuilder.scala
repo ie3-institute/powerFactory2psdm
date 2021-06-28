@@ -8,22 +8,18 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
-import edu.ie3.datamodel.models.voltagelevels.{
-  GermanVoltageLevelUtils,
-  VoltageLevel
-}
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
 import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
   ElementConfigurationException,
   GridConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.Node
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
-import org.jgrapht.graph.{DefaultEdge, Multigraph}
+import org.jgrapht.graph.{AsUnmodifiableGraph, DefaultEdge}
 import tech.units.indriya.quantity.Quantities.getQuantity
 
-import java.util.UUID
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SubnetBuilder extends LazyLogging {
@@ -36,7 +32,7 @@ object SubnetBuilder extends LazyLogging {
     * @return the list of all subnets of the grid
     */
   def buildSubnets(
-      gridGraph: Multigraph[String, DefaultEdge],
+      gridGraph: AsUnmodifiableGraph[String, DefaultEdge],
       id2Node: Map[String, Node]
   ): List[Subnet] = {
     new BiconnectivityInspector(gridGraph).getConnectedComponents.asScala.toList.zipWithIndex map {
@@ -62,7 +58,13 @@ object SubnetBuilder extends LazyLogging {
       nodeIds: Set[String],
       id2node: Map[String, Node]
   ): Subnet = {
-    val nodes = nodeIds.map(id => id2node(id)).toList
+    val nodes = nodeIds.map(
+      id =>
+        id2node.getOrElse(
+          id,
+          throw ConversionException(s"Can't find node id $id in id2node map")
+        )
+    )
     val nomVoltage = nodes.headOption
       .getOrElse(
         throw GridConfigurationException("There are no nodes in the subnet!")
@@ -80,7 +82,6 @@ object SubnetBuilder extends LazyLogging {
     val voltLvl = GermanVoltageLevelUtils.parse(
       getQuantity(nomVoltage, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
-    Subnet(subnetId, nodeIds, voltLvl)
+    Subnet(subnetId, nodes, voltLvl)
   }
-
 }

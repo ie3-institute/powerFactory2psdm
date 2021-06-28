@@ -6,10 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
 
 /**
@@ -27,14 +24,11 @@ final case class Line(
     with Edge
 
 object Line {
+
   def build(rawLine: Lines): Line = {
-    val id = rawLine.id match {
-      case Some(id) if EntityModel.isUniqueId(id) => id
-      case Some(id) =>
-        throw ElementConfigurationException(s"ID: $id is not unique")
-      case None =>
-        throw MissingParameterException(s"There is no id for line $rawLine")
-    }
+    val id = rawLine.id.getOrElse(
+      throw MissingParameterException(s"There is no id for line $rawLine")
+    )
     val nodeAId = rawLine.bus1Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node a")
     )

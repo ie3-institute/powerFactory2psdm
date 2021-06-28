@@ -13,6 +13,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
 
+import scala.annotation.tailrec
+
 /**
   * Electrical line
   *
@@ -35,16 +37,13 @@ case class LineType(
 ) extends EntityModel
 
 object LineType {
+
   def build(rawLineType: LineTypes): LineType = {
-    val id = rawLineType.id match {
-      case Some(id) if EntityModel.isUniqueId(id) => id
-      case Some(id) =>
-        throw ElementConfigurationException(s"ID: $id is not unique")
-      case None =>
-        throw MissingParameterException(
-          s"There is no id for line type $rawLineType"
-        )
-    }
+    val id = rawLineType.id.getOrElse(
+      throw MissingParameterException(
+        s"There is no id for line type $rawLineType"
+      )
+    )
     val vRated = rawLineType.uline.getOrElse(
       throw MissingParameterException(
         s"There is no rated voltage defined for line type: $id"
