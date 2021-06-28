@@ -21,7 +21,7 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
 
     val conversionPair = getLinePair("someLine")
     val lineType = getLineTypePair("someLineType").result
-    val nodeA =  getNodePair("someNode").result
+    val nodeA = getNodePair("someNode").result
     val nodeB = getNodePair("someSlackNode").result
 
     val actual = LineConverter.convert(

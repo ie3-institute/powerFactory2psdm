@@ -12,7 +12,13 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{GridModel, Line, LineType, Node, RawGridModel}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  GridModel,
+  Line,
+  LineType,
+  Node,
+  RawGridModel
+}
 
 /**
   * Functionalities to transform an exported and then parsed PowerFactory grid to the PSDM.
@@ -41,13 +47,12 @@ case object GridConverter {
     val lines = convertLines(grid.lines, nodes, lineTypes)
   }
 
-
   /**
-   * Convert all nodes subnet by subnet.
-   *
-   * @param subnets subnets of the grid
-   * @return Map of node id to PSDM [[NodeInput]]
-   */
+    * Convert all nodes subnet by subnet.
+    *
+    * @param subnets subnets of the grid
+    * @return Map of node id to PSDM [[NodeInput]]
+    */
   def convertNodes(subnets: List[Subnet]): Map[String, NodeInput] = {
     subnets
       .flatMap(
@@ -55,7 +60,6 @@ case object GridConverter {
       )
       .toMap
   }
-
 
   def convertNodesOfSubnet(
       subnet: Subnet
@@ -67,13 +71,13 @@ case object GridConverter {
       )
 
   /**
-   * Converts lines to PSDM [[LineInput]]
-   *
-   * @param lines the lines to be converted
-   * @param nodes a map of node ids to nodes
-   * @param lineTypes a map of line type ids to line types
-   * @return a list of all converted Lines
-   */
+    * Converts lines to PSDM [[LineInput]]
+    *
+    * @param lines the lines to be converted
+    * @param nodes a map of node ids to nodes
+    * @param lineTypes a map of line type ids to line types
+    * @return a list of all converted Lines
+    */
   def convertLines(
       lines: List[Line],
       nodes: Map[String, NodeInput],
