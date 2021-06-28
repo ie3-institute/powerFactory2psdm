@@ -12,7 +12,6 @@ import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
-import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.powerfactory.Line
 import tech.units.indriya.quantity.Quantities
 import java.util.UUID
@@ -21,19 +20,12 @@ object LineConverter {
 
   def convert(
       input: Line,
-      lineTypeId2lineTypeInput: Map[String, LineTypeInput],
-      id2psdmNodes: Map[String, NodeInput]
+      lineType: LineTypeInput,
+      nodeA: NodeInput,
+      nodeB: NodeInput
   ): LineInput = {
 
     val id = input.id
-    val nodeA = id2psdmNodes(input.nodeAId)
-    val nodeB = id2psdmNodes(input.nodeBId)
-    val lineType = lineTypeId2lineTypeInput.getOrElse(
-      input.typId,
-      throw ConversionException(
-        s"Line type: ${input.typId} of line ${input.id} couldn't be found."
-      )
-    )
     val length = Quantities.getQuantity(
       input.length,
       KILOMETRE
