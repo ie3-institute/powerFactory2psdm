@@ -42,10 +42,9 @@ object TransformerType2wConverter {
 
     // no load experiment
     val iNoLoadNom = (input.iNoLoad / 100)  * iRated
-    val zNoLoad = (vRatedA / sqrt(3)) / iNoLoadNom
-    // fixme check why chris has a factor of 3 here
-    val rp = pow(vRatedA, 2) / pFe
-    val xh = 1 / sqrt((1 / pow(zNoLoad, 2)) - 1 / pow(rp, 2))
+    val yNoLoad = iNoLoadNom / (vRatedA / sqrt(3))
+    val gNoLoad = pFe / pow(vRatedA, 2)
+    val bNoLoad = sqrt((pow(yNoLoad, 2) - pow(gNoLoad, 2)).doubleValue)
 
     val tapSide = input.tapSide match {
       case 0 => false
@@ -64,8 +63,8 @@ object TransformerType2wConverter {
       Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
       Quantities.getQuantity(vRatedA, VOLT),
       Quantities.getQuantity(vRatedB, VOLT),
-      Quantities.getQuantity(1 / rp, SIEMENS),
-      Quantities.getQuantity(1 / xh, SIEMENS),
+      Quantities.getQuantity(gNoLoad, SIEMENS),
+      Quantities.getQuantity(bNoLoad, SIEMENS),
       Quantities.getQuantity(input.dV, PERCENT),
       Quantities.getQuantity(input.dPhi, DEGREE_GEOM),
       tapSide,
