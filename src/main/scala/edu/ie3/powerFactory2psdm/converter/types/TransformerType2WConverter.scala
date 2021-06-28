@@ -7,22 +7,21 @@
 package edu.ie3.powerFactory2psdm.converter.types
 
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  ElementConfigurationException
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2wType
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  VOLTAMPERE
-}
-import math.{pow, sqrt}
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
 
+import math.{pow, sqrt}
 import java.util.UUID
 import javax.measure.MetricPrefix
 
-object TransformerType2wConverter {
+object TransformerType2WConverter {
 
-  // todo DO SOME PROPER TESTING
   def convert(input: Transformer2wType): Transformer2WTypeInput = {
 
     val sRated = input.sRated * 1e6
@@ -31,20 +30,28 @@ object TransformerType2wConverter {
     val pCu = input.pCu * 1e3
     val pFe = input.pFe * 1e3
     val uk = (input.uk / 100) * vRatedA
-
-
     val iRated = sRated / (math.sqrt(3) * vRatedA)
 
     // short circuit experiment
-    val rk = pCu / (3 * pow(iRated, 2))
-    val zk = (uk / sqrt(3)) / iRated
-    val xk = sqrt(pow(zk, 2) - pow(rk, 2))
+    val rSc = pCu / (3 * pow(iRated, 2))
+    val zSc = (uk / sqrt(3)) / iRated
+    if (rSc > zSc) {
+      throw ConversionException(
+        s"Short circuit experiment calculations of 2w transformer type: ${input.id} not possible."
+      )
+    }
+    val xSc = sqrt(pow(zSc, 2) - pow(rSc, 2))
 
     // no load experiment
-    val iNoLoadNom = (input.iNoLoad / 100)  * iRated
+    val iNoLoadNom = (input.iNoLoad / 100) * iRated
     val yNoLoad = iNoLoadNom / (vRatedA / sqrt(3))
     val gNoLoad = pFe / pow(vRatedA, 2)
     val bNoLoad = sqrt((pow(yNoLoad, 2) - pow(gNoLoad, 2)).doubleValue)
+    if (gNoLoad > yNoLoad) {
+      throw ConversionException(
+        s"No load experiment calculations of 2w transformer type: ${input.id} not possible."
+      )
+    }
 
     val tapSide = input.tapSide match {
       case 0 => false
@@ -58,8 +65,8 @@ object TransformerType2wConverter {
     new Transformer2WTypeInput(
       UUID.randomUUID(),
       input.id,
-      Quantities.getQuantity(rk, OHM),
-      Quantities.getQuantity(xk, OHM),
+      Quantities.getQuantity(rSc, OHM),
+      Quantities.getQuantity(xSc, OHM),
       Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
       Quantities.getQuantity(vRatedA, VOLT),
       Quantities.getQuantity(vRatedB, VOLT),
