@@ -7,10 +7,12 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.models.input.connector.SwitchInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
@@ -21,7 +23,8 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   EntityModel,
   GridModel,
   LineType,
-  Node
+  Node,
+  Switch
 }
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
@@ -239,6 +242,33 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val switches = Map(
+    "someSwitch" -> ConversionPair(
+      Switch(
+        "someSwitch",
+        getNodePair("someNode").input.id,
+        getNodePair("someSlackNode").input.id,
+        1.0
+      ),
+      new SwitchInput(
+        UUID.randomUUID(),
+        "someSwitch",
+        getNodePair("someNode").result,
+        getNodePair("someSlackNode").result,
+        true
+      )
+    )
+  )
+
+  def getSwitches(key: String): ConversionPair[Switch, SwitchInput] = {
+    switches.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Switch.getClass.getSimpleName} with key: $key "
       )
     )
   }
