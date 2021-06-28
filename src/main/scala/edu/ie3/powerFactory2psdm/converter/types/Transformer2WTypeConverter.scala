@@ -20,7 +20,7 @@ import math.{pow, sqrt}
 import java.util.UUID
 import javax.measure.MetricPrefix
 
-object TransformerType2WConverter {
+object Transformer2WTypeConverter {
 
   def convert(input: Transformer2WType): Transformer2WTypeInput = {
 

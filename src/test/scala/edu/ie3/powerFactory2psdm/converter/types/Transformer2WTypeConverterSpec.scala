@@ -13,7 +13,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 import math.abs
 
-class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
+class Transformer2WTypeConverterSpec extends Matchers with AnyWordSpecLike {
 
   "A Transformer2wTypeConverter" should {
     val conversionPair = getTransformer2WTypePair("SomeTrafo2WType")
@@ -22,7 +22,7 @@ class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
     val testingTolerance = 1e-3
 
     "convert a transformer type correctly" in {
-      val actual = TransformerType2WConverter.convert(input)
+      val actual = Transformer2WTypeConverter.convert(input)
 
       actual.getId shouldBe expected.getId
       abs(
@@ -91,7 +91,7 @@ class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
     "throw an exception, when the input model does not allow to calculate short circuit parameters correctly" in {
       val invalidInput = input.copy(pCu = 3000)
       val thrown = intercept[ConversionException](
-        TransformerType2WConverter.convert(invalidInput)
+        Transformer2WTypeConverter.convert(invalidInput)
       )
       thrown.getMessage shouldBe s"Short circuit experiment calculations of 2w transformer type: ${input.id} not possible."
     }
@@ -99,7 +99,7 @@ class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
     "throw an exception, when the input model does not allow to calculate no load circuit parameters correctly" in {
       val invalidInput = input.copy(pFe = 1000)
       val thrown = intercept[ConversionException](
-        TransformerType2WConverter.convert(invalidInput)
+        Transformer2WTypeConverter.convert(invalidInput)
       )
       thrown.getMessage shouldBe s"No load experiment calculations of 2w transformer type: ${input.id} not possible."
     }

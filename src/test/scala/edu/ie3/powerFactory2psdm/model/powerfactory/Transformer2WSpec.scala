@@ -11,7 +11,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Trafos2w
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class TransformerSpec extends Matchers with AnyWordSpecLike {
+class Transformer2WSpec extends Matchers with AnyWordSpecLike {
 
   "A transformer" should {
 
