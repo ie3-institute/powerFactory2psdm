@@ -20,17 +20,15 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
   "A line converter" should {
 
     val conversionPair = getLinePair("someLine")
-    val lineTypeId2LineTypeInput =
-      Map("someLineType" -> getLineTypePair("someLineType").result)
-    val nodeId2NodeInput = Map(
-      "someNode" -> getNodePair("someNode").result,
-      "someSlackNode" -> getNodePair("someSlackNode").result
-    )
+    val lineType = getLineTypePair("someLineType").result
+    val nodeA =  getNodePair("someNode").result
+    val nodeB = getNodePair("someSlackNode").result
 
     val actual = LineConverter.convert(
       conversionPair.input,
-      lineTypeId2LineTypeInput,
-      nodeId2NodeInput
+      lineType,
+      nodeA,
+      nodeB
     )
     val expected = conversionPair.result
 

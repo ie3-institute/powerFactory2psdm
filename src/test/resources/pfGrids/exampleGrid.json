@@ -429,11 +429,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
@@ -790,19 +790,6 @@
       ]
     },
     {
-      "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
-      "conElms": [
-        {
-          "id": "Grid.ElmNet\\Bus_0005.ElmTerm",
-          "pfCls": "ElmTerm"
-        },
-        {
-          "id": "Grid.ElmNet\\Bus_0006.ElmTerm",
-          "pfCls": "ElmTerm"
-        }
-      ]
-    },
-    {
       "id": "Grid.ElmNet\\Trf_0007_0008.ElmTr2",
       "conElms": [
         {
@@ -840,6 +827,19 @@
           "pfCls": "ElmTerm"
         }
       ]
+    },
+    {
+      "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
+      "conElms": [
+        {
+          "id": "Grid.ElmNet\\Bus_0005.ElmTerm",
+          "pfCls": "ElmTerm"
+        },
+        {
+          "id": "Grid.ElmNet\\Bus_0006.ElmTerm",
+          "pfCls": "ElmTerm"
+        }
+      ]
     }
   ],
   "trafoTypes2w": [
@@ -850,13 +850,13 @@
       "id": "TypTr2 0004 to 0009.TypTr2"
     },
     {
-      "id": "TypTr2 0005 to 0006.TypTr2"
-    },
-    {
       "id": "TypTr2 0007 to 0008.TypTr2"
     },
     {
       "id": "TypTr2 0007 to 0009.TypTr2"
+    },
+    {
+      "id": "TypTr2 0005 to 0006.TypTr2"
     }
   ],
   "trafos3w": [],

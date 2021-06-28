@@ -89,13 +89,13 @@ case object GridConverter {
           )
         ),
         nodes.getOrElse(
-          line.id,
+          line.nodeAId,
           throw ConversionException(
             s"Can't find node ${line.nodeAId} within the converted nodes."
           )
         ),
         nodes.getOrElse(
-          line.id,
+          line.nodeBId,
           throw ConversionException(
             s"Can't find node ${line.nodeBId} within the converted nodes."
           )
