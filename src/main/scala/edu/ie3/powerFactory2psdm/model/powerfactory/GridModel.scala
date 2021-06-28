@@ -28,10 +28,28 @@ final case class GridModel(
 
 object GridModel extends LazyLogging {
   def build(rawGrid: RawGridModel): GridModel = {
+    val rawNodes = rawGrid.nodes.getOrElse(
+      throw GridConfigurationException("There are no nodes in the grid.")
+    )
+    val rawLines = rawGrid.lines.getOrElse({
+      logger.debug("There are no lines in the grid.")
+      List.empty[Lines]
+    })
+    val rawLineTypes = rawGrid.lineTypes.getOrElse({
+      logger.debug("There are no lines in the grid.")
+      List.empty[LineTypes]
+    })
+    val rawSwitches = rawGrid.switches.getOrElse({
+      logger.debug("There are no switches in the grid.")
+      List.empty[Switches]
+    })
+    val rawTrafos2W = rawGrid.trafos2w.getOrElse({
+      logger.debug("There are no switches in the grid.")
+      List.empty[Trafos2w]
+    })
 
-    val models =
-      (rawGrid.nodes ++ rawGrid.lines ++ rawGrid.switches ++ rawGrid.trafos2w).flatten
-    val modelIds: Iterable[String] = models.map {
+    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
+    val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
           throw MissingParameterException(s"Node $node has no defined id")
@@ -57,37 +75,18 @@ object GridModel extends LazyLogging {
           )
         )
     }
-    val duplicateIds =
-      modelIds.groupBy(identity).collect { case (x, List(_, _, _*)) => x }
-    if (duplicateIds.nonEmpty) {
+    val uniqueIds = modelIds.distinct
+    if (uniqueIds.size < modelIds.size) {
+      val duplicateIds = modelIds.diff(uniqueIds)
       throw GridConfigurationException(
         s"Can't build grid as there are grid elements with duplicated ids: $duplicateIds"
       )
     }
 
-    val nodes = rawGrid.nodes match {
-      case Some(nodes) => nodes.map(Node.build)
-      case None =>
-        throw GridConfigurationException("There are no nodes in the grid.")
-    }
-    val lines = rawGrid.lines match {
-      case Some(lines) => lines.map(Line.build)
-      case None =>
-        logger.debug("There are no lines in the grid.")
-        List.empty
-    }
-    val lineTypes = rawGrid.lineTypes match {
-      case Some(lineTypes) => lineTypes.map(LineType.build)
-      case None =>
-        logger.debug("There are no lines in the grid.")
-        List.empty
-    }
-    val switches = rawGrid.switches match {
-      case Some(switches) => switches.flatMap(Switch.maybeBuild)
-      case None =>
-        logger.debug("There are no switches in the grid.")
-        List.empty
-    }
+    val nodes = rawNodes.map(Node.build)
+    val lines = rawLines.map(line => Line.build(line))
+    val lineTypes = rawLineTypes.map(LineType.build)
+    val switches = rawSwitches.flatMap(Switch.maybeBuild)
 
     GridModel(
       nodes,

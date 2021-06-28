@@ -117,19 +117,6 @@ object ConverterTestData extends LazyLogging {
 
   val geometryFactory = new GeometryFactory()
 
-  val subnets = Map(
-    "someSubnet" -> Subnet(
-      1,
-      Set("someNode"),
-      LV
-    )
-  )
-
-  def getSubnet(key: String): Subnet = subnets.getOrElse(
-    key,
-    throw TestException(s"Cannot find subnet with key: $key")
-  )
-
   val nodes = Map(
     "someNode" -> ConversionPair(
       Node(
@@ -193,6 +180,19 @@ object ConverterTestData extends LazyLogging {
       )
     )
   }
+
+  val subnets = Map(
+    "someSubnet" -> Subnet(
+      1,
+      Set(getNodePair("someNode").input),
+      LV
+    )
+  )
+
+  def getSubnet(key: String): Subnet = subnets.getOrElse(
+    key,
+    throw TestException(s"Cannot find subnet with key: $key")
+  )
 
   val lineTypes = Map(
     "someLineType" ->

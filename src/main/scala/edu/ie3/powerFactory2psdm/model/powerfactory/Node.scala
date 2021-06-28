@@ -6,16 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  ConElms,
-  Nodes
-}
-
-import scala.annotation.tailrec
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
 
 /**
   * Electrical node
