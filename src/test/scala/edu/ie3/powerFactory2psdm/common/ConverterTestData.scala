@@ -133,19 +133,6 @@ object ConverterTestData extends LazyLogging {
 
   val geometryFactory = new GeometryFactory()
 
-  val subnets = Map(
-    "someSubnet" -> Subnet(
-      1,
-      Set("someNode"),
-      LV
-    )
-  )
-
-  def getSubnet(key: String): Subnet = subnets.getOrElse(
-    key,
-    throw TestException(s"Cannot find subnet with key: $key")
-  )
-
   val nodes = Map(
     "someNode" -> ConversionPair(
       Node(
@@ -236,6 +223,19 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
+  val subnets = Map(
+    "someSubnet" -> Subnet(
+      1,
+      Set(getNodePair("someNode").input),
+      LV
+    )
+  )
+
+  def getSubnet(key: String): Subnet = subnets.getOrElse(
+    key,
+    throw TestException(s"Cannot find subnet with key: $key")
+  )
+
   val lineTypes = Map(
     "someLineType" ->
       ConversionPair(
@@ -314,9 +314,9 @@ object ConverterTestData extends LazyLogging {
         Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
         Quantities.getQuantity(110d, KILOVOLT),
         Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(826.4463, MetricPrefix.NANO(SIEMENS)),
         Quantities
-          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
+          .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
           .to(MetricPrefix.NANO(SIEMENS)),
         Quantities.getQuantity(2.5, PERCENT),
         Quantities.getQuantity(5d, DEGREE_GEOM),
@@ -364,6 +364,7 @@ object ConverterTestData extends LazyLogging {
       )
     )
   )
+
 
   def getTransformer2WTypePair(
       key: String

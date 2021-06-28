@@ -6,13 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Lines
-
-import scala.annotation.tailrec
 
 /**
   * Electrical line
@@ -25,8 +20,7 @@ final case class Line(
     id: String,
     nodeAId: String,
     nodeBId: String
-) extends EntityModel
-    with Edge
+) extends EntityModel with Edge
 
 object Line {
 
@@ -40,10 +34,6 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
-    Line(
-      id,
-      nodeAId,
-      nodeBId
-    )
+    Line(id, nodeAId, nodeBId)
   }
 }

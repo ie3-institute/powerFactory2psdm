@@ -27,14 +27,14 @@ object GridGraphBuilder {
   def build[I <: Edge](
       nodes: List[Node],
       edges: List[I]
-  ): Multigraph[String, DefaultEdge] = {
+  ): AsUnmodifiableGraph[String, DefaultEdge] = {
 
     val graph = new Multigraph[String, DefaultEdge](classOf[DefaultEdge])
     nodes.foreach(node => graph.addVertex(node.id))
     edges.map(edge => {
       graph.addEdge(edge.nodeAId, edge.nodeBId)
     })
-    graph
+    new AsUnmodifiableGraph(graph)
   }
 
   /**

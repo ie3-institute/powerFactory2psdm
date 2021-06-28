@@ -47,7 +47,7 @@ case class Transformer2WType(
 
 object Transformer2WType {
 
-  def build(rawType: TrafoTypes2w): Transformer2WType = {
+  def build(rawType: TrafoTypes2w): Transformer2wType = {
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
@@ -132,7 +132,7 @@ object Transformer2WType {
       )
     )
 
-    Transformer2WType(
+    Transformer2wType(
       id,
       sRated,
       vRatedA,
