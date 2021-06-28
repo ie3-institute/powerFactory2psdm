@@ -20,11 +20,12 @@ final case class Line(
     id: String,
     nodeAId: String,
     nodeBId: String
-) extends EntityModel with Edge
+) extends EntityModel
+    with Edge
 
 object Line {
 
-  def build(rawLine: Lines): Line = {
+  def build(rawLine: Lines) = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")
     )

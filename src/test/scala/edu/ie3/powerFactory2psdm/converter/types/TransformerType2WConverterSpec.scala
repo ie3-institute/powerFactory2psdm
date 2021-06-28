@@ -16,7 +16,7 @@ import math.abs
 class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
 
   "A Transformer2wTypeConverter" should {
-    val conversionPair = getTransformer2WTypePair("SomeTrafo2wType")
+    val conversionPair = getTransformer2WTypePair("SomeTrafo2WType")
     val input = conversionPair.input
     val expected = conversionPair.result
     val testingTolerance = 1e-3

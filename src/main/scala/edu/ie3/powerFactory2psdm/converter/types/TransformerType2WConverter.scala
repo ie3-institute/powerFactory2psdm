@@ -31,7 +31,6 @@ object TransformerType2WConverter {
     val pFe = input.pFe * 1e3
     val uk = (input.uk / 100) * vRatedA
 
-
     val iRated = sRated / (math.sqrt(3) * vRatedA)
 
     // short circuit experiment

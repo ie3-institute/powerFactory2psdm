@@ -365,7 +365,6 @@ object ConverterTestData extends LazyLogging {
     )
   )
 
-
   def getTransformer2WTypePair(
       key: String
   ): ConversionPair[Transformer2WType, Transformer2WTypeInput] = {
