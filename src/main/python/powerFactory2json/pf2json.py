@@ -59,6 +59,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     """
     elements = []
     pf_edges = ["ElmLne", "ElmCoup"]
+    node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv"]
     for raw_element in raw_elements:
         element = get_attribute_dict(raw_element, attributes_to_include)
 
@@ -69,15 +70,18 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
         # export ids of nodes the edges are connected to
-        if (raw_element.GetClassName() in pf_edges):
+        if (raw_element.GetClassName() in pf_edges or node_connection):
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
                 element["bus1Id"] = None
-            try:
-                element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
-            except Exception:
-                element["bus2Id"] = None
+
+            if (raw_element.GetClassName() in pf_edges):
+                try:
+                    element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
+                except Exception:
+                    element["bus2Id"] = None
+
 
         elements.append(element)
     return elements

@@ -7,23 +7,14 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  GridConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  LineTypes,
-  Lines,
-  Nodes,
-  Switches,
-  Trafos2w
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{GridConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{LineTypes, Lines, Loads, LoadsLV, LoadsMV, Nodes, Switches, Trafos2w}
 
 final case class GridModel(
     nodes: List[Node],
     lineTypes: List[LineType],
     lines: List[Line],
-    switches: List[Switch]
+    switches: List[Switch],
 )
 
 object GridModel extends LazyLogging {
@@ -47,8 +38,20 @@ object GridModel extends LazyLogging {
       logger.debug("There are no switches in the grid.")
       List.empty[Trafos2w]
     })
+    val loads = rawGrid.loads.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[Loads]
+    })
+    val loadsLv = rawGrid.loadsLV.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[LoadsLV]
+    })
+    val loadsMv = rawGrid.loadsMV.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[LoadsMV]
+    })
 
-    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
+    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ loadsLv ++ loadsMv
     val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(

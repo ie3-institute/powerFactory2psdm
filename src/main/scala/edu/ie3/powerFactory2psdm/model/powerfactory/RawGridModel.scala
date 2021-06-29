@@ -1,9 +1,3 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   ExtGrid,
@@ -53,11 +47,20 @@ object RawGridModel {
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(id: Option[String])
+  final case class Loads(
+      bus1Id: Option[String],
+      plini: Option[Double],
+      u0: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      qlini: Option[Double],
+      slini: Option[Double]
+  )
 
-  final case class TrafoTypes2w(id: Option[String])
+  final case class TrafoTypes2w(id: Option[String], bus1Id: Option[String])
 
   final case class LineTypes(
+      bus1Id: Option[String],
       bline: Option[Double],
       gline: Option[Double],
       id: Option[String],
@@ -75,15 +78,16 @@ object RawGridModel {
       bus2Id: Option[String]
   )
 
-  final case class PowerPlants(id: Option[String])
+  final case class PowerPlants(id: Option[String], bus1Id: Option[String])
 
   final case class Trafos3w()
 
-  final case class ExtGrid(id: Option[String])
+  final case class ExtGrid(id: Option[String], bus1Id: Option[String])
 
   final case class LoadsLV()
 
   final case class Nodes(
+      bus1Id: Option[String],
       vtarget: Option[Double],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
@@ -94,7 +98,8 @@ object RawGridModel {
 
   final case class Trafos2w(
       id: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      conElms: Option[List[Option[ConElms]]],
+      bus1Id: Option[String]
   )
 
   final case class TrafoTypes3w()
