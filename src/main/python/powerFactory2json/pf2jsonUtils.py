@@ -44,24 +44,21 @@ attributes4export = {
     'trafos3w': [],
     'trafoTypes3w': [],
     'loads': [
-        'plini',
-        'qlini',
         'slini',
         'coslini',
+        'pf_recap',
         'u0'
     ],
     'loadsLV': [
-        'plini',
-        'qlini',
         'slini',
         'coslini',
+        'pf_recap',
         'u0'
     ],
     'loadsMV': [
-        'plini',
-        'qlini',
         'slini',
         'coslini',
+        'pf_recap',
         'u0'
     ],
     'statGen': [],
