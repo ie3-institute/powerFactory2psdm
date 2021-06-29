@@ -22,7 +22,7 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
   LineType,
-  Transformer2wType
+  TransformerType2W
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
   ConnectedElement,
@@ -259,7 +259,7 @@ object ConverterTestData extends LazyLogging {
 
   val transformerTypes = Map(
     "SomeTrafo2wType" -> ConversionPair(
-      Transformer2wType(
+      TransformerType2W(
         id = "SomeTrafo2wType",
         sRated = 40d,
         vRatedA = 110d,
@@ -299,11 +299,11 @@ object ConverterTestData extends LazyLogging {
 
   def getTransformer2wType(
       key: String
-  ): ConversionPair[Transformer2wType, Transformer2WTypeInput] = {
+  ): ConversionPair[TransformerType2W, Transformer2WTypeInput] = {
     transformerTypes.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${Transformer2wType.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for ${TransformerType2W.getClass.getSimpleName} with key: $key "
       )
     )
   }
