@@ -7,9 +7,22 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{GridConfigurationException, MissingParameterException}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{LineTypes, Lines, Nodes, Switches, TrafoTypes2w, Trafos2w}
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.{LineType, TransformerType2W}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  GridConfigurationException,
+  MissingParameterException
+}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
+  LineTypes,
+  Lines,
+  Nodes,
+  Switches,
+  TrafoTypes2w,
+  Trafos2w
+}
+import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
+  LineType,
+  TransformerType2W
+}
 
 final case class GridModel(
     nodes: List[Node],
