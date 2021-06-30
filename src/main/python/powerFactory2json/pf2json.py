@@ -61,16 +61,16 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     pf_edges = ["ElmLne", "ElmCoup"]
     node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv"]
     for raw_element in raw_elements:
+        elem_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
-
         # export connected elements of nodes and transformers
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        if (elem_class in ["ElmTerm", "ElmTr2", "ElmTr3"]):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
         # export ids of nodes the edges are connected to
-        if (raw_element.GetClassName() in pf_edges or node_connection):
+        if (elem_class in pf_edges or elem_class in node_connection):
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:

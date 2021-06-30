@@ -90,6 +90,24 @@ object GridModel extends LazyLogging {
             s"Transformer $trafo2w has no defined id"
           )
         )
+      case load: Loads =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"Load $load has no defined id"
+          )
+        )
+      case load: LoadsLV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"LVLoad $load has no defined id"
+          )
+        )
+      case load: LoadsMV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"MV Load $load has no defined id"
+          )
+        )
     }
     val uniqueIds = modelIds.distinct
     if (uniqueIds.size < modelIds.size) {
