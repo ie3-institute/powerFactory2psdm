@@ -7,10 +7,14 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.models.StandardLoadProfile.DefaultLoadProfiles
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.datamodel.models.input.system.LoadInput
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
@@ -21,13 +25,18 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
   EntityModel,
   GridModel,
   LineType,
+  Load,
   Node
 }
-import edu.ie3.util.quantities.PowerSystemUnits.PU
+import edu.ie3.util.quantities.PowerSystemUnits.{
+  KILOWATTHOUR,
+  MEGAVOLTAMPERE,
+  PU
+}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities
 
-import java.util.UUID
+import java.util.{Locale, UUID}
 
 object ConverterTestData extends LazyLogging {
 
@@ -239,6 +248,36 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val loads = Map(
+    "someLoad" -> ConversionPair(
+      Load("someLoad", "someNode", 13.23123, 0.97812, 0.0),
+      new LoadInput(
+        UUID.randomUUID(),
+        "someLoad",
+        OperatorInput.NO_OPERATOR_ASSIGNED,
+        OperationTime.notLimited(),
+        getNodePair("someNode").result,
+        new CosPhiFixed(
+          "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, 0.97812)
+        ),
+        DefaultLoadProfiles.NO_STANDARD_LOAD_PROFILE,
+        false,
+        Quantities.getQuantity(0d, KILOWATTHOUR),
+        Quantities.getQuantity(13.23123, MEGAVOLTAMPERE),
+        0.97812
+      )
+    )
+  )
+
+  def getLoadPair(key: String): ConversionPair[Load, LoadInput] = {
+    loads.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Load.getClass.getSimpleName} with key: $key "
       )
     )
   }

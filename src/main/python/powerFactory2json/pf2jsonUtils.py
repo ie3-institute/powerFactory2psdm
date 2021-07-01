@@ -43,9 +43,24 @@ attributes4export = {
     'trafoTypes2w': [],
     'trafos3w': [],
     'trafoTypes3w': [],
-    'loads': [],
-    'loadsLV': [],
-    'loadsMV': [],
+    'loads': [
+        'slini',
+        'coslini',
+        'pf_recap',
+        'u0'
+    ],
+    'loadsLV': [
+        'slini',
+        'coslini',
+        'pf_recap',
+        'u0'
+    ],
+    'loadsMV': [
+        'slini',
+        'coslini',
+        'pf_recap',
+        'u0'
+    ],
     'statGen': [],
     'circuitBreaker' : [],
     'extGrid': [],

@@ -53,7 +53,14 @@ object RawGridModel {
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(id: Option[String])
+  final case class Loads(
+      bus1Id: Option[String],
+      u0: Option[Double],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
   final case class TrafoTypes2w(id: Option[String])
 
@@ -81,7 +88,13 @@ object RawGridModel {
 
   final case class ExtGrid(id: Option[String])
 
-  final case class LoadsLV()
+  final case class LoadsLV(
+      bus1Id: Option[String],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
   final case class Nodes(
       vtarget: Option[Double],
@@ -99,6 +112,12 @@ object RawGridModel {
 
   final case class TrafoTypes3w()
 
-  final case class LoadsMV()
+  final case class LoadsMV(
+      bus1Id: Option[String],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
 }

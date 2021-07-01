@@ -14,6 +14,9 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   LineTypes,
   Lines,
+  Loads,
+  LoadsLV,
+  LoadsMV,
   Nodes,
   Switches,
   Trafos2w
@@ -23,7 +26,8 @@ final case class GridModel(
     nodes: List[Node],
     lineTypes: List[LineType],
     lines: List[Line],
-    switches: List[Switch]
+    switches: List[Switch],
+    loads: List[Load]
 )
 
 object GridModel extends LazyLogging {
@@ -47,8 +51,20 @@ object GridModel extends LazyLogging {
       logger.debug("There are no switches in the grid.")
       List.empty[Trafos2w]
     })
+    val rawLoads = rawGrid.loads.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[Loads]
+    })
+    val rawLoadsLv = rawGrid.loadsLV.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[LoadsLV]
+    })
+    val rawLoadsMv = rawGrid.loadsMV.getOrElse({
+      logger.debug("There are no loads in the grid.")
+      List.empty[LoadsMV]
+    })
 
-    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
+    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ rawLoads ++ rawLoadsLv ++ rawLoadsMv
     val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
@@ -74,6 +90,24 @@ object GridModel extends LazyLogging {
             s"Transformer $trafo2w has no defined id"
           )
         )
+      case load: Loads =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"Load $load has no defined id"
+          )
+        )
+      case load: LoadsLV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"LVLoad $load has no defined id"
+          )
+        )
+      case load: LoadsMV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"MV Load $load has no defined id"
+          )
+        )
     }
     val uniqueIds = modelIds.distinct
     if (uniqueIds.size < modelIds.size) {
@@ -87,12 +121,15 @@ object GridModel extends LazyLogging {
     val lines = rawLines.map(line => Line.build(line))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
+    val loads = rawLoadsLv.map(Load.build) ++ rawLoadsMv.map(Load.build) ++ rawLoads
+      .map(Load.build)
 
     GridModel(
       nodes,
       lineTypes,
       lines,
-      switches
+      switches,
+      loads
     )
   }
 
