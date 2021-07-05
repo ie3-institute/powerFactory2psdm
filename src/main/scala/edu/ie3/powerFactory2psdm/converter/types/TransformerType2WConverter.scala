@@ -31,25 +31,27 @@ object TransformerType2WConverter {
     val pFe = input.pFe * 1e3
     val uk = (input.uk / 100) * vRatedA
     val iRated = sRated / (math.sqrt(3) * vRatedA)
+    val iNoLoadNom = (input.iNoLoad / 100) * iRated
 
     // short circuit experiment
     val rSc = pCu / (3 * pow(iRated, 2))
     val zSc = (uk / sqrt(3)) / iRated
     if (rSc > zSc) {
       throw ConversionException(
-        s"Short circuit experiment calculations of 2w transformer type: ${input.id} not possible."
+        s"Short circuit experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty " +
+          s"parameters. The short circuit resistance can't exceed the short circuit impedance."
       )
     }
     val xSc = sqrt(pow(zSc, 2) - pow(rSc, 2))
 
     // no load experiment
-    val iNoLoadNom = (input.iNoLoad / 100) * iRated
     val yNoLoad = iNoLoadNom / (vRatedA / sqrt(3))
     val gNoLoad = pFe / pow(vRatedA, 2)
     val bNoLoad = sqrt((pow(yNoLoad, 2) - pow(gNoLoad, 2)).doubleValue)
     if (gNoLoad > yNoLoad) {
       throw ConversionException(
-        s"No load experiment calculations of 2w transformer type: ${input.id} not possible."
+        s"No load experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty parameters." +
+          s"The no load conductance can't exceed the no load admittance."
       )
     }
 
