@@ -33,7 +33,9 @@ final case class GridModel(
 )
 
 object GridModel extends LazyLogging {
+
   def build(rawGrid: RawGridModel): GridModel = {
+
     val rawNodes = rawGrid.nodes.getOrElse(
       throw GridConfigurationException("There are no nodes in the grid.")
     )
