@@ -8,80 +8,37 @@ package edu.ie3.powerFactory2psdm.converter.types
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.getTransformer2wType
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
+import edu.ie3.scalatest.QuantityMatchers
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 import math.abs
 
-class TransformerType2WConverterSpec extends Matchers with AnyWordSpecLike {
+class TransformerType2WConverterSpec
+    extends Matchers
+    with AnyWordSpecLike
+    with QuantityMatchers {
 
   "A Transformer2wTypeConverter" should {
     val conversionPair = getTransformer2wType("SomeTrafo2wType")
     val input = conversionPair.input
     val expected = conversionPair.result
-    val testingTolerance = 1e-3
+    implicit val quantityTolerance: Double = 1e-3
 
     "convert a transformer type correctly" in {
       val actual = TransformerType2WConverter.convert(input)
 
       actual.getId shouldBe expected.getId
-      abs(
-        actual.getrSc
-          .subtract(expected.getrSc)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual.getxSc
-          .subtract(expected.getxSc)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual.getsRated
-          .subtract(expected.getsRated)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual.getvRatedA
-          .subtract(expected.getvRatedA)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual.getvRatedB
-          .subtract(expected.getvRatedB)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual
-          .getgM()
-          .subtract(expected.getgM())
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual
-          .getbM()
-          .subtract(expected.getbM())
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual
-          .getdV()
-          .subtract(expected.getdV)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
-      abs(
-        actual.getdPhi
-          .subtract(expected.getdPhi)
-          .getValue
-          .doubleValue()
-      ) < testingTolerance shouldBe true
+
+      actual.getvRatedA should equalWithTolerance(expected.getvRatedA)
+      actual.getvRatedB should equalWithTolerance(expected.getvRatedB)
+      actual.getdV should equalWithTolerance(expected.getdV)
+      actual.getdPhi should equalWithTolerance(expected.getdPhi)
+
+      actual.getrSc should equalWithTolerance(expected.getrSc)
+      actual.getxSc should equalWithTolerance(expected.getxSc)
+      actual.getgM should equalWithTolerance(expected.getgM)
+
       actual.isTapSide shouldBe expected.isTapSide
       actual.getTapNeutr shouldBe expected.getTapNeutr
       actual.getTapMin shouldBe expected.getTapMin

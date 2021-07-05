@@ -89,7 +89,7 @@ object GridModel extends LazyLogging {
       case trafoTypes2w: TrafoTypes2w =>
         trafoTypes2w.id.getOrElse(
           throw MissingParameterException(
-            s"Transformer $trafoTypes2w has no defined id"
+            s"Transformer type $trafoTypes2w has no defined id"
           )
         )
     }
