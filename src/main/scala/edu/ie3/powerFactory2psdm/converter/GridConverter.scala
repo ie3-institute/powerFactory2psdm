@@ -7,9 +7,16 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{GridModel, Node, RawGridModel}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  GridModel,
+  Node,
+  RawGridModel
+}
 import edu.ie3.powerFactory2psdm.util.ConversionPrefixes
 
 /**
