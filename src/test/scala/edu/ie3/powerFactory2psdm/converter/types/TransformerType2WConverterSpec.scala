@@ -50,7 +50,8 @@ class TransformerType2WConverterSpec
       val thrown = intercept[ConversionException](
         TransformerType2WConverter.convert(invalidInput)
       )
-      thrown.getMessage shouldBe s"Short circuit experiment calculations of 2w transformer type: ${input.id} not possible."
+      thrown.getMessage shouldBe s"Short circuit experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty " +
+        s"parameters. The short circuit resistance can't exceed the short circuit impedance."
     }
 
     "throw an exception, when the input model does not allow to calculate no load circuit parameters correctly" in {
@@ -58,7 +59,8 @@ class TransformerType2WConverterSpec
       val thrown = intercept[ConversionException](
         TransformerType2WConverter.convert(invalidInput)
       )
-      thrown.getMessage shouldBe s"No load experiment calculations of 2w transformer type: ${input.id} not possible."
+      thrown.getMessage shouldBe s"No load experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty parameters." +
+        s"The no load conductance can't exceed the no load admittance."
     }
 
   }
