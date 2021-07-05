@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory.types
 
+import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
@@ -15,8 +16,8 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
   *
   * @param id       Identifier
   * @param sRated   Rated apparent power in MVA
-  * @param vRatedA  Rated voltage of the high voltage winding in kW
-  * @param vRatedB  Rated voltage of the low voltage winding in kW
+  * @param vRatedA  Rated voltage of the high voltage winding in kV
+  * @param vRatedB  Rated voltage of the low voltage winding in kV
   * @param dV       Voltage magnitude deviation per tap position in %
   * @param dPhi     Voltage angle deviation per tap position in °
   * @param tapSide  Selection of winding, where the tap changer is installed (0 = OS, 1 = US).
@@ -48,6 +49,7 @@ case class TransformerType2W(
 object TransformerType2W {
 
   def build(rawType: TrafoTypes2w): TransformerType2W = {
+    StandardUnits
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
