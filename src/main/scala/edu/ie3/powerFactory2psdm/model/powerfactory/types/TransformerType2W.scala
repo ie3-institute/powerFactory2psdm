@@ -49,7 +49,6 @@ case class TransformerType2W(
 object TransformerType2W {
 
   def build(rawType: TrafoTypes2w): TransformerType2W = {
-    StandardUnits
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
