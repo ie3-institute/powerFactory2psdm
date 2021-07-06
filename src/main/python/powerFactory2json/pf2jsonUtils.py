@@ -29,7 +29,10 @@ attributes4export = {
         "GPSlat",
         "GPSlon"
     ],
-    'lines': [],
+    'lines': [
+        "dline",
+        "GPScoords"
+    ],
     'lineTypes': [
         "rline",
         "xline",

@@ -79,6 +79,9 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
             except Exception:
                 element["bus2Id"] = None
 
+        if raw_element.GetClassName() == "ElmLne":
+            element["typId"] = name_without_preamble(raw_element.typ_id.GetFullName())
+
         elements.append(element)
     return elements
 
