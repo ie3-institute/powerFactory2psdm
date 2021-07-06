@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.util.quantities.PowerSystemUnits.KILOMETRE
+import tech.units.indriya.unit.Units.METRE
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
@@ -20,6 +20,7 @@ object LineConverter {
 
   def convert(
       input: Line,
+      lengthPrefix: Double,
       lineType: LineTypeInput,
       nodeA: NodeInput,
       nodeB: NodeInput
@@ -27,8 +28,8 @@ object LineConverter {
 
     val id = input.id
     val length = Quantities.getQuantity(
-      input.length,
-      KILOMETRE
+      input.length * lengthPrefix,
+      METRE
     )
 
     val geopos = input.gpsCoords match {

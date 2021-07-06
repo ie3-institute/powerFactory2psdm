@@ -44,7 +44,6 @@ case object GridConverter {
     val lineTypes = grid.lineTypes
       .map(lineType => (lineType.id, LineTypeConverter.convert(lineType)))
       .toMap
-    val lines = convertLines(grid.lines, nodes, lineTypes)
   }
 
   /**
@@ -80,12 +79,14 @@ case object GridConverter {
     */
   def convertLines(
       lines: List[Line],
+      lineLengthPrefix: Double,
       nodes: Map[String, NodeInput],
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
       LineConverter.convert(
         line,
+        lineLengthPrefix,
         lineTypes.getOrElse(
           line.typId,
           throw ConversionException(
