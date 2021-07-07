@@ -7,23 +7,15 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  GridConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  LineTypes,
-  Lines,
-  Nodes,
-  Switches,
-  Trafos2w
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{GridConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{LineTypes, Lines, Nodes, PowerPlants, Switches, Trafos2w}
 
 final case class GridModel(
     nodes: List[Node],
     lineTypes: List[LineType],
     lines: List[Line],
-    switches: List[Switch]
+    switches: List[Switch],
+    powerPlants: List[PowerPlant]
 )
 
 object GridModel extends LazyLogging {
@@ -47,8 +39,12 @@ object GridModel extends LazyLogging {
       logger.debug("There are no switches in the grid.")
       List.empty[Trafos2w]
     })
+    val rawPowerPlants = rawGrid.powerPlants.getOrElse({
+      logger.debug("There are no power plants in the grid")
+      List.empty[PowerPlants]
+    })
 
-    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W
+    val models = rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ rawPowerPlants
     val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
@@ -74,6 +70,12 @@ object GridModel extends LazyLogging {
             s"Transformer $trafo2w has no defined id"
           )
         )
+      case powerPlant: PowerPlants =>
+        powerPlant.id.getOrElse(
+          throw MissingParameterException(
+            s"Power plant $powerPlant has no defined id"
+          )
+        )
     }
     val uniqueIds = modelIds.distinct
     if (uniqueIds.size < modelIds.size) {
@@ -87,12 +89,14 @@ object GridModel extends LazyLogging {
     val lines = rawLines.map(line => Line.build(line))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
+    val powerPlants = rawPowerPlants.map(PowerPlant.build)
 
     GridModel(
       nodes,
       lineTypes,
       lines,
-      switches
+      switches,
+      powerPlants
     )
   }
 

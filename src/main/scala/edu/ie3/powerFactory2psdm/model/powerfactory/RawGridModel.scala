@@ -1,9 +1,3 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   ExtGrid,
@@ -75,13 +69,19 @@ object RawGridModel {
       bus2Id: Option[String]
   )
 
-  final case class PowerPlants(id: Option[String])
+  final case class PowerPlants(
+      bus1Id: Option[String],
+      cosgini: Option[Double],
+      pf_recap: Option[Double],
+      id: Option[String],
+      sgini: Option[Double]
+  )
 
   final case class Trafos3w()
 
   final case class ExtGrid(id: Option[String])
 
-  final case class LoadsLV()
+  final case class LoadsLV(id: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
@@ -99,6 +99,6 @@ object RawGridModel {
 
   final case class TrafoTypes3w()
 
-  final case class LoadsMV()
+  final case class LoadsMV(id: Option[String])
 
 }

@@ -49,7 +49,11 @@ attributes4export = {
     'statGen': [],
     'circuitBreaker' : [],
     'extGrid': [],
-    'powerPlants': [],
+    'powerPlants': [
+        'sgini',
+        'cosgini',
+        'pf_recap'
+    ],
     'pvs': []
 }
 
