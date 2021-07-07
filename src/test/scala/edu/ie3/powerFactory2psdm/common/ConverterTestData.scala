@@ -8,26 +8,23 @@ package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.datamodel.models.input.system.FixedFeedInInput
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  LineType,
-  Node
-}
-import edu.ie3.util.quantities.PowerSystemUnits.PU
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, LineType, Node, PowerPlant}
+import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import tech.units.indriya.quantity.Quantities
 
-import java.util.UUID
+import java.util.{Locale, UUID}
 
 object ConverterTestData extends LazyLogging {
 
@@ -234,7 +231,7 @@ object ConverterTestData extends LazyLogging {
       )
   )
 
-  def getLineType(key: String): ConversionPair[LineType, LineTypeInput] = {
+  def getLineTypePair(key: String): ConversionPair[LineType, LineTypeInput] = {
     lineTypes.getOrElse(
       key,
       throw TestException(
@@ -243,4 +240,32 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
+  val powerPlants = Map("somePowerPlant" ->
+    ConversionPair(
+      PowerPlant(
+        "somePowerPlant",
+        "someNode",
+        13.123,
+        0.94243,
+        0
+      ),
+      new FixedFeedInInput(
+        UUID.randomUUID(),
+        "somePowerPlant",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0,0.94)}"),
+        Quantities.getQuantity(13.123, MEGAVOLTAMPERE),
+        0.94243
+      )
+    )
+  )
+
+  def getPowerPlantPair(key: String): ConversionPair[PowerPlant, FixedFeedInInput] = {
+    powerPlants.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
 }

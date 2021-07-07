@@ -1,9 +1,8 @@
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
+import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.powerfactory.PowerPlant
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
@@ -18,7 +17,7 @@ object PowerPlantConverter {
     val cosPhi = input.indCap match {
       case 0 => input.cosPhi
       case 1 => - input.cosPhi
-      case _ => throw ConversionException("The inductive capacitive specifier should be either 0 or 1 - I am confused!")
+      case _ => throw ConversionException("The leading/lagging specifier should be either 0 or 1 - I am confused!")
     }
     val varCharacteristicString = "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, input.cosPhi)
     val s = Quantities.getQuantity(input.s, MEGAVOLTAMPERE)
@@ -26,8 +25,6 @@ object PowerPlantConverter {
     new FixedFeedInInput(
       UUID.randomUUID(),
       input.id,
-      OperatorInput.NO_OPERATOR_ASSIGNED,
-      OperationTime.notLimited(),
       node,
       new CosPhiFixed(varCharacteristicString),
       s,
