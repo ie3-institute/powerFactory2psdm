@@ -46,11 +46,20 @@ attributes4export = {
     'loads': [],
     'loadsLV': [],
     'loadsMV': [],
-    'statGen': [],
+    'statGen': [
+        'cCategory',
+        'orient',
+        'tilt',
+        'inveff'
+    ],
     'circuitBreaker' : [],
     'extGrid': [],
     'powerPlants': [],
-    'pvs': []
+    'pvs': [
+        'orient',
+        'tilt',
+        'inveff'
+    ]
 }
 
 reserved_keywords = ["abstract",
