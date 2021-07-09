@@ -1,3 +1,9 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.config
 
 import edu.ie3.powerFactory2psdm.common.ConfigTestData
@@ -5,7 +11,10 @@ import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class ConfigValidatorSpec extends Matchers with ConfigTestData with AnyWordSpecLike{
+class ConfigValidatorSpec
+    extends Matchers
+    with ConfigTestData
+    with AnyWordSpecLike {
 
   "A config validator" should {
     "recognise a correct config" in {
@@ -13,7 +22,9 @@ class ConfigValidatorSpec extends Matchers with ConfigTestData with AnyWordSpecL
     }
 
     "thrown an exception if the albedo factor is invalid" in {
-      val exc = intercept[ConversionConfigException](ConfigValidator.checkPvValidity(pvParamsConfig.copy(albedo = 3)))
+      val exc = intercept[ConversionConfigException](
+        ConfigValidator.checkPvValidity(pvParamsConfig.copy(albedo = 3))
+      )
       exc.getMessage shouldBe "Faulty config: The albedo factor should be between 0 and 1"
     }
   }
