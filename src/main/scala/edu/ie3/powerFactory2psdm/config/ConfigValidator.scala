@@ -21,11 +21,9 @@ case object ConfigValidator {
   }
 
   /**
-   * Checks the validity of the given [[ConversionConfig]]. If any content is not valid, a
-   * [[ConversionConfigException]] is thrown.
+   * Checks the validity of the given [[ConversionConfig.Model]] config.
    *
    * @param model The model to check
-   * @throws SimbenchException If any of the content is not as it is expected
    */
   def checkValidity(model: Model): Unit = {
     checkPvValidity(model.defaultParams.pv)
@@ -36,12 +34,11 @@ case object ConfigValidator {
    * [[ConversionConfigException]] is thrown.
    *
    * @param model The model to check
-   * @throws SimbenchException If any of the content is not as it is expected
    */
   def checkPvValidity(params: Pv): Unit = {
     params.albedo match {
-      case 0 <= _ <= 1 =>
-      case _ => throw ConversionConfigException("Faulty Config: The albedo factor should be between 0 and 1")
+      case x if (0 <= x && x <= 1) =>
+      case _ => throw ConversionConfigException("Faulty config: The albedo factor should be between 0 and 1")
     }
   }
 
