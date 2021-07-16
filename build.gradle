@@ -51,7 +51,7 @@ dependencies {
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
 
 
-	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.0') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.1') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
