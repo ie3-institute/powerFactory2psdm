@@ -6,10 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import com.typesafe.config.Config
-import java.util.Properties
-import scala.jdk.CollectionConverters._
-
 object ConversionConfig {
 
   case class ModelConfigs(
@@ -46,22 +42,4 @@ object ConversionConfig {
       upperBound: Double
   ) extends GenerationMethod
 
-}
-
-trait ConversionConfig {
-  implicit class configMapperOps(config: Config) {
-
-    def toMap: Map[String, AnyRef] =
-      config
-        .entrySet()
-        .asScala
-        .map(pair => (pair.getKey, config.getAnyRef(pair.getKey)))
-        .toMap
-
-    def toProperties: Properties = {
-      val properties = new Properties()
-      properties.putAll(config.toMap.asJava)
-      properties
-    }
-  }
 }

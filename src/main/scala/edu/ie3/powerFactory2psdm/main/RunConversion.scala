@@ -7,12 +7,7 @@
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  GenerationMethod,
-  ModelConfigs,
-  PvConfig,
-  PvParams
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.ModelConfigs
 import edu.ie3.powerFactory2psdm.converter.GridConverter
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 
