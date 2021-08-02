@@ -19,16 +19,15 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel
-import pureconfig.{ConfigReader, ConfigSource}
+import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
-object RunConversion extends ConversionHelper with LazyLogging {
+object RunConversion extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
 
     logger.info("Parsing the config")
-    val (_, config) = prepareConfig(args)
-    val pureConf =
+    val pureConf: ModelConfigs =
       ConfigSource.default.at("model-configs").loadOrThrow[ModelConfigs]
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
