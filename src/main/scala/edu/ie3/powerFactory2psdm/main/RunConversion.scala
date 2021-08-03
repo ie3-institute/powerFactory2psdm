@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.ModelConfigs
+import edu.ie3.powerFactory2psdm.config.{ConfigValidator, ConversionConfig}
 import edu.ie3.powerFactory2psdm.converter.GridConverter
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 
@@ -22,8 +22,9 @@ object RunConversion extends LazyLogging {
   def main(args: Array[String]): Unit = {
 
     logger.info("Parsing the config")
-    val pureConf: ModelConfigs =
-      ConfigSource.default.at("model-configs").loadOrThrow[ModelConfigs]
+    val config =
+      ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
+    ConfigValidator.validate(config)
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
     logger.info("Parsing the json grid file.")

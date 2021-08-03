@@ -6,6 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.config
 
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.ModelConfigs
+
+final case class ConversionConfig(modelConfigs: ModelConfigs)
+
 object ConversionConfig {
 
   case class ModelConfigs(
