@@ -46,4 +46,9 @@ object ConversionConfig {
       upperBound: Double
   ) extends GenerationMethod
 
+  case class NormalDistribution(
+      mean: Double,
+      standardDeviation: Double
+  ) extends GenerationMethod
+
 }
