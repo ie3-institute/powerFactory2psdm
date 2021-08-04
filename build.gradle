@@ -23,7 +23,6 @@ ext {
 apply from: scriptsLocation + 'pmd.gradle'
 apply from: scriptsLocation + 'spotless.gradle'
 apply from: scriptsLocation + 'checkJavaVersion.gradle'
-apply from: scriptsLocation + 'tscfg.gradle' // config tasks
 apply from: scriptsLocation + 'scoverage.gradle'
 apply from: scriptsLocation + 'sonarqube.gradle'
 
@@ -64,8 +63,8 @@ dependencies {
 	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
 
 	// config //
-	implementation 'com.typesafe:config:+'
-	implementation "com.github.carueda:tscfg_2.13:${tscfgVersion}"
+	//implementation 'com.typesafe:config:+'
+	implementation "com.github.pureconfig:pureconfig_2.13:0.12.3"
 
 	// cmd args parser //
 	implementation "com.github.scopt:scopt_${scalaVersion}:+"

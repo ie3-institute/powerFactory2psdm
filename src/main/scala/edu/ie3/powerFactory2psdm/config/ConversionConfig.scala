@@ -6,150 +6,49 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-final case class ConversionConfig(
-    conversionMode: ConversionConfig.ConversionMode,
-    model: ConversionConfig.Model
-)
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.ModelConfigs
+
+final case class ConversionConfig(modelConfigs: ModelConfigs)
+
 object ConversionConfig {
-  final case class ConversionMode(
-      fixedFeedIns: scala.Boolean
+
+  case class ModelConfigs(
+      pvConfig: PvConfig
   )
-  object ConversionMode {
-    def apply(
-        c: com.typesafe.config.Config,
-        parentPath: java.lang.String,
-        $tsCfgValidator: $TsCfgValidator
-    ): ConversionConfig.ConversionMode = {
-      ConversionConfig.ConversionMode(
-        fixedFeedIns = $_reqBln(parentPath, c, "fixedFeedIns", $tsCfgValidator)
-      )
-    }
-    private def $_reqBln(
-        parentPath: java.lang.String,
-        c: com.typesafe.config.Config,
-        path: java.lang.String,
-        $tsCfgValidator: $TsCfgValidator
-    ): scala.Boolean = {
-      if (c == null) false
-      else
-        try c.getBoolean(path)
-        catch {
-          case e: com.typesafe.config.ConfigException =>
-            $tsCfgValidator.addBadPath(parentPath + path, e)
-            false
-        }
-    }
 
-  }
-
-  final case class Model(
-      defaultParams: ConversionConfig.Model.DefaultParams
+  case class PvConfig(
+      fixedFeedIn: Boolean,
+      params: PvParams,
+      individualConfigs: Option[List[IndividualPvConfig]]
   )
-  object Model {
-    final case class DefaultParams(
-        pv: ConversionConfig.Model.DefaultParams.Pv
-    )
-    object DefaultParams {
-      final case class Pv(
-          albedo: scala.Double
-      )
-      object Pv {
-        def apply(
-            c: com.typesafe.config.Config,
-            parentPath: java.lang.String,
-            $tsCfgValidator: $TsCfgValidator
-        ): ConversionConfig.Model.DefaultParams.Pv = {
-          ConversionConfig.Model.DefaultParams.Pv(
-            albedo = $_reqDbl(parentPath, c, "albedo", $tsCfgValidator)
-          )
-        }
-        private def $_reqDbl(
-            parentPath: java.lang.String,
-            c: com.typesafe.config.Config,
-            path: java.lang.String,
-            $tsCfgValidator: $TsCfgValidator
-        ): scala.Double = {
-          if (c == null) 0
-          else
-            try c.getDouble(path)
-            catch {
-              case e: com.typesafe.config.ConfigException =>
-                $tsCfgValidator.addBadPath(parentPath + path, e)
-                0
-            }
-        }
 
-      }
+  case class PvParams(
+      albedo: GenerationMethod,
+      azimuth: GenerationMethod,
+      etaConv: GenerationMethod,
+      kG: GenerationMethod,
+      kT: GenerationMethod
+  )
 
-      def apply(
-          c: com.typesafe.config.Config,
-          parentPath: java.lang.String,
-          $tsCfgValidator: $TsCfgValidator
-      ): ConversionConfig.Model.DefaultParams = {
-        ConversionConfig.Model.DefaultParams(
-          pv = ConversionConfig.Model.DefaultParams.Pv(
-            if (c.hasPathOrNull("pv")) c.getConfig("pv")
-            else com.typesafe.config.ConfigFactory.parseString("pv{}"),
-            parentPath + "pv.",
-            $tsCfgValidator
-          )
-        )
-      }
-    }
+  case class IndividualPvConfig(
+      ids: Set[String],
+      params: PvParams
+  )
 
-    def apply(
-        c: com.typesafe.config.Config,
-        parentPath: java.lang.String,
-        $tsCfgValidator: $TsCfgValidator
-    ): ConversionConfig.Model = {
-      ConversionConfig.Model(
-        defaultParams = ConversionConfig.Model.DefaultParams(
-          if (c.hasPathOrNull("defaultParams")) c.getConfig("defaultParams")
-          else com.typesafe.config.ConfigFactory.parseString("defaultParams{}"),
-          parentPath + "defaultParams.",
-          $tsCfgValidator
-        )
-      )
-    }
-  }
+  sealed trait GenerationMethod
 
-  def apply(c: com.typesafe.config.Config): ConversionConfig = {
-    val $tsCfgValidator: $TsCfgValidator = new $TsCfgValidator()
-    val parentPath: java.lang.String = ""
-    val $result = ConversionConfig(
-      conversionMode = ConversionConfig.ConversionMode(
-        if (c.hasPathOrNull("conversionMode")) c.getConfig("conversionMode")
-        else com.typesafe.config.ConfigFactory.parseString("conversionMode{}"),
-        parentPath + "conversionMode.",
-        $tsCfgValidator
-      ),
-      model = ConversionConfig.Model(
-        if (c.hasPathOrNull("model")) c.getConfig("model")
-        else com.typesafe.config.ConfigFactory.parseString("model{}"),
-        parentPath + "model.",
-        $tsCfgValidator
-      )
-    )
-    $tsCfgValidator.validate()
-    $result
-  }
-  private final class $TsCfgValidator {
-    private val badPaths =
-      scala.collection.mutable.ArrayBuffer[java.lang.String]()
+  case class Fixed(
+      value: Double
+  ) extends GenerationMethod
 
-    def addBadPath(
-        path: java.lang.String,
-        e: com.typesafe.config.ConfigException
-    ): Unit = {
-      badPaths += s"'$path': ${e.getClass.getName}(${e.getMessage})"
-    }
+  case class UniformDistribution(
+      lowerBound: Double,
+      upperBound: Double
+  ) extends GenerationMethod
 
-    def validate(): Unit = {
-      if (badPaths.nonEmpty) {
-        throw new com.typesafe.config.ConfigException(
-          badPaths.mkString("Invalid configuration:\n    ", "\n    ", "")
-        ) {}
-      }
-    }
-  }
+  case class NormalDistribution(
+      mean: Double,
+      standardDeviation: Double
+  ) extends GenerationMethod
+
 }

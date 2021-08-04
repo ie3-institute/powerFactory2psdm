@@ -6,49 +6,120 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.Model
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.Model.DefaultParams.Pv
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  Fixed,
+  GenerationMethod,
+  ModelConfigs,
+  PvConfig,
+  PvParams,
+  UniformDistribution
+}
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 
-/**
-  * Provides functionality, to validate if a given [[ConversionConfig]] has valid content or not.
-  * Most parts of the checks (if all needed fields are apparent or not) is automatically done by
-  * the typesafe framework while parsing the input data
-  */
-case object ConfigValidator {
+import scala.util.{Failure, Success, Try}
 
-  /**
-    * Checks the validity of the given [[ConversionConfig]].
-    *
-    * @param config The config to check
-    */
-  def checkValidity(config: ConversionConfig): Unit = {
-    checkValidity(config.model)
+object ConfigValidator {
+
+  def validate(config: ConversionConfig): Unit = {
+    validateModelConfigs(config.modelConfigs)
   }
 
-  /**
-    * Checks the validity of the given [[ConversionConfig.Model]] config.
-    *
-    * @param model The model to check
-    */
-  def checkValidity(model: Model): Unit = {
-    checkPvValidity(model.defaultParams.pv)
+  def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+    validatePvConfig(modelConfigs.pvConfig)
   }
 
-  /**
-    * Checks the validity of the given [[ConversionConfig]]. If any content is not valid, a
-    * [[ConversionConfigException]] is thrown.
-    *
-    * @param model The model to check
-    */
-  def checkPvValidity(params: Pv): Unit = {
-    params.albedo match {
-      case x if (0 <= x && x <= 1) =>
-      case _ =>
+  def validatePvConfig(pvConfig: PvConfig): Unit = {
+    Seq(pvConfig.params) ++ pvConfig.individualConfigs
+      .getOrElse(Nil)
+      .map(conf => conf.params)
+      .map(validatePvParams)
+  }
+
+  def validatePvParams(params: PvParams): Unit = {
+    validateGenerationMethod(params.albedo, 0, 1) match {
+      case Success(_) =>
+      case Failure(exc: Exception) =>
         throw ConversionConfigException(
-          "Faulty config: The albedo factor should be between 0 and 1"
+          s"The albedo of the plants surrounding: ${params.albedo} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.azimuth, -90, 90) match {
+      case Success(_) =>
+      case Failure(exc: Exception) =>
+        throw ConversionConfigException(
+          s"The azimuth of the plant: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.etaConv, 0, 100) match {
+      case Success(_) =>
+      case Failure(exc: Exception) =>
+        throw ConversionConfigException(
+          s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.kG, 0, 1) match {
+      case Success(_) =>
+      case Failure(exc: Exception) =>
+        throw ConversionConfigException(
+          s"The PV generator correction factor (kG): ${params.kG} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.kT, 0, 1) match {
+      case Success(_) =>
+      case Failure(exc: Exception) =>
+        throw ConversionConfigException(
+          s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
         )
     }
   }
+
+  def validateGenerationMethod(
+      genMethod: GenerationMethod,
+      lowerBound: Double,
+      upperBound: Double
+  ): Try[Unit] =
+    genMethod match {
+      case Fixed(value) =>
+        if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
+        else if (value > upperBound)
+          return upperBoundViolation(value, upperBound)
+        Success()
+      case UniformDistribution(min, max) =>
+        if (min < lowerBound && max > upperBound)
+          return lowerUpperBoundViolation(min, max, lowerBound, upperBound)
+        else if (min < lowerBound) return lowerBoundViolation(min, lowerBound)
+        else if (max > upperBound) return upperBoundViolation(max, upperBound)
+        Success()
+    }
+
+  def lowerBoundViolation(
+      value: Double,
+      lowerBound: Double
+  ): Failure[Unit] = Failure(
+    ConversionConfigException(
+      s"The parameters value: $value lies below the lower bound: $lowerBound"
+    )
+  )
+
+  def upperBoundViolation(
+      value: Double,
+      upperBound: Double
+  ): Failure[Unit] = Failure(
+    ConversionConfigException(
+      s"The parameters value: $value exceeds the upper bound: $upperBound"
+    )
+  )
+
+  def lowerUpperBoundViolation(
+      min: Double,
+      max: Double,
+      lowerBound: Double,
+      upperBound: Double
+  ): Failure[Unit] =
+    Failure(
+      ConversionConfigException(
+        s"The minimum: $min and maximum: $max of the uniform distribution lie below the lower bound: $lowerBound and above the upper bound: $upperBound "
+      )
+    )
 
 }

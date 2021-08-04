@@ -14,15 +14,17 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel
+import pureconfig.ConfigSource
+import pureconfig.generic.auto._
 
-object RunConversion extends ConversionHelper with LazyLogging {
+object RunConversion extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
 
     logger.info("Parsing the config")
-    val (_, config) = prepareConfig(args)
-    val conversionConfig = ConversionConfig(config)
-    ConfigValidator.checkValidity(conversionConfig)
+    val config =
+      ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
+    ConfigValidator.validate(config)
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
     logger.info("Parsing the json grid file.")
