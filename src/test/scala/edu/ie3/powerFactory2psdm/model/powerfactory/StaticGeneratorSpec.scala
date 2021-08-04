@@ -14,10 +14,10 @@ import org.scalatest.wordspec.AnyWordSpecLike
 class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
 
   "A static generator should" should {
-    val id = "SomeStatGen"
+    val id = "someStatGen"
     val input = StatGen(
       id = Some(id),
-      busId = Some("SomeNode"),
+      busId = Some("someNode"),
       sgn = Some(11),
       cosgini = Some(0.91),
       pf_recap = Some(0.0)

@@ -56,13 +56,11 @@ object PvConverter {
         )
     }
     val qCharacteristics: ReactivePowerCharacteristic =
-      params.qCharacteristics match {
+      params.qCharacteristic match {
         case FixedQCharacteristic =>
           ReactivePowerCharacteristic.parse(
             s"cosPhiFixed:{(0.0, $cosPhiRated)}"
           )
-        case FixedQCharacteristic(characteristic) =>
-          ReactivePowerCharacteristic.parse(characteristic)
         case DependentQCharacteristic(characteristic) =>
           ReactivePowerCharacteristic.parse(characteristic)
       }

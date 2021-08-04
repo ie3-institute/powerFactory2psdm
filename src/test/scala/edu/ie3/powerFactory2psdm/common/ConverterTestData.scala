@@ -7,7 +7,10 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.models.StandardUnits.{AZIMUTH, EFFICIENCY, SOLAR_HEIGHT, S_RATED}
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.datamodel.models.input.system.PvInput
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
@@ -18,13 +21,7 @@ import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  LineType,
-  Node
-}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{ConnectedElement, EntityModel, GridModel, LineType, Node, StaticGenerator}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
@@ -246,6 +243,42 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val sampledPvs = Map(
+    "somePvPlant" -> ConversionPair(
+      StaticGenerator(
+        id = "someStatGen",
+        busId = "someNode",
+        sRated = 11,
+        cosPhi = 0.91,
+        indCapFlag = 0
+      ),
+      new PvInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        0.2,
+        Quantities.getQuantity(0, AZIMUTH),
+        Quantities.getQuantity(0.95, EFFICIENCY),
+        Quantities.getQuantity(35, SOLAR_HEIGHT),
+        1d,
+        0.9,
+        false,
+        Quantities.getQuantity(11, S_RATED),
+        0.91
+      )
+    )
+  )
+
+  def getSampledPvPair(key: String): ConversionPair[StaticGenerator, PvInput] = {
+    sampledPvs.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
       )
     )
   }

@@ -27,7 +27,7 @@ object ConversionConfig {
       azimuth: GenerationMethod,
       height: GenerationMethod,
       etaConv: GenerationMethod,
-      qCharacteristics: QCharacteristic,
+      qCharacteristic: QCharacteristic,
       kG: GenerationMethod,
       kT: GenerationMethod
   )
@@ -57,10 +57,6 @@ object ConversionConfig {
 
   // use cos phi value of the model
   case object FixedQCharacteristic extends QCharacteristic
-
-  // use custom fixed q characteristic
-  case class FixedQCharacteristic(characteristic: String)
-      extends QCharacteristic
 
   /*
   reactive power characteristic dependent on either power or nodal voltage magnitude as described here:
