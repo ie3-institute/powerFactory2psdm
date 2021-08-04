@@ -25,7 +25,9 @@ object ConversionConfig {
   case class PvParams(
       albedo: GenerationMethod,
       azimuth: GenerationMethod,
+      height: GenerationMethod,
       etaConv: GenerationMethod,
+      qCharacteristics: QCharacteristic,
       kG: GenerationMethod,
       kT: GenerationMethod
   )
@@ -50,5 +52,21 @@ object ConversionConfig {
       mean: Double,
       standardDeviation: Double
   ) extends GenerationMethod
+
+  sealed trait QCharacteristic
+
+  // use cos phi value of the model
+  case object FixedQCharacteristic extends QCharacteristic
+
+  // use custom fixed q characteristic
+  case class FixedQCharacteristic(characteristic: String)
+      extends QCharacteristic
+
+  /*
+  reactive power characteristic dependent on either power od nodal voltage magnitude as described here:
+  https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics
+   */
+  case class DependentQCharacteristic(characteristic: String)
+      extends QCharacteristic
 
 }

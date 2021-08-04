@@ -1,14 +1,20 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
 
 final case class StaticGenerator(
-  id: String,
-  busId: String,
-  sRated: Double,
-  cosPhi: Double,
-  indCapFlag: Int
+    id: String,
+    busId: String,
+    sRated: Double,
+    cosPhi: Double,
+    indCapFlag: Int
 ) extends EntityModel
 
 object StaticGenerator {
@@ -34,10 +40,13 @@ object StaticGenerator {
         s"There is no cos phi defined for static generator: $id"
       )
     )
-    val indCapFlag: Int = input.pf_recap.getOrElse(
-      throw MissingParameterException(
-        s"There is no inductive capacitive specifier defined for static generator: $id"
-      )).toInt
+    val indCapFlag: Int = input.pf_recap
+      .getOrElse(
+        throw MissingParameterException(
+          s"There is no inductive capacitive specifier defined for static generator: $id"
+        )
+      )
+      .toInt
 
     StaticGenerator(id, busId, sRated, cosPhi, indCapFlag)
   }
