@@ -60,6 +60,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     elements = []
     pf_edges = ["ElmLne", "ElmCoup"]
     for raw_element in raw_elements:
+        element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
 
         # export connected elements of nodes and transformers
@@ -78,6 +79,12 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
                 element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
             except Exception:
                 element["bus2Id"] = None
+
+        if ((element_class not in pf_edges) & (element_class not in ["ElmTerm", "TypTr2", "TypTr3", "TypLne"])):
+            try:
+                element["busId"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
+            except Exception:
+                element["busId"] = None
 
         elements.append(element)
     return elements
