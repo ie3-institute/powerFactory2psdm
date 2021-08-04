@@ -3,8 +3,13 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvParams
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
 import tech.units.indriya.ComparableQuantity
+import tech.units.indriya.quantity.Quantities
+import edu.ie3.datamodel.models.StandardUnits.{AZIMUTH, EFFICIENCY, S_RATED}
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
+import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
 
 import java.util.UUID
 import javax.measure.quantity.{Angle, Dimensionless, Power}
@@ -12,38 +17,25 @@ import javax.measure.quantity.{Angle, Dimensionless, Power}
 object PvConverter {
 
 
-  def convert(input: StaticGenerator, node: NodeInput): PvInput = {
-
-    /*
-    - BA Sören Kaapke
-    - Wertebereich doku?
-    - OpenstreetMap
-     */
-
+  def convert(input: StaticGenerator, node: NodeInput, params: PvParams): PvInput = {
     // reactive power characteristic to follow
     // todo look into technische Anschlussrichtlinien
     val qCharacteristics: ReactivePowerCharacteristic = ???
-
-    /*
-     - albedo of the plants surrounding -> how much radiation does the plant get from the reflection of its surroundings
-     Albedo
-     - measure of the diffuse reflection of solar radiation out of the total solar radiation
-     - on a scale from 0 = black body that absorbs all incident radiation, to 1 = body that reflects all incident radiation.
-     - incident radiation
-     */
-    val albedo: Double = ???
-    // - inclination in compass direction South = 0°, West = 90°, East = -90°
-    val azimuth: ComparableQuantity[Angle] = ???
-    // - efficiency of the assets inverter
-    val etaConv: ComparableQuantity[Dimensionless] = ???
-    // - elevation angle
+    val albedo: Double = sample(params.albedo)
+    val azimuth: ComparableQuantity[Angle] =
+      Quantities.getQuantity(sample(params.azimuth), AZIMUTH)
+    val etaConv: ComparableQuantity[Dimensionless] = Quantities.getQuantity(sample(params.etaConv), EFFICIENCY)
     val height: ComparableQuantity[Angle] = ???
-    // Generator correction factor merging technical influences
-    val kG: Double = ???
-    // Temperature correction factor merging thermal influences
-    val kT: Double = ???
-    val sRated: ComparableQuantity[Power] = ???
-    val cosPhiRated: Double = ???
+    val kG: Double = sample(params.kG)
+    val kT: Double = sample(params.kT)
+    val sRated: ComparableQuantity[Power] = Quantities.getQuantity(input.sRated, S_RATED)
+    val cosPhiRated = input.indCapFlag match {
+      case 0 => input.cosPhi
+      case 1 => -input.cosPhi
+      case _ => throw ElementConfigurationException(
+        s"The inductive capacitive specifier of the static generator: ${input.id} should be either 0 or 1"
+      )
+    }
 
     new PvInput(
       UUID.randomUUID(),
@@ -56,7 +48,7 @@ object PvConverter {
       height,
       kG,
       kT,
-      false, // market reaction
+      false,
       sRated,
       cosPhiRated
     )
