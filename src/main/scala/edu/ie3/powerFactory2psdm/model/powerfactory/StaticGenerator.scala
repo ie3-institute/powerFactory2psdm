@@ -32,7 +32,7 @@ object StaticGenerator {
     )
     val sRated = input.sgn.getOrElse(
       throw MissingParameterException(
-        s"There is rated power defined for static generator: $id"
+        s"There is no rated power defined for static generator: $id"
       )
     )
     val cosPhi = input.cosgini.getOrElse(
