@@ -63,7 +63,7 @@ object ConversionConfig {
       extends QCharacteristic
 
   /*
-  reactive power characteristic dependent on either power od nodal voltage magnitude as described here:
+  reactive power characteristic dependent on either power or nodal voltage magnitude as described here:
   https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics
    */
   case class DependentQCharacteristic(characteristic: String)
