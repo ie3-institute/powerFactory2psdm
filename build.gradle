@@ -126,3 +126,20 @@ targetCompatibility = javaVersion
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
+
+tasks.withType(ScalaCompile) {
+	options.forkOptions.jvmArgs += [
+			'-Xmx4096m',
+			'-Xss4m',
+			'-Xms2048m',
+			'-XX:+UseParallelGC',
+			'-XX:MaxInlineLevel=20'
+	]
+	options.compilerArgs += [
+			'-Xmx4096m',
+			'-Xss4m',
+			'-Xms2048m',
+			'-XX:+UseParallelGC',
+			'-XX:MaxInlineLevel=20'
+	]
+}
