@@ -50,6 +50,12 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
       switch shouldBe None
     }
 
+    "throw an exception if the switch isn't connected to any node" in {
+      val switch = input.copy(bus1Id = None, bus2Id = None)
+      val exc = intercept[MissingParameterException](Switch.maybeBuild(switch))
+      exc.getMessage shouldBe s"Switch: $id is not connected to any node"
+    }
+
     "build a fully configured switch correctly" in {
       val switch = Switch
         .maybeBuild(input)
