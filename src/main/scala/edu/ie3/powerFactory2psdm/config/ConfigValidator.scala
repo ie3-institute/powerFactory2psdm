@@ -12,7 +12,8 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   ModelConfigs,
   NormalDistribution,
   PvConfig,
-  PvParams,
+  PvFixedFeedIn,
+  PvModelGeneration,
   UniformDistribution
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
@@ -21,6 +22,10 @@ import scala.util.{Failure, Success, Try}
 
 object ConfigValidator {
 
+  /**
+    * Checks the parsed [[ConversionConfig]] for general soundness.
+    * @param config the parsed config
+    */
   def validate(config: ConversionConfig): Unit = {
     validateModelConfigs(config.modelConfigs)
   }
@@ -30,13 +35,16 @@ object ConfigValidator {
   }
 
   def validatePvConfig(pvConfig: PvConfig): Unit = {
-    Seq(pvConfig.params) ++ pvConfig.individualConfigs
+    Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
       .getOrElse(Nil)
-      .map(conf => conf.params)
-      .map(validatePvParams)
+      .map(conf => conf.conversionMode)
+      .collect {
+        case pvModelGeneration: PvModelGeneration => pvModelGeneration
+      }
+      .map(validatePvModelGenerationParams)
   }
 
-  def validatePvParams(params: PvParams): Unit = {
+  def validatePvModelGenerationParams(params: PvModelGeneration): Unit = {
     validateGenerationMethod(params.albedo, 0, 1) match {
       case Success(_) =>
       case Failure(exc: Exception) =>

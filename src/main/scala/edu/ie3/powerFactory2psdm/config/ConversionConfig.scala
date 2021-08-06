@@ -17,23 +17,26 @@ object ConversionConfig {
   )
 
   case class PvConfig(
-      fixedFeedIn: Boolean,
-      params: PvParams,
+      conversionMode: PvConversionMode,
       individualConfigs: Option[List[IndividualPvConfig]]
   )
 
-  case class PvParams(
+  case class IndividualPvConfig(
+      ids: Set[String],
+      conversionMode: PvConversionMode
+  )
+
+  sealed trait PvConversionMode
+
+  case object PvFixedFeedIn extends PvConversionMode
+
+  case class PvModelGeneration(
       albedo: GenerationMethod,
       azimuth: GenerationMethod,
       etaConv: GenerationMethod,
       kG: GenerationMethod,
       kT: GenerationMethod
-  )
-
-  case class IndividualPvConfig(
-      ids: Set[String],
-      params: PvParams
-  )
+  ) extends PvConversionMode
 
   sealed trait GenerationMethod
 
