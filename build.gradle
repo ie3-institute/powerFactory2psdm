@@ -129,17 +129,17 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(ScalaCompile) {
 	options.forkOptions.jvmArgs += [
-			'-Xmx4096m',
-			'-Xss4m',
-			'-Xms2048m',
-			'-XX:+UseParallelGC',
-			'-XX:MaxInlineLevel=20'
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
 	]
 	options.compilerArgs += [
-			'-Xmx4096m',
-			'-Xss4m',
-			'-Xms2048m',
-			'-XX:+UseParallelGC',
-			'-XX:MaxInlineLevel=20'
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
 	]
 }
