@@ -61,6 +61,13 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
       exc.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid. Exception: ${lowerUpperBoundViolation(-91, 92, -90, 90).exception.getMessage}"
     }
 
+    "throw an exception for min/max error of pv param azimuth" in {
+      val faultyParams = pvParams.copy(azimuth = UniformDistribution(20, -10))
+      val exc =
+        intercept[ConversionConfigException](validatePvParams(faultyParams))
+      exc.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid. Exception: The minimum value: 20.0 exceeds the maximum value: -10.0"
+    }
+
     "throw an exception for invalid pv param etaConv" in {
       val faultyParams = pvParams.copy(etaConv = Fixed(101))
       val exc =

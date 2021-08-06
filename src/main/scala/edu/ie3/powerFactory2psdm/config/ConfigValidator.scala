@@ -6,14 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  Fixed,
-  GenerationMethod,
-  ModelConfigs,
-  PvConfig,
-  PvParams,
-  UniformDistribution
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{Fixed, GenerationMethod, ModelConfigs, NormalDistribution, PvConfig, PvParams, UniformDistribution}
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 
 import scala.util.{Failure, Success, Try}
@@ -80,17 +73,23 @@ object ConfigValidator {
   ): Try[Unit] =
     genMethod match {
       case Fixed(value) =>
-        if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
-        else if (value > upperBound)
-          return upperBoundViolation(value, upperBound)
-        Success()
+        checkForBoundViolation(value, lowerBound, upperBound)
       case UniformDistribution(min, max) =>
+        if (min > max) return Failure(ConversionConfigException(s"The minimum value: $min exceeds the maximum value: $max"))
         if (min < lowerBound && max > upperBound)
           return lowerUpperBoundViolation(min, max, lowerBound, upperBound)
         else if (min < lowerBound) return lowerBoundViolation(min, lowerBound)
         else if (max > upperBound) return upperBoundViolation(max, upperBound)
         Success()
+      case NormalDistribution(mean, _) =>
+        checkForBoundViolation(mean, lowerBound, upperBound)
     }
+
+  def checkForBoundViolation(value: Double, lowerBound: Double, upperBound: Double): Try[Unit] = {
+    if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
+    if (value > upperBound) return upperBoundViolation(value, upperBound)
+    Success()
+  }
 
   def lowerBoundViolation(
       value: Double,
