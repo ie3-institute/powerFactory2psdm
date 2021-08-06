@@ -67,7 +67,7 @@ object RawGridModel {
       rline: Option[Double]
   )
 
-  final case class StatGen()
+  final case class StatGen(id: Option[String])
 
   final case class Lines(
       id: Option[String],
@@ -99,6 +99,7 @@ object RawGridModel {
   )
 
   final case class ProjectSettings(
+      unitSystem: Option[Double],
       prefixPQS: Option[String],
       prefixLength: Option[String]
   )

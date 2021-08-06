@@ -91,6 +91,7 @@ pfGrid = {}  # resulting pf grid json export
 # get general settings
 pfGrid.update({"projectSettings":
     {
+        "unitSystem": project.ilenunit,
         "prefixPQS": project.cspqexp,
         "prefixLength": project.clenexp
     }

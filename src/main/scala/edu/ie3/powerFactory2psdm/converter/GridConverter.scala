@@ -7,17 +7,8 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ConversionException,
-  MissingParameterException
-}
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  GridModel,
-  Node,
-  RawGridModel
-}
-import edu.ie3.powerFactory2psdm.util.ConversionPrefixes
+import edu.ie3.powerFactory2psdm.model.powerfactory.{GridModel, RawGridModel}
 
 /**
   * Functionalities to transform an exported and then parsed PowerFactory grid to the PSDM.
@@ -25,29 +16,8 @@ import edu.ie3.powerFactory2psdm.util.ConversionPrefixes
 case object GridConverter {
 
   def convert(pfGrid: RawGridModel) = {
-    val projectSettings = pfGrid.projectSettings match {
-      case Some(List(settings)) => settings
-      case Some(List(_, _, _*)) =>
-        throw ConversionException(
-          "There are multiple project settings defined."
-        )
-      case None =>
-        throw ConversionException("There are no project settings defined.")
-    }
     val grid = GridModel.build(pfGrid)
-    val prefixes = ConversionPrefixes(
-      projectSettings.prefixPQS.getOrElse(
-        throw MissingParameterException(
-          "The projects settings miss the prefix specification for active/reactive/apparent power values"
-        )
-      ),
-      projectSettings.prefixLength.getOrElse(
-        throw MissingParameterException(
-          "The project settings miss the prefix specification for line length."
-        )
-      )
-    )
-    val gridElements = convertGridElements(grid, prefixes)
+    val gridElements = convertGridElements(grid)
   }
 
   /**
@@ -56,8 +26,7 @@ case object GridConverter {
     * @param rawGrid the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: GridModel,
-      prefixes: ConversionPrefixes
+      grid: GridModel
   ): Unit = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)

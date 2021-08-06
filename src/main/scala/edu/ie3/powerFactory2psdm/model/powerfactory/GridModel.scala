@@ -8,6 +8,7 @@ package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
   GridConfigurationException,
   MissingParameterException
 }
@@ -15,6 +16,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   LineTypes,
   Lines,
   Nodes,
+  ProjectSettings,
   Switches,
   TrafoTypes2w,
   Trafos2w
@@ -23,19 +25,23 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
   LineType,
   TransformerType2W
 }
+import edu.ie3.powerFactory2psdm.util.ConversionPrefixes
 
 final case class GridModel(
     nodes: List[Node],
     lineTypes: List[LineType],
     lines: List[Line],
     switches: List[Switch],
-    transformerTypes2W: List[TransformerType2W]
+    transformerTypes2W: List[TransformerType2W],
+    conversionPrefixes: ConversionPrefixes
 )
 
 object GridModel extends LazyLogging {
 
   def build(rawGrid: RawGridModel): GridModel = {
-
+    val projectSettings = extractProjectSettings(rawGrid.projectSettings)
+    checkUnitSystem(projectSettings.unitSystem)
+    val conversionPrefixes = getConversionPrefixes(projectSettings)
     val rawNodes = rawGrid.nodes.getOrElse(
       throw GridConfigurationException("There are no nodes in the grid.")
     )
@@ -112,8 +118,47 @@ object GridModel extends LazyLogging {
       lineTypes,
       lines,
       switches,
-      trafoTypes2W
+      trafoTypes2W,
+      conversionPrefixes
     )
   }
 
+  def extractProjectSettings(
+      rawSettings: Option[List[ProjectSettings]]
+  ): ProjectSettings = {
+    rawSettings match {
+      case Some(List(settings)) => settings
+      case Some(List(_, _, _*)) =>
+        throw ConversionException(
+          "There are multiple project settings defined."
+        )
+      case None =>
+        throw ConversionException("There are no project settings defined.")
+    }
+  }
+
+  def checkUnitSystem(unitSystem: Option[Double]): Unit = {
+    unitSystem match {
+      case Some(0) =>
+      case _ =>
+        throw ConversionException(
+          "Conversion is currently only implemented for the metric unit system"
+        )
+    }
+  }
+
+  def getConversionPrefixes(settings: ProjectSettings): ConversionPrefixes = {
+    ConversionPrefixes(
+      settings.prefixPQS.getOrElse(
+        throw MissingParameterException(
+          "The projects settings miss the prefix specification for active/reactive/apparent power values"
+        )
+      ),
+      settings.prefixLength.getOrElse(
+        throw MissingParameterException(
+          "The project settings miss the prefix specification for line length."
+        )
+      )
+    )
+  }
 }
