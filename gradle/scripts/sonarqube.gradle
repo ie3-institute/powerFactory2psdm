@@ -21,8 +21,7 @@ sonarqube {
 		property 'sonar.scala.coverage.reportPaths', 'build/reports/scoverage/scoverage.xml'
 		// remove auto generated RawGridModel file from sonarqube analysis
 		property 'sonar.exclusions', [
-			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/RawGridModel.scala",
-			"src/main/scala/edu/ie3/powerFactory2psdm/config/ConversionConfig.scala"
+			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/RawGridModel.scala"
 		]
 	}
 }
