@@ -29,11 +29,11 @@ object ConfigValidator {
     validateModelConfigs(config.modelConfigs)
   }
 
-  private def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+  private[config] def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
     validatePvConfig(modelConfigs.pvConfig)
   }
 
-  private def validatePvConfig(pvConfig: PvConfig): Unit = {
+  private[config] def validatePvConfig(pvConfig: PvConfig): Unit = {
     Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
       .getOrElse(Nil)
       .map(conf => conf.conversionMode)
@@ -43,47 +43,47 @@ object ConfigValidator {
       .map(validatePvModelGenerationParams)
   }
 
-  private def validatePvModelGenerationParams(
+  private[config] def validatePvModelGenerationParams(
       params: PvModelGeneration
   ): Unit = {
     validateGenerationMethod(params.albedo, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The albedo of the plants surrounding: ${params.albedo} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.azimuth, -90, 90) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The azimuth of the plant: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.kG, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The PV generator correction factor (kG): ${params.kG} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.kT, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
         )
     }
   }
 
-  private def validateGenerationMethod(
+  private[config] def validateGenerationMethod(
       genMethod: GenerationMethod,
       lowerBound: Double,
       upperBound: Double
@@ -102,22 +102,22 @@ object ConfigValidator {
           return lowerUpperBoundViolation(min, max, lowerBound, upperBound)
         else if (min < lowerBound) return lowerBoundViolation(min, lowerBound)
         else if (max > upperBound) return upperBoundViolation(max, upperBound)
-        Success()
+        Success(Unit)
       case NormalDistribution(mean, _) =>
         checkForBoundViolation(mean, lowerBound, upperBound)
     }
 
-  private def checkForBoundViolation(
+  private[config] def checkForBoundViolation(
       value: Double,
       lowerBound: Double,
       upperBound: Double
   ): Try[Unit] = {
     if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
     if (value > upperBound) return upperBoundViolation(value, upperBound)
-    Success()
+    Success(Unit)
   }
 
-  private def lowerBoundViolation(
+  private[config] def lowerBoundViolation(
       value: Double,
       lowerBound: Double
   ): Failure[Unit] = Failure(
@@ -126,7 +126,7 @@ object ConfigValidator {
     )
   )
 
-  private def upperBoundViolation(
+  private[config] def upperBoundViolation(
       value: Double,
       upperBound: Double
   ): Failure[Unit] = Failure(
@@ -135,7 +135,7 @@ object ConfigValidator {
     )
   )
 
-  private def lowerUpperBoundViolation(
+  private[config] def lowerUpperBoundViolation(
       min: Double,
       max: Double,
       lowerBound: Double,
