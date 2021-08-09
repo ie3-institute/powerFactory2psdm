@@ -43,7 +43,9 @@ object ConfigValidator {
       .map(validatePvModelGenerationParams)
   }
 
-  private def validatePvModelGenerationParams(params: PvModelGeneration): Unit = {
+  private def validatePvModelGenerationParams(
+      params: PvModelGeneration
+  ): Unit = {
     validateGenerationMethod(params.albedo, 0, 1) match {
       case Success(_) =>
       case Failure(exc: Exception) =>
