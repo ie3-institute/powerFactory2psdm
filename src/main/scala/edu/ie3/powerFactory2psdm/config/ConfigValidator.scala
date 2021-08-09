@@ -102,7 +102,7 @@ object ConfigValidator {
           return lowerUpperBoundViolation(min, max, lowerBound, upperBound)
         else if (min < lowerBound) return lowerBoundViolation(min, lowerBound)
         else if (max > upperBound) return upperBoundViolation(max, upperBound)
-        Success(Unit)
+        Success(())
       case NormalDistribution(mean, _) =>
         checkForBoundViolation(mean, lowerBound, upperBound)
     }
@@ -114,7 +114,7 @@ object ConfigValidator {
   ): Try[Unit] = {
     if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
     if (value > upperBound) return upperBoundViolation(value, upperBound)
-    Success(Unit)
+    Success(())
   }
 
   private[config] def lowerBoundViolation(
