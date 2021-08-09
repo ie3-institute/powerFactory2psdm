@@ -12,7 +12,6 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   ModelConfigs,
   NormalDistribution,
   PvConfig,
-  PvFixedFeedIn,
   PvModelGeneration,
   UniformDistribution
 }
@@ -30,11 +29,11 @@ object ConfigValidator {
     validateModelConfigs(config.modelConfigs)
   }
 
-  def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+  private def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
     validatePvConfig(modelConfigs.pvConfig)
   }
 
-  def validatePvConfig(pvConfig: PvConfig): Unit = {
+  private def validatePvConfig(pvConfig: PvConfig): Unit = {
     Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
       .getOrElse(Nil)
       .map(conf => conf.conversionMode)
@@ -44,7 +43,7 @@ object ConfigValidator {
       .map(validatePvModelGenerationParams)
   }
 
-  def validatePvModelGenerationParams(params: PvModelGeneration): Unit = {
+  private def validatePvModelGenerationParams(params: PvModelGeneration): Unit = {
     validateGenerationMethod(params.albedo, 0, 1) match {
       case Success(_) =>
       case Failure(exc: Exception) =>
@@ -82,7 +81,7 @@ object ConfigValidator {
     }
   }
 
-  def validateGenerationMethod(
+  private def validateGenerationMethod(
       genMethod: GenerationMethod,
       lowerBound: Double,
       upperBound: Double
@@ -106,7 +105,7 @@ object ConfigValidator {
         checkForBoundViolation(mean, lowerBound, upperBound)
     }
 
-  def checkForBoundViolation(
+  private def checkForBoundViolation(
       value: Double,
       lowerBound: Double,
       upperBound: Double
@@ -116,7 +115,7 @@ object ConfigValidator {
     Success()
   }
 
-  def lowerBoundViolation(
+  private def lowerBoundViolation(
       value: Double,
       lowerBound: Double
   ): Failure[Unit] = Failure(
@@ -125,7 +124,7 @@ object ConfigValidator {
     )
   )
 
-  def upperBoundViolation(
+  private def upperBoundViolation(
       value: Double,
       upperBound: Double
   ): Failure[Unit] = Failure(
@@ -134,7 +133,7 @@ object ConfigValidator {
     )
   )
 
-  def lowerUpperBoundViolation(
+  private def lowerUpperBoundViolation(
       min: Double,
       max: Double,
       lowerBound: Double,
