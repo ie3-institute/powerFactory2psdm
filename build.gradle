@@ -60,6 +60,12 @@ dependencies {
 	// Graphs
 	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
 
+	// config //
+	//implementation 'com.typesafe:config:+'
+	implementation "com.github.pureconfig:pureconfig_${scalaVersion}:0.12.3"
+
+	// cmd args parser //
+	implementation "com.github.scopt:scopt_${scalaVersion}:+"
 
 	// ie³ internal repository
 	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.3'
@@ -117,4 +123,21 @@ targetCompatibility = javaVersion
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
+}
+
+tasks.withType(ScalaCompile) {
+	options.forkOptions.jvmArgs += [
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
+	]
+	options.compilerArgs += [
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
+	]
 }
