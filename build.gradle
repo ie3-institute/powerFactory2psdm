@@ -62,7 +62,7 @@ dependencies {
 
 	// config //
 	//implementation 'com.typesafe:config:+'
-	implementation "com.github.pureconfig:pureconfig_2.13:0.12.3"
+	implementation "com.github.pureconfig:pureconfig_${scalaVersion}:0.12.3"
 
 	// cmd args parser //
 	implementation "com.github.scopt:scopt_${scalaVersion}:+"
