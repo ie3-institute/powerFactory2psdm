@@ -45,6 +45,7 @@ import java.util.UUID
 object ConverterTestData extends LazyLogging {
 
   val config: ConversionConfig =
+    // ConfigSource.file("src/test/resources/application.conf").loadOrThrow[ConversionConfig]
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   /**

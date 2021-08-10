@@ -10,8 +10,9 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   Fixed,
   GenerationMethod,
   ModelConfigs,
+  NormalDistribution,
   PvConfig,
-  PvParams,
+  PvModelGeneration,
   UniformDistribution
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
@@ -20,79 +21,103 @@ import scala.util.{Failure, Success, Try}
 
 object ConfigValidator {
 
+  /**
+    * Checks the parsed [[ConversionConfig]] for general soundness.
+    * @param config the parsed config
+    */
   def validate(config: ConversionConfig): Unit = {
     validateModelConfigs(config.modelConfigs)
   }
 
-  def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+  private[config] def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
     validatePvConfig(modelConfigs.pvConfig)
   }
 
-  def validatePvConfig(pvConfig: PvConfig): Unit = {
-    Seq(pvConfig.params) ++ pvConfig.individualConfigs
+  private[config] def validatePvConfig(pvConfig: PvConfig): Unit = {
+    Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
       .getOrElse(Nil)
-      .map(conf => conf.params)
-      .map(validatePvParams)
+      .map(conf => conf.conversionMode)
+      .collect {
+        case pvModelGeneration: PvModelGeneration => pvModelGeneration
+      }
+      .map(validatePvModelGenerationParams)
   }
 
-  def validatePvParams(params: PvParams): Unit = {
+  private[config] def validatePvModelGenerationParams(
+      params: PvModelGeneration
+  ): Unit = {
     validateGenerationMethod(params.albedo, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The albedo of the plants surrounding: ${params.albedo} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.azimuth, -90, 90) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The azimuth of the plant: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.kG, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The PV generator correction factor (kG): ${params.kG} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.kT, 0, 1) match {
       case Success(_) =>
-      case Failure(exc: Exception) =>
+      case Failure(exc) =>
         throw ConversionConfigException(
           s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
         )
     }
   }
 
-  def validateGenerationMethod(
+  private[config] def validateGenerationMethod(
       genMethod: GenerationMethod,
       lowerBound: Double,
       upperBound: Double
   ): Try[Unit] =
     genMethod match {
       case Fixed(value) =>
-        if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
-        else if (value > upperBound)
-          return upperBoundViolation(value, upperBound)
-        Success()
+        checkForBoundViolation(value, lowerBound, upperBound)
       case UniformDistribution(min, max) =>
+        if (min > max)
+          return Failure(
+            ConversionConfigException(
+              s"The minimum value: $min exceeds the maximum value: $max"
+            )
+          )
         if (min < lowerBound && max > upperBound)
           return lowerUpperBoundViolation(min, max, lowerBound, upperBound)
         else if (min < lowerBound) return lowerBoundViolation(min, lowerBound)
         else if (max > upperBound) return upperBoundViolation(max, upperBound)
-        Success()
+        Success(())
+      case NormalDistribution(mean, _) =>
+        checkForBoundViolation(mean, lowerBound, upperBound)
     }
 
-  def lowerBoundViolation(
+  private[config] def checkForBoundViolation(
+      value: Double,
+      lowerBound: Double,
+      upperBound: Double
+  ): Try[Unit] = {
+    if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
+    if (value > upperBound) return upperBoundViolation(value, upperBound)
+    Success(())
+  }
+
+  private[config] def lowerBoundViolation(
       value: Double,
       lowerBound: Double
   ): Failure[Unit] = Failure(
@@ -101,7 +126,7 @@ object ConfigValidator {
     )
   )
 
-  def upperBoundViolation(
+  private[config] def upperBoundViolation(
       value: Double,
       upperBound: Double
   ): Failure[Unit] = Failure(
@@ -110,7 +135,7 @@ object ConfigValidator {
     )
   )
 
-  def lowerUpperBoundViolation(
+  private[config] def lowerUpperBoundViolation(
       min: Double,
       max: Double,
       lowerBound: Double,
