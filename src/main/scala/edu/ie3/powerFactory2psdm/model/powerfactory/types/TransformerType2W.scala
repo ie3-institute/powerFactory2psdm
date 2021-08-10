@@ -29,7 +29,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
   * @param pFe      Iron losses in kW
   * @param pCu      Copper losses in kW
   */
-case class TransformerType2W(
+final case class TransformerType2W(
     id: String,
     sRated: Double,
     vRatedA: Double,

@@ -26,7 +26,7 @@ import scala.annotation.tailrec
   * @param b phase-to-ground conductance in micro Siemens/km
   * @param g phase-to-ground conductance in micro Siemens/km
   */
-case class LineType(
+final case class LineType(
     id: String,
     vRated: Double,
     iMax: Double,
