@@ -1,4 +1,11 @@
 {
+  "projectSettings": [
+    {
+      "unitSystem": 0,
+      "prefixPQS": "M",
+      "prefixLength": "k"
+    }
+  ],
   "nodes": [
     {
       "id": "Grid.ElmNet\\Bus_0001.ElmTerm",
@@ -146,6 +153,10 @@
         {
           "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\Statischer Generator.ElmGenstat",
+          "pfCls": "ElmGenstat"
         }
       ]
     },
@@ -167,6 +178,10 @@
         {
           "id": "Grid.ElmNet\\Trf_0007_0009.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\Niederspannungslast.ElmLodlv",
+          "pfCls": "ElmLodlv"
         }
       ]
     },
@@ -203,10 +218,6 @@
           "pfCls": "ElmLne"
         },
         {
-          "id": "Grid.ElmNet\\Load_0009.ElmLod",
-          "pfCls": "ElmLod"
-        },
-        {
           "id": "Grid.ElmNet\\Shnt_0009.ElmShnt",
           "pfCls": "ElmShnt"
         },
@@ -217,6 +228,10 @@
         {
           "id": "Grid.ElmNet\\Trf_0007_0009.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\Load_0009.ElmLodmv",
+          "pfCls": "ElmLodmv"
         }
       ]
     },
@@ -412,12 +427,12 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
-          "pfCls": "ElmTr2"
-        },
-        {
           "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
+        },
+        {
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
+          "pfCls": "ElmTr2"
         }
       ]
     },
@@ -429,11 +444,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
@@ -837,9 +852,6 @@
   "trafoTypes3w": [],
   "loads": [
     {
-      "id": "Grid.ElmNet\\Load_0010.ElmLod"
-    },
-    {
       "id": "Grid.ElmNet\\Load_0011.ElmLod"
     },
     {
@@ -867,15 +879,27 @@
       "id": "Grid.ElmNet\\Load_0006.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0009.ElmLod"
+      "id": "Grid.ElmNet\\Load_0015.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0015.ElmLod"
+      "id": "Grid.ElmNet\\Load_0010.ElmLod"
     }
   ],
-  "loadsLV": [],
-  "loadsMV": [],
-  "statGen": [],
+  "loadsLV": [
+    {
+      "id": "Grid.ElmNet\\Niederspannungslast.ElmLodlv"
+    }
+  ],
+  "loadsMV": [
+    {
+      "id": "Grid.ElmNet\\Load_0009.ElmLodmv"
+    }
+  ],
+  "statGen": [
+    {
+      "id": "Grid.ElmNet\\Statischer Generator.ElmGenstat"
+    }
+  ],
   "extGrid": [
     {
       "id": "Grid.ElmNet\\Externes Netz.ElmXnet"
