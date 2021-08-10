@@ -41,7 +41,7 @@ object GridModel extends LazyLogging {
   def build(rawGrid: RawGridModel): GridModel = {
     val projectSettings = extractProjectSettings(rawGrid.projectSettings)
     checkUnitSystem(projectSettings.unitSystem)
-    val conversionPrefixes = getConversionPrefixes(projectSettings)
+    val conversionPrefixes = buildConversionPrefixes(projectSettings)
     val rawNodes = rawGrid.nodes.getOrElse(
       throw GridConfigurationException("There are no nodes in the grid.")
     )
@@ -147,7 +147,7 @@ object GridModel extends LazyLogging {
     }
   }
 
-  private def getConversionPrefixes(
+  private def buildConversionPrefixes(
       settings: ProjectSettings
   ): ConversionPrefixes = {
     ConversionPrefixes(
