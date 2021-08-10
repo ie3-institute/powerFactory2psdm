@@ -14,7 +14,7 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
-
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
@@ -32,6 +32,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.{
 }
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
+import pureconfig.ConfigSource
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
 import edu.ie3.util.quantities.PowerSystemUnits.{
@@ -39,11 +40,14 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
   KILOVOLT,
   VOLTAMPERE
 }
-
+import pureconfig.generic.auto._
 import java.util.UUID
 import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
+
+  val config: ConversionConfig =
+    ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   /**
     * Case class to denote a consistent pair of input and expected output of a conversion
