@@ -123,7 +123,7 @@ object GridModel extends LazyLogging {
     )
   }
 
-  def extractProjectSettings(
+  private def extractProjectSettings(
       rawSettings: Option[List[ProjectSettings]]
   ): ProjectSettings = {
     rawSettings match {
@@ -137,9 +137,9 @@ object GridModel extends LazyLogging {
     }
   }
 
-  def checkUnitSystem(unitSystem: Option[Double]): Unit = {
+  private def checkUnitSystem(unitSystem: Option[Double]): Unit = {
     unitSystem match {
-      case Some(0) =>
+      case Some(0) => ()
       case _ =>
         throw ConversionException(
           "Conversion is currently only implemented for the metric unit system"
@@ -147,7 +147,9 @@ object GridModel extends LazyLogging {
     }
   }
 
-  def getConversionPrefixes(settings: ProjectSettings): ConversionPrefixes = {
+  private def getConversionPrefixes(
+      settings: ProjectSettings
+  ): ConversionPrefixes = {
     ConversionPrefixes(
       settings.prefixPQS.getOrElse(
         throw MissingParameterException(
