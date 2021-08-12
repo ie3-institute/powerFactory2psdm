@@ -20,6 +20,12 @@ import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  Fixed,
+  FixedQCharacteristic,
+  PvModelGeneration,
+  UniformDistribution
+}
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
@@ -45,8 +51,17 @@ import java.util.UUID
 object ConverterTestData extends LazyLogging {
 
   val config: ConversionConfig =
-    // ConfigSource.file("src/test/resources/application.conf").loadOrThrow[ConversionConfig]
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
+
+  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
+    albedo = Fixed(0.2),
+    azimuth = UniformDistribution(-90, 90),
+    etaConv = Fixed(0.95),
+    height = UniformDistribution(20, 50),
+    qCharacteristic = FixedQCharacteristic,
+    kG = Fixed(0.9),
+    kT = Fixed(1)
+  )
 
   /**
     * Case class to denote a consistent pair of input and expected output of a conversion

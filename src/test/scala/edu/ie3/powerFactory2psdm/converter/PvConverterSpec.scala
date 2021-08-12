@@ -11,7 +11,15 @@ import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   getNodePair,
   getSampledPvPair
 }
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  PvFixedFeedIn,
+  PvModelGeneration
+}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  TestException
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -22,12 +30,13 @@ class PvConverterSpec extends Matchers with AnyWordSpecLike {
     val input = conversionPair.input
     val node = getNodePair("someNode").result
     val expected = conversionPair.result
+    val params = ConverterTestData.pvModelGeneration
 
     "convert a static generator correctly" in {
       val actual = PvConverter.convert(
         input,
         node,
-        ConverterTestData.config.modelConfigs.pvConfig.params
+        params
       )
       actual.getId shouldBe expected.getId
       actual.getNode shouldBe expected.getNode
@@ -40,7 +49,7 @@ class PvConverterSpec extends Matchers with AnyWordSpecLike {
         PvConverter.convert(
           input.copy(indCapFlag = 2),
           node,
-          ConverterTestData.config.modelConfigs.pvConfig.params
+          params
         )
       )
       exc.getMessage shouldBe s"The inductive capacitive specifier of the static generator: ${input.id} should be either 0 or 1"
