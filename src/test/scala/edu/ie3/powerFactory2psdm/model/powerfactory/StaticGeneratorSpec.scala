@@ -20,7 +20,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       busId = Some("someNode"),
       sgn = Some(11),
       cosgini = Some(0.91),
-      pf_recap = Some(0.0)
+      pf_recap = Some(0.0),
+      cCategory = Some("Statischer Generator")
     )
 
     "throw an exception if the id is missing" in {
@@ -56,6 +57,13 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       val exc =
         intercept[MissingParameterException](StaticGenerator.build(faulty))
       exc.getMessage shouldBe s"There is no inductive capacitive specifier defined for static generator: $id"
+    }
+
+    "throw an exception if category specifier is missing" in {
+      val faulty = input.copy(pf_recap = None)
+      val exc =
+        intercept[MissingParameterException](StaticGenerator.build(faulty))
+      exc.getMessage shouldBe s"There is no category specifier defined for static generator: $id"
     }
 
     "build a correctly configured static generator" in {

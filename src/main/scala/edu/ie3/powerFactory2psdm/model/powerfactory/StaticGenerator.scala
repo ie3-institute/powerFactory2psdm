@@ -14,7 +14,8 @@ final case class StaticGenerator(
     busId: String,
     sRated: Double,
     cosPhi: Double,
-    indCapFlag: Int
+    indCapFlag: Int,
+    category: String
 ) extends EntityModel
 
 object StaticGenerator {
@@ -40,15 +41,20 @@ object StaticGenerator {
         s"There is no cos phi defined for static generator: $id"
       )
     )
-    val indCapFlag: Int = input.pf_recap
+    val indCapFlag = input.pf_recap
       .getOrElse(
         throw MissingParameterException(
           s"There is no inductive capacitive specifier defined for static generator: $id"
         )
       )
       .toInt
+    val category = input.cCategory.getOrElse(
+      throw MissingParameterException(
+        s"There is no category specifier defined for static generator: $id"
+      )
+    )
 
-    StaticGenerator(id, busId, sRated, cosPhi, indCapFlag)
+    StaticGenerator(id, busId, sRated, cosPhi, indCapFlag, category)
   }
 
 }

@@ -70,6 +70,7 @@ object RawGridModel {
   final case class StatGen(
       sgn: Option[Double],
       cosgini: Option[Double],
+      cCategory: Option[String],
       pf_recap: Option[Double],
       busId: Option[String],
       id: Option[String]

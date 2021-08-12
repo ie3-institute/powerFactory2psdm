@@ -49,7 +49,8 @@ attributes4export = {
     'statGen': [
         'sgn',
         'cosgini',
-        'pf_recap'
+        'pf_recap',
+        'cCategory'
     ],
     'circuitBreaker' : [],
     'extGrid': [],
