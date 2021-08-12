@@ -60,8 +60,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
 
     "build a correctly configured static generator" in {
       val result = StaticGenerator.build(input)
-      result.id shouldBe "SomeStatGen"
-      result.busId shouldBe "SomeNode"
+      result.id shouldBe "someStatGen"
+      result.busId shouldBe "someNode"
       result.sRated shouldBe 11
       result.cosPhi shouldBe 0.91
       result.indCapFlag shouldBe 0
