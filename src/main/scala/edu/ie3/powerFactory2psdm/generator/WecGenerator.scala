@@ -23,7 +23,7 @@ import java.util.UUID
 
 object WecGenerator {
 
-  def convert(
+  def generate(
       input: StaticGenerator,
       node: NodeInput,
       params: WecModelGeneration

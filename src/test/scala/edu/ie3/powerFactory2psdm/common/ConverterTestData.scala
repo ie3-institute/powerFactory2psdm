@@ -10,27 +10,37 @@ import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits.{
   AZIMUTH,
   EFFICIENCY,
-  SOLAR_HEIGHT,
-  S_RATED
+  SOLAR_HEIGHT
 }
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.datamodel.models.input.system.PvInput
-import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.input.system.`type`.{
+  SystemParticipantTypeInput,
+  WecTypeInput
+}
+import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
+import edu.ie3.datamodel.models.input.system.characteristic.{
+  CosPhiFixed,
+  ReactivePowerCharacteristic,
+  WecCharacteristicInput
+}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
   Fixed,
   FixedQCharacteristic,
   PvModelGeneration,
-  UniformDistribution
+  UniformDistribution,
+  WecModelGeneration
 }
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.Subnet
 import edu.ie3.powerFactory2psdm.model.powerfactory._
+import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
@@ -70,6 +80,23 @@ object ConverterTestData extends LazyLogging {
     def getPair: (I, R) = (input, result)
   }
 
+  /**
+    * Case class to denote a consistent pair of input and expected output of a conversion
+    *
+    * @param input  Input model
+    * @param result Resulting, converted model
+    * @tparam I     Type of input model
+    * @tparam M     Type of result class
+    */
+  final case class ConversionPairWithType[
+      I <: EntityModel,
+      M <: UniqueEntity,
+      T <: SystemParticipantTypeInput
+  ](
+      input: I,
+      resultModel: M,
+      resultType: T
+  )
   logger.warn("Building the grid model")
 
   val testGridFile =
@@ -305,6 +332,68 @@ object ConverterTestData extends LazyLogging {
       throw TestException(
         s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
       )
+    )
+  }
+
+  val wecModelGeneration: WecModelGeneration = WecModelGeneration(
+    capex = Fixed(100d),
+    opex = Fixed(50d),
+    cpCharacteristics = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
+    hubHeight = Fixed(200),
+    rotorArea = Fixed(45),
+    etaConv = Fixed(96),
+    qCharacteristic =
+      DependentQCharacteristic("cosPhiP:{(0.0,1.0),(0.9,1.0),(1.2,-0.3)}")
+  )
+
+  val wecType: Map[String, WecTypeInput] = Map(
+    "someWecType" -> new WecTypeInput(
+      UUID.randomUUID(),
+      "someWecType",
+      Quantities.getQuantity(100, StandardUnits.CAPEX),
+      Quantities.getQuantity(50, StandardUnits.ENERGY_PRICE),
+      Quantities.getQuantity(11, PowerSystemUnits.MEGAVOLTAMPERE),
+      0.91,
+      new WecCharacteristicInput("cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}"),
+      Quantities.getQuantity(96, StandardUnits.EFFICIENCY),
+      Quantities.getQuantity(45, StandardUnits.ROTOR_AREA),
+      Quantities.getQuantity(200, StandardUnits.HUB_HEIGHT)
+    )
+  )
+
+  def getWecType(key: String): WecTypeInput = {
+    wecType.getOrElse(
+      key,
+      throw TestException(s"Cannot find WEC type with key: $key")
+    )
+  }
+  val generateWecs: Map[String, ConversionPairWithType[
+    StaticGenerator,
+    WecInput,
+    WecTypeInput
+  ]] = Map(
+    "someWec" -> ConversionPairWithType(
+      staticGenerator.copy(id = "someWec", category = "Wind"),
+      new WecInput(
+        UUID.randomUUID(),
+        "someWec",
+        getNodePair("someNode").result,
+        ReactivePowerCharacteristic.parse(
+          "cosPhiP:{(0.0,1.0),(0.9,1.0),(1.2,-0.3)}"
+        ),
+        getWecType("someWecType"),
+        false
+      ),
+      getWecType("someWecType")
+    )
+  )
+
+  def getGenerateWecPair(
+      key: String
+  ): ConversionPairWithType[StaticGenerator, WecInput, WecTypeInput] = {
+    generateWecs.getOrElse(
+      key,
+      throw TestException(s"Cannot find WEC generation pair with key: $key")
     )
   }
 

@@ -34,7 +34,7 @@ object WecTypeGenerator {
     )
     val opex: ComparableQuantity[EnergyPrice] = Quantities.getQuantity(
       RandomSampler.sample(params.opex),
-      PowerSystemUnits.EURO
+      PowerSystemUnits.EURO_PER_MEGAWATTHOUR
     )
     val sRated: ComparableQuantity[Power] =
       Quantities.getQuantity(statGen.sRated, PowerSystemUnits.MEGAVOLTAMPERE)
