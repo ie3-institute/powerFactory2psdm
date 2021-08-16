@@ -40,6 +40,20 @@ object ConversionConfig {
       kT: GenerationMethod
   ) extends PvConversionMode
 
+  sealed trait WecConversionMode
+
+  case object WecFixedFeedIn extends WecConversionMode
+
+  case class WecModelGeneration(
+      capex: GenerationMethod,
+      opex: GenerationMethod,
+      cpCharacteristics: String,
+      hubHeight: GenerationMethod,
+      rotorArea: GenerationMethod,
+      etaConv: GenerationMethod,
+      qCharacteristic: QCharacteristic
+  )
+
   sealed trait GenerationMethod
 
   case class Fixed(
