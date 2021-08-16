@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   getNodePair,
-  getSampledPvPair
+  getGeneratePvPair
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.scalatest.matchers.should.Matchers
@@ -18,7 +18,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
 
   "A PvConverter" should {
-    val conversionPair = getSampledPvPair("somePvPlant")
+    val conversionPair = getGeneratePvPair("somePvPlant")
     val input = conversionPair.input
     val node = getNodePair("someNode").result
     val expected = conversionPair.result
@@ -34,9 +34,10 @@ class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
       actual.getNode shouldBe expected.getNode
       actual.getsRated shouldBe expected.getsRated
       actual.getCosPhiRated shouldBe expected.getCosPhiRated
+      actual.getqCharacteristics shouldBe expected.getqCharacteristics
     }
 
-    "throw an exception if the inductiva capacitive specifier is neither 0 nor 1" in {
+    "throw an exception if the inductive capacitive specifier is neither 0 nor 1" in {
       val exc = intercept[ElementConfigurationException](
         PvInputGenerator.generate(
           input.copy(indCapFlag = 2),
