@@ -45,16 +45,6 @@ object ConverterTestData extends LazyLogging {
   val config: ConversionConfig =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
-  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
-    albedo = Fixed(0.2),
-    azimuth = UniformDistribution(-90, 90),
-    etaConv = Fixed(0.95),
-    height = UniformDistribution(20, 50),
-    qCharacteristic = FixedQCharacteristic,
-    kG = Fixed(0.9),
-    kT = Fixed(1)
-  )
-
   /**
     * Case class to denote a consistent pair of input and expected output of a conversion
     *
@@ -274,6 +264,16 @@ object ConverterTestData extends LazyLogging {
     cosPhi = 0.91,
     indCapFlag = 0,
     category = "Statischer Generator"
+  )
+
+  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
+    albedo = Fixed(0.2),
+    azimuth = UniformDistribution(-90, 90),
+    etaConv = Fixed(0.95),
+    height = UniformDistribution(20, 50),
+    qCharacteristic = FixedQCharacteristic,
+    kG = Fixed(0.9),
+    kT = Fixed(1)
   )
 
   val generatePvs = Map(
