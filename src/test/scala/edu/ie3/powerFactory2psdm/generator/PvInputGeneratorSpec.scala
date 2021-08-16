@@ -4,23 +4,14 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.converter
+package edu.ie3.powerFactory2psdm.generator
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   getNodePair,
   getSampledPvPair
 }
-import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  PvFixedFeedIn,
-  PvModelGeneration
-}
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  TestException
-}
-import edu.ie3.powerFactory2psdm.generator.PvInputGenerator
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
