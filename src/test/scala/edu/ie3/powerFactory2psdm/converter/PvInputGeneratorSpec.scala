@@ -20,10 +20,11 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   TestException
 }
+import edu.ie3.powerFactory2psdm.generator.PvInputGenerator
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class PvConverterSpec extends Matchers with AnyWordSpecLike {
+class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
 
   "A PvConverter" should {
     val conversionPair = getSampledPvPair("somePvPlant")
@@ -33,7 +34,7 @@ class PvConverterSpec extends Matchers with AnyWordSpecLike {
     val params = ConverterTestData.pvModelGeneration
 
     "convert a static generator correctly" in {
-      val actual = PvConverter.convert(
+      val actual = PvInputGenerator.generate(
         input,
         node,
         params
@@ -46,7 +47,7 @@ class PvConverterSpec extends Matchers with AnyWordSpecLike {
 
     "throw an exception if the inductiva capacitive specifier is neither 0 nor 1" in {
       val exc = intercept[ElementConfigurationException](
-        PvConverter.convert(
+        PvInputGenerator.generate(
           input.copy(indCapFlag = 2),
           node,
           params

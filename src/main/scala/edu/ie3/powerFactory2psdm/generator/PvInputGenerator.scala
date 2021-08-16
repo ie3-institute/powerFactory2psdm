@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.converter
+package edu.ie3.powerFactory2psdm.generator
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
@@ -25,9 +25,9 @@ import tech.units.indriya.unit.Units.PERCENT
 import java.util.UUID
 import javax.measure.quantity.{Angle, Dimensionless, Power}
 
-object PvConverter {
+object PvInputGenerator {
 
-  def convert(
+  def generate(
       input: StaticGenerator,
       node: NodeInput,
       params: PvModelGeneration
