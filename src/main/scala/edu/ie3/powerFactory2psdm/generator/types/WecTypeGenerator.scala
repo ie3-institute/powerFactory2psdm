@@ -4,13 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.converter.types
+package edu.ie3.powerFactory2psdm.generator.types
 
 import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
-import edu.ie3.datamodel.models.input.system.characteristic.{
-  CharacteristicInput,
-  WecCharacteristicInput
-}
+import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInput
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
@@ -24,7 +21,7 @@ import tech.units.indriya.unit.Units.{METRE, PERCENT, SQUARE_METRE}
 import java.util.UUID
 import javax.measure.quantity.{Area, Dimensionless, Length, Power}
 
-object WecTypeConverter {
+object WecTypeGenerator {
 
   def convert(
       statGen: StaticGenerator,

@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.converter
+package edu.ie3.powerFactory2psdm.generator
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.WecInput
@@ -15,13 +15,13 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   FixedQCharacteristic,
   WecModelGeneration
 }
-import edu.ie3.powerFactory2psdm.converter.types.WecTypeConverter
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
+import edu.ie3.powerFactory2psdm.generator.types.WecTypeGenerator
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
 
 import java.util.UUID
 
-object WecConverter {
+object WecGenerator {
 
   def convert(
       input: StaticGenerator,
@@ -45,7 +45,7 @@ object WecConverter {
         case DependentQCharacteristic(characteristic) =>
           ReactivePowerCharacteristic.parse(characteristic)
       }
-    val wecTypeInput = WecTypeConverter.convert(input, params)
+    val wecTypeInput = WecTypeGenerator.convert(input, params)
 
     val wecInput = new WecInput(
       UUID.randomUUID(),
