@@ -9,22 +9,14 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  DependentQCharacteristic,
-  FixedQCharacteristic,
-  PvModelGeneration
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{DependentQCharacteristic, FixedQCharacteristic, PvModelGeneration}
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
-import edu.ie3.datamodel.models.StandardUnits.{
-  AZIMUTH,
-  EFFICIENCY,
-  SOLAR_HEIGHT,
-  S_RATED
-}
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
+import tech.units.indriya.unit.Units.PERCENT
 
 import java.util.UUID
 import javax.measure.quantity.{Angle, Dimensionless, Power}
@@ -38,15 +30,15 @@ object PvConverter {
   ): PvInput = {
     val albedo: Double = sample(params.albedo)
     val azimuth: ComparableQuantity[Angle] =
-      Quantities.getQuantity(sample(params.azimuth), AZIMUTH)
+      Quantities.getQuantity(sample(params.azimuth), DEGREE_GEOM)
     val etaConv: ComparableQuantity[Dimensionless] =
-      Quantities.getQuantity(sample(params.etaConv), EFFICIENCY)
+      Quantities.getQuantity(sample(params.etaConv), PERCENT)
     val height: ComparableQuantity[Angle] =
-      Quantities.getQuantity(sample(params.height), SOLAR_HEIGHT)
+      Quantities.getQuantity(sample(params.height), DEGREE_GEOM)
     val kG: Double = sample(params.kG)
     val kT: Double = sample(params.kT)
     val sRated: ComparableQuantity[Power] =
-      Quantities.getQuantity(input.sRated, S_RATED)
+      Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
     val cosPhiRated = input.indCapFlag match {
       case 0 => input.cosPhi
       case 1 => -input.cosPhi
