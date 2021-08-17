@@ -302,7 +302,7 @@ object ConverterTestData extends LazyLogging {
     generatePvs.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for StaticGenerator/PvInput with key: $key "
       )
     )
   }
