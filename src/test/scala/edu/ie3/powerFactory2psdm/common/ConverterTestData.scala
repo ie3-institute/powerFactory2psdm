@@ -14,7 +14,7 @@ import edu.ie3.datamodel.models.StandardUnits.{
   S_RATED
 }
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.datamodel.models.input.system.PvInput
+import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
@@ -304,6 +304,31 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val staticGenerator2FeedInPair = Map(
+    "someStatGen" -> ConversionPair(
+      staticGenerator,
+      new FixedFeedInInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        Quantities.getQuantity(11d, MEGAVOLTAMPERE),
+        0.91
+      )
+    )
+  )
+
+  def getStaticGenerator2FixedFeedInPair(
+      key: String
+  ): ConversionPair[StaticGenerator, FixedFeedInInput] = {
+    staticGenerator2FeedInPair.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for static generator to fixed feed in with key: $key"
       )
     )
   }
