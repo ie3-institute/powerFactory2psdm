@@ -10,12 +10,11 @@ import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits.{
   AZIMUTH,
   EFFICIENCY,
-  SOLAR_HEIGHT,
-  S_RATED
+  SOLAR_HEIGHT
 }
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
