@@ -60,7 +60,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception if category specifier is missing" in {
-      val faulty = input.copy(pf_recap = None)
+      val faulty = input.copy(cCategory = None)
       val exc =
         intercept[MissingParameterException](StaticGenerator.build(faulty))
       exc.getMessage shouldBe s"There is no category specifier defined for static generator: $id"
