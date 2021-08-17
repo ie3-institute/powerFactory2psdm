@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.config
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   Fixed,
   GenerationMethod,
-  ModelConfigs,
+  StatGenModelConfigs,
   NormalDistribution,
   PvConfig,
   PvModelGeneration,
@@ -29,7 +29,9 @@ object ConfigValidator {
     validateModelConfigs(config.modelConfigs)
   }
 
-  private[config] def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+  private[config] def validateModelConfigs(
+      modelConfigs: StatGenModelConfigs
+  ): Unit = {
     validatePvConfig(modelConfigs.pvConfig)
   }
 
