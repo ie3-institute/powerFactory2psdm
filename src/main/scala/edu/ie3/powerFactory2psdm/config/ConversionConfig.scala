@@ -26,6 +26,16 @@ object ConversionConfig {
       conversionMode: PvConversionMode
   )
 
+  case class BatteryStorageConfig(
+      conversionMode: BatteryStorageConversionMode,
+      individualConfigs: Option[List[IndividualBatteryStorageConfig]]
+  )
+
+  case class IndividualBatteryStorageConfig(
+      ids: Set[String],
+      conversionMode: BatteryStorageConversionMode
+  )
+
   sealed trait PvConversionMode
 
   case object PvFixedFeedIn extends PvConversionMode
@@ -52,6 +62,24 @@ object ConversionConfig {
       rotorArea: GenerationMethod,
       etaConv: GenerationMethod,
       qCharacteristic: QCharacteristic
+  )
+
+  sealed trait BatteryStorageConversionMode
+
+  case object BatteryStorageFixedFeedIn extends BatteryStorageConversionMode
+
+  case class BatteryStorageModelGeneration(
+      capex: GenerationMethod,
+      opex: GenerationMethod,
+      eStorage: GenerationMethod,
+      pMax: GenerationMethod,
+      activePowerGradient: GenerationMethod,
+      eta: GenerationMethod,
+      dod: GenerationMethod,
+      lifeTime: GenerationMethod,
+      lifeCycle: GenerationMethod,
+      qCharacteristic: QCharacteristic,
+      behaviour: GenerationMethod
   )
 
   sealed trait GenerationMethod
