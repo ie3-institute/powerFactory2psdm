@@ -7,10 +7,8 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
-import org.apache.logging.log4j.core.config.ConfigurationException
 
 /**
   * A static generator
