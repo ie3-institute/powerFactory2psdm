@@ -28,14 +28,14 @@ import javax.measure.quantity.{Angle, Dimensionless, Power}
 object PvInputGenerator {
 
   /**
-   * Generates a [[PvInput]] model from a [[StaticGenerator]]. As a static generator does not hold all parameters
-   * necessary, the other parameters are generated via the defined generation methods for every parameter.
-   *
-   * @param input base model for generating a [[PvInput]]
-   * @param node the node the input is connected to
-   * @param params parameters for generating missing parameters
-   * @return a [[PvInput]]
-   */
+    * Generates a [[PvInput]] model from a [[StaticGenerator]]. As a static generator does not hold all parameters
+    * necessary, the other parameters are generated via the defined generation methods for every parameter.
+    *
+    * @param input base model for generating a [[PvInput]]
+    * @param node the node the input is connected to
+    * @param params parameters for generating missing parameters
+    * @return a [[PvInput]]
+    */
   def generate(
       input: StaticGenerator,
       node: NodeInput,

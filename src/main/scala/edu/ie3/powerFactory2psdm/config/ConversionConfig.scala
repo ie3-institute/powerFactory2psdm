@@ -19,9 +19,18 @@ object ConversionConfig {
     * Groups all configs for model conversion of static generators.
     *
     * @param pvConfig config for the pv models
+    * @param sRatedSource which apparent power source to choose from the PowerFactory model. Can be either "basic data"
+    *                     which uses the apparent power mentioned in the models basic data (Basisdaten) or
+    *                     "load flow" which uses the apparent power of the load flow (Lastfluss) specification
+    * @param cosPhiSource which cosinus phi source to choose from the PowerFactory model. Can be either "basic data"
+    *                     which uses the rated cosinus phi mentioned in the models basic data (Basisdaten) or
+    *                     "load flow" which uses the cosinus phi of the load flow (Lastfluss) specification
+    *
     */
   case class StatGenModelConfigs(
-      pvConfig: PvConfig
+      pvConfig: PvConfig,
+      sRatedSource: String,
+      cosPhiSource: String
   )
 
   /**
