@@ -54,7 +54,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception if the rated power is missing" in {
-      val faulty = input.copy(sgn = None)
+      val faulty = input.copy(sgini = None)
       val exc =
         intercept[MissingParameterException](
           StaticGenerator.build(
@@ -63,7 +63,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
             ConversionConfig.loadFlowSource
           )
         )
-      exc.getMessage shouldBe s"There is no rated power defined for static generator: $id"
+      exc.getMessage shouldBe s"There is no rated power [load flow] defined for static generator: $id"
     }
 
     "throw an exception if the cos phi value is missing" in {
@@ -76,7 +76,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
             ConversionConfig.loadFlowSource
           )
         )
-      exc.getMessage shouldBe s"There is no cos phi defined for static generator: $id"
+      exc.getMessage shouldBe s"There is no cos phi [load flow] defined for static generator: $id"
     }
 
     "throw an exception if the inductive capacitive flag is missing" in {
@@ -106,21 +106,19 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception if the sRatedSource is wrongly configured" in {
-      val faulty = input.copy(cCategory = None)
       val exc =
         intercept[IllegalArgumentException](
           StaticGenerator
-            .build(faulty, "some gibberish", ConversionConfig.loadFlowSource)
+            .build(input, "some gibberish", ConversionConfig.loadFlowSource)
         )
       exc.getMessage shouldBe StaticGenerator.paramSourceException.getMessage
     }
 
     "throw an exception if the cosPhiSource is wrongly configured" in {
-      val faulty = input.copy(cCategory = None)
       val exc =
         intercept[IllegalArgumentException](
           StaticGenerator
-            .build(faulty, ConversionConfig.loadFlowSource, "some gibberish")
+            .build(input, ConversionConfig.loadFlowSource, "some gibberish")
         )
       exc.getMessage shouldBe StaticGenerator.paramSourceException.getMessage
     }
