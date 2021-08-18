@@ -14,17 +14,19 @@ final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
   * Config used for the grid conversion
   */
 object ConversionConfig {
+  val loadFlowSource: String = "load flow"
+  val basicDataSource: String = "basic data"
 
   /**
     * Groups all configs for model conversion of static generators.
     *
     * @param pvConfig config for the pv models
-    * @param sRatedSource which apparent power source to choose from the PowerFactory model. Can be either "basic data"
+    * @param sRatedSource which apparent power source to choose from the PowerFactory model. Can be either [[basicDataSource]]
     *                     which uses the apparent power mentioned in the models basic data (Basisdaten) or
-    *                     "load flow" which uses the apparent power of the load flow (Lastfluss) specification
-    * @param cosPhiSource which cosinus phi source to choose from the PowerFactory model. Can be either "basic data"
+    *                     [[loadFlowSource]] which uses the apparent power of the load flow (Lastfluss) specification
+    * @param cosPhiSource which cosinus phi source to choose from the PowerFactory model. Can be either [[basicDataSource]]
     *                     which uses the rated cosinus phi mentioned in the models basic data (Basisdaten) or
-    *                     "load flow" which uses the cosinus phi of the load flow (Lastfluss) specification
+    *                     [[loadFlowSource]] which uses the cosinus phi of the load flow (Lastfluss) specification
     *
     */
   case class StatGenModelConfigs(

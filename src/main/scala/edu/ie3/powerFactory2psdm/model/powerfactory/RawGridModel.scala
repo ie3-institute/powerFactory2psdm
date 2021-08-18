@@ -98,8 +98,7 @@ object RawGridModel {
       id: Option[String],
       GPSlon: Option[Double],
       uknom: Option[Double],
-      GPSlat: Option[Double],
-      busId: Option[String]
+      GPSlat: Option[Double]
   )
 
   final case class Trafos2w(

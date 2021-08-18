@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
@@ -48,13 +49,13 @@ object StaticGenerator {
       )
     )
     val sRated = sRatedSource match {
-      case "basic data" =>
+      case ConversionConfig.basicDataSource =>
         input.sgn.getOrElse(
           throw MissingParameterException(
             s"There is no rated power [basic data] defined for static generator: $id"
           )
         )
-      case "load flow" =>
+      case ConversionConfig.loadFlowSource =>
         input.sgini.getOrElse(
           throw MissingParameterException(
             s"There is no rated power [load flow] defined for static generator: $id"
@@ -63,13 +64,13 @@ object StaticGenerator {
       case _ => throw paramSourceException
     }
     val cosPhi = cosPhiSource match {
-      case "basic data" =>
+      case ConversionConfig.basicDataSource =>
         input.cosn.getOrElse(
           throw MissingParameterException(
             s"There is no cos phi [basic data] defined for static generator: $id"
           )
         )
-      case "load flow" =>
+      case ConversionConfig.loadFlowSource =>
         input.cosgini.getOrElse(
           throw MissingParameterException(
             s"There is no cos phi [load flow] defined for static generator: $id"
@@ -93,8 +94,8 @@ object StaticGenerator {
     StaticGenerator(id, busId, sRated, cosPhi, indCapFlag, category)
   }
 
-  val paramSourceException: ConversionConfigException =
-    ConversionConfigException(
+  val paramSourceException: IllegalArgumentException =
+    new IllegalArgumentException(
       "We only differentiate between options \"basic data\" and \"load flow\". Please adjust the StatGenModelConfigs accordingly"
     )
 
