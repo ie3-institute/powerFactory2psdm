@@ -9,6 +9,16 @@ package edu.ie3.powerFactory2psdm.model.powerfactory
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
 
+/**
+ * A static generator
+ *
+ * @param id identifier
+ * @param busId id of the node it is connected to
+ * @param sRated rated apparent power in MVA
+ * @param cosPhi power factor
+ * @param indCapFlag specifies leading or lagging power factor characteristic
+ * @param category category of the static generator
+ */
 final case class StaticGenerator(
     id: String,
     busId: String,
