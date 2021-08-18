@@ -123,7 +123,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       exc.getMessage shouldBe StaticGenerator.paramSourceException.getMessage
     }
 
-    "build a correctly configured static generator" in {
+    "build a correctly configured static generator utilising load flow params" in {
       val result = StaticGenerator.build(
         input,
         ConversionConfig.loadFlowSource,
@@ -133,6 +133,19 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       result.busId shouldBe "someNode"
       result.sRated shouldBe 13
       result.cosPhi shouldBe 0.91
+      result.indCapFlag shouldBe 0
+    }
+
+    "build a correctly configured static generator utilising basic data params" in {
+      val result = StaticGenerator.build(
+        input,
+        ConversionConfig.basicDataSource,
+        ConversionConfig.basicDataSource
+      )
+      result.id shouldBe "someStatGen"
+      result.busId shouldBe "someNode"
+      result.sRated shouldBe 11
+      result.cosPhi shouldBe 0.84
       result.indCapFlag shouldBe 0
     }
   }
