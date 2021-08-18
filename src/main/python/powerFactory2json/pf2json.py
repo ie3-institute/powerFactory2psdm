@@ -58,7 +58,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     Creates a list with an attribute dictionary for each raw PowerFactory element
     """
     elements = []
-    single_node_connection = ["ElmTerm", "ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
+    single_node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
     double_node_connection = ["ElmLne", "ElmCoup", "ElmTr2"]
     for raw_element in raw_elements:
         element_class = raw_element.GetClassName()
