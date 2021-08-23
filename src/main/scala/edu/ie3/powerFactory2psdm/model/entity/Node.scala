@@ -9,15 +9,20 @@ package edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Nodes
 
-/**
-  * Electrical node
+/** Electrical node
   *
-  * @param id identifier
-  * @param nominalVoltage nominal voltage in kV
-  * @param vTarget target voltage in p.u.
-  * @param lat latitude
-  * @param lon longitude
-  * @param conElms connected elements to the node
+  * @param id
+  *   identifier
+  * @param nominalVoltage
+  *   nominal voltage in kV
+  * @param vTarget
+  *   target voltage in p.u.
+  * @param lat
+  *   latitude
+  * @param lon
+  *   longitude
+  * @param conElms
+  *   connected elements to the node
   */
 final case class Node(
     id: String,
@@ -30,11 +35,12 @@ final case class Node(
 
 object Node {
 
-  /**
-    * Build a [[Node]] from a raw [[Nodes]]
+  /** Build a [[Node]] from a raw [[Nodes]]
     *
-    * @param rawNode raw schema generated node
-    * @return [[Node]]
+    * @param rawNode
+    *   raw schema generated node
+    * @return
+    *   [[Node]]
     */
   def build(rawNode: Nodes): Node = {
     val id = rawNode.id.getOrElse(

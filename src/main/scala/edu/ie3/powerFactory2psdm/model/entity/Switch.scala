@@ -11,12 +11,14 @@ import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 
-/**
-  * Electrical Switch
+/** Electrical Switch
   *
-  * @param id identifier
-  * @param nodeAId id of one of the connected nodes
-  * @param nodeBId id of one of the connected nodes
+  * @param id
+  *   identifier
+  * @param nodeAId
+  *   id of one of the connected nodes
+  * @param nodeBId
+  *   id of one of the connected nodes
   */
 final case class Switch(
     id: String,
@@ -27,14 +29,16 @@ final case class Switch(
 
 object Switch extends LazyLogging {
 
-  /**
-    * Builds an Option that probably contains a [[Switch]]
+  /** Builds an Option that probably contains a [[Switch]]
     *
-    * Note: We are not throwing an Exception if one connection of the switches is missing, since unused singly connected
-    * switches in PowerFactoryGrid substations are a thing. In that case we don't build it and return None.
+    * Note: We are not throwing an Exception if one connection of the switches
+    * is missing, since unused singly connected switches in PowerFactoryGrid
+    * substations are a thing. In that case we don't build it and return None.
     *
-    * @param rawSwitch the schema generated switch
-    * @return a [[Switch]]
+    * @param rawSwitch
+    *   the schema generated switch
+    * @return
+    *   a [[Switch]]
     */
   def maybeBuild(rawSwitch: Switches): Option[Switch] = {
     val id = rawSwitch.id.getOrElse(

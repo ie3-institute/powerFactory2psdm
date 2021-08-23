@@ -10,19 +10,21 @@ import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.{Edge, Node}
 import org.jgrapht.graph._
 
-/**
-  * Builds a graph representation of the powerfactory grid
+/** Builds a graph representation of the powerfactory grid
   */
 object GridGraphBuilder {
 
-  /**
-    * Builds up the graph topology of the grid. All nodes (represented by their ids) and the connection between nodes by
-    * edges (lines and switches) are added to the graph. The resulting subgraphs inside the graph represent the subnets
-    * of the grid.
+  /** Builds up the graph topology of the grid. All nodes (represented by their
+    * ids) and the connection between nodes by edges (lines and switches) are
+    * added to the graph. The resulting subgraphs inside the graph represent the
+    * subnets of the grid.
     *
-    * @param nodes nodes of the power factory grid
-    * @param edges edges (lines and switches) of the power factory grid
-    * @return [[Multigraph]] of all the ids of the nodes and their connection
+    * @param nodes
+    *   nodes of the power factory grid
+    * @param edges
+    *   edges (lines and switches) of the power factory grid
+    * @return
+    *   [[Multigraph]] of all the ids of the nodes and their connection
     */
   def build[I <: Edge](
       nodes: List[Node],
@@ -37,13 +39,16 @@ object GridGraphBuilder {
     new AsUnmodifiableGraph(graph)
   }
 
-  /**
-    * Unpacks the optional ids of two busses, connected by an edge.
+  /** Unpacks the optional ids of two busses, connected by an edge.
     *
-    * @param edgeId id of edge connecting busses with bus1Id and bus2Id
-    * @param maybeBus1Id Option of id of bus 1
-    * @param maybeBus2Id Option of id of bus 2
-    * @return Tuple of the ids of bus 1 and bus 2
+    * @param edgeId
+    *   id of edge connecting busses with bus1Id and bus2Id
+    * @param maybeBus1Id
+    *   Option of id of bus 1
+    * @param maybeBus2Id
+    *   Option of id of bus 2
+    * @return
+    *   Tuple of the ids of bus 1 and bus 2
     */
   def unpackConnectedBusses(
       edgeId: String,

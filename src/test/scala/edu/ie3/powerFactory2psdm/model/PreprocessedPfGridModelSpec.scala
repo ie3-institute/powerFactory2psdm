@@ -27,9 +27,10 @@ class PreprocessedPfGridModelSpec
     "extract project settings" in {
       val extractProjectSettings =
         PrivateMethod[ProjectSettings](Symbol("extractProjectSettings"))
-      val extractedSettings = PreprocessedPfGridModel invokePrivate extractProjectSettings(
-        Some(List(settings))
-      )
+      val extractedSettings =
+        PreprocessedPfGridModel invokePrivate extractProjectSettings(
+          Some(List(settings))
+        )
       extractedSettings shouldBe settings
     }
 
@@ -58,9 +59,10 @@ class PreprocessedPfGridModelSpec
     "build conversion prefixes" in {
       val buildConversionPrefixes =
         PrivateMethod[ConversionPrefixes](Symbol("buildConversionPrefixes"))
-      val conversionPrefixes = PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
-        settings
-      )
+      val conversionPrefixes =
+        PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
+          settings
+        )
       conversionPrefixes.loadPQSPrefixValue shouldBe 1e3
       conversionPrefixes.lineLengthPrefixValue shouldBe 1e3
     }

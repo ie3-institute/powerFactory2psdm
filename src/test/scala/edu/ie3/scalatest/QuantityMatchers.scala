@@ -10,8 +10,7 @@ import edu.ie3.util.quantities.QuantityUtil
 import javax.measure.Quantity
 import org.scalatest.matchers.{MatchResult, Matcher}
 
-/**
-  * Trait, to simplify test coding, that is reliant on [[Quantity]]s
+/** Trait, to simplify test coding, that is reliant on [[Quantity]] s
   */
 trait QuantityMatchers {
   class QuantityMatcher[Q <: Quantity[Q]](right: Quantity[Q], tolerance: Double)

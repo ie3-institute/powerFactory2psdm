@@ -19,13 +19,16 @@ import java.util.UUID
 
 object NodeConverter {
 
-  /**
-    * Converts a PowerFactory node into a PSDM node.
+  /** Converts a PowerFactory node into a PSDM node.
     *
-    * @param id  id of the PF node to convert
-    * @param id2node Map of ids and their associated [[Node]]s
-    * @param subnet    subnet the PF node lives in
-    * @return a PSDM [[NodeInput]]
+    * @param id
+    *   id of the PF node to convert
+    * @param id2node
+    *   Map of ids and their associated [[Node]] s
+    * @param subnet
+    *   subnet the PF node lives in
+    * @return
+    *   a PSDM [[NodeInput]]
     */
   def convertNode(
       node: Node,
@@ -48,11 +51,13 @@ object NodeConverter {
     )
   }
 
-  /**
-    * Checks if a node is a slack node by checking if there is an external grid connected to the node.
+  /** Checks if a node is a slack node by checking if there is an external grid
+    * connected to the node.
     *
-    * @param node node to check
-    * @return true or false
+    * @param node
+    *   node to check
+    * @return
+    *   true or false
     */
   private def isSlack(node: Node): Boolean =
     node.conElms.filter(_.pfCls == "ElmXnet") match {

@@ -51,13 +51,17 @@ object ConverterTestData extends LazyLogging {
   val config: ConversionConfig =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam R     Type of result class
+    * @param input
+    *   Input model
+    * @param result
+    *   Resulting, converted model
+    * @tparam I
+    *   Type of input model
+    * @tparam R
+    *   Type of result class
     */
   final case class ConversionPair[I <: EntityModel, R <: UniqueEntity](
       input: I,

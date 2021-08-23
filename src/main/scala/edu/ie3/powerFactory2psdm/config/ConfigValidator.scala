@@ -21,9 +21,9 @@ import scala.util.{Failure, Success, Try}
 
 object ConfigValidator {
 
-  /**
-    * Checks the parsed [[ConversionConfig]] for general soundness.
-    * @param config the parsed config
+  /** Checks the parsed [[ConversionConfig]] for general soundness.
+    * @param config
+    *   the parsed config
     */
   def validate(config: ConversionConfig): Unit = {
     validateModelConfigs(config.modelConfigs)
@@ -37,8 +37,8 @@ object ConfigValidator {
     Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
       .getOrElse(Nil)
       .map(conf => conf.conversionMode)
-      .collect {
-        case pvModelGeneration: PvModelGeneration => pvModelGeneration
+      .collect { case pvModelGeneration: PvModelGeneration =>
+        pvModelGeneration
       }
       .map(validatePvModelGenerationParams)
   }

@@ -9,12 +9,14 @@ package edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Lines
 
-/**
-  * Electrical line
+/** Electrical line
   *
-  * @param id identifier
-  * @param nodeAId id of connected node
-  * @param nodeBId id of connected node
+  * @param id
+  *   identifier
+  * @param nodeAId
+  *   id of connected node
+  * @param nodeBId
+  *   id of connected node
   */
 final case class Line(
     id: String,

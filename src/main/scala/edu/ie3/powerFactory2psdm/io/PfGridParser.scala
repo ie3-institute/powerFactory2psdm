@@ -20,8 +20,9 @@ object PfGridParser extends LazyLogging {
   def parse(gridFile: String): Option[RawPfGridModel] = {
     val source =
       Source.fromFile(gridFile)
-    val jsonString = try source.mkString
-    finally source.close
+    val jsonString =
+      try source.mkString
+      finally source.close
 
     decode[RawPfGridModel](jsonString) match {
       case Left(error) =>
