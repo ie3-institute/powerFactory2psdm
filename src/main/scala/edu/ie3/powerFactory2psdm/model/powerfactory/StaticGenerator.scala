@@ -64,7 +64,6 @@ object StaticGenerator {
             s"There is no rated power [load flow] defined for static generator: $id"
           )
         )
-      case _ => throw paramSourceException
     }
     val cosPhi = cosPhiSource match {
       case BasicDataSource =>
@@ -79,7 +78,6 @@ object StaticGenerator {
             s"There is no cos phi [load flow] defined for static generator: $id"
           )
         )
-      case _ => throw paramSourceException
     }
     val indCapFlag = input.pf_recap
       .getOrElse(
@@ -96,10 +94,5 @@ object StaticGenerator {
 
     StaticGenerator(id, busId, sRated, cosPhi, indCapFlag, category)
   }
-
-  val paramSourceException: IllegalArgumentException =
-    new IllegalArgumentException(
-      "We only differentiate between options \"basic data\" and \"load flow\". Please adjust the StatGenModelConfigs accordingly"
-    )
 
 }
