@@ -64,8 +64,8 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
         element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
 
-        # export connected elements of nodes and transformers
-        if (element_class in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        # export connected elements of nodes
+        if (element_class == "ElmTerm"):
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
