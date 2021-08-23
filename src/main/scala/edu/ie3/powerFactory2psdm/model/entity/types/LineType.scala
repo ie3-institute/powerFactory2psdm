@@ -4,16 +4,11 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory.types
+package edu.ie3.powerFactory2psdm.model.entity.types
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.LineTypes
-
-import scala.annotation.tailrec
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
 /**
   * Electrical line

@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.util
+package edu.ie3.powerFactory2psdm.model.setting
 
 /**
   * For the active, reactive and apparent power of loads and the length of lines the unit system within power factory can

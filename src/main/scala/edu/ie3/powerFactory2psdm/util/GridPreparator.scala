@@ -7,8 +7,8 @@
 package edu.ie3.powerFactory2psdm.util
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.Switches
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 
 object GridPreparator extends LazyLogging {
 

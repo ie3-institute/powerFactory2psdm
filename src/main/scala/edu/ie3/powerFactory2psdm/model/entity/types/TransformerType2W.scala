@@ -4,12 +4,11 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory.types
+package edu.ie3.powerFactory2psdm.model.entity.types
 
-import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
 /**
   * Transformer type

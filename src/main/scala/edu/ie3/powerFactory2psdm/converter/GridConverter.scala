@@ -7,11 +7,8 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  PreprocessedPfGridModel,
-  RawPfGridModel
-}
+import edu.ie3.powerFactory2psdm.model.entity.Subnet
+import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
 /**
   * Functionalities to transform an exported and then parsed PowerFactory grid to the PSDM.

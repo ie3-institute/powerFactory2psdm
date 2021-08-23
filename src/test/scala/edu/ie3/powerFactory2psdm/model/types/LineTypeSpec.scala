@@ -4,11 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.LineTypes
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.LineType
+import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 

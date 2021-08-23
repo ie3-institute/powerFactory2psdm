@@ -4,25 +4,9 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.{
-  ExtGrid,
-  PowerPlants,
-  Trafos3w,
-  Lines,
-  Pvs,
-  Switches,
-  TrafoTypes3w,
-  LoadsLV,
-  LoadsMV,
-  Nodes,
-  Trafos2w,
-  StatGen,
-  Loads,
-  ProjectSettings,
-  LineTypes,
-  TrafoTypes2w
-}
+package edu.ie3.powerFactory2psdm.model
+
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{ExtGrid, LineTypes, Lines, Loads, LoadsLV, LoadsMV, Nodes, PowerPlants, ProjectSettings, Pvs, StatGen, Switches, TrafoTypes2w, TrafoTypes3w, Trafos2w, Trafos3w}
 
 final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],

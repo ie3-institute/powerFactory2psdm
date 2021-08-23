@@ -16,7 +16,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   TestException
 }
-import edu.ie3.powerFactory2psdm.model.Subnet
+import edu.ie3.powerFactory2psdm.model.entity.Subnet
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike

@@ -13,7 +13,7 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 

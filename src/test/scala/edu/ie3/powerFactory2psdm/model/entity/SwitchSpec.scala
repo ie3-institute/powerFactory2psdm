@@ -4,13 +4,9 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  MissingParameterException,
-  TestException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.Switches
+import edu.ie3.powerFactory2psdm.exception.pf.{MissingParameterException, TestException}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 

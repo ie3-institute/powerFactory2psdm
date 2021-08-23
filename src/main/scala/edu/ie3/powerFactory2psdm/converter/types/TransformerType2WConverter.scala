@@ -11,7 +11,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   ElementConfigurationException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.TransformerType2W
+import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
