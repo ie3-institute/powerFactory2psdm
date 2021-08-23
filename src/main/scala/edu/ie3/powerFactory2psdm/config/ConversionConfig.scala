@@ -16,18 +16,18 @@ final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
 object ConversionConfig {
 
   /**
-   * Groups different sources for certain parameters of power factory models
-   */
+    * Groups different sources for certain parameters of power factory models
+    */
   sealed trait ParameterSource
 
   /**
-   * Take values from the load flow (Lastfluss) specification of the model
-   */
+    * Take values from the load flow (Lastfluss) specification of the model
+    */
   final case object LoadFlowSource extends ParameterSource
 
   /**
-   * Take values from the basic data (Basisdaten) specification of the model
-   */
+    * Take values from the basic data (Basisdaten) specification of the model
+    */
   final case object BasicDataSource extends ParameterSource
 
   /**

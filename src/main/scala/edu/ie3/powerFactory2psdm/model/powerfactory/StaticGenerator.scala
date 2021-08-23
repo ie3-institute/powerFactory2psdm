@@ -7,7 +7,11 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{BasicDataSource, LoadFlowSource, ParameterSource}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  BasicDataSource,
+  LoadFlowSource,
+  ParameterSource
+}
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
 
