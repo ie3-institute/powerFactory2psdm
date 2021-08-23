@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{BasicDataSource, LoadFlowSource, ParameterSource}
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
 
@@ -33,8 +34,8 @@ object StaticGenerator {
 
   def build(
       input: StatGen,
-      sRatedSource: String,
-      cosPhiSource: String
+      sRatedSource: ParameterSource,
+      cosPhiSource: ParameterSource
   ): StaticGenerator = {
     val id = input.id.getOrElse(
       throw MissingParameterException(
@@ -47,13 +48,13 @@ object StaticGenerator {
       )
     )
     val sRated = sRatedSource match {
-      case ConversionConfig.basicDataSource =>
+      case BasicDataSource =>
         input.sgn.getOrElse(
           throw MissingParameterException(
             s"There is no rated power [basic data] defined for static generator: $id"
           )
         )
-      case ConversionConfig.loadFlowSource =>
+      case LoadFlowSource =>
         input.sgini.getOrElse(
           throw MissingParameterException(
             s"There is no rated power [load flow] defined for static generator: $id"
@@ -62,13 +63,13 @@ object StaticGenerator {
       case _ => throw paramSourceException
     }
     val cosPhi = cosPhiSource match {
-      case ConversionConfig.basicDataSource =>
+      case BasicDataSource =>
         input.cosn.getOrElse(
           throw MissingParameterException(
             s"There is no cos phi [basic data] defined for static generator: $id"
           )
         )
-      case ConversionConfig.loadFlowSource =>
+      case LoadFlowSource =>
         input.cosgini.getOrElse(
           throw MissingParameterException(
             s"There is no cos phi [load flow] defined for static generator: $id"
