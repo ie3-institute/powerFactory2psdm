@@ -47,7 +47,7 @@ object PvInputGenerator {
     val etaConv: ComparableQuantity[Dimensionless] =
       Quantities.getQuantity(sample(params.etaConv), PERCENT)
     val height: ComparableQuantity[Angle] =
-      Quantities.getQuantity(sample(params.height), DEGREE_GEOM)
+      Quantities.getQuantity(sample(params.elevationAngle), DEGREE_GEOM)
     val kG: Double = sample(params.kG)
     val kT: Double = sample(params.kT)
     val sRated: ComparableQuantity[Power] =

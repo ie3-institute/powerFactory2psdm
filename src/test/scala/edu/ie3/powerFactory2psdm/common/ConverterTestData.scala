@@ -269,7 +269,7 @@ object ConverterTestData extends LazyLogging {
     albedo = Fixed(0.2),
     azimuth = UniformDistribution(-90, 90),
     etaConv = Fixed(0.95),
-    height = UniformDistribution(20, 50),
+    elevationAngle = UniformDistribution(20, 50),
     qCharacteristic = FixedQCharacteristic,
     kG = Fixed(0.9),
     kT = Fixed(1)

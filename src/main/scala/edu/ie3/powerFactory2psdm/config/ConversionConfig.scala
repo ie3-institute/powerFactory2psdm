@@ -85,7 +85,7 @@ object ConversionConfig {
     *
     * @param albedo Albedo value (typically a value between 0 and 1)
     * @param azimuth Inclination in a compass direction (typically °: South 0◦; West 90◦; East -90◦)
-    * @param height Tilted inclination from horizontal (typically in °)
+    * @param elevationAngle Tilted inclination from horizontal (typically in °)
     * @param etaConv Efficiency of converter (typically in %)
     * @param qCharacteristic Description of a reactive power characteristic
     * @param kG Generator correction factor merging different technical influences
@@ -94,7 +94,7 @@ object ConversionConfig {
   final case class PvModelGeneration(
       albedo: GenerationMethod,
       azimuth: GenerationMethod,
-      height: GenerationMethod,
+      elevationAngle: GenerationMethod,
       etaConv: GenerationMethod,
       qCharacteristic: QCharacteristic,
       kG: GenerationMethod,
