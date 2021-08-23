@@ -6,13 +6,17 @@
 
 package edu.ie3.powerFactory2psdm.config
 
+import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
   Fixed,
+  FixedQCharacteristic,
   GenerationMethod,
-  StatGenModelConfigs,
   NormalDistribution,
   PvConfig,
   PvModelGeneration,
+  QCharacteristic,
+  StatGenModelConfigs,
   UniformDistribution
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
@@ -83,6 +87,13 @@ object ConfigValidator {
           s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
         )
     }
+    validateQCharacteristic(params.qCharacteristic) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The PV q characteristic configuration isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
   }
 
   private[config] def validateGenerationMethod(
@@ -148,5 +159,18 @@ object ConfigValidator {
         s"The minimum: $min and maximum: $max of the uniform distribution lie below the lower bound: $lowerBound and above the upper bound: $upperBound "
       )
     )
+
+  private[config] def validateQCharacteristic(
+      qCharacteristic: QCharacteristic
+  ): Try[Unit] = qCharacteristic match {
+    case FixedQCharacteristic => Success(())
+    case DependentQCharacteristic(characteristic) =>
+      try {
+        ReactivePowerCharacteristic.parse(characteristic)
+        Success(())
+      } catch {
+        case exc: Exception => Failure(exc)
+      }
+  }
 
 }

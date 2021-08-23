@@ -14,6 +14,7 @@ import edu.ie3.powerFactory2psdm.config.ConfigValidator.{
   validatePvModelGenerationParams
 }
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
   Fixed,
   PvFixedFeedIn,
   PvModelGeneration,
@@ -111,6 +112,18 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           validatePvModelGenerationParams(faultyParams)
         )
       exc.getMessage shouldBe s"The PV temperature correction factor (kT): ${faultyParams.kT} isn't valid. Exception: ${lowerBoundViolation(-0.1, 0).exception.getMessage}"
+    }
+
+    "throw an exception for invalid pv q characteristic" in {
+      val faultyQCharacteristic =
+        DependentQCharacteristic("cosPhiInv{(0.0, 1), (0.0, 0.8 )}")
+      val faultyParams =
+        pvModelGeneration.copy(qCharacteristic = faultyQCharacteristic)
+      val exc =
+        intercept[ConversionConfigException](
+          validatePvModelGenerationParams(faultyParams)
+        )
+      exc.getMessage.startsWith("The PV q characteristic configuration isn't valid. Exception:") shouldBe true
     }
 
   }
