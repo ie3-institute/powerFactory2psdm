@@ -47,13 +47,13 @@ object TransformerType2WConverter {
     // no load experiment
     val yNoLoad = iNoLoadNom / (vRatedA / sqrt(3))
     val gNoLoad = pFe / pow(vRatedA, 2)
-    val bNoLoad = sqrt((pow(yNoLoad, 2) - pow(gNoLoad, 2)).doubleValue)
     if (gNoLoad > yNoLoad) {
       throw ConversionException(
         s"No load experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty parameters." +
           s"The no load conductance can't exceed the no load admittance."
       )
     }
+    val bNoLoad = sqrt((pow(yNoLoad, 2) - pow(gNoLoad, 2)).doubleValue)
 
     val tapSide = input.tapSide match {
       case 0 => false
