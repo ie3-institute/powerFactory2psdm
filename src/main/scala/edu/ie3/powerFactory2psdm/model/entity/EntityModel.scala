@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 /**
   * Common Entity parameters

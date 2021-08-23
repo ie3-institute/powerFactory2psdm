@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.{Edge, Node}
+import edu.ie3.powerFactory2psdm.model.entity.{Edge, Node}
 import org.jgrapht.graph._
 
 /**

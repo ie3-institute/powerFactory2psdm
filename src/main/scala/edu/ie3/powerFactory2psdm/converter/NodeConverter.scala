@@ -10,7 +10,7 @@ import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.Node
+import edu.ie3.powerFactory2psdm.model.entity.Node
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities

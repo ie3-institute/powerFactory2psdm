@@ -4,10 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.ConElms
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.ConElms
 
 /**
   * Data type that represents a ConnectedElement

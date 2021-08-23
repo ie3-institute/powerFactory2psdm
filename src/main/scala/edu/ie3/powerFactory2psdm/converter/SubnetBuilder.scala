@@ -14,8 +14,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   GridConfigurationException
 }
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.Node
+import edu.ie3.powerFactory2psdm.model.entity
+import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.jgrapht.graph.{AsUnmodifiableGraph, DefaultEdge}
 import tech.units.indriya.quantity.Quantities.getQuantity
@@ -82,6 +82,6 @@ object SubnetBuilder extends LazyLogging {
     val voltLvl = GermanVoltageLevelUtils.parse(
       getQuantity(nomVoltage, StandardUnits.RATED_VOLTAGE_MAGNITUDE)
     )
-    Subnet(subnetId, nodes, voltLvl)
+    entity.Subnet(subnetId, nodes, voltLvl)
   }
 }

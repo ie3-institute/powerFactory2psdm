@@ -4,11 +4,12 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
+import edu.ie3.powerFactory2psdm.model
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 
 /**
   * Electrical Switch

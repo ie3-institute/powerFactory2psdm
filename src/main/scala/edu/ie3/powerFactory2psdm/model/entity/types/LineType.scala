@@ -4,15 +4,11 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity.types
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
-
-import scala.annotation.tailrec
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
 /**
   * Electrical line
@@ -25,7 +21,7 @@ import scala.annotation.tailrec
   * @param b phase-to-ground conductance in micro Siemens/km
   * @param g phase-to-ground conductance in micro Siemens/km
   */
-case class LineType(
+final case class LineType(
     id: String,
     vRated: Double,
     iMax: Double,
