@@ -26,7 +26,7 @@ import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   TransformerType2W
 }
-import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes
+import edu.ie3.powerFactory2psdm.model.setting.{ConversionPrefixes, UnitSystem}
 
 /**
   * Representation of the grid which is to be converted to a PSDM [[edu.ie3.datamodel.models.input.container.GridContainer]].
@@ -60,7 +60,13 @@ object PreprocessedPfGridModel extends LazyLogging {
     */
   def build(rawGrid: RawPfGridModel): PreprocessedPfGridModel = {
     val projectSettings = extractProjectSettings(rawGrid.projectSettings)
-    checkUnitSystem(projectSettings.unitSystem)
+    checkUnitSystem(
+      projectSettings.unitSystem.getOrElse(
+        throw ConversionException(
+          "There is no unit system defined."
+        )
+      )
+    )
     val conversionPrefixes = buildConversionPrefixes(projectSettings)
     val rawNodes = rawGrid.nodes.getOrElse(
       throw GridConfigurationException("There are no nodes in the grid.")
@@ -157,9 +163,9 @@ object PreprocessedPfGridModel extends LazyLogging {
     }
   }
 
-  private def checkUnitSystem(unitSystem: Option[Double]): Unit = {
+  private def checkUnitSystem(unitSystem: Double): Unit = {
     unitSystem match {
-      case Some(0) => ()
+      case UnitSystem.metric => ()
       case _ =>
         throw ConversionException(
           "Conversion is currently only implemented for the metric unit system"
