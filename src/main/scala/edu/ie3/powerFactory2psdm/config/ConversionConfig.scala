@@ -29,7 +29,7 @@ object ConversionConfig {
     *                     [[loadFlowSource]] which uses the cosinus phi of the load flow (Lastfluss) specification
     *
     */
-  case class StatGenModelConfigs(
+  final case class StatGenModelConfigs(
       pvConfig: PvConfig,
       sRatedSource: String,
       cosPhiSource: String
@@ -44,7 +44,7 @@ object ConversionConfig {
     * @param conversionMode convert to fixed feed-in or generate model
     * @param individualConfigs for certain generators
     */
-  case class PvConfig(
+  final case class PvConfig(
       conversionMode: PvConversionMode,
       individualConfigs: Option[List[IndividualPvConfig]]
   )
@@ -55,7 +55,7 @@ object ConversionConfig {
     * @param ids models to apply the [[conversionMode]] to
     * @param conversionMode to apply for the models
     */
-  case class IndividualPvConfig(
+  final case class IndividualPvConfig(
       ids: Set[String],
       conversionMode: PvConversionMode
   )
@@ -68,7 +68,7 @@ object ConversionConfig {
   /**
     * Convert to a [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]]
     */
-  case object PvFixedFeedIn extends PvConversionMode
+  final case object PvFixedFeedIn extends PvConversionMode
 
   /**
     * Convert to a [[edu.ie3.datamodel.models.input.system.PvInput]] considering the given methods for generating the
@@ -82,7 +82,7 @@ object ConversionConfig {
     * @param kG Generator correction factor merging different technical influences
     * @param kT Generator correction factor merging different technical influences
     */
-  case class PvModelGeneration(
+  final case class PvModelGeneration(
       albedo: GenerationMethod,
       azimuth: GenerationMethod,
       height: GenerationMethod,
@@ -102,7 +102,7 @@ object ConversionConfig {
     *
     * @param value to be used
     */
-  case class Fixed(
+  final case class Fixed(
       value: Double
   ) extends GenerationMethod
 
@@ -112,7 +112,7 @@ object ConversionConfig {
     * @param lowerBound of the distribution
     * @param upperBound of the distribution
     */
-  case class UniformDistribution(
+  final case class UniformDistribution(
       lowerBound: Double,
       upperBound: Double
   ) extends GenerationMethod
@@ -123,7 +123,7 @@ object ConversionConfig {
     * @param mean of the distribution
     * @param standardDeviation of the distribution
     */
-  case class NormalDistribution(
+  final case class NormalDistribution(
       mean: Double,
       standardDeviation: Double
   ) extends GenerationMethod
@@ -136,7 +136,7 @@ object ConversionConfig {
   /**
     * Use the cosinus phi power factor of the model to establish a fixed QCharacteristic
     */
-  case object FixedQCharacteristic extends QCharacteristic
+  final case object FixedQCharacteristic extends QCharacteristic
 
   /**
     * Dependent power characteristic dependent on either power or nodal voltage magnitude. See here:
@@ -145,7 +145,7 @@ object ConversionConfig {
     *
     * @param characteristic to follow
     */
-  case class DependentQCharacteristic(characteristic: String)
+  final case class DependentQCharacteristic(characteristic: String)
       extends QCharacteristic
 
 }
