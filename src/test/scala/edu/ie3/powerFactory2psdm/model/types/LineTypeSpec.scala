@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineTypes
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike

@@ -20,7 +20,6 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.entity.{ConnectedElement, EntityModel, Node, Subnet}
 import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, TransformerType2W}
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.powerFactory2psdm.model.types.TransformerType2W
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
