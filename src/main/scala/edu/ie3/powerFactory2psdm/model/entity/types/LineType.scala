@@ -10,16 +10,22 @@ import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineTypes
 import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
-/**
-  * Electrical line
+/** Electrical line
   *
-  * @param id identifier
-  * @param vRated rated voltage in kA
-  * @param iMax thermal current in kA
-  * @param r specific resistance in Ohm/km
-  * @param x specific reactance in Ohm/km
-  * @param b phase-to-ground conductance in micro Siemens/km
-  * @param g phase-to-ground conductance in micro Siemens/km
+  * @param id
+  *   identifier
+  * @param vRated
+  *   rated voltage in kA
+  * @param iMax
+  *   thermal current in kA
+  * @param r
+  *   specific resistance in Ohm/km
+  * @param x
+  *   specific reactance in Ohm/km
+  * @param b
+  *   phase-to-ground conductance in micro Siemens/km
+  * @param g
+  *   phase-to-ground conductance in micro Siemens/km
   */
 final case class LineType(
     id: String,

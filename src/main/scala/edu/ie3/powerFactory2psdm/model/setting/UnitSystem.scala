@@ -6,8 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.model.setting
 
-/**
-  * Enumeration of the different unit system options within the project settings.
+/** Enumeration of the different unit system options within the project
+  * settings.
   */
 object UnitSystem extends Enumeration {
   val metric = 0

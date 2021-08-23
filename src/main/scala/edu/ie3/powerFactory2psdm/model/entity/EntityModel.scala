@@ -6,13 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-/**
-  * Common Entity parameters
+/** Common Entity parameters
   */
 trait EntityModel {
 
-  /**
-    * Id of the entity
+  /** Id of the entity
     */
   val id: String
 }

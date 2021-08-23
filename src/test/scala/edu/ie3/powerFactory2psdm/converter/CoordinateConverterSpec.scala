@@ -29,7 +29,10 @@ class CoordinateConverterSpec extends Matchers with AnyWordSpecLike {
     "return the default geo position for default PowerFactory values" in {
       val maybeDefaultLat = Some(0.0)
       val maybeDefaultLon = Some(0.0)
-      CoordinateConverter.convert(maybeDefaultLat, maybeDefaultLon) shouldBe NodeInput.DEFAULT_GEO_POSITION
+      CoordinateConverter.convert(
+        maybeDefaultLat,
+        maybeDefaultLon
+      ) shouldBe NodeInput.DEFAULT_GEO_POSITION
     }
 
     "return the default geo position when given None" in {

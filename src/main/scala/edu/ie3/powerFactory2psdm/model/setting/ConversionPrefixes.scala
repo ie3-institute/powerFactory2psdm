@@ -6,12 +6,14 @@
 
 package edu.ie3.powerFactory2psdm.model.setting
 
-/**
-  * For the active, reactive and apparent power of loads and the length of lines the unit system within power factory can
-  * be adjusted. This class holds the proper prefix values for their conversion.
+/** For the active, reactive and apparent power of loads and the length of lines
+  * the unit system within power factory can be adjusted. This class holds the
+  * proper prefix values for their conversion.
   *
-  * @param pqsPrefix prefix value for active, reactive and apparent power of loads
-  * @param lengthPrefix prefix value for length of lines
+  * @param pqsPrefix
+  *   prefix value for active, reactive and apparent power of loads
+  * @param lengthPrefix
+  *   prefix value for length of lines
   */
 class ConversionPrefixes private (
     pqsPrefix: Double,

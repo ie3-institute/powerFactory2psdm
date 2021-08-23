@@ -9,11 +9,12 @@ package edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.ConElms
 
-/**
-  * Data type that represents a ConnectedElement
+/** Data type that represents a ConnectedElement
   *
-  * @param id identifier
-  * @param pfCls PowerFactory class that element represents
+  * @param id
+  *   identifier
+  * @param pfCls
+  *   PowerFactory class that element represents
   */
 case class ConnectedElement(
     id: String,
