@@ -10,13 +10,13 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   MissingParameterException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.ProjectSettings
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.ProjectSettings
 import edu.ie3.powerFactory2psdm.util.ConversionPrefixes
 import org.scalatest.PrivateMethodTester
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class GridModelSpec
+class PreprocessedPfGridModelSpec
     extends Matchers
     with AnyWordSpecLike
     with PrivateMethodTester {
@@ -27,7 +27,7 @@ class GridModelSpec
     "extract project settings" in {
       val extractProjectSettings =
         PrivateMethod[ProjectSettings](Symbol("extractProjectSettings"))
-      val extractedSettings = GridModel invokePrivate extractProjectSettings(
+      val extractedSettings = PreprocessedPfGridModel invokePrivate extractProjectSettings(
         Some(List(settings))
       )
       extractedSettings shouldBe settings
@@ -37,7 +37,7 @@ class GridModelSpec
       val extractProjectSettings =
         PrivateMethod[ProjectSettings](Symbol("extractProjectSettings"))
       val exc = intercept[ConversionException](
-        GridModel invokePrivate extractProjectSettings(
+        PreprocessedPfGridModel invokePrivate extractProjectSettings(
           Some(List(settings, settings))
         )
       )
@@ -48,7 +48,7 @@ class GridModelSpec
       val extractProjectSettings =
         PrivateMethod[ProjectSettings](Symbol("extractProjectSettings"))
       val exc = intercept[ConversionException](
-        GridModel invokePrivate extractProjectSettings(
+        PreprocessedPfGridModel invokePrivate extractProjectSettings(
           None
         )
       )
@@ -58,7 +58,7 @@ class GridModelSpec
     "build conversion prefixes" in {
       val buildConversionPrefixes =
         PrivateMethod[ConversionPrefixes](Symbol("buildConversionPrefixes"))
-      val conversionPrefixes = GridModel invokePrivate buildConversionPrefixes(
+      val conversionPrefixes = PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
         settings
       )
       conversionPrefixes.loadPQSPrefixValue shouldBe 1e3
@@ -69,7 +69,7 @@ class GridModelSpec
       val buildConversionPrefixes =
         PrivateMethod[ConversionPrefixes](Symbol("buildConversionPrefixes"))
       val exc = intercept[MissingParameterException](
-        GridModel invokePrivate buildConversionPrefixes(
+        PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
           settings.copy(prefixPQS = None)
         )
       )
@@ -80,7 +80,7 @@ class GridModelSpec
       val buildConversionPrefixes =
         PrivateMethod[ConversionPrefixes](Symbol("buildConversionPrefixes"))
       val exc = intercept[MissingParameterException](
-        GridModel invokePrivate buildConversionPrefixes(
+        PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
           settings.copy(prefixLength = None)
         )
       )

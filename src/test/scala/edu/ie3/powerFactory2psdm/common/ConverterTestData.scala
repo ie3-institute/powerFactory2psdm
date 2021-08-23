@@ -27,7 +27,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
 import edu.ie3.powerFactory2psdm.model.powerfactory.{
   ConnectedElement,
   EntityModel,
-  GridModel,
+  PreprocessedPfGridModel,
   Node
 }
 import edu.ie3.util.quantities.PowerSystemUnits.PU
@@ -69,7 +69,7 @@ object ConverterTestData extends LazyLogging {
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: GridModel = GridModel.build(
+  val testGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
     PfGridParser
       .parse(testGridFile)
       .getOrElse(

@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Nodes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.Nodes
 
 /**
   * Electrical node

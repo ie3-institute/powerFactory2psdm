@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.model.powerfactory.types
 import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.TrafoTypes2w
 
 /**
   * Transformer type

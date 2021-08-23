@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.TrafoTypes2w
 import edu.ie3.powerFactory2psdm.model.powerfactory.types.TransformerType2W
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike

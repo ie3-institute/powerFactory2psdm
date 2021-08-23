@@ -11,7 +11,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingParameterException
 }
 import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.LineTypes
 
 import scala.annotation.tailrec
 

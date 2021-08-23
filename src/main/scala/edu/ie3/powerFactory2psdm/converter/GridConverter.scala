@@ -8,15 +8,18 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{GridModel, RawGridModel}
+import edu.ie3.powerFactory2psdm.model.powerfactory.{
+  PreprocessedPfGridModel,
+  RawPfGridModel
+}
 
 /**
   * Functionalities to transform an exported and then parsed PowerFactory grid to the PSDM.
   */
 case object GridConverter {
 
-  def convert(pfGrid: RawGridModel) = {
-    val grid = GridModel.build(pfGrid)
+  def convert(pfGrid: RawPfGridModel) = {
+    val grid = PreprocessedPfGridModel.build(pfGrid)
     val gridElements = convertGridElements(grid)
   }
 
@@ -26,7 +29,7 @@ case object GridConverter {
     * @param rawGrid the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: GridModel
+      grid: PreprocessedPfGridModel
   ): Unit = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)

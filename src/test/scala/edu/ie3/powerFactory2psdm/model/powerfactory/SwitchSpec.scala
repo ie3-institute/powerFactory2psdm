@@ -10,7 +10,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingParameterException,
   TestException
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 

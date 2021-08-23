@@ -5,7 +5,7 @@
  */
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
+import edu.ie3.powerFactory2psdm.model.powerfactory.RawPfGridModel.{
   ExtGrid,
   PowerPlants,
   Trafos3w,
@@ -24,7 +24,7 @@ import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
   TrafoTypes2w
 }
 
-final case class RawGridModel(
+final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
@@ -43,7 +43,7 @@ final case class RawGridModel(
     lines: Option[List[Lines]]
 )
 
-object RawGridModel {
+object RawPfGridModel {
 
   final case class Switches(
       id: Option[String],
