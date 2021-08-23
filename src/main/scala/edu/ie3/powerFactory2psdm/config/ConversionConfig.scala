@@ -148,11 +148,11 @@ object ConversionConfig {
   final case object FixedQCharacteristic extends QCharacteristic
 
   /**
-    * Dependent power characteristic dependent on either power or nodal voltage magnitude. See here:
-    * https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics
-    * for details and how the [[characteristic]] string has to look like.
-    *
+/**
+    * Dependent power characteristic dependent on either power or nodal voltage magnitude.
+    * 
     * @param characteristic to follow
+    * @see See [[https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics PowerSystemDataModel]] for details and how the [[characteristic]] string has to look like.
     */
   final case class DependentQCharacteristic(characteristic: String)
       extends QCharacteristic
