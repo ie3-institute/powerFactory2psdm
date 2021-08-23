@@ -6,7 +6,24 @@
 
 package edu.ie3.powerFactory2psdm.model
 
-import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{ExtGrid, LineTypes, Lines, Loads, LoadsLV, LoadsMV, Nodes, PowerPlants, ProjectSettings, Pvs, StatGen, Switches, TrafoTypes2w, TrafoTypes3w, Trafos2w, Trafos3w}
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
+  ExtGrid,
+  LineTypes,
+  Lines,
+  Loads,
+  LoadsLV,
+  LoadsMV,
+  Nodes,
+  PowerPlants,
+  ProjectSettings,
+  Pvs,
+  StatGen,
+  Switches,
+  TrafoTypes2w,
+  TrafoTypes3w,
+  Trafos2w,
+  Trafos3w
+}
 
 final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],

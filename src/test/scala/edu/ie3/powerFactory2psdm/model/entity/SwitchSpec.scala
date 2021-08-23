@@ -6,7 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.exception.pf.{MissingParameterException, TestException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  MissingParameterException,
+  TestException
+}
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike

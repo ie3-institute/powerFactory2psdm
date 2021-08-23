@@ -7,10 +7,25 @@
 package edu.ie3.powerFactory2psdm.model
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, GridConfigurationException, MissingParameterException}
-import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{LineTypes, Lines, Nodes, ProjectSettings, Switches, TrafoTypes2w, Trafos2w}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  GridConfigurationException,
+  MissingParameterException
+}
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
+  LineTypes,
+  Lines,
+  Nodes,
+  ProjectSettings,
+  Switches,
+  TrafoTypes2w,
+  Trafos2w
+}
 import edu.ie3.powerFactory2psdm.model.entity.{Line, Node, Switch}
-import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, TransformerType2W}
+import edu.ie3.powerFactory2psdm.model.entity.types.{
+  LineType,
+  TransformerType2W
+}
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes
 
 /**

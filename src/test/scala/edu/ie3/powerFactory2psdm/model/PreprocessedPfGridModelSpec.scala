@@ -6,7 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.model
 
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.ProjectSettings
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes
 import org.scalatest.PrivateMethodTester
