@@ -23,7 +23,7 @@ class TransformerType2WConverterSpec
     val conversionPair = getTransformer2wType("SomeTrafo2wType")
     val input = conversionPair.input
     val expected = conversionPair.result
-    implicit val quantityTolerance: Double = 1e-3
+    implicit val quantityTolerance: Double = 1e-6
 
     "convert a transformer type correctly" in {
       val actual = TransformerType2WConverter.convert(input)

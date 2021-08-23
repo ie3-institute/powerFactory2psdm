@@ -289,7 +289,7 @@ object ConverterTestData extends LazyLogging {
         Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
         Quantities.getQuantity(110d, KILOVOLT),
         Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(826.4463, MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(826.4462809, MetricPrefix.NANO(SIEMENS)),
         Quantities
           .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
           .to(MetricPrefix.NANO(SIEMENS)),
