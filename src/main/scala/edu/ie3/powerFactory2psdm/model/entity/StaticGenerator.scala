@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   BasicDataSource,
@@ -12,7 +12,8 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   ParameterSource
 }
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
 /** A static generator
   *

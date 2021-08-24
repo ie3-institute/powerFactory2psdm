@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.FixedQCharacteristic
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -22,13 +23,18 @@ class FixedFeedInConverterSpec extends Matchers with AnyWordSpecLike {
 
     "throw an exception if the leading/lagging power factor specifier is neither 0 or 1" in {
       val exc = intercept[ConversionException](
-        FixedFeedInConverter.convert(input.copy(indCapFlag = 3), someNode)
+        FixedFeedInConverter.convert(
+          input.copy(indCapFlag = 3),
+          someNode,
+          FixedQCharacteristic
+        )
       )
       exc.getMessage shouldBe "The leading/lagging specifier should be either 0 or 1 - I am confused!"
     }
 
     "convert a static generator correctly" in {
-      val actual = FixedFeedInConverter.convert(input, someNode)
+      val actual =
+        FixedFeedInConverter.convert(input, someNode, FixedQCharacteristic)
       actual.getId shouldBe expected.getId
       actual.getNode shouldBe expected.getNode
       actual.getsRated shouldBe expected.getsRated

@@ -8,17 +8,16 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
-import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.QCharacteristic
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   determineCosPhiRated,
   determineReactivePowerCharacteristic
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
 import tech.units.indriya.quantity.Quantities
 
-import java.util.{Locale, UUID}
+import java.util.UUID
 
 object FixedFeedInConverter {
 

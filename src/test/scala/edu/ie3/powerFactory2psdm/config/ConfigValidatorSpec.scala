@@ -7,19 +7,8 @@
 package edu.ie3.powerFactory2psdm.config
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.config.ConfigValidator.{
-  lowerBoundViolation,
-  lowerUpperBoundViolation,
-  upperBoundViolation,
-  validatePvModelGenerationParams
-}
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  DependentQCharacteristic,
-  Fixed,
-  PvFixedFeedIn,
-  PvModelGeneration,
-  UniformDistribution
-}
+import edu.ie3.powerFactory2psdm.config.ConfigValidator.{lowerBoundViolation, lowerUpperBoundViolation, upperBoundViolation, validatePvModelGenerationParams}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{DependentQCharacteristic, Fixed, FixedQCharacteristic, PvFixedFeedIn, PvModelGeneration, UniformDistribution}
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import org.scalatest.matchers.should.Matchers
@@ -31,7 +20,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
 
     val pvModelGeneration: PvModelGeneration =
       ConverterTestData.config.modelConfigs.pvConfig.conversionMode match {
-        case PvFixedFeedIn("cosPhiFixed{(0.0, 0.95)}") =>
+        case PvFixedFeedIn(FixedQCharacteristic) =>
           throw TestException(
             "The test pv config is supposed to be configured for PvModelGeneration"
           )

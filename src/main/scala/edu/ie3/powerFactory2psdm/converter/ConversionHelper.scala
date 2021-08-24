@@ -13,7 +13,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   QCharacteristic
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import scala.util.{Failure, Success, Try}
 

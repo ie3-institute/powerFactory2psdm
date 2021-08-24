@@ -7,8 +7,10 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{BasicDataSource, LoadFlowSource}
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -33,8 +35,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no id for static generator: $faulty"
@@ -46,8 +48,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no id of a connected bus for static generator: $id"
@@ -59,8 +61,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no rated power [load flow] defined for static generator: $id"
@@ -72,8 +74,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no cos phi [load flow] defined for static generator: $id"
@@ -85,8 +87,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no inductive capacitive specifier defined for static generator: $id"
@@ -98,36 +100,18 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
         intercept[MissingParameterException](
           StaticGenerator.build(
             faulty,
-            ConversionConfig.loadFlowSource,
-            ConversionConfig.loadFlowSource
+            LoadFlowSource,
+            LoadFlowSource
           )
         )
       exc.getMessage shouldBe s"There is no category specifier defined for static generator: $id"
     }
 
-    "throw an exception if the sRatedSource is wrongly configured" in {
-      val exc =
-        intercept[IllegalArgumentException](
-          StaticGenerator
-            .build(input, "some gibberish", ConversionConfig.loadFlowSource)
-        )
-      exc.getMessage shouldBe StaticGenerator.paramSourceException.getMessage
-    }
-
-    "throw an exception if the cosPhiSource is wrongly configured" in {
-      val exc =
-        intercept[IllegalArgumentException](
-          StaticGenerator
-            .build(input, ConversionConfig.loadFlowSource, "some gibberish")
-        )
-      exc.getMessage shouldBe StaticGenerator.paramSourceException.getMessage
-    }
-
     "build a correctly configured static generator utilising load flow params" in {
       val result = StaticGenerator.build(
         input,
-        ConversionConfig.loadFlowSource,
-        ConversionConfig.loadFlowSource
+        LoadFlowSource,
+        LoadFlowSource
       )
       result.id shouldBe "someStatGen"
       result.busId shouldBe "someNode"
@@ -139,8 +123,8 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
     "build a correctly configured static generator utilising basic data params" in {
       val result = StaticGenerator.build(
         input,
-        ConversionConfig.basicDataSource,
-        ConversionConfig.basicDataSource
+        BasicDataSource,
+        BasicDataSource
       )
       result.id shouldBe "someStatGen"
       result.busId shouldBe "someNode"

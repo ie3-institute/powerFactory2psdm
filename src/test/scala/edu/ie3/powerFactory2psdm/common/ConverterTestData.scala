@@ -12,14 +12,12 @@ import edu.ie3.datamodel.models.StandardUnits.{
   EFFICIENCY,
   SOLAR_HEIGHT
 }
-import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
   Transformer2WTypeInput
 }
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
@@ -33,32 +31,24 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.entity.{
-  ConnectedElement,
-  EntityModel,
-  Node,
-  Subnet
-}
+import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   TransformerType2W
 }
-import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.util.quantities.PowerSystemUnits.PU
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory._
-import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
+import edu.ie3.powerFactory2psdm.model.entity.{
+  ConnectedElement,
+  EntityModel,
+  Node,
+  StaticGenerator,
+  Subnet
+}
+import edu.ie3.util.quantities.PowerSystemUnits._
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  VOLTAMPERE
-}
-import pureconfig.generic.auto._
 
 import java.io.File
 import java.util.UUID
