@@ -284,6 +284,9 @@ object ConverterTestData extends LazyLogging {
     category = "Statischer Generator"
   )
 
+  val statGenCosPhiExcMsg: String => String = (id: String) =>
+    s"Can't determine cos phi rated for static generator: $id. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+
   val pvModelGeneration: PvModelGeneration = PvModelGeneration(
     albedo = Fixed(0.2),
     azimuth = UniformDistribution(-90, 90),

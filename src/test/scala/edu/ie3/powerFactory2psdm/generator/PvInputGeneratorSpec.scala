@@ -45,7 +45,7 @@ class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
           params
         )
       )
-      exc.getMessage shouldBe s"Can't determine cos phi rated for static generator: ${input.id}. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+      exc.getMessage shouldBe ConverterTestData.statGenCosPhiExcMsg(input.id)
     }
 
   }
