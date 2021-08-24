@@ -30,12 +30,12 @@ object SchemaGenerator extends LazyLogging {
   def run(jsonString: String): Unit = {
     run(
       jsonString,
-      "RawGridModel",
-      "edu.ie3.powerFactory2psdm.model.powerfactory"
+      "RawPfGridModel",
+      "edu.ie3.powerFactory2psdm.model"
     ).foreach(formatedClassString => {
       val pw = new PrintWriter(
         new File(
-          s"${new File(".").getCanonicalPath}/src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/RawGridModel.scala"
+          s"${new File(".").getCanonicalPath}/src/main/scala/edu/ie3/powerFactory2psdm/model/RawPfGridModel.scala"
         )
       )
       pw.write(formatedClassString)
