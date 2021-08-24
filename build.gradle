@@ -90,7 +90,7 @@ dependencies {
 
 	// Linter Scala //
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
-	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
+	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
 }
 
 /* scapegoat hook configuration
