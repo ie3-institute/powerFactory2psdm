@@ -91,7 +91,7 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV q characteristic configuration isn't valid. Exception: ${exc.getMessage}"
+          s"The PV q characteristic configuration isn't valid.", exc
         )
     }
   }
