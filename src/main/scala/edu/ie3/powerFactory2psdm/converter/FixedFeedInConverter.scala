@@ -10,13 +10,15 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.QCharacteristic
-import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{determineCosPhiRated, determineReactivePowerCharacteristic}
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
+  determineCosPhiRated,
+  determineReactivePowerCharacteristic
+}
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
 import tech.units.indriya.quantity.Quantities
 
 import java.util.{Locale, UUID}
-
 
 object FixedFeedInConverter {
 
@@ -27,10 +29,15 @@ object FixedFeedInConverter {
     * @param node node the static generator is connected to
     * @return a fixed feed-in
     */
-  def convert(input: StaticGenerator, node: NodeInput, qCharacteristic: QCharacteristic): FixedFeedInInput = {
+  def convert(
+      input: StaticGenerator,
+      node: NodeInput,
+      qCharacteristic: QCharacteristic
+  ): FixedFeedInInput = {
 
     val cosPhiRated = determineCosPhiRated(input)
-    val reactivePowerCharacteristic = determineReactivePowerCharacteristic(qCharacteristic, cosPhiRated)
+    val reactivePowerCharacteristic =
+      determineReactivePowerCharacteristic(qCharacteristic, cosPhiRated)
     val s = Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
 
     new FixedFeedInInput(
