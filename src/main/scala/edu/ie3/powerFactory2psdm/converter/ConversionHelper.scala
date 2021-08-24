@@ -47,7 +47,7 @@ object ConversionHelper {
       case _ =>
         Failure(
           ElementConfigurationException(
-            s"The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+            "The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
           )
         )
     }
