@@ -1,28 +1,21 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model
-
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  LineTypes,
+  PowerPlants,
+  Trafos3w,
   Lines,
-  Loads,
+  Pvs,
+  Switches,
+  TrafoTypes3w,
   LoadsLV,
   LoadsMV,
   Nodes,
-  PowerPlants,
-  ProjectSettings,
-  Pvs,
-  StatGen,
-  Switches,
-  TrafoTypes2w,
-  TrafoTypes3w,
   Trafos2w,
-  Trafos3w
+  StatGen,
+  Loads,
+  ProjectSettings,
+  LineTypes,
+  TrafoTypes2w
 }
 
 final case class RawPfGridModel(

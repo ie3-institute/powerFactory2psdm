@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.SwitchInput
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
-import edu.ie3.powerFactory2psdm.model.powerfactory.Switch
+import edu.ie3.powerFactory2psdm.model.entity.Switch
 
 import java.util.UUID
 

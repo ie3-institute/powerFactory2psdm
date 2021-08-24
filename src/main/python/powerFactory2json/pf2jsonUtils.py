@@ -39,7 +39,6 @@ attributes4export = {
         "uline",
     ],
     'trafos2w': [],
-    'switches':[],
     'trafoTypes2w': [
         "strn",
         "utrn_h",
@@ -58,7 +57,6 @@ attributes4export = {
     'switches':[
         "on_off"
     ],
-    'trafoTypes2w': [],
     'trafos3w': [],
     'trafoTypes3w': [],
     'loads': [],
