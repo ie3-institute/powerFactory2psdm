@@ -31,9 +31,9 @@ object SwitchConverter {
         s"Can't find ${rawSwitch.nodeBId} for switch ${rawSwitch.id}"
       )
     )
-    val closed = rawSwitch.onOff match {
-      case 1d => true
-      case 0d => false
+    val closed = rawSwitch.onOff.toInt match {
+      case 1 => true
+      case 0 => false
       case _ =>
         throw ConversionException(
           s"The on/off parameter of switch ${rawSwitch.id} should be 1 or 0"
