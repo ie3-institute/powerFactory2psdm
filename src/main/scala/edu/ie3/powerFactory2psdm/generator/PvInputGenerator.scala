@@ -14,6 +14,11 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   FixedQCharacteristic,
   PvModelGeneration
 }
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
+  determineCosPhiRated,
+  determineReactivePowerCharacteristic
+}
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
@@ -52,23 +57,9 @@ object PvInputGenerator {
     val kT: Double = sample(params.kT)
     val sRated: ComparableQuantity[Power] =
       Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
-    val cosPhiRated = input.indCapFlag match {
-      case 0 => input.cosPhi
-      case 1 => -input.cosPhi
-      case _ =>
-        throw ElementConfigurationException(
-          s"The inductive capacitive specifier of the static generator: ${input.id} should be either 0 or 1"
-        )
-    }
+    val cosPhiRated = determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic =
-      params.qCharacteristic match {
-        case FixedQCharacteristic =>
-          ReactivePowerCharacteristic.parse(
-            s"cosPhiFixed:{(0.0, $cosPhiRated)}"
-          )
-        case DependentQCharacteristic(characteristic) =>
-          ReactivePowerCharacteristic.parse(characteristic)
-      }
+      determineReactivePowerCharacteristic(params.qCharacteristic, cosPhiRated)
 
     new PvInput(
       UUID.randomUUID(),

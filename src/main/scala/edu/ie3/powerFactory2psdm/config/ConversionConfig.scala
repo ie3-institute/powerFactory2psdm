@@ -76,8 +76,11 @@ object ConversionConfig {
 
   /**
     * Convert to a [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]]
+    *
+    * @param qCharacteristic Description of a reactive power characteristic
     */
-  final case object PvFixedFeedIn extends PvConversionMode
+  final case class PvFixedFeedIn(qCharacteristic: QCharacteristic)
+      extends PvConversionMode
 
   /**
     * Convert to a [[edu.ie3.datamodel.models.input.system.PvInput]] considering the given methods for generating the
@@ -148,9 +151,8 @@ object ConversionConfig {
   final case object FixedQCharacteristic extends QCharacteristic
 
   /**
-/**
     * Dependent power characteristic dependent on either power or nodal voltage magnitude.
-    * 
+    *
     * @param characteristic to follow
     * @see See [[https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics PowerSystemDataModel]] for details and how the [[characteristic]] string has to look like.
     */

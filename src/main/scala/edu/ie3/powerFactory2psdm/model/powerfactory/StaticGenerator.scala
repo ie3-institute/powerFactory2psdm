@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   BasicDataSource,
   LoadFlowSource,
