@@ -125,7 +125,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           validatePvModelGenerationParams(faultyParams)
         )
       exc.getMessage.startsWith(
-        "The PV q characteristic configuration isn't valid. Exception:"
+        "The PV q characteristic configuration isn't valid."
       ) shouldBe true
     }
 
