@@ -12,7 +12,7 @@ import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharact
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   determineCosPhiRated,
-  determineReactivePowerCharacteristic
+  convertQCharacteristic
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
@@ -57,7 +57,7 @@ object PvInputGenerator {
       Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
     val cosPhiRated = determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic =
-      determineReactivePowerCharacteristic(params.qCharacteristic, cosPhiRated)
+      convertQCharacteristic(params.qCharacteristic, cosPhiRated)
 
     new PvInput(
       UUID.randomUUID(),

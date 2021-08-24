@@ -17,9 +17,21 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import scala.util.{Failure, Success, Try}
 
+/** Utility object to hold utility functions for model converison
+  */
 object ConversionHelper {
 
-  def determineReactivePowerCharacteristic(
+  /** Converts a configured q characteristic to a PSDM conform reactive power
+    * characteristic
+    *
+    * @param characteristic
+    *   the q characteristic to be followed
+    * @param cosPhiRated
+    *   the cosinus phi value of the model
+    * @return
+    *   the PSDM reactive power characteristic
+    */
+  def convertQCharacteristic(
       characteristic: QCharacteristic,
       cosPhiRated: Double
   ): ReactivePowerCharacteristic = characteristic match {
@@ -31,6 +43,13 @@ object ConversionHelper {
       ReactivePowerCharacteristic.parse(characteristic)
   }
 
+  /** Determines the cos phi rated of a static generator
+    *
+    * @param input
+    *   the static generator
+    * @return
+    *   the cosinus phi rated value
+    */
   def determineCosPhiRated(input: StaticGenerator): Double =
     determineCosPhiRated(input.indCapFlag, input.cosPhi) match {
       case Success(value) => value
@@ -40,6 +59,15 @@ object ConversionHelper {
         )
     }
 
+  /** Determines the cos phi depending on an inductive or capacitive specifier
+    *
+    * @param indCapFlag
+    *   specifies inductive (0) or capacitive (1) behaviour
+    * @param cosPhi
+    *   cos phi value
+    * @return
+    *   either cos phi or an exception
+    */
   def determineCosPhiRated(indCapFlag: Int, cosPhi: Double): Try[Double] =
     indCapFlag match {
       case 0 => Success(cosPhi)

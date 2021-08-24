@@ -20,11 +20,11 @@ class ConversionHelperSpec extends Matchers with AnyWordSpecLike {
 
   "A conversion helper" when {
 
-    "determining the reactive power characteristic" should {
+    "converting a q characteristic" should {
       val cosPhi = 0.95
 
-      "return a correct fixed q characteristic " in {
-        ConversionHelper.determineReactivePowerCharacteristic(
+      "return a correct fixed reactive power characteristic " in {
+        ConversionHelper.convertQCharacteristic(
           FixedQCharacteristic,
           cosPhi
         ) shouldBe ReactivePowerCharacteristic.parse(
@@ -32,11 +32,11 @@ class ConversionHelperSpec extends Matchers with AnyWordSpecLike {
         )
       }
 
-      "return a correct dependant q characteristic" in {
+      "return a correct dependant reactive power characteristic" in {
         val characteristicString =
           "qV:{(0.92, -1),(0.97, 0.0),(1.03, 0.0),(1.08, 1.0)}"
         val characteristic = DependentQCharacteristic(characteristicString)
-        ConversionHelper.determineReactivePowerCharacteristic(
+        ConversionHelper.convertQCharacteristic(
           characteristic,
           cosPhi
         ) shouldBe ReactivePowerCharacteristic.parse(characteristicString)

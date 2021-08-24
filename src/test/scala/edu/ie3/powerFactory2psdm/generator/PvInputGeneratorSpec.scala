@@ -17,7 +17,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 
 class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
 
-  "A PvConverter" should {
+  "A PvInputGenerator" should {
     val conversionPair = getGeneratePvPair("somePvPlant")
     val input = conversionPair.input
     val node = getNodePair("someNode").result
@@ -45,7 +45,7 @@ class PvInputGeneratorSpec extends Matchers with AnyWordSpecLike {
           params
         )
       )
-      exc.getMessage shouldBe s"The inductive capacitive specifier of the static generator: ${input.id} should be either 0 or 1"
+      exc.getMessage shouldBe s"Can't determine cos phi rated for static generator: ${input.id}. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
     }
 
   }

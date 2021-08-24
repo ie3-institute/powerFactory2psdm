@@ -11,7 +11,7 @@ import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.QCharacteristic
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   determineCosPhiRated,
-  determineReactivePowerCharacteristic
+  convertQCharacteristic
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
@@ -38,7 +38,7 @@ object FixedFeedInConverter {
 
     val cosPhiRated = determineCosPhiRated(input)
     val reactivePowerCharacteristic =
-      determineReactivePowerCharacteristic(qCharacteristic, cosPhiRated)
+      convertQCharacteristic(qCharacteristic, cosPhiRated)
     val s = Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
 
     new FixedFeedInInput(
