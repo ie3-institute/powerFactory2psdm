@@ -31,7 +31,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
 
     val pvModelGeneration: PvModelGeneration =
       ConverterTestData.config.modelConfigs.pvConfig.conversionMode match {
-        case PvFixedFeedIn =>
+        case PvFixedFeedIn("cosPhiFixed{(0.0, 0.95)}") =>
           throw TestException(
             "The test pv config is supposed to be configured for PvModelGeneration"
           )

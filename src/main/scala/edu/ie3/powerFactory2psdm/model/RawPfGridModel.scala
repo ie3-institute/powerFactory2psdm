@@ -58,8 +58,6 @@ object RawPfGridModel {
 
   final case class Loads(id: Option[String])
 
-  final case class TrafoTypes2w(id: Option[String])
-
   final case class LineTypes(
       bline: Option[Double],
       gline: Option[Double],

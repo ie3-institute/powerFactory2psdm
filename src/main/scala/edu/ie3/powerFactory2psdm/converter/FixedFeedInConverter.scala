@@ -22,12 +22,14 @@ import java.util.{Locale, UUID}
 
 object FixedFeedInConverter {
 
-  /**
-    * Converts a static generator to a [[FixedFeedInInput]]
+  /** Converts a static generator to a [[FixedFeedInInput]]
     *
-    * @param input generator to convert
-    * @param node node the static generator is connected to
-    * @return a fixed feed-in
+    * @param input
+    *   generator to convert
+    * @param node
+    *   node the static generator is connected to
+    * @return
+    *   a fixed feed-in
     */
   def convert(
       input: StaticGenerator,

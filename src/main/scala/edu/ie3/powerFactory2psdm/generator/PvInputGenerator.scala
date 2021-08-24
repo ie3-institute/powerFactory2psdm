@@ -9,17 +9,11 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  DependentQCharacteristic,
-  FixedQCharacteristic,
-  PvModelGeneration
-}
-import edu.ie3.powerFactory2psdm.converter.ConversionHelper
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   determineCosPhiRated,
   determineReactivePowerCharacteristic
 }
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
@@ -32,14 +26,18 @@ import javax.measure.quantity.{Angle, Dimensionless, Power}
 
 object PvInputGenerator {
 
-  /**
-    * Generates a [[PvInput]] model from a [[StaticGenerator]]. As a static generator does not hold all parameters
-    * necessary, the other parameters are generated via the defined generation methods for every parameter.
+  /** Generates a [[PvInput]] model from a [[StaticGenerator]]. As a static
+    * generator does not hold all parameters necessary, the other parameters are
+    * generated via the defined generation methods for every parameter.
     *
-    * @param input base model for generating a [[PvInput]]
-    * @param node the node the input is connected to
-    * @param params parameters for generating missing parameters
-    * @return a [[PvInput]]
+    * @param input
+    *   base model for generating a [[PvInput]]
+    * @param node
+    *   the node the input is connected to
+    * @param params
+    *   parameters for generating missing parameters
+    * @return
+    *   a [[PvInput]]
     */
   def generate(
       input: StaticGenerator,
