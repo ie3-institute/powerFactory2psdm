@@ -91,7 +91,8 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV q characteristic configuration isn't valid.", exc
+          s"The PV q characteristic configuration isn't valid.",
+          exc
         )
     }
   }
@@ -162,15 +163,12 @@ object ConfigValidator {
 
   private[config] def validateQCharacteristic(
       qCharacteristic: QCharacteristic
-  ): Try[Unit] = qCharacteristic match {
-    case FixedQCharacteristic => Success(())
+  ): Try[Unit] = Try(qCharacteristic).flatMap {
+    case ConversionConfig.FixedQCharacteristic => Success(())
     case DependentQCharacteristic(characteristic) =>
-      try {
+      Try {
         ReactivePowerCharacteristic.parse(characteristic)
-        Success(())
-      } catch {
-        case exc: Exception => Failure(exc)
-      }
+      }.map(_ => ())
   }
 
 }
