@@ -4,29 +4,32 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
+package edu.ie3.powerFactory2psdm.model
+
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  PowerPlants,
-  Trafos3w,
-  Loads,
+  LineTypes,
   Lines,
-  Pvs,
-  Switches,
-  TrafoTypes3w,
+  Loads,
   LoadsLV,
   LoadsMV,
   Nodes,
-  Trafos2w,
+  PowerPlants,
+  ProjectSettings,
+  Pvs,
   StatGen,
-  LineTypes,
-  TrafoTypes2w
+  Switches,
+  TrafoTypes2w,
+  TrafoTypes3w,
+  Trafos2w,
+  Trafos3w
 }
 
-final case class RawGridModel(
+final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
+    projectSettings: Option[List[ProjectSettings]],
     powerPlants: Option[List[PowerPlants]],
     trafoTypes3w: Option[List[TrafoTypes3w]],
     pvs: Option[List[Pvs]],
@@ -41,7 +44,7 @@ final case class RawGridModel(
     lines: Option[List[Lines]]
 )
 
-object RawGridModel {
+object RawPfGridModel {
 
   final case class Switches(
       id: Option[String],
@@ -56,8 +59,6 @@ object RawGridModel {
 
   final case class Loads(id: Option[String])
 
-  final case class TrafoTypes2w(id: Option[String])
-
   final case class LineTypes(
       bline: Option[Double],
       gline: Option[Double],
@@ -68,7 +69,7 @@ object RawGridModel {
       rline: Option[Double]
   )
 
-  final case class StatGen()
+  final case class StatGen(id: Option[String])
 
   final case class Lines(
       id: Option[String],
@@ -82,7 +83,30 @@ object RawGridModel {
 
   final case class ExtGrid(id: Option[String])
 
-  final case class LoadsLV()
+  final case class TrafoTypes2w(
+      nntap0: Option[Double],
+      pfe: Option[Double],
+      uktr: Option[Double],
+      id: Option[String],
+      ntpmn: Option[Double],
+      dutap: Option[Double],
+      strn: Option[Double],
+      utrn_l: Option[Double],
+      curmg: Option[Double],
+      tap_side: Option[Double],
+      ntpmx: Option[Double],
+      pcutr: Option[Double],
+      phitr: Option[Double],
+      utrn_h: Option[Double]
+  )
+
+  final case class ProjectSettings(
+      unitSystem: Option[Double],
+      prefixPQS: Option[String],
+      prefixLength: Option[String]
+  )
+
+  final case class LoadsLV(id: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
@@ -100,6 +124,6 @@ object RawGridModel {
 
   final case class TrafoTypes3w()
 
-  final case class LoadsMV()
+  final case class LoadsMV(id: Option[String])
 
 }

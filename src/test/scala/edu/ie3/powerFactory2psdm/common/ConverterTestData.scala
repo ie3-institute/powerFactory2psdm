@@ -7,6 +7,10 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.models.input.connector.`type`.{
+  LineTypeInput,
+  Transformer2WTypeInput
+}
 import edu.ie3.datamodel.models.input.connector.SwitchInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
@@ -18,36 +22,50 @@ import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
+import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
   EntityModel,
-  GridModel,
+  Node,
+  Subnet
+}
+import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   Node,
   Switch
+  TransformerType2W
 }
+import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import tech.units.indriya.quantity.Quantities
+import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
+import edu.ie3.util.quantities.PowerSystemUnits.{
+  DEGREE_GEOM,
+  KILOVOLT,
+  VOLTAMPERE
+}
 import pureconfig.generic.auto._
 
 import java.util.UUID
+import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
   val config: ConversionConfig =
-    // ConfigSource.file("src/test/resources/application.conf").loadOrThrow[ConversionConfig]
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam R     Type of result class
+    * @param input
+    *   Input model
+    * @param result
+    *   Resulting, converted model
+    * @tparam I
+    *   Type of input model
+    * @tparam R
+    *   Type of result class
     */
   final case class ConversionPair[I <: EntityModel, R <: UniqueEntity](
       input: I,
@@ -61,7 +79,7 @@ object ConverterTestData extends LazyLogging {
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: GridModel = GridModel.build(
+  val testGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
     PfGridParser
       .parse(testGridFile)
       .getOrElse(
@@ -249,6 +267,57 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val transformerTypes = Map(
+    "SomeTrafo2wType" -> ConversionPair(
+      TransformerType2W(
+        id = "SomeTrafo2wType",
+        sRated = 40d,
+        vRatedA = 110d,
+        vRatedB = 10d,
+        dV = 2.5,
+        dPhi = 5d,
+        tapSide = 0,
+        tapNeutr = 0,
+        tapMin = -10,
+        tapMax = 10,
+        uk = 5,
+        iNoLoad = 1,
+        pFe = 10,
+        pCu = 6
+      ),
+      new Transformer2WTypeInput(
+        UUID.randomUUID(),
+        "SomeTrafo2wType",
+        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
+        Quantities.getQuantity(15.1249319, OHM),
+        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
+        Quantities.getQuantity(110d, KILOVOLT),
+        Quantities.getQuantity(10d, KILOVOLT),
+        Quantities.getQuantity(826.4462809, MetricPrefix.NANO(SIEMENS)),
+        Quantities
+          .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
+          .to(MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(2.5, PERCENT),
+        Quantities.getQuantity(5d, DEGREE_GEOM),
+        false,
+        0,
+        -10,
+        10
+      )
+    )
+  )
+
+  def getTransformer2wType(
+      key: String
+  ): ConversionPair[TransformerType2W, Transformer2WTypeInput] = {
+    transformerTypes.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${TransformerType2W.getClass.getSimpleName} with key: $key "
       )
     )
   }

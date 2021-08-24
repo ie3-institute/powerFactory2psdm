@@ -36,9 +36,25 @@ attributes4export = {
         "gline",
         "bline",
         "sline",
-        "uline"
+        "uline",
     ],
     'trafos2w': [],
+    'switches':[],
+    'trafoTypes2w': [
+        "strn",
+        "utrn_h",
+        "utrn_l",
+        "dutap",
+        "phitr",
+        "tap_side",
+        "nntap0",
+        "ntpmn",
+        "ntpmx",
+        "uktr",
+        "pcutr",
+        "pfe",
+        "curmg"
+    ],
     'switches':[
         "on_off"
     ],

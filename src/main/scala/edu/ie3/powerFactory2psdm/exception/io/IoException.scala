@@ -6,8 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.exception.io
 
-/**
-  * Base class for grouping io related exceptions
+/** Base class for grouping io related exceptions
   */
 class IoException(
     private val msg: String,

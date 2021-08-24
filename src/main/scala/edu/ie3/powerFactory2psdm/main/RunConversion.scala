@@ -13,7 +13,7 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
@@ -23,12 +23,15 @@ object RunConversion extends LazyLogging {
 
     logger.info("Parsing the config")
     val config =
-      ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
+      ConfigSource
+        .file("src/test/resources/application.conf")
+        .at("conversion-config")
+        .loadOrThrow[ConversionConfig]
     ConfigValidator.validate(config)
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
     logger.info("Parsing the json grid file.")
-    val pfGrid: RawGridModel = PfGridParser
+    val pfGrid: RawPfGridModel = PfGridParser
       .parse(exportedGridFile)
       .getOrElse(
         throw GridParsingException("Parsing the Json grid file failed")

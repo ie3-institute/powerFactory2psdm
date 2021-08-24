@@ -4,12 +4,13 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
-/**
-  * Denotes an element that connects two nodes within a Subnet
+/** Common Entity parameters
   */
-trait Edge {
-  val nodeAId: String
-  val nodeBId: String
+trait EntityModel {
+
+  /** Id of the entity
+    */
+  val id: String
 }

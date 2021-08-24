@@ -21,8 +21,9 @@ object SchemaGenerator extends LazyLogging {
       Source.fromFile(
         s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
       )
-    val jsonString = try source.mkString
-    finally source.close
+    val jsonString =
+      try source.mkString
+      finally source.close
     run(jsonString)
   }
 
@@ -85,8 +86,8 @@ object SchemaGenerator extends LazyLogging {
           s"""
              | final case class ${this.className(className)}(
              |  ${jsonObject.toMap.keys
-               .map(key => s"$key: Option[List[${this.className(key)}]]")
-               .mkString(",\n")}
+            .map(key => s"$key: Option[List[${this.className(key)}]]")
+            .mkString(",\n")}
              | )
              |""".stripMargin
 
@@ -94,8 +95,8 @@ object SchemaGenerator extends LazyLogging {
           s"""
              |  import ${`package`}.${this.className(className)}.{
              |    ${jsonObject.toMap.keys
-               .map(key => this.className(key))
-               .mkString(",\n")}
+            .map(key => this.className(key))
+            .mkString(",\n")}
              |  }
              |""".stripMargin
 
@@ -138,7 +139,9 @@ object SchemaGenerator extends LazyLogging {
         s"$name: Option[${`type`}]"
       } else {
         s"$name:" + (0 until collectionStack)
-          .foldLeft("Option[")((cur, _) => cur + s"List[Option[") + `type` + "]" * (collectionStack * 2 + 1)
+          .foldLeft("Option[")((cur, _) =>
+            cur + s"List[Option["
+          ) + `type` + "]" * (collectionStack * 2 + 1)
       }
   }
 
@@ -236,9 +239,10 @@ object SchemaGenerator extends LazyLogging {
     override def onObject(value: JsonObject): Vector[ComplexClass] = {
 
       val fieldsOrClasses1 = value.toMap
-        .map {
-          case (objName, jsonObjs) =>
-            (objName, jsonObjs.asArray match {
+        .map { case (objName, jsonObjs) =>
+          (
+            objName,
+            jsonObjs.asArray match {
               case Some(objArr) =>
                 // filter multiple json objects
                 objArr
@@ -261,7 +265,8 @@ object SchemaGenerator extends LazyLogging {
                     isObj = true
                   )
                 )
-            })
+            }
+          )
         }
 
       val fieldsOrClasses = fieldsOrClasses1.flatMap {
@@ -281,15 +286,14 @@ object SchemaGenerator extends LazyLogging {
             defaultOnNullType,
             collectionStack,
             isObj
-          ).map(
-            cplxClass =>
-              ComplexClass(
-                name,
-                Vector.empty,
-                cplxClasses.flatMap(_.classes) ++ Vector(
-                  SimpleClass(className, cplxClass.fields.map(_.fieldString))
-                )
+          ).map(cplxClass =>
+            ComplexClass(
+              name,
+              Vector.empty,
+              cplxClasses.flatMap(_.classes) ++ Vector(
+                SimpleClass(className, cplxClass.fields.map(_.fieldString))
               )
+            )
           )
 
         case (cName, cplxClasses)
@@ -367,39 +371,40 @@ object SchemaGenerator extends LazyLogging {
     case (_, distClasses)
         if distClasses.size == 1 => // all classes are equal, return only one of them
       distClasses
-    case (name, distClasses) => // multiple classes with same name but maybe different fields, try to merge them ...
+    case (
+          name,
+          distClasses
+        ) => // multiple classes with same name but maybe different fields, try to merge them ...
       // merge and collapse fields
       val allFields = distClasses
         .flatMap(_.fields)
-        .groupMap(
-          fieldMeta => (fieldMeta.rawFieldName, fieldMeta.collectionStack)
+        .groupMap(fieldMeta =>
+          (fieldMeta.rawFieldName, fieldMeta.collectionStack)
         )(_.rawFieldType)
-        .flatMap {
-          case ((name, colStack), types) =>
-            types.distinct.filterNot(_.equals(defaultOnNullType)) match {
-              case noneDefaultType if noneDefaultType.size == 1 =>
-                noneDefaultType.headOption.map(
-                  fieldType =>
-                    FieldMeta(
-                      fieldType,
-                      name,
-                      colStack
-                    )
+        .flatMap { case ((name, colStack), types) =>
+          types.distinct.filterNot(_.equals(defaultOnNullType)) match {
+            case noneDefaultType if noneDefaultType.size == 1 =>
+              noneDefaultType.headOption.map(fieldType =>
+                FieldMeta(
+                  fieldType,
+                  name,
+                  colStack
                 )
-              case noneDefaultType if noneDefaultType.size > 1 =>
-                throw new IllegalArgumentException(
-                  s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+              )
+            case noneDefaultType if noneDefaultType.size > 1 =>
+              throw new IllegalArgumentException(
+                s"More than one field type identified: ${noneDefaultType.mkString(",")}"
+              )
+            case empty
+                if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
+              Some(
+                FieldMeta(
+                  defaultOnNullType,
+                  name,
+                  colStack
                 )
-              case empty
-                  if empty.isEmpty => // if default type is given we end up here, as we filtered all default types
-                Some(
-                  FieldMeta(
-                    defaultOnNullType,
-                    name,
-                    colStack
-                  )
-                )
-            }
+              )
+          }
         }
       Iterable(
         ComplexClass(
