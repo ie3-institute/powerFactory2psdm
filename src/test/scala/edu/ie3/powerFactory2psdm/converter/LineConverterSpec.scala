@@ -26,7 +26,8 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
 
     val actual = LineConverter.convert(
       conversionPair.input,
-      1e3 lineType,
+      1e3,
+      lineType,
       nodeA,
       nodeB
     )

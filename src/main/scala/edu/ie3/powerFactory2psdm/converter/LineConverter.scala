@@ -12,8 +12,9 @@ import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
-import edu.ie3.powerFactory2psdm.model.powerfactory.Line
+import edu.ie3.powerFactory2psdm.model.entity.Line
 import tech.units.indriya.quantity.Quantities
+
 import java.util.UUID
 
 object LineConverter {
@@ -34,7 +35,7 @@ object LineConverter {
 
     val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
-      case None            => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
+      case None => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
     }
 
     new LineInput(

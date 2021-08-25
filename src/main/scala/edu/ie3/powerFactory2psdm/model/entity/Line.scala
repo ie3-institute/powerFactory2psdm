@@ -54,8 +54,8 @@ object Line {
     val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords match {
       case Some(List(Some(Nil))) => None
       case Some(coords) =>
-        Option(coords.flatten.map {
-          case List(Some(lat), Some(lon)) => (lat, lon)
+        Option(coords.flatten.map { case List(Some(lat), Some(lon)) =>
+          (lat, lon)
         })
       case None => None
     }

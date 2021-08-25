@@ -7,7 +7,11 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.model.entity.Subnet
+import edu.ie3.datamodel.models.input.connector.LineInput
+import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
+import edu.ie3.powerFactory2psdm.model.entity.{Line, Subnet}
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
@@ -38,19 +42,18 @@ case object GridConverter {
       .toMap
   }
 
-  /**
-    * Convert all nodes subnet by subnet.
+  /** Convert all nodes subnet by subnet.
     *
-    * @param subnets subnets of the grid
-    * @return Map of node id to PSDM [[NodeInput]]
+    * @param subnets
+    *   subnets of the grid
+    * @return
+    *   Map of node id to PSDM [[NodeInput]]
     */
   def convertNodes(subnets: List[Subnet]): Map[String, NodeInput] = {
     subnets
-      .flatMap(
-        subnet => convertNodesOfSubnet(subnet)
-      )
+      .flatMap(subnet => convertNodesOfSubnet(subnet))
       .toMap
-    val psdmNodes = subnets.flatMap(subnet => convertNodesOfSubnet(subnet))
+    subnets.flatMap(subnet => convertNodesOfSubnet(subnet)).toMap
   }
 
   /** Converts all nodes within a subnet to PSDM [[NodeInput]]
@@ -64,18 +67,20 @@ case object GridConverter {
       subnet: Subnet
   ): Set[(String, NodeInput)] =
     subnet.nodes
-      .map(
-        node =>
-          (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
+      .map(node =>
+        (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
       )
 
-  /**
-    * Converts lines to PSDM [[LineInput]]
+  /** Converts lines to PSDM [[LineInput]]
     *
-    * @param lines the lines to be converted
-    * @param nodes a map of node ids to nodes
-    * @param lineTypes a map of line type ids to line types
-    * @return a list of all converted Lines
+    * @param lines
+    *   the lines to be converted
+    * @param nodes
+    *   a map of node ids to nodes
+    * @param lineTypes
+    *   a map of line type ids to line types
+    * @return
+    *   a list of all converted Lines
     */
   def convertLines(
       lines: List[Line],
