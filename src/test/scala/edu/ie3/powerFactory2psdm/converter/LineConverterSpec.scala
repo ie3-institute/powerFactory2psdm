@@ -6,7 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.{getLinePair, getLineTypePair, getNodePair}
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  getLinePair,
+  getLineTypePair,
+  getNodePair
+}
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
 import org.scalatest.matchers.should.Matchers
@@ -52,7 +56,8 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
       val lines = List(input, input)
       val nodes = Map("someNode" -> nodeA, "someSlackNode" -> nodeB)
       val lineTypes = Map("someLineType" -> lineType)
-      val converted = LineConverter.convertLines(lines, prefix, nodes, lineTypes)
+      val converted =
+        LineConverter.convertLines(lines, prefix, nodes, lineTypes)
       converted.size shouldBe 2
     }
   }
