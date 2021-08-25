@@ -13,7 +13,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   GridConfigurationException
 }
-import edu.ie3.powerFactory2psdm.model.entity.Node
+import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities
@@ -22,14 +22,40 @@ import java.util.UUID
 
 object NodeConverter {
 
+  /** Convert all nodes subnet by subnet.
+    *
+    * @param subnets
+    *   subnets of the grid
+    * @return
+    *   Map of node id to PSDM [[NodeInput]]
+    */
+  def convertNodesOfSubnets(subnets: List[Subnet]): Map[String, NodeInput] = {
+    subnets.flatMap(subnet => convertNodesOfSubnet(subnet)).toMap
+  }
+
+  /** Converts all nodes within a subnet to PSDM [[NodeInput]] s
+    *
+    * @param subnet
+    *   the subnet with reference to all PF nodes that live within
+    * @return
+    *   list of all converted [[NodeInput]]
+    */
+  def convertNodesOfSubnet(
+      subnet: Subnet
+  ): Set[(String, NodeInput)] =
+    subnet.nodes
+      .map(node =>
+        (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
+      )
+
   /** Converts a PowerFactory node into a PSDM node.
     *
-    * @param id
-    *   id of the PF node to convert
-    * @param id2node
-    *   Map of ids and their associated [[Node]] s
-    * @param subnet
-    *   subnet the PF node lives in
+    * @param node
+    *   the PF node to convert
+    * @param subnetId
+    *   subnet id the node is assigned to
+    * @param voltLvl
+    *   voltage level of the node
     * @return
     *   a PSDM [[NodeInput]]
     */
