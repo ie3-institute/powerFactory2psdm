@@ -18,7 +18,7 @@ class Transformer2WTypeConverterSpec
     with QuantityMatchers {
 
   "A Transformer2wTypeConverter" should {
-    val conversionPair = getTransformer2WTypePair("SomeTrafo2WType")
+    val conversionPair = getTransformer2WTypePair("someTrafo2WType")
     val input = conversionPair.input
     val expected = conversionPair.result
     implicit val quantityTolerance: Double = 1e-6

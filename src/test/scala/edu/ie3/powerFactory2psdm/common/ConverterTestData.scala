@@ -297,9 +297,9 @@ object ConverterTestData extends LazyLogging {
   }
 
   val transformerTypes = Map(
-    "SomeTrafo2wType" -> ConversionPair(
+    "someTrafo2WType" -> ConversionPair(
       Transformer2WType(
-        id = "SomeTrafo2wType",
+        id = "someTrafo2WType",
         sRated = 40d,
         vRatedA = 110d,
         vRatedB = 10d,
@@ -316,7 +316,7 @@ object ConverterTestData extends LazyLogging {
       ),
       new Transformer2WTypeInput(
         UUID.randomUUID(),
-        "SomeTrafo2wType",
+        "someTrafo2WType",
         Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
         Quantities.getQuantity(15.1249319, OHM),
         Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
