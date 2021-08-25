@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import tech.units.indriya.quantity.Quantities
 import edu.ie3.util.quantities.PowerSystemUnits.{
@@ -58,6 +59,18 @@ object LineTypeConverter {
       x,
       iMax,
       vRated
+    )
+  }
+
+  def getLineType(
+      id: String,
+      lineTypes: Map[String, LineTypeInput]
+  ): LineTypeInput = {
+    lineTypes.getOrElse(
+      id,
+      throw ConversionException(
+        s"Can't find line type $id within the converted line types."
+      )
     )
   }
 }

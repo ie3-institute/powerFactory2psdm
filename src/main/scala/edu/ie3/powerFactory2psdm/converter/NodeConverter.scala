@@ -9,7 +9,10 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
-import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  GridConfigurationException
+}
 import edu.ie3.powerFactory2psdm.model.entity.Node
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.Point
@@ -68,4 +71,13 @@ object NodeConverter {
           s"There is more than one external grid connected to Node: ${node.id}"
         )
     }
+
+  def getNode(id: String, nodes: Map[String, NodeInput]): NodeInput = {
+    nodes.getOrElse(
+      id,
+      throw ConversionException(
+        s"Can't find node $id within the converted nodes."
+      )
+    )
+  }
 }

@@ -6,7 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.{getLinePair, getLineTypePair, getNodePair}
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  getLinePair,
+  getLineTypePair,
+  getNodePair
+}
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike

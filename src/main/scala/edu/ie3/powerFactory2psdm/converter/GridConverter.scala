@@ -50,9 +50,6 @@ case object GridConverter {
     *   Map of node id to PSDM [[NodeInput]]
     */
   def convertNodes(subnets: List[Subnet]): Map[String, NodeInput] = {
-    subnets
-      .flatMap(subnet => convertNodesOfSubnet(subnet))
-      .toMap
     subnets.flatMap(subnet => convertNodesOfSubnet(subnet)).toMap
   }
 
@@ -92,27 +89,10 @@ case object GridConverter {
       LineConverter.convert(
         line,
         lineLengthPrefix,
-        lineTypes.getOrElse(
-          line.typId,
-          throw ConversionException(
-            s"Can't find line type ${line.typId} within the converted line types."
-          )
-        ),
-        nodes.getOrElse(
-          line.nodeAId,
-          throw ConversionException(
-            s"Can't find node ${line.nodeAId} within the converted nodes."
-          )
-        ),
-        nodes.getOrElse(
-          line.nodeBId,
-          throw ConversionException(
-            s"Can't find node ${line.nodeBId} within the converted nodes."
-          )
-        )
+        LineTypeConverter.getLineType(line.typId, lineTypes),
+        NodeConverter.getNode(line.nodeAId, nodes),
+        NodeConverter.getNode(line.nodeBId, nodes)
       )
     })
-
   }
-
 }

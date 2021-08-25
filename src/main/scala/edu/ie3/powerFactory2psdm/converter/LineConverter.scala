@@ -29,10 +29,12 @@ object LineConverter {
   ): LineInput = {
 
     val id = input.id
-    val length = Quantities.getQuantity(
-      input.length * lengthPrefix,
-      METRE
-    ).to(StandardUnits.LINE_LENGTH)
+    val length = Quantities
+      .getQuantity(
+        input.length * lengthPrefix,
+        METRE
+      )
+      .to(StandardUnits.LINE_LENGTH)
 
     val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
