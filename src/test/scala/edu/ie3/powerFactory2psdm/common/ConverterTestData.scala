@@ -7,10 +7,7 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.{
-  LineTypeInput,
-  Transformer2WTypeInput
-}
+import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.StandardUnits.{
   AZIMUTH,
@@ -31,8 +28,14 @@ import edu.ie3.datamodel.models.input.system.characteristic.{
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-
-import java.io.File
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
+  Fixed,
+  FixedQCharacteristic,
+  PvModelGeneration,
+  UniformDistribution,
+  WecModelGeneration
+}
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
@@ -40,6 +43,7 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
   EntityModel,
   Node,
+  StaticGenerator,
   Subnet
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.{
@@ -47,14 +51,10 @@ import edu.ie3.powerFactory2psdm.model.entity.types.{
   TransformerType2W
 }
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.util.quantities.PowerSystemUnits.PU
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory._
 import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
 import edu.ie3.util.quantities.PowerSystemUnits.{
   DEGREE_GEOM,
@@ -71,7 +71,6 @@ import javax.measure.MetricPrefix
 object ConverterTestData extends LazyLogging {
 
   val config: ConversionConfig =
-    // ConfigSource.file("src/test/resources/application.conf").loadOrThrow[ConversionConfig]
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   val pvModelGeneration: PvModelGeneration = PvModelGeneration(
@@ -103,13 +102,19 @@ object ConverterTestData extends LazyLogging {
     def getPair: (I, R) = (input, result)
   }
 
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam M     Type of result class
+    * @param input
+    *   Input model
+    * @param resultModel
+    *   Resulting, converted model
+    * @param resultType
+    *   Resulting, converted type of the model
+    * @tparam I
+    *   Type of input model
+    * @tparam M
+    *   Type of result class
     */
   final case class ConversionPairWithType[
       I <: EntityModel,
@@ -326,7 +331,7 @@ object ConverterTestData extends LazyLogging {
     category = "Statischer Generator"
   )
 
-  val generatePvs = Map(
+  val generatePvs: Map[String, ConversionPair[StaticGenerator, PvInput]] = Map(
     "somePvPlant" -> ConversionPair(
       staticGenerator.copy(category = "Fotovoltaik"),
       new PvInput(

@@ -15,7 +15,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   PvModelGeneration
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
 import tech.units.indriya.ComparableQuantity

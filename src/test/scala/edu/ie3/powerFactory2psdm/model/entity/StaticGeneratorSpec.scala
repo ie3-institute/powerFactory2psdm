@@ -4,10 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -63,7 +63,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       val faulty = input.copy(pf_recap = None)
       val exc =
         intercept[MissingParameterException](StaticGenerator.build(faulty))
-      exc.getMessage shouldBe s"There is no category specifier defined for static generator: $id"
+      exc.getMessage shouldBe s"There is no inductive capacitive specifier defined for static generator: $id"
     }
 
     "build a correctly configured static generator" in {

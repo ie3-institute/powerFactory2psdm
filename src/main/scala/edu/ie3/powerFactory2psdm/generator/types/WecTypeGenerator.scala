@@ -10,7 +10,7 @@ import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInput
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler
 import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.interfaces.{Currency, EnergyPrice}

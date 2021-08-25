@@ -17,7 +17,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.generator.types.WecTypeGenerator
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import java.util.UUID
 

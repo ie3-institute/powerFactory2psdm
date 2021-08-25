@@ -4,26 +4,28 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
+package edu.ie3.powerFactory2psdm.model
+
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  PowerPlants,
-  Trafos3w,
-  Loads,
+  LineTypes,
   Lines,
-  Pvs,
-  Switches,
-  TrafoTypes3w,
+  Loads,
   LoadsLV,
   LoadsMV,
   Nodes,
-  Trafos2w,
+  PowerPlants,
+  ProjectSettings,
+  Pvs,
   StatGen,
-  LineTypes,
-  TrafoTypes2w
+  Switches,
+  TrafoTypes2w,
+  TrafoTypes3w,
+  Trafos2w,
+  Trafos3w
 }
 
-final case class RawGridModel(
+final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
@@ -38,15 +40,22 @@ final case class RawGridModel(
     trafos3w: Option[List[Trafos3w]],
     extGrid: Option[List[ExtGrid]],
     trafoTypes2w: Option[List[TrafoTypes2w]],
-    lines: Option[List[Lines]]
+    lines: Option[List[Lines]],
+    projectSettings: Option[List[ProjectSettings]]
 )
 
-object RawGridModel {
+object RawPfGridModel {
 
   final case class Switches(
       id: Option[String],
       bus1Id: Option[String],
       bus2Id: Option[String]
+  )
+
+  final case class ProjectSettings(
+      unitSystem: Option[Double],
+      prefixPQS: Option[String],
+      prefixLength: Option[String]
   )
 
   final case class Pvs()
@@ -55,7 +64,22 @@ object RawGridModel {
 
   final case class Loads(id: Option[String], busId: Option[String])
 
-  final case class TrafoTypes2w(id: Option[String])
+  final case class TrafoTypes2w(
+      nntap0: Option[Double],
+      pfe: Option[Double],
+      uktr: Option[Double],
+      id: Option[String],
+      ntpmn: Option[Double],
+      dutap: Option[Double],
+      strn: Option[Double],
+      utrn_l: Option[Double],
+      curmg: Option[Double],
+      tap_side: Option[Double],
+      ntpmx: Option[Double],
+      pcutr: Option[Double],
+      phitr: Option[Double],
+      utrn_h: Option[Double]
+  )
 
   final case class LineTypes(
       bline: Option[Double],
