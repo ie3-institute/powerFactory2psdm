@@ -21,7 +21,7 @@ case object GridConverter {
 
   /** Converts the grid elements of the PowerFactory grid
     *
-    * @param rawGrid
+    * @param grid
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
