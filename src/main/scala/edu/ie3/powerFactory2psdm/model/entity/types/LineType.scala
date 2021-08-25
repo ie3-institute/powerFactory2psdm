@@ -4,29 +4,30 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory.types
+package edu.ie3.powerFactory2psdm.model.entity.types
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineTypes
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
-import scala.annotation.tailrec
-
-/**
-  * Electrical line
+/** Electrical line
   *
-  * @param id identifier
-  * @param vRated rated voltage in kA
-  * @param iMax thermal current in kA
-  * @param r specific resistance in Ohm/km
-  * @param x specific reactance in Ohm/km
-  * @param b phase-to-ground conductance in micro Siemens/km
-  * @param g phase-to-ground conductance in micro Siemens/km
+  * @param id
+  *   identifier
+  * @param vRated
+  *   rated voltage in kA
+  * @param iMax
+  *   thermal current in kA
+  * @param r
+  *   specific resistance in Ohm/km
+  * @param x
+  *   specific reactance in Ohm/km
+  * @param b
+  *   phase-to-ground conductance in micro Siemens/km
+  * @param g
+  *   phase-to-ground conductance in micro Siemens/km
   */
-case class LineType(
+final case class LineType(
     id: String,
     vRated: Double,
     iMax: Double,

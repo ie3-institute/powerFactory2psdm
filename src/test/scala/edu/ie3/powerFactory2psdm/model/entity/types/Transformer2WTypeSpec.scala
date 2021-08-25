@@ -4,17 +4,16 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.Transformer2WType
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.TrafoTypes2w
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
 
-  "A Transformer2wTypeSpec" should {
+  "A Transformer2WTypeSpec" should {
 
     val id = "Some2wTransformerType"
 
@@ -147,7 +146,7 @@ class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
       exc.getMessage shouldBe s"There is no iron loss defined for transformer-type: $id"
     }
 
-    "build a correctly configured TransformerType2w" in {
+    "build a correctly configured Transformer2WType" in {
       val actual = Transformer2WType.build(input)
       actual.id shouldBe "Some2wTransformerType"
       actual.sRated shouldBe 40

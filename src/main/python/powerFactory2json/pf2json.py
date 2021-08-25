@@ -106,7 +106,17 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
 
 dpf = powerfactory.GetApplication()
 dpf.EchoOff()
+project = dpf.GetActiveProject()
 pfGrid = {}  # resulting pf grid json export
+
+# get general settings
+pfGrid.update({"projectSettings":
+    [{
+        "unitSystem": project.ilenunit,
+        "prefixPQS": project.cspqexp,
+        "prefixLength": project.clenexp
+    }]
+})
 
 # generate json strings
 for element_name in elements4export:

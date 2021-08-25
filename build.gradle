@@ -3,17 +3,17 @@ plugins {
 	id 'java' // java support
 	id 'scala' // scala support
 	id 'pmd' //code check, working on source code
-	id 'com.diffplug.spotless' version '5.14.0'//code format
+	id 'com.diffplug.spotless' version '5.14.3'//code format
 	id "org.sonarqube" version "3.3" // sonarqube
-	id 'org.scoverage' version '5.0.0' // Code coverage plugin for scala
+	id 'org.scoverage' version '7.0.0' // Code coverage plugin for scala
 	id "com.github.maiflai.scalatest" version "0.31" // run scalatest without specific spec task
 }
 
 ext {
 	javaVersion = JavaVersion.VERSION_11
 	scalaVersion = '2.13'
-	scalaBinaryVersion = '2.13.5'
-	slf4jVersion = '1.7.31'
+	scalaBinaryVersion = '2.13.6'
+	slf4jVersion = '1.7.32'
 	circeVersion = '0.14.1'
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
@@ -46,12 +46,12 @@ dependencies {
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
-	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '2.7.5'
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.0.0'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
-	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '2.7.5'
+	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.0.0'
 
 
-	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.0') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.1') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
@@ -60,6 +60,12 @@ dependencies {
 	// Graphs
 	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
 
+	// config //
+	//implementation 'com.typesafe:config:+'
+	implementation "com.github.pureconfig:pureconfig_${scalaVersion}:0.16.0"
+
+	// cmd args parser //
+	implementation "com.github.scopt:scopt_${scalaVersion}:+"
 
 	// ie³ internal repository
 	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.3'
@@ -84,7 +90,7 @@ dependencies {
 
 	// Linter Scala //
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
-	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.8" // scala scapegoat
+	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
 }
 
 /* scapegoat hook configuration
@@ -117,4 +123,21 @@ targetCompatibility = javaVersion
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
+}
+
+tasks.withType(ScalaCompile) {
+	options.forkOptions.jvmArgs += [
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
+	]
+	options.compilerArgs += [
+		'-Xmx4096m',
+		'-Xss4m',
+		'-Xms2048m',
+		'-XX:+UseParallelGC',
+		'-XX:MaxInlineLevel=20'
+	]
 }

@@ -19,9 +19,9 @@ sonarqube {
 			"build/reports/scapegoat/testsrc/scapegoat-scalastyle.xml"] // Comma-delimited list of paths to Scapegoat reports in the Scalastyle format
 		// scala specific stuff
 		property 'sonar.scala.coverage.reportPaths', 'build/reports/scoverage/scoverage.xml'
-		// remove auto generated PowerFactoryGrid file from sonarqube analysis
+		// remove auto generated RawGridModel file from sonarqube analysis
 		property 'sonar.exclusions', [
-			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/PowerFactoryGrid.scala"
+			"src/main/scala/edu/ie3/powerFactory2psdm/model/powerfactory/RawGridModel.scala"
 		]
 	}
 }

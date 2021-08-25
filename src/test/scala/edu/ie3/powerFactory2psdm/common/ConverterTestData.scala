@@ -14,29 +14,29 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
 }
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
-import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.{
-  LV,
-  MV_10KV
-}
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.types.{
+import edu.ie3.powerFactory2psdm.model.entity.{
+  ConnectedElement,
+  EntityModel,
+  Node,
+  Transformer2W,
+  Subnet
+}
+import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   Transformer2WType
 }
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  ConnectedElement,
-  EntityModel,
-  GridModel,
-  Node,
-  Transformer2W
-}
+import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
+import pureconfig.ConfigSource
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
 import edu.ie3.util.quantities.PowerSystemUnits.{
@@ -44,19 +44,27 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
   KILOVOLT,
   VOLTAMPERE
 }
+import pureconfig.generic.auto._
 
 import java.util.UUID
 import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  val config: ConversionConfig =
+    ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
+
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam R     Type of result class
+    * @param input
+    *   Input model
+    * @param result
+    *   Resulting, converted model
+    * @tparam I
+    *   Type of input model
+    * @tparam R
+    *   Type of result class
     */
   final case class ConversionPair[I <: EntityModel, R <: UniqueEntity](
       input: I,
@@ -70,7 +78,7 @@ object ConverterTestData extends LazyLogging {
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: GridModel = GridModel.build(
+  val testGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
     PfGridParser
       .parse(testGridFile)
       .getOrElse(
@@ -289,9 +297,9 @@ object ConverterTestData extends LazyLogging {
   }
 
   val transformerTypes = Map(
-    "SomeTrafo2WType" -> ConversionPair(
+    "SomeTrafo2wType" -> ConversionPair(
       Transformer2WType(
-        id = "SomeTrafo2WType",
+        id = "SomeTrafo2wType",
         sRated = 40d,
         vRatedA = 110d,
         vRatedB = 10d,
@@ -308,13 +316,13 @@ object ConverterTestData extends LazyLogging {
       ),
       new Transformer2WTypeInput(
         UUID.randomUUID(),
-        "SomeTrafo2WType",
+        "SomeTrafo2wType",
         Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
         Quantities.getQuantity(15.1249319, OHM),
         Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
         Quantities.getQuantity(110d, KILOVOLT),
         Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(826.4463, MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(826.4462809, MetricPrefix.NANO(SIEMENS)),
         Quantities
           .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
           .to(MetricPrefix.NANO(SIEMENS)),

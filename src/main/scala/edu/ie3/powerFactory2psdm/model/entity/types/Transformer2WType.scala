@@ -4,31 +4,44 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory.types
+package edu.ie3.powerFactory2psdm.model.entity.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.EntityModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.TrafoTypes2w
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
-/**
-  * Transformer type
+/** Transformer type
   *
-  * @param id       Identifier
-  * @param sRated   Rated apparent power in MVA
-  * @param vRatedA  Rated voltage of the high voltage winding in kW
-  * @param vRatedB  Rated voltage of the low voltage winding in kW
-  * @param dV       Voltage magnitude deviation per tap position in %
-  * @param dPhi     Voltage angle deviation per tap position in °
-  * @param tapSide  Selection of winding, where the tap changer is installed (0 = OS, 1 = US).
-  * @param tapNeutr Neutral tap position
-  * @param tapMin   Minimum available tap position
-  * @param tapMax   Maximum available tap position
-  * @param uk       Short circuit voltage in %
-  * @param iNoLoad  No load current in %
-  * @param pFe      Iron losses in kW
-  * @param pCu      Copper losses in kW
+  * @param id
+  *   Identifier
+  * @param sRated
+  *   Rated apparent power in MVA
+  * @param vRatedA
+  *   Rated voltage of the high voltage winding in kV
+  * @param vRatedB
+  *   Rated voltage of the low voltage winding in kV
+  * @param dV
+  *   Voltage magnitude deviation per tap position in %
+  * @param dPhi
+  *   Voltage angle deviation per tap position in °
+  * @param tapSide
+  *   Selection of winding, where the tap changer is installed (0 = OS, 1 = US).
+  * @param tapNeutr
+  *   Neutral tap position
+  * @param tapMin
+  *   Minimum available tap position
+  * @param tapMax
+  *   Maximum available tap position
+  * @param uk
+  *   Short circuit voltage in %
+  * @param iNoLoad
+  *   No load current in %
+  * @param pFe
+  *   Iron losses in kW
+  * @param pCu
+  *   Copper losses in kW
   */
-case class Transformer2WType(
+final case class Transformer2WType(
     id: String,
     sRated: Double,
     vRatedA: Double,
