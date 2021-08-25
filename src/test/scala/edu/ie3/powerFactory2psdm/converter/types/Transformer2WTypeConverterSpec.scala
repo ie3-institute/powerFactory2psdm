@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.converter.types
 
-
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.getTransformer2WTypePair
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.scalatest.QuantityMatchers

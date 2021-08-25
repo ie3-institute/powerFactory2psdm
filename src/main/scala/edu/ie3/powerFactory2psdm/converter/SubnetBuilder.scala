@@ -9,7 +9,11 @@ package edu.ie3.powerFactory2psdm.converter
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, ElementConfigurationException, GridConfigurationException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  ElementConfigurationException,
+  GridConfigurationException
+}
 import edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
