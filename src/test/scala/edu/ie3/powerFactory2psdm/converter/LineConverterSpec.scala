@@ -6,11 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
-  getLinePair,
-  getLineTypePair,
-  getNodePair
-}
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.{getLinePair, getLineTypePair, getNodePair}
+import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -39,7 +36,7 @@ class LineConverterSpec extends Matchers with AnyWordSpecLike {
       actual.getNodeA shouldBe expected.getNodeA
       actual.getNodeB shouldBe expected.getNodeB
       actual.getType shouldBe expected.getType
-      actual.getLength shouldBe expected.getLength
+      actual.getLength should equalWithTolerance(expected.getLength)
       actual.getOlmCharacteristic shouldBe expected.getOlmCharacteristic
       actual.getParallelDevices shouldBe expected.getParallelDevices
       actual.getOperationTime shouldBe expected.getOperationTime

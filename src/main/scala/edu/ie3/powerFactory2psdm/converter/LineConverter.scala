@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
+import edu.ie3.datamodel.models.StandardUnits
 import tech.units.indriya.unit.Units.METRE
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.LineInput
@@ -31,7 +32,7 @@ object LineConverter {
     val length = Quantities.getQuantity(
       input.length * lengthPrefix,
       METRE
-    )
+    ).to(StandardUnits.LINE_LENGTH)
 
     val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
