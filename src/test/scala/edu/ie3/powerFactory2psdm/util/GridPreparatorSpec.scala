@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.util
 
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.Switches
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 

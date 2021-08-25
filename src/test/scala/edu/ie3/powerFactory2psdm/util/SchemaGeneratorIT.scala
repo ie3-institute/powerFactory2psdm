@@ -23,8 +23,9 @@ class SchemaGeneratorIT
     with BeforeAndAfterAll {
 
   // create test dir
-  protected val testTmpDir
-      : String = System.getProperty("user.dir") + File.separator + "test" + File.separator + "tmp_" + this.getClass.getSimpleName
+  protected val testTmpDir: String = System.getProperty(
+    "user.dir"
+  ) + File.separator + "test" + File.separator + "tmp_" + this.getClass.getSimpleName
 
   override protected def beforeAll(): Unit = new File(testTmpDir).mkdirs()
 
@@ -39,8 +40,9 @@ class SchemaGeneratorIT
         Source.fromFile(
           s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
         )
-      val jsonString = try source.mkString
-      finally source.close
+      val jsonString =
+        try source.mkString
+        finally source.close
 
       val outputFile = new File(
         s"$testTmpDir${File.separator}PowerFactoryGrid.scala"
