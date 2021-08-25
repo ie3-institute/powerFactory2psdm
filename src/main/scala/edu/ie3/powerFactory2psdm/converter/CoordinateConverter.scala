@@ -17,12 +17,15 @@ import org.locationtech.jts.geom.{
 
 case object CoordinateConverter {
 
-  /**
-    * Converts optional lat and lon values of PowerFactory elements to the expected position description of the PSDM.
+  /** Converts optional lat and lon values of PowerFactory elements to the
+    * expected position description of the PSDM.
     *
-    * @param maybeLat optional lat value
-    * @param maybeLon optional lon value
-    * @return position as described by a [[Point]]
+    * @param maybeLat
+    *   optional lat value
+    * @param maybeLon
+    *   optional lon value
+    * @return
+    *   position as described by a [[Point]]
     */
   def convert(maybeLat: Option[Double], maybeLon: Option[Double]): Point = {
     maybeLat.zip(maybeLon) match {

@@ -12,8 +12,10 @@ import org.scalafmt.interfaces.Scalafmt
 object Formatter {
 
   def format(str: String, fmtPath: Option[String]): String = {
-    val scalafmt = Scalafmt.create(this.getClass.getClassLoader)
-    val defaultConfigPath = Paths.get(".scalafmt.conf")
+    val classLoader = this.getClass.getClassLoader
+    val scalafmt = Scalafmt.create(classLoader)
+    val defaultConfigPath =
+      Paths.get(classLoader.getResource(".scalafmt.conf").getPath)
     val defaultConfig =
       if (Files.exists(defaultConfigPath)) defaultConfigPath else Paths.get("")
     val config = fmtPath.fold(defaultConfig)(Paths.get(_))
