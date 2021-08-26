@@ -7,11 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  DependentQCharacteristic,
-  FixedQCharacteristic,
-  QCharacteristic
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{DependentQCharacteristic, FixedQCharacteristic, QCharacteristic}
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 

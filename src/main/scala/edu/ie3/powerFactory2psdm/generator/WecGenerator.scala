@@ -10,7 +10,7 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper
 import edu.ie3.powerFactory2psdm.generator.types.WecTypeGenerator
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
