@@ -395,7 +395,6 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
-
   val wecModelGeneration: WecModelGeneration = WecModelGeneration(
     capex = Fixed(100d),
     opex = Fixed(50d),
