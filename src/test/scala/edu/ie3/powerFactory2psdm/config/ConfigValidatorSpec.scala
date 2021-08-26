@@ -94,7 +94,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         intercept[ConversionConfigException](
           validatePvModelGenerationParams(faultyParams)
         )
-      exc.getMessage shouldBe s"The efficiency of the plants inverter: ${faultyParams.azimuth} isn't valid. Exception: ${upperBoundViolation(101, 100).exception.getMessage}"
+      exc.getMessage shouldBe s"The efficiency of the plants inverter: ${faultyParams.etaConv} isn't valid. Exception: ${upperBoundViolation(101, 100).exception.getMessage}"
     }
 
     "throw an exception for invalid pv param kG" in {
