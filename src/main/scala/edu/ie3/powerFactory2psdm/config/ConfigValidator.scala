@@ -6,13 +6,17 @@
 
 package edu.ie3.powerFactory2psdm.config
 
+import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
   Fixed,
+  FixedQCharacteristic,
   GenerationMethod,
-  ModelConfigs,
   NormalDistribution,
   PvConfig,
   PvModelGeneration,
+  QCharacteristic,
+  StatGenModelConfigs,
   UniformDistribution
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
@@ -29,7 +33,9 @@ object ConfigValidator {
     validateModelConfigs(config.modelConfigs)
   }
 
-  private[config] def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
+  private[config] def validateModelConfigs(
+      modelConfigs: StatGenModelConfigs
+  ): Unit = {
     validatePvConfig(modelConfigs.pvConfig)
   }
 
@@ -79,6 +85,14 @@ object ConfigValidator {
       case Failure(exc) =>
         throw ConversionConfigException(
           s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateQCharacteristic(params.qCharacteristic) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The PV q characteristic configuration isn't valid.",
+          exc
         )
     }
   }
@@ -146,5 +160,15 @@ object ConfigValidator {
         s"The minimum: $min and maximum: $max of the uniform distribution lie below the lower bound: $lowerBound and above the upper bound: $upperBound "
       )
     )
+
+  private[config] def validateQCharacteristic(
+      qCharacteristic: QCharacteristic
+  ): Try[Unit] = Try(qCharacteristic).flatMap {
+    case ConversionConfig.FixedQCharacteristic => Success(())
+    case DependentQCharacteristic(characteristic) =>
+      Try {
+        ReactivePowerCharacteristic.parse(characteristic)
+      }.map(_ => ())
+  }
 
 }

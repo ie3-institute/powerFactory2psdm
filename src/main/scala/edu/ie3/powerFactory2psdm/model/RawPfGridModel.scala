@@ -5,30 +5,30 @@
  */
 
 package edu.ie3.powerFactory2psdm.model
-
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  LineTypes,
+  PowerPlants,
+  Trafos3w,
   Lines,
-  Loads,
+  Pvs,
+  Switches,
+  TrafoTypes3w,
   LoadsLV,
   LoadsMV,
   Nodes,
-  PowerPlants,
-  ProjectSettings,
-  Pvs,
-  StatGen,
-  Switches,
-  TrafoTypes2w,
-  TrafoTypes3w,
   Trafos2w,
-  Trafos3w
+  StatGen,
+  Loads,
+  ProjectSettings,
+  LineTypes,
+  TrafoTypes2w
 }
 
 final case class RawPfGridModel(
     trafos2w: Option[List[Trafos2w]],
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
+    projectSettings: Option[List[ProjectSettings]],
     powerPlants: Option[List[PowerPlants]],
     trafoTypes3w: Option[List[TrafoTypes3w]],
     pvs: Option[List[Pvs]],
@@ -40,8 +40,7 @@ final case class RawPfGridModel(
     trafos3w: Option[List[Trafos3w]],
     extGrid: Option[List[ExtGrid]],
     trafoTypes2w: Option[List[TrafoTypes2w]],
-    lines: Option[List[Lines]],
-    projectSettings: Option[List[ProjectSettings]]
+    lines: Option[List[Lines]]
 )
 
 object RawPfGridModel {
@@ -52,17 +51,44 @@ object RawPfGridModel {
       bus2Id: Option[String]
   )
 
-  final case class ProjectSettings(
-      unitSystem: Option[Double],
-      prefixPQS: Option[String],
-      prefixLength: Option[String]
-  )
-
   final case class Pvs()
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
   final case class Loads(id: Option[String], busId: Option[String])
+
+  final case class LineTypes(
+      bline: Option[Double],
+      gline: Option[Double],
+      id: Option[String],
+      sline: Option[Double],
+      uline: Option[Double],
+      xline: Option[Double],
+      rline: Option[Double]
+  )
+
+  final case class StatGen(
+      sgn: Option[Double],
+      cCategory: Option[String],
+      pf_recap: Option[Double],
+      busId: Option[String],
+      id: Option[String],
+      sgini: Option[Double],
+      cosn: Option[Double],
+      cosgini: Option[Double]
+  )
+
+  final case class Lines(
+      id: Option[String],
+      bus1Id: Option[String],
+      bus2Id: Option[String]
+  )
+
+  final case class PowerPlants(id: Option[String], busId: Option[String])
+
+  final case class Trafos3w()
+
+  final case class ExtGrid(id: Option[String], busId: Option[String])
 
   final case class TrafoTypes2w(
       nntap0: Option[Double],
@@ -81,36 +107,11 @@ object RawPfGridModel {
       utrn_h: Option[Double]
   )
 
-  final case class LineTypes(
-      bline: Option[Double],
-      gline: Option[Double],
-      id: Option[String],
-      sline: Option[Double],
-      uline: Option[Double],
-      xline: Option[Double],
-      rline: Option[Double]
+  final case class ProjectSettings(
+      unitSystem: Option[Double],
+      prefixPQS: Option[String],
+      prefixLength: Option[String]
   )
-
-  final case class StatGen(
-      sgn: Option[Double],
-      cosgini: Option[Double],
-      cCategory: Option[String],
-      pf_recap: Option[Double],
-      busId: Option[String],
-      id: Option[String]
-  )
-
-  final case class Lines(
-      id: Option[String],
-      bus1Id: Option[String],
-      bus2Id: Option[String]
-  )
-
-  final case class PowerPlants(id: Option[String], busId: Option[String])
-
-  final case class Trafos3w()
-
-  final case class ExtGrid(id: Option[String], busId: Option[String])
 
   final case class LoadsLV(id: Option[String], busId: Option[String])
 
@@ -125,8 +126,8 @@ object RawPfGridModel {
 
   final case class Trafos2w(
       id: Option[String],
-      conElms: Option[List[Option[ConElms]]],
-      busId: Option[String]
+      bus1Id: Option[String],
+      bus2Id: Option[String]
   )
 
   final case class TrafoTypes3w()

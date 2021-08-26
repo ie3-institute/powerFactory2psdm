@@ -62,7 +62,9 @@ attributes4export = {
     'loadsMV': [],
     'statGen': [
         'sgn',
+        'sgini',
         'cosgini',
+        'cosn',
         'pf_recap',
         'cCategory'
     ],

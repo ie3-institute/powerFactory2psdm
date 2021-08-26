@@ -7,18 +7,21 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.StandardUnits.{
   AZIMUTH,
   EFFICIENCY,
   SOLAR_HEIGHT
+}
+import edu.ie3.datamodel.models.input.connector.`type`.{
+  LineTypeInput,
+  Transformer2WTypeInput
 }
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
 }
+import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
 import edu.ie3.datamodel.models.input.system.characteristic.{
   CosPhiFixed,
@@ -27,6 +30,7 @@ import edu.ie3.datamodel.models.input.system.characteristic.{
 }
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   DependentQCharacteristic,
@@ -77,7 +81,7 @@ object ConverterTestData extends LazyLogging {
     albedo = Fixed(0.2),
     azimuth = UniformDistribution(-90, 90),
     etaConv = Fixed(0.95),
-    height = UniformDistribution(20, 50),
+    elevationAngle = UniformDistribution(20, 50),
     qCharacteristic = FixedQCharacteristic,
     kG = Fixed(0.9),
     kT = Fixed(1)
@@ -331,6 +335,9 @@ object ConverterTestData extends LazyLogging {
     category = "Statischer Generator"
   )
 
+  val statGenCosPhiExcMsg: String => String = (id: String) =>
+    s"Can't determine cos phi rated for static generator: $id. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+
   val generatePvs: Map[String, ConversionPair[StaticGenerator, PvInput]] = Map(
     "somePvPlant" -> ConversionPair(
       staticGenerator.copy(category = "Fotovoltaik"),
@@ -358,10 +365,36 @@ object ConverterTestData extends LazyLogging {
     generatePvs.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for StaticGenerator/PvInput with key: $key "
       )
     )
   }
+
+  val staticGenerator2FeedInPair = Map(
+    "someStatGen" -> ConversionPair(
+      staticGenerator,
+      new FixedFeedInInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        Quantities.getQuantity(11d, MEGAVOLTAMPERE),
+        0.91
+      )
+    )
+  )
+
+  def getStaticGenerator2FixedFeedInPair(
+      key: String
+  ): ConversionPair[StaticGenerator, FixedFeedInInput] = {
+    staticGenerator2FeedInPair.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for static generator to fixed feed in with key: $key"
+      )
+    )
+  }
+
 
   val wecModelGeneration: WecModelGeneration = WecModelGeneration(
     capex = Fixed(100d),
