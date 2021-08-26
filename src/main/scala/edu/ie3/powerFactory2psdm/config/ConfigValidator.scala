@@ -70,7 +70,7 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
+          s"The efficiency of the plants inverter: ${params.etaConv} isn't valid. Exception: ${exc.getMessage}"
         )
     }
     validateGenerationMethod(params.kG, 0, 1) match {
