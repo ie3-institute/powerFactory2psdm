@@ -6,7 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
+import edu.ie3.datamodel.models.input.system.WecInput
+import edu.ie3.datamodel.models.input.system.characteristic.{
+  ReactivePowerCharacteristic,
+  WecCharacteristicInput
+}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   DependentQCharacteristic,
   Fixed,
@@ -17,7 +21,8 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   PvModelGeneration,
   QCharacteristic,
   StatGenModelConfigs,
-  UniformDistribution
+  UniformDistribution,
+  WecModelGeneration
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 
@@ -97,6 +102,62 @@ object ConfigValidator {
     }
   }
 
+  private[config] def validateWecModelGenerationParams(
+      params: WecModelGeneration
+  ): Unit = {
+    validateGenerationMethod(params.capex, 0, Double.MaxValue) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs capital expenditure ${params.capex} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.opex, 0, Double.MaxValue) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs operational expenditure ${params.capex} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.etaConv, 0, 100) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs efficiency of the plants inverter: ${params.etaConv} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.hubHeight, 0, Double.MaxValue) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs hub height: ${params.hubHeight} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateGenerationMethod(params.rotorArea, 0, Double.MaxValue) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs rotorArea: ${params.rotorArea} isn't valid. Exception: ${exc.getMessage}"
+        )
+    }
+    validateQCharacteristic(params.qCharacteristic) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The PV q characteristic configuration isn't valid.",
+          exc
+        )
+    }
+    validateCpCharacteristic(params.cpCharacteristics) match {
+      case Success(_) =>
+      case Failure(exc) =>
+        throw ConversionConfigException(
+          s"The WECs cpCharacteristic configuration isn't valid.",
+          exc
+        )
+    }
+  }
+
   private[config] def validateGenerationMethod(
       genMethod: GenerationMethod,
       lowerBound: Double,
@@ -170,5 +231,9 @@ object ConfigValidator {
         ReactivePowerCharacteristic.parse(characteristic)
       }.map(_ => ())
   }
+
+  private[config] def validateCpCharacteristic(
+      cpCharacteristic: String
+  ): Try[Unit] = Try(new WecCharacteristicInput(cpCharacteristic))
 
 }
