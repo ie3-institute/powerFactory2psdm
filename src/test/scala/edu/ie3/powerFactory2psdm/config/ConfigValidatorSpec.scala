@@ -67,7 +67,10 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The albedo of the plants surrounding: ${faultyParams.albedo} isn't valid. Exception: ${upperBoundViolation(1.1, 1.0).exception.getMessage}"
+        exc shouldBe ConversionConfigException(
+          s"The albedo of the plants surrounding: ${faultyParams.albedo} isn't valid.",
+          upperBoundViolation(1.1, 1.0).exception
+        )
       }
 
       "throw an exception for invalid pv param azimuth" in {
@@ -77,7 +80,10 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid. Exception: ${lowerUpperBoundViolation(-91, 92, -90, 90).exception.getMessage}"
+        exc shouldBe ConversionConfigException(
+          s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid.",
+          lowerUpperBoundViolation(-91, 92, -90, 90).exception
+        )
       }
 
       "throw an exception for min/max error of pv param azimuth" in {
@@ -87,7 +93,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid. Exception: The minimum value: 20.0 exceeds the maximum value: -10.0"
+        exc.getMessage + exc.getCause.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid.The minimum value: 20.0 exceeds the maximum value: -10.0"
       }
 
       "throw an exception for invalid pv param etaConv" in {
@@ -96,7 +102,10 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The efficiency of the plants inverter: ${faultyParams.azimuth} isn't valid. Exception: ${upperBoundViolation(101, 100).exception.getMessage}"
+        exc shouldBe ConversionConfigException(
+          s"The efficiency of the plants inverter: ${faultyParams.azimuth} isn't valid.",
+          upperBoundViolation(101, 100).exception
+        )
       }
 
       "throw an exception for invalid pv param kG" in {
@@ -105,7 +114,10 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The PV generator correction factor (kG): ${faultyParams.kG} isn't valid. Exception: ${lowerBoundViolation(-0.1, 0).exception.getMessage}"
+        exc shouldBe ConversionConfigException(
+          s"The PV generator correction factor (kG): ${faultyParams.kG} isn't valid.",
+          lowerBoundViolation(-0.1, 0).exception
+        )
       }
 
       "throw an exception for invalid pv param kT" in {
@@ -114,7 +126,10 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           intercept[ConversionConfigException](
             validatePvModelGenerationParams(faultyParams)
           )
-        exc.getMessage shouldBe s"The PV temperature correction factor (kT): ${faultyParams.kT} isn't valid. Exception: ${lowerBoundViolation(-0.1, 0).exception.getMessage}"
+        exc shouldBe ConversionConfigException(
+          s"The PV temperature correction factor (kT): ${faultyParams.kT} isn't valid.",
+          lowerBoundViolation(-0.1, 0).exception
+        )
       }
 
       "throw an exception for invalid pv q characteristic" in {

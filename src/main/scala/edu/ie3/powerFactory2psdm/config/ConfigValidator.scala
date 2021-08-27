@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.characteristic.{
   ReactivePowerCharacteristic,
   WecCharacteristicInput
@@ -14,7 +13,6 @@ import edu.ie3.datamodel.models.input.system.characteristic.{
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   DependentQCharacteristic,
   Fixed,
-  FixedQCharacteristic,
   GenerationMethod,
   NormalDistribution,
   PvConfig,
@@ -61,35 +59,40 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The albedo of the plants surrounding: ${params.albedo} isn't valid. Exception: ${exc.getMessage}"
+          s"The albedo of the plants surrounding: ${params.albedo} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.azimuth, -90, 90) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The azimuth of the plant: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
+          s"The azimuth of the plant: ${params.azimuth} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
+          s"The efficiency of the plants inverter: ${params.azimuth} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.kG, 0, 1) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV generator correction factor (kG): ${params.kG} isn't valid. Exception: ${exc.getMessage}"
+          s"The PV generator correction factor (kG): ${params.kG} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.kT, 0, 1) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
+          s"The PV temperature correction factor (kT): ${params.kT} isn't valid.",
+          exc
         )
     }
     validateQCharacteristic(params.qCharacteristic) match {
