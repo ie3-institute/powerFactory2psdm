@@ -77,16 +77,6 @@ object ConverterTestData extends LazyLogging {
   val config: ConversionConfig =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
-  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
-    albedo = Fixed(0.2),
-    azimuth = UniformDistribution(-90, 90),
-    etaConv = Fixed(0.95),
-    elevationAngle = UniformDistribution(20, 50),
-    qCharacteristic = FixedQCharacteristic,
-    kG = Fixed(0.9),
-    kT = Fixed(1)
-  )
-
   /** Case class to denote a consistent pair of input and expected output of a
     * conversion
     *
@@ -337,6 +327,16 @@ object ConverterTestData extends LazyLogging {
 
   val statGenCosPhiExcMsg: String => String = (id: String) =>
     s"Can't determine cos phi rated for static generator: $id. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+
+  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
+    albedo = Fixed(0.2),
+    azimuth = UniformDistribution(-90, 90),
+    etaConv = Fixed(0.95),
+    elevationAngle = UniformDistribution(20, 50),
+    qCharacteristic = FixedQCharacteristic,
+    kG = Fixed(0.9),
+    kT = Fixed(1)
+  )
 
   val generatePvs: Map[String, ConversionPair[StaticGenerator, PvInput]] = Map(
     "somePvPlant" -> ConversionPair(

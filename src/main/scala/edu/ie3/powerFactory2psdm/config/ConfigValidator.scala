@@ -96,7 +96,7 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV q characteristic configuration isn't valid.",
+          "The PV q characteristic configuration isn't valid.",
           exc
         )
     }
@@ -109,42 +109,47 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs capital expenditure ${params.capex} isn't valid. Exception: ${exc.getMessage}"
+          s"The WECs capital expenditure: ${params.capex} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.opex, 0, Double.MaxValue) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs operational expenditure ${params.capex} isn't valid. Exception: ${exc.getMessage}"
+          s"The WECs operational expenditure: ${params.opex} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs efficiency of the plants inverter: ${params.etaConv} isn't valid. Exception: ${exc.getMessage}"
+          s"The WECs efficiency of the plants inverter: ${params.etaConv} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.hubHeight, 0, Double.MaxValue) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs hub height: ${params.hubHeight} isn't valid. Exception: ${exc.getMessage}"
+          s"The WECs hub height: ${params.hubHeight} isn't valid.",
+          exc
         )
     }
     validateGenerationMethod(params.rotorArea, 0, Double.MaxValue) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs rotorArea: ${params.rotorArea} isn't valid. Exception: ${exc.getMessage}"
+          s"The WECs rotorArea: ${params.rotorArea} isn't valid.",
+          exc
         )
     }
     validateQCharacteristic(params.qCharacteristic) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The PV q characteristic configuration isn't valid.",
+          "The WEC q characteristic configuration isn't valid.",
           exc
         )
     }
@@ -152,7 +157,7 @@ object ConfigValidator {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
-          s"The WECs cpCharacteristic configuration isn't valid.",
+          "The WECs cpCharacteristic configuration isn't valid.",
           exc
         )
     }
