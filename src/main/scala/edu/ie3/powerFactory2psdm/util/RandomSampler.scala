@@ -7,8 +7,14 @@
 package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
-import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{Fixed, NormalDistribution, UniformDistribution}
-import org.apache.commons.math3.distribution.{NormalDistribution => MathNormalDistribution}
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  NormalDistribution,
+  UniformDistribution
+}
+import org.apache.commons.math3.distribution.{
+  NormalDistribution => MathNormalDistribution
+}
 
 object RandomSampler {
 

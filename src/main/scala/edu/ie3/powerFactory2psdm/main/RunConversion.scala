@@ -28,7 +28,7 @@ object RunConversion extends LazyLogging {
         .file("src/test/resources/application.conf")
         .at("conversion-config")
         .loadOrThrow[ConversionConfig]
-    ConfigValidator.validate(config)
+    ConfigValidator.validateConversionConfig(config)
     val exportedGridFile =
       s"${new File(".").getCanonicalPath}/src/main/python/pfGridExport/pfGrid.json"
     logger.info("Parsing the json grid file.")

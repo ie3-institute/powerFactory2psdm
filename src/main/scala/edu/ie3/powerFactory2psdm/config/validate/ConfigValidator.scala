@@ -1,36 +1,68 @@
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
+
 package edu.ie3.powerFactory2psdm.config.validate
 
-import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
+import edu.ie3.datamodel.models.input.system.characteristic.{
+  ReactivePowerCharacteristic,
+  WecCharacteristicInput
+}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{DependentQCharacteristic, FixedQCharacteristic, QCharacteristic}
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
+  DependentQCharacteristic,
+  FixedQCharacteristic,
+  ModelConversionMode,
+  QCharacteristic
+}
+import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
+import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.WecConfig.WecModelConversionMode
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
-import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{Fixed, NormalDistribution, UniformDistribution}
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  NormalDistribution,
+  UniformDistribution
+}
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators._
 
 import scala.util.{Failure, Success, Try}
+
+trait ConfigValidator[T] {
+  def validate(config: T): Unit
+}
 
 object ConfigValidator {
 
   /** Checks the parsed [[ConversionConfig]] for general soundness.
-   *
-   * @param config
-   * the parsed config
-   */
-  def validate(config: ConversionConfig): Unit = {
+    *
+    * @param config
+    *   the parsed config
+    */
+  def validateConversionConfig(config: ConversionConfig): Unit = {
     validateModelConfigs(config.modelConfigs)
   }
 
   private[config] def validateModelConfigs(
-    modelConfigs: StatGenModelConfigs
+      modelConfigs: StatGenModelConfigs
   ): Unit = {
-    PvConfigValidator.validate(modelConfigs.pvConfig)
+    Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
+      .flatMap(getConversionModes)
+      .foreach {
+        case x: PvModelConversionMode  => ConversionModeValidator(x)
+        case x: WecModelConversionMode => ConversionModeValidator(x)
+      }
   }
 
-  private[config] def validateGenerationMethod(
-    genMethod: ParameterSamplingMethod,
-    lowerBound: Double,
-    upperBound: Double
+  private[config] def validateParameterSamplingMethod(
+      genMethod: ParameterSamplingMethod,
+      lowerBound: Double,
+      upperBound: Double
   ): Try[Unit] =
     genMethod match {
       case Fixed(value) =>
@@ -52,9 +84,9 @@ object ConfigValidator {
     }
 
   private[config] def checkForBoundViolation(
-    value: Double,
-    lowerBound: Double,
-    upperBound: Double
+      value: Double,
+      lowerBound: Double,
+      upperBound: Double
   ): Try[Unit] = {
     if (value < lowerBound) return lowerBoundViolation(value, lowerBound)
     if (value > upperBound) return upperBoundViolation(value, upperBound)
@@ -62,28 +94,28 @@ object ConfigValidator {
   }
 
   private[config] def lowerBoundViolation(
-     value: Double,
-     lowerBound: Double
-   ): Failure[Unit] = Failure(
+      value: Double,
+      lowerBound: Double
+  ): Failure[Unit] = Failure(
     ConversionConfigException(
       s"The parameters value: $value lies below the lower bound: $lowerBound"
     )
   )
 
   private[config] def upperBoundViolation(
-     value: Double,
-     upperBound: Double
-   ): Failure[Unit] = Failure(
+      value: Double,
+      upperBound: Double
+  ): Failure[Unit] = Failure(
     ConversionConfigException(
       s"The parameters value: $value exceeds the upper bound: $upperBound"
     )
   )
 
   private[config] def lowerUpperBoundViolation(
-    min: Double,
-    max: Double,
-    lowerBound: Double,
-    upperBound: Double
+      min: Double,
+      max: Double,
+      lowerBound: Double,
+      upperBound: Double
   ): Failure[Unit] =
     Failure(
       ConversionConfigException(
@@ -92,13 +124,17 @@ object ConfigValidator {
     )
 
   private[config] def validateQCharacteristic(
-   qCharacteristic: QCharacteristic
- ): Try[Unit] = Try(qCharacteristic).flatMap {
+      qCharacteristic: QCharacteristic
+  ): Try[Unit] = Try(qCharacteristic).flatMap {
     case FixedQCharacteristic => Success(())
     case DependentQCharacteristic(characteristic) =>
       Try {
         ReactivePowerCharacteristic.parse(characteristic)
       }.map(_ => ())
   }
+
+  private[config] def validateCpCharacteristic(
+      cpCharacteristic: String
+  ): Try[Unit] = Try(new WecCharacteristicInput(cpCharacteristic))
 
 }

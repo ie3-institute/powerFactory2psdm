@@ -22,8 +22,20 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   PvModelGeneration,
   UniformDistribution
 }
-import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{lowerBoundViolation, lowerUpperBoundViolation, upperBoundViolation, validatePvModelGenerationParams}
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{DependentQCharacteristic, Fixed, FixedQCharacteristic, PvFixedFeedIn, PvModelGeneration, UniformDistribution}
+import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
+  lowerBoundViolation,
+  lowerUpperBoundViolation,
+  upperBoundViolation,
+  validatePvModelGenerationParams
+}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  DependentQCharacteristic,
+  Fixed,
+  FixedQCharacteristic,
+  PvFixedFeedIn,
+  PvModelGeneration,
+  UniformDistribution
+}
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
@@ -45,7 +57,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         }
 
       "validate a conversion config" in {
-        ConfigValidator.validate(ConverterTestData.config)
+        ConfigValidator.validateConversionConfig(ConverterTestData.config)
       }
 
       "validate model configs" in {

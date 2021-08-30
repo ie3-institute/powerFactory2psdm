@@ -10,7 +10,10 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelGeneration
-import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{convertQCharacteristic, determineCosPhiRated}
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
+  convertQCharacteristic,
+  determineCosPhiRated
+}
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
