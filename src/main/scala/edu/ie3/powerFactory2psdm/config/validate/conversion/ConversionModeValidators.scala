@@ -11,10 +11,11 @@ import edu.ie3.powerFactory2psdm.config.model.PvConfig.{
   PvModelConversionMode,
   PvModelGeneration
 }
+import edu.ie3.powerFactory2psdm.config.model.WecConfig
 import edu.ie3.powerFactory2psdm.config.model.WecConfig.{
+  WecFixedFeedIn,
   WecModelConversionMode,
-  WecModelGeneration,
-  WecFixedFeedIn
+  WecModelGeneration
 }
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
   validateCpCharacteristic,
@@ -96,7 +97,7 @@ object ConversionModeValidators {
 
     private[config] def apply(conversionMode: WecModelConversionMode): Unit =
       conversionMode match {
-        case x: WecFixedFeedIn     =>
+        case WecFixedFeedIn        =>
         case x: WecModelGeneration => validateWecModelGenerationParams(x)
       }
 

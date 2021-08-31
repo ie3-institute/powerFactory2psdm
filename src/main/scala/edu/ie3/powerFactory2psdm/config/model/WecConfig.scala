@@ -33,9 +33,9 @@ object WecConfig {
     */
   sealed trait WecModelConversionMode extends ModelConversionMode
 
-  case object WecFixedFeedIn extends WecModelConversionMode
+  final case object WecFixedFeedIn extends WecModelConversionMode
 
-  case class WecModelGeneration(
+  final case class WecModelGeneration(
       capex: ParameterSamplingMethod,
       opex: ParameterSamplingMethod,
       cpCharacteristics: String,

@@ -32,16 +32,18 @@ import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
-  Fixed,
-  FixedQCharacteristic,
-  PvModelGeneration,
-  UniformDistribution,
-  WecModelGeneration
+  FixedQCharacteristic
 }
+import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  UniformDistribution
+}
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
