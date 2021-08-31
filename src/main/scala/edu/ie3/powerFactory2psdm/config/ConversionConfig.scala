@@ -118,9 +118,35 @@ object ConversionConfig {
     */
   sealed trait WecConversionMode
 
-  case object WecFixedFeedIn extends WecConversionMode
+  /** Convert to a [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]]
+    *
+    * @param qCharacteristic
+    *   Description of a reactive power characteristic
+    */
+  final case class WecFixedFeedIn(qCharacteristic: QCharacteristic)
+      extends WecConversionMode
 
-  case class WecModelGeneration(
+  /** Convert to a [[edu.ie3.datamodel.models.input.system.WecInput]] and a
+    * corresponding
+    * [[edu.ie3.datamodel.models.input.system.`type`.WecTypeInput]]
+    *
+    * @param capex
+    *   Captial expense for this type of WEC
+    * @param opex
+    *   Operating expense for this type of WEC
+    * @param cpCharacteristics
+    *   Betz curve of this type
+    * @param hubHeight
+    *   Height from ground to center of rotor for this type of WEC (typically in
+    *   m)
+    * @param rotorArea
+    *   Swept Area of blades for this type of WEC (typically in m²)
+    * @param etaConv
+    *   Efficiency of converter for this type of WEC (typically in %)
+    * @param qCharacteristic
+    *   Description of a reactive power characteristic
+    */
+  final case class WecModelGeneration(
       capex: GenerationMethod,
       opex: GenerationMethod,
       cpCharacteristics: String,
@@ -130,6 +156,9 @@ object ConversionConfig {
       qCharacteristic: QCharacteristic
   )
 
+  /** Trait that groups the parameter generation methods for converting static
+    * generators
+    */
   sealed trait GenerationMethod
 
   /** Use the given value fixed value
