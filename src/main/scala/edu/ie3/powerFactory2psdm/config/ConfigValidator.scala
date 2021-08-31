@@ -13,7 +13,7 @@ import edu.ie3.datamodel.models.input.system.characteristic.{
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   DependentQCharacteristic,
   Fixed,
-  GenerationMethod,
+  ParameterSamplingMethod,
   NormalDistribution,
   PvConfig,
   PvModelGeneration,
@@ -55,7 +55,7 @@ object ConfigValidator {
   private[config] def validatePvModelGenerationParams(
       params: PvModelGeneration
   ): Unit = {
-    validateGenerationMethod(params.albedo, 0, 1) match {
+    validateParameterSamplingMethod(params.albedo, 0, 1) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -63,7 +63,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.azimuth, -90, 90) match {
+    validateParameterSamplingMethod(params.azimuth, -90, 90) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -71,7 +71,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.etaConv, 0, 100) match {
+    validateParameterSamplingMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -79,7 +79,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.kG, 0, 1) match {
+    validateParameterSamplingMethod(params.kG, 0, 1) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -87,7 +87,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.kT, 0, 1) match {
+    validateParameterSamplingMethod(params.kT, 0, 1) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -108,7 +108,7 @@ object ConfigValidator {
   private[config] def validateWecModelGenerationParams(
       params: WecModelGeneration
   ): Unit = {
-    validateGenerationMethod(params.capex, 0, Double.MaxValue) match {
+    validateParameterSamplingMethod(params.capex, 0, Double.MaxValue) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -116,7 +116,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.opex, 0, Double.MaxValue) match {
+    validateParameterSamplingMethod(params.opex, 0, Double.MaxValue) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -124,7 +124,7 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.etaConv, 0, 100) match {
+    validateParameterSamplingMethod(params.etaConv, 0, 100) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -132,7 +132,11 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.hubHeight, 0, Double.MaxValue) match {
+    validateParameterSamplingMethod(
+      params.hubHeight,
+      0,
+      Double.MaxValue
+    ) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -140,7 +144,11 @@ object ConfigValidator {
           exc
         )
     }
-    validateGenerationMethod(params.rotorArea, 0, Double.MaxValue) match {
+    validateParameterSamplingMethod(
+      params.rotorArea,
+      0,
+      Double.MaxValue
+    ) match {
       case Success(_) =>
       case Failure(exc) =>
         throw ConversionConfigException(
@@ -166,8 +174,8 @@ object ConfigValidator {
     }
   }
 
-  private[config] def validateGenerationMethod(
-      genMethod: GenerationMethod,
+  private[config] def validateParameterSamplingMethod(
+      genMethod: ParameterSamplingMethod,
       lowerBound: Double,
       upperBound: Double
   ): Try[Unit] =

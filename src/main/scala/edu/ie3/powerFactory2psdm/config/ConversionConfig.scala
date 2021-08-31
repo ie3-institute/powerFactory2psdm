@@ -104,13 +104,13 @@ object ConversionConfig {
     *   Generator correction factor merging different technical influences
     */
   final case class PvModelGeneration(
-      albedo: GenerationMethod,
-      azimuth: GenerationMethod,
-      elevationAngle: GenerationMethod,
-      etaConv: GenerationMethod,
+      albedo: ParameterSamplingMethod,
+      azimuth: ParameterSamplingMethod,
+      elevationAngle: ParameterSamplingMethod,
+      etaConv: ParameterSamplingMethod,
       qCharacteristic: QCharacteristic,
-      kG: GenerationMethod,
-      kT: GenerationMethod
+      kG: ParameterSamplingMethod,
+      kT: ParameterSamplingMethod
   ) extends PvConversionMode
 
   /** Trait to group different methods for generating a value for a model
@@ -147,19 +147,19 @@ object ConversionConfig {
     *   Description of a reactive power characteristic
     */
   final case class WecModelGeneration(
-      capex: GenerationMethod,
-      opex: GenerationMethod,
+      capex: ParameterSamplingMethod,
+      opex: ParameterSamplingMethod,
       cpCharacteristics: String,
-      hubHeight: GenerationMethod,
-      rotorArea: GenerationMethod,
-      etaConv: GenerationMethod,
+      hubHeight: ParameterSamplingMethod,
+      rotorArea: ParameterSamplingMethod,
+      etaConv: ParameterSamplingMethod,
       qCharacteristic: QCharacteristic
   )
 
-  /** Trait that groups the parameter generation methods for converting static
-    * generators
+  /** Trait that groups the parameter parameter sampling methods for generating
+    * model parameters
     */
-  sealed trait GenerationMethod
+  sealed trait ParameterSamplingMethod
 
   /** Use the given value fixed value
     *
@@ -168,7 +168,7 @@ object ConversionConfig {
     */
   final case class Fixed(
       value: Double
-  ) extends GenerationMethod
+  ) extends ParameterSamplingMethod
 
   /** Sample a value between [[lowerBound]] and [[upperBound]] from a uniform
     * distribution
@@ -181,7 +181,7 @@ object ConversionConfig {
   final case class UniformDistribution(
       lowerBound: Double,
       upperBound: Double
-  ) extends GenerationMethod
+  ) extends ParameterSamplingMethod
 
   /** Sample a value from a normal distribution
     *
@@ -193,7 +193,7 @@ object ConversionConfig {
   final case class NormalDistribution(
       mean: Double,
       standardDeviation: Double
-  ) extends GenerationMethod
+  ) extends ParameterSamplingMethod
 
   /** Trait to group QCharacteristic (reactive power characteristic)
     */
