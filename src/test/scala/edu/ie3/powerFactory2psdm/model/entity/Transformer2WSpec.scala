@@ -70,7 +70,7 @@ class Transformer2WSpec extends Matchers with AnyWordSpecLike {
       trafo.nodeHvId shouldBe "SomeHvNode"
       trafo.tapPos shouldBe -1.0
       trafo.autoTap shouldBe 1.0
-      trafo.extTapCont shouldBe None
+      trafo.extTapControl shouldBe None
     }
 
   }

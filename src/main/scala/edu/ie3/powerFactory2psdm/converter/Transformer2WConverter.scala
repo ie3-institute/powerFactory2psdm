@@ -6,35 +6,44 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
+import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.Transformer2WInput
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.powerFactory2psdm.model.entity.Transformer2W
+
 import java.util.UUID
 
-object Transformer2WConverter {
+object Transformer2WConverter extends LazyLogging {
 
   def convert(
-      rawTrafo: Transformer2W,
+      input: Transformer2W,
       nodeA: NodeInput,
       nodeB: NodeInput,
       trafoType: Transformer2WTypeInput
   ): Transformer2WInput = {
 
-    val autotap = (rawTrafo.autoTap, rawTrafo.extTapCont) match {
-      case (1, _)       => true
-      case (_, Some(_)) => true
-      case _            => false
+    /* We consider a transformer to automatically adjust its tap position if either
+     * autotap is set to true or an external tap control mechanism is set. Keep in mind
+     * that we don't export the specifics of the external tap control. */
+    val autotap = (input.autoTap, input.extTapControl) match {
+      case (_, Some(extTapCont)) =>
+        logger.debug(
+          s"The transformers: ${input.id} external tap control $extTapCont is converted to SIMONAs auto tap mechanic"
+        )
+        true
+      case (1, _) => true
+      case _      => false
     }
 
     new Transformer2WInput(
       UUID.randomUUID(),
-      rawTrafo.id,
+      input.id,
       nodeA,
       nodeB,
       1,
       trafoType,
-      rawTrafo.tapPos.toInt,
+      input.tapPos.toInt,
       autotap
     )
   }
