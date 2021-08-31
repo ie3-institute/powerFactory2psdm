@@ -9,6 +9,16 @@ package edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Trafos2w
 
+/** A
+ *
+ * @param id
+ * @param nodeHvId
+ * @param nodeLvId
+ * @param typeId
+ * @param tapPos
+ * @param autoTap
+ * @param extTapCont
+ */
 case class Transformer2W(
     override val id: String,
     nodeHvId: String,

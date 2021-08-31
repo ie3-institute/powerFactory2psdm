@@ -59,7 +59,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     """
     elements = []
     edges = ["ElmLne", "ElmCoup"]
-    typedModels = ["ElmLne", "ElmTr2"]
+    typed_models = ["ElmLne", "ElmTr2"]
     for raw_element in raw_elements:
         element = get_attribute_dict(raw_element, attributes_to_include)
 
@@ -94,7 +94,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
             except Exception:
                 element["cPtapc"] = None
 
-        if (raw_element.GetClassName() in typedModels):
+        if (raw_element.GetClassName() in typed_models):
             if raw_element.typ_id:
                 element["typeId"] = name_without_preamble(raw_element.typ_id.GetFullName())
             else:
