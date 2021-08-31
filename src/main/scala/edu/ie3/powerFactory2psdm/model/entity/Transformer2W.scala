@@ -31,7 +31,7 @@ case class Transformer2W(
     nodeHvId: String,
     nodeLvId: String,
     typeId: String,
-    tapPos: Double,
+    tapPos: Int,
     autoTap: Int,
     extTapControl: Option[String]
 ) extends EntityModel
@@ -51,9 +51,11 @@ object Transformer2W {
     val typeId = rawTrafo.typeId.getOrElse(
       throw MissingParameterException(s"Trafo2w: $id has no type id.")
     )
-    val tapPos = rawTrafo.nntap.getOrElse(
-      throw MissingParameterException(s"Trafo2w: $id has no tap position.")
-    )
+    val tapPos = rawTrafo.nntap
+      .getOrElse(
+        throw MissingParameterException(s"Trafo2w: $id has no tap position.")
+      )
+      .toInt
     val autoTap = rawTrafo.ntrcn
       .getOrElse(
         throw MissingParameterException(
