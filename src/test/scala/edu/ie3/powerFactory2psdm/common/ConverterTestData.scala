@@ -391,8 +391,8 @@ object ConverterTestData extends LazyLogging {
         "someNode",
         "someMvNode",
         "10 -> 0.4",
-        1d,
-        1d,
+        1,
+        1,
         None
       ),
       new Transformer2WInput(
