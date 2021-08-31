@@ -19,8 +19,8 @@ class ConversionPrefixes private (
     pqsPrefix: Double,
     lengthPrefix: Double
 ) {
-  def loadPQSPrefixValue(): Double = pqsPrefix
-  def lineLengthPrefixValue(): Double = lengthPrefix
+  def loadPQSPrefixValue: Double = pqsPrefix
+  def lineLengthPrefixValue: Double = lengthPrefix
 }
 
 object ConversionPrefixes {

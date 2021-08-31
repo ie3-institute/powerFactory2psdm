@@ -43,7 +43,7 @@ object Transformer2WConverter extends LazyLogging {
       nodeB,
       1,
       trafoType,
-      input.tapPos.toInt,
+      input.tapPos,
       autotap
     )
   }
