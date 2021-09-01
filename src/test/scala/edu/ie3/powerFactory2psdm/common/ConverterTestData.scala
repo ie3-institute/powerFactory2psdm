@@ -400,7 +400,7 @@ object ConverterTestData extends LazyLogging {
   val wecModelGeneration: WecModelGeneration = WecModelGeneration(
     capex = Fixed(100d),
     opex = Fixed(50d),
-    cpCharacteristics = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
+    cpCharacteristic = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
     hubHeight = Fixed(200),
     rotorArea = Fixed(45),
     etaConv = Fixed(96),

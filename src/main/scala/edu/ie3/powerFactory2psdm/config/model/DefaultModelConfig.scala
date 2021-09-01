@@ -8,12 +8,17 @@ package edu.ie3.powerFactory2psdm.config.model
 
 import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
 
+/** Default model config to apply for the model conversion.
+  */
 trait DefaultModelConfig {
   val conversionMode: ModelConversionMode
   val individualConfigs: Option[List[IndividualModelConfig]]
 }
 
 object DefaultModelConfig {
+
+  /** Return conversion modes of the default and all individual model configs.
+    */
   def getConversionModes(
       config: DefaultModelConfig
   ): Seq[ModelConversionMode] = {

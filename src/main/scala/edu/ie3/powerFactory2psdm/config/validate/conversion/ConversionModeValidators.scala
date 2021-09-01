@@ -159,7 +159,7 @@ object ConversionModeValidators {
             exc
           )
       }
-      validateCpCharacteristic(params.cpCharacteristics) match {
+      validateCpCharacteristic(params.cpCharacteristic) match {
         case Success(_) =>
         case Failure(exc) =>
           throw ConversionConfigException(

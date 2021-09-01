@@ -237,9 +237,8 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception for invalid WEC param cpCharacteristic" in {
-        val faultyParams = wecModelGeneration.copy(cpCharacteristics =
-          "I am a cpCharacteristic."
-        )
+        val faultyParams =
+          wecModelGeneration.copy(cpCharacteristic = "I am a cpCharacteristic.")
         val exc =
           intercept[ConversionConfigException](
             validateWecModelGenerationParams(faultyParams)
