@@ -6,19 +6,24 @@
 
 package edu.ie3.powerFactory2psdm.util
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.ParameterSamplingMethod
-import org.apache.commons.math3.distribution.NormalDistribution
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  NormalDistribution,
+  UniformDistribution
+}
+import org.apache.commons.math3.distribution.{
+  NormalDistribution => MathNormalDistribution
+}
 
 object RandomSampler {
 
-  def sample(parameterSamplingMethod: ParameterSamplingMethod): Double =
-    parameterSamplingMethod match {
-      case ConversionConfig.Fixed(value) => value
-      case ConversionConfig.UniformDistribution(lowerBound, upperBound) =>
+  def sample(generationMethod: ParameterSamplingMethod): Double =
+    generationMethod match {
+      case Fixed(value) => value
+      case UniformDistribution(lowerBound, upperBound) =>
         scala.util.Random.between(lowerBound, upperBound)
-      case ConversionConfig.NormalDistribution(mean, standardDeviation) =>
-        new NormalDistribution(mean, standardDeviation).sample()
+      case NormalDistribution(mean, standardDeviation) =>
+        new MathNormalDistribution(mean, standardDeviation).sample()
     }
 
 }

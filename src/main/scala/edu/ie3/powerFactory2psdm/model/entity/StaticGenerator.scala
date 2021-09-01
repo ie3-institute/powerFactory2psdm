@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   BasicDataSource,
   LoadFlowSource,
   ParameterSource

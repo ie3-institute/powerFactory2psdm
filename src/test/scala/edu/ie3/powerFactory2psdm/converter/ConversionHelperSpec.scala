@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
 }

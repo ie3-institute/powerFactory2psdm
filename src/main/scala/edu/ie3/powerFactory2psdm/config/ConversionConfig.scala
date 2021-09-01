@@ -7,24 +7,17 @@
 package edu.ie3.powerFactory2psdm.config
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
+import edu.ie3.powerFactory2psdm.config.model.{
+  PvConversionConfig,
+  WecConversionConfig
+}
 
 final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
 
 /** Config used for the grid conversion
   */
 object ConversionConfig {
-
-  /** Groups different sources for certain parameters of power factory models
-    */
-  sealed trait ParameterSource
-
-  /** Take values from the load flow (Lastfluss) specification of the model
-    */
-  final case object LoadFlowSource extends ParameterSource
-
-  /** Take values from the basic data (Basisdaten) specification of the model
-    */
-  final case object BasicDataSource extends ParameterSource
 
   /** Groups all configs for model conversion of static generators.
     *
@@ -36,8 +29,8 @@ object ConversionConfig {
     *   which cosinus phi source to choose from the PowerFactory model
     */
   final case class StatGenModelConfigs(
-      pvConfig: PvConfig,
-      wecConfig: WecConfig,
+      pvConfig: PvConversionConfig,
+      wecConfig: WecConversionConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
   )
@@ -105,93 +98,33 @@ object ConversionConfig {
     *   Generator correction factor merging different technical influences
     */
   final case class PvModelGeneration(
-      albedo: ParameterSamplingMethod,
-      azimuth: ParameterSamplingMethod,
-      elevationAngle: ParameterSamplingMethod,
-      etaConv: ParameterSamplingMethod,
+      albedo: GenerationMethod,
+      azimuth: GenerationMethod,
+      elevationAngle: GenerationMethod,
+      etaConv: GenerationMethod,
       qCharacteristic: QCharacteristic,
-      kG: ParameterSamplingMethod,
-      kT: ParameterSamplingMethod
+      kG: GenerationMethod,
+      kT: GenerationMethod
   ) extends PvConversionMode
-
-  /** General configuration for wec model conversion of static generators of
-    * category "Wind". As the model does not include most of the model
-    * parameters we can choose by setting the [[conversionMode]] to either
-    * convert the models to
-    * [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]] or generate a
-    * [[edu.ie3.datamodel.models.input.system.WecInput]] by sampling the missing
-    * parameters.
-    *
-    * @param conversionMode
-    *   convert to fixed feed-in or generate model
-    * @param individualConfigs
-    *   for certain generators
-    */
-  final case class WecConfig(
-      conversionMode: WecConversionMode,
-      individualConfigs: Option[List[IndividualWecConfig]]
-  )
-
-  /** Individual configuration for conversion of the set of generators with the
-    * given [[ids]]
-    *
-    * @param ids
-    *   models to apply the [[conversionMode]] to
-    * @param conversionMode
-    *   to apply for the models
-    */
-  final case class IndividualWecConfig(
-      ids: Set[String],
-      conversionMode: WecConversionMode
-  )
 
   /** Trait to group different methods for generating a value for a model
     * parameter
     */
   sealed trait WecConversionMode
 
-  /** Convert to a [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]]
-    *
-    * @param qCharacteristic
-    *   Description of a reactive power characteristic
-    */
-  final case class WecFixedFeedIn(qCharacteristic: QCharacteristic)
-      extends WecConversionMode
+  case object WecFixedFeedIn extends WecConversionMode
 
-  /** Convert to a [[edu.ie3.datamodel.models.input.system.WecInput]] and a
-    * corresponding
-    * [[edu.ie3.datamodel.models.input.system.`type`.WecTypeInput]]
-    *
-    * @param capex
-    *   Captial expense for this type of WEC
-    * @param opex
-    *   Operating expense for this type of WEC
-    * @param cpCharacteristic
-    *   Betz curve of this type
-    * @param hubHeight
-    *   Height from ground to center of rotor for this type of WEC (typically in
-    *   m)
-    * @param rotorArea
-    *   Swept Area of blades for this type of WEC (typically in m²)
-    * @param etaConv
-    *   Efficiency of converter for this type of WEC (typically in %)
-    * @param qCharacteristic
-    *   Description of a reactive power characteristic
-    */
-  final case class WecModelGeneration(
-      capex: ParameterSamplingMethod,
-      opex: ParameterSamplingMethod,
-      cpCharacteristic: String,
-      hubHeight: ParameterSamplingMethod,
-      rotorArea: ParameterSamplingMethod,
-      etaConv: ParameterSamplingMethod,
+  case class WecModelGeneration(
+      capex: GenerationMethod,
+      opex: GenerationMethod,
+      cpCharacteristics: String,
+      hubHeight: GenerationMethod,
+      rotorArea: GenerationMethod,
+      etaConv: GenerationMethod,
       qCharacteristic: QCharacteristic
-  ) extends WecConversionMode
+  )
 
-  /** Trait that groups the parameter parameter sampling methods for generating
-    * model parameters
-    */
-  sealed trait ParameterSamplingMethod
+  sealed trait GenerationMethod
 
   /** Use the given value fixed value
     *
@@ -200,7 +133,7 @@ object ConversionConfig {
     */
   final case class Fixed(
       value: Double
-  ) extends ParameterSamplingMethod
+  ) extends GenerationMethod
 
   /** Sample a value between [[lowerBound]] and [[upperBound]] from a uniform
     * distribution
@@ -213,7 +146,7 @@ object ConversionConfig {
   final case class UniformDistribution(
       lowerBound: Double,
       upperBound: Double
-  ) extends ParameterSamplingMethod
+  ) extends GenerationMethod
 
   /** Sample a value from a normal distribution
     *
@@ -225,7 +158,7 @@ object ConversionConfig {
   final case class NormalDistribution(
       mean: Double,
       standardDeviation: Double
-  ) extends ParameterSamplingMethod
+  ) extends GenerationMethod
 
   /** Trait to group QCharacteristic (reactive power characteristic)
     */

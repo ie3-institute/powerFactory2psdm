@@ -9,10 +9,10 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
-  determineCosPhiRated,
-  convertQCharacteristic
+  convertQCharacteristic,
+  determineCosPhiRated
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
@@ -20,6 +20,7 @@ import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.PERCENT
+
 import java.util.UUID
 import javax.measure.quantity.{Angle, Dimensionless, Power}
 

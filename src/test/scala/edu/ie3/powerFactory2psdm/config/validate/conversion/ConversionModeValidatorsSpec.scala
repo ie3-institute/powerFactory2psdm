@@ -4,34 +4,42 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.config
+package edu.ie3.powerFactory2psdm.config.validate.conversion
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.config.ConfigValidator.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
+  DependentQCharacteristic,
+  FixedQCharacteristic
+}
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
+  PvFixedFeedIn,
+  PvModelGeneration
+}
+import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
+import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
   lowerBoundViolation,
   lowerUpperBoundViolation,
-  upperBoundViolation,
-  validatePvModelGenerationParams,
-  validateWecModelGenerationParams
+  upperBoundViolation
 }
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  DependentQCharacteristic,
-  Fixed,
-  FixedQCharacteristic,
-  PvFixedFeedIn,
-  PvModelGeneration,
-  UniformDistribution
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.WecConversionModeValidator.validateWecModelGenerationParams
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.{
+  PvConversionModeValidator,
+  WecConversionModeValidator
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  UniformDistribution
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
+class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
 
-  "A ConfigValidator " when {
+  "From the ConversionModeValidators " when {
 
-    "checking the pv model generation cofiguration" should {
+    "checking the pv model conversion modes" should {
       val pvModelGeneration: PvModelGeneration =
         ConverterTestData.config.modelConfigs.pvConfig.conversionMode match {
           case PvFixedFeedIn(FixedQCharacteristic) =>
@@ -42,7 +50,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         }
 
       "validate a conversion config" in {
-        ConfigValidator.validate(ConverterTestData.config)
+        ConfigValidator.validateConversionConfig(ConverterTestData.config)
       }
 
       "validate model configs" in {
@@ -51,21 +59,15 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         )
       }
 
-      "validate pv configs" in {
-        ConfigValidator.validatePvConfig(
-          ConverterTestData.config.modelConfigs.pvConfig
-        )
-      }
-
       "validate correct pv params" in {
-        validatePvModelGenerationParams(pvModelGeneration)
+        PvConversionModeValidator(pvModelGeneration)
       }
 
       "throw an exception for invalid pv param albedo" in {
         val faultyParams = pvModelGeneration.copy(albedo = Fixed(1.1))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The albedo of the plants surrounding: ${faultyParams.albedo} isn't valid.",
@@ -78,7 +80,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           pvModelGeneration.copy(azimuth = UniformDistribution(-91, 92))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid.",
@@ -91,7 +93,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           pvModelGeneration.copy(azimuth = UniformDistribution(20, -10))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc.getMessage + exc.getCause.getMessage shouldBe s"The azimuth of the plant: ${faultyParams.azimuth} isn't valid.The minimum value: 20.0 exceeds the maximum value: -10.0"
       }
@@ -100,7 +102,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = pvModelGeneration.copy(etaConv = Fixed(101))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The efficiency of the plants inverter: ${faultyParams.azimuth} isn't valid.",
@@ -112,7 +114,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = pvModelGeneration.copy(kG = Fixed(-0.1))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The PV generator correction factor (kG): ${faultyParams.kG} isn't valid.",
@@ -124,7 +126,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = pvModelGeneration.copy(kT = Fixed(-0.1))
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The PV temperature correction factor (kT): ${faultyParams.kT} isn't valid.",
@@ -139,7 +141,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           pvModelGeneration.copy(qCharacteristic = faultyQCharacteristic)
         val exc =
           intercept[ConversionConfigException](
-            validatePvModelGenerationParams(faultyParams)
+            PvConversionModeValidator(faultyParams)
           )
         exc.getMessage.startsWith(
           "The PV q characteristic configuration isn't valid."
@@ -151,7 +153,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
       val wecModelGeneration = ConverterTestData.wecModelGeneration
 
       "validate a correct WEC model configuration" in {
-        validateWecModelGenerationParams(wecModelGeneration)
+        WecConversionModeValidator(wecModelGeneration)
       }
 
       "throw an exception for invalid WEC param capex" in {
@@ -159,7 +161,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = wecModelGeneration.copy(capex = Fixed(faultyValue))
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            WecConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The WECs capital expenditure: ${faultyParams.capex} isn't valid.",
@@ -172,7 +174,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = wecModelGeneration.copy(opex = Fixed(faultyValue))
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            WecConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The WECs operational expenditure: ${faultyParams.opex} isn't valid.",
@@ -185,7 +187,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
         val faultyParams = wecModelGeneration.copy(etaConv = Fixed(faultyValue))
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            WecConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The WECs efficiency of the plants inverter: ${faultyParams.etaConv} isn't valid.",
@@ -199,7 +201,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           wecModelGeneration.copy(hubHeight = Fixed(faultyValue))
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            WecConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The WECs hub height: ${faultyParams.hubHeight} isn't valid.",
@@ -213,7 +215,7 @@ class ConfigValidatorSpec extends Matchers with AnyWordSpecLike {
           wecModelGeneration.copy(rotorArea = Fixed(faultyValue))
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            WecConversionModeValidator(faultyParams)
           )
         exc shouldBe ConversionConfigException(
           s"The WECs rotorArea: ${faultyParams.rotorArea} isn't valid.",

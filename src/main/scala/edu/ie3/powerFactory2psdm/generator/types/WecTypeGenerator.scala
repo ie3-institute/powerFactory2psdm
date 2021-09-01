@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator.types
 import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInput
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler
