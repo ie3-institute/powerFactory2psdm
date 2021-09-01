@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter.types
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
-import edu.ie3.powerFactory2psdm.util.TypeEnrichments.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.QuantityUtil.RichQuantityDouble
 import java.util.UUID
 
 /** Functionality to translate a [[LineType]] to a [[LineTypeInput]]

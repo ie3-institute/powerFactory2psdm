@@ -12,7 +12,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
-import edu.ie3.powerFactory2psdm.util.TypeEnrichments.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.QuantityUtil.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
 

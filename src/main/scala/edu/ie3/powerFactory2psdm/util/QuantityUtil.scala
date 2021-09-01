@@ -33,10 +33,11 @@ import javax.measure.quantity.{
   Power
 }
 
-object TypeEnrichments {
+@deprecated("This class will be moved to the PowerSystemUtils")
+object QuantityUtil {
 
   /** Implicit class to enrich the [[Double]] with [[ComparableQuantity]]
-    * conversion
+    * conversion capabilities
     *
     * @param value
     *   the actual double value
