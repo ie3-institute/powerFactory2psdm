@@ -6,15 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.config.validate.conversion
 
-trait ConversionModeValidator[T] {
+import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
+
+trait ConversionModeValidator[T <: ModelConversionMode] {
   def apply(conversionMode: T): Unit
-}
-
-object ConversionModeValidator {
-
-  def apply[T](
-      conversionMode: T
-  )(implicit validator: ConversionModeValidator[T]): Unit = {
-    validator.apply(conversionMode)
-  }
 }

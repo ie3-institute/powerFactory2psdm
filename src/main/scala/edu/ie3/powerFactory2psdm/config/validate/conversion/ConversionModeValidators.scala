@@ -27,17 +27,17 @@ import scala.util.{Failure, Success}
 
 object ConversionModeValidators {
 
-  implicit object PvConversionModeValidator
+  object PvConversionModeValidator
       extends ConversionModeValidator[PvModelConversionMode] {
 
     def apply(conversionMode: PvModelConversionMode): Unit = {
       conversionMode match {
-        case x: PvFixedFeedIn     =>
-        case x: PvModelGeneration => validatePvModelGenerationParams(x)
+        case x: PvFixedFeedIn     => validateQCharacteristic(x.qCharacteristic)
+        case x: PvModelGeneration => validateModelGenerationParams(x)
       }
     }
 
-    private[config] def validatePvModelGenerationParams(
+    private[config] def validateModelGenerationParams(
         params: PvModelGeneration
     ): Unit = {
       validateParameterSamplingMethod(params.albedo, 0, 1) match {
@@ -91,16 +91,16 @@ object ConversionModeValidators {
     }
 
   }
-  implicit object WecConversionModeValidator
+  object WecConversionModeValidator
       extends ConversionModeValidator[WecModelConversionMode] {
 
     def apply(conversionMode: WecModelConversionMode): Unit =
       conversionMode match {
-        case WecFixedFeedIn        =>
-        case x: WecModelGeneration => validateWecModelGenerationParams(x)
+        case x: WecFixedFeedIn     => validateQCharacteristic(x.qCharacteristic)
+        case x: WecModelGeneration => validateModelGenerationParams(x)
       }
 
-    private[config] def validateWecModelGenerationParams(
+    private[config] def validateModelGenerationParams(
         params: WecModelGeneration
     ): Unit = {
       validateParameterSamplingMethod(params.capex, 0, Double.MaxValue) match {

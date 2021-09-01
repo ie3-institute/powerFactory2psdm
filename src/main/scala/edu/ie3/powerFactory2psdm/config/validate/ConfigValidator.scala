@@ -21,10 +21,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
 import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelConversionMode
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelConversionMode
-import edu.ie3.powerFactory2psdm.config.validate.conversion.{
-  ConversionModeValidator,
-  ConversionModeValidators
-}
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -35,10 +32,6 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
 import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators._
 
 import scala.util.{Failure, Success, Try}
-
-trait ConfigValidator[T] {
-  def validate(config: T): Unit
-}
 
 object ConfigValidator extends LazyLogging {
 
@@ -58,7 +51,7 @@ object ConfigValidator extends LazyLogging {
       .flatMap(getConversionModes)
       .foreach {
         case x: PvModelConversionMode  => PvConversionModeValidator(x)
-        case x: WecModelConversionMode => ConversionModeValidator(x)
+        case x: WecModelConversionMode => WecConversionModeValidator(x)
         case conversionMode =>
           logger.warn(
             s"The conversion mode $conversionMode is currently not validated."
@@ -67,11 +60,11 @@ object ConfigValidator extends LazyLogging {
   }
 
   private[config] def validateParameterSamplingMethod(
-      genMethod: ParameterSamplingMethod,
+      parameter: ParameterSamplingMethod,
       lowerBound: Double,
       upperBound: Double
   ): Try[Unit] =
-    genMethod match {
+    parameter match {
       case Fixed(value) =>
         checkForBoundViolation(value, lowerBound, upperBound)
       case UniformDistribution(min, max) =>
