@@ -114,7 +114,7 @@ object ConversionConfig {
       kT: ParameterSamplingMethod
   ) extends PvConversionMode
 
-  /** General configuration for pv model conversion of static generators of
+  /** General configuration for wec model conversion of static generators of
     * category "Wind". As the model does not include most of the model
     * parameters we can choose by setting the [[conversionMode]] to either
     * convert the models to
