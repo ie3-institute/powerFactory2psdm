@@ -37,6 +37,7 @@ object ConversionConfig {
     */
   final case class StatGenModelConfigs(
       pvConfig: PvConfig,
+      wecConfig: WecConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
   )
@@ -113,6 +114,37 @@ object ConversionConfig {
       kT: ParameterSamplingMethod
   ) extends PvConversionMode
 
+  /** General configuration for pv model conversion of static generators of
+    * category "Wind". As the model does not include most of the model
+    * parameters we can choose by setting the [[conversionMode]] to either
+    * convert the models to
+    * [[edu.ie3.datamodel.models.input.system.FixedFeedInInput]] or generate a
+    * [[edu.ie3.datamodel.models.input.system.WecInput]] by sampling the missing
+    * parameters.
+    *
+    * @param conversionMode
+    *   convert to fixed feed-in or generate model
+    * @param individualConfigs
+    *   for certain generators
+    */
+  final case class WecConfig(
+      conversionMode: WecConversionMode,
+      individualConfigs: Option[List[IndividualWecConfig]]
+  )
+
+  /** Individual configuration for conversion of the set of generators with the
+    * given [[ids]]
+    *
+    * @param ids
+    *   models to apply the [[conversionMode]] to
+    * @param conversionMode
+    *   to apply for the models
+    */
+  final case class IndividualWecConfig(
+      ids: Set[String],
+      conversionMode: WecConversionMode
+  )
+
   /** Trait to group different methods for generating a value for a model
     * parameter
     */
@@ -134,7 +166,7 @@ object ConversionConfig {
     *   Captial expense for this type of WEC
     * @param opex
     *   Operating expense for this type of WEC
-    * @param cpCharacteristics
+    * @param cpCharacteristic
     *   Betz curve of this type
     * @param hubHeight
     *   Height from ground to center of rotor for this type of WEC (typically in
@@ -149,12 +181,12 @@ object ConversionConfig {
   final case class WecModelGeneration(
       capex: ParameterSamplingMethod,
       opex: ParameterSamplingMethod,
-      cpCharacteristics: String,
+      cpCharacteristic: String,
       hubHeight: ParameterSamplingMethod,
       rotorArea: ParameterSamplingMethod,
       etaConv: ParameterSamplingMethod,
       qCharacteristic: QCharacteristic
-  )
+  ) extends WecConversionMode
 
   /** Trait that groups the parameter parameter sampling methods for generating
     * model parameters
