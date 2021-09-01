@@ -11,6 +11,7 @@ import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.Node
+import edu.ie3.powerFactory2psdm.util.TypeEnrichments.RichQuantityDouble
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities
@@ -35,7 +36,6 @@ object NodeConverter {
       subnetId: Int,
       voltLvl: VoltageLevel
   ): NodeInput = {
-    val vTarget = Quantities.getQuantity(node.vTarget, PU)
     val geoPosition: Point = CoordinateConverter.convert(node.lat, node.lon)
     val slack = isSlack(node)
     new NodeInput(
@@ -43,7 +43,7 @@ object NodeConverter {
       node.id,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
-      vTarget,
+      node.vTarget.toPu,
       slack,
       geoPosition,
       voltLvl,

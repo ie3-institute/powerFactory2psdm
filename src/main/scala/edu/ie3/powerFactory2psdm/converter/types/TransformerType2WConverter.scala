@@ -12,13 +12,9 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
-import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
-
+import edu.ie3.powerFactory2psdm.util.TypeEnrichments.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
-import javax.measure.MetricPrefix
 
 object TransformerType2WConverter {
 
@@ -67,15 +63,15 @@ object TransformerType2WConverter {
     new Transformer2WTypeInput(
       UUID.randomUUID(),
       input.id,
-      Quantities.getQuantity(rSc, OHM),
-      Quantities.getQuantity(xSc, OHM),
-      Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
-      Quantities.getQuantity(vRatedA, VOLT),
-      Quantities.getQuantity(vRatedB, VOLT),
-      Quantities.getQuantity(gNoLoad, SIEMENS),
-      Quantities.getQuantity(bNoLoad, SIEMENS),
-      Quantities.getQuantity(input.dV, PERCENT),
-      Quantities.getQuantity(input.dPhi, DEGREE_GEOM),
+      rSc.toOhm,
+      xSc.toOhm,
+      sRated.toMegaVoltAmpere,
+      vRatedA.toVolt,
+      vRatedB.toVolt,
+      gNoLoad.toSiemens,
+      bNoLoad.toSiemens,
+      input.dV.toPercent,
+      input.dPhi.toDegreeGeom,
       tapSide,
       input.tapNeutr.toInt,
       input.tapMin.toInt,
