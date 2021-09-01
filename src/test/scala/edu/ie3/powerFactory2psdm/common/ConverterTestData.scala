@@ -12,11 +12,13 @@ import edu.ie3.datamodel.models.StandardUnits.{
   EFFICIENCY,
   SOLAR_HEIGHT
 }
+import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
 }
+import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
 import edu.ie3.datamodel.models.input.system.characteristic.{
   CosPhiFixed,
@@ -27,51 +29,64 @@ import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
-  Fixed,
-  FixedQCharacteristic,
-  PvModelGeneration,
-  UniformDistribution,
-  WecModelGeneration
+  FixedQCharacteristic
 }
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  UniformDistribution
+}
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory._
+import edu.ie3.powerFactory2psdm.model.entity.{
+  ConnectedElement,
+  EntityModel,
+  Node,
+  StaticGenerator,
+  Subnet
+}
+import edu.ie3.powerFactory2psdm.model.entity.types.{
+  LineType,
+  TransformerType2W
+}
+import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
+import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
+import edu.ie3.util.quantities.PowerSystemUnits.{
+  DEGREE_GEOM,
+  KILOVOLT,
+  VOLTAMPERE
+}
 import pureconfig.generic.auto._
 import tech.units.indriya.quantity.Quantities
 
 import java.io.File
 import java.util.UUID
+import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
   val config: ConversionConfig =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
-  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
-    albedo = Fixed(0.2),
-    azimuth = UniformDistribution(-90, 90),
-    etaConv = Fixed(0.95),
-    height = UniformDistribution(20, 50),
-    qCharacteristic = FixedQCharacteristic,
-    kG = Fixed(0.9),
-    kT = Fixed(1)
-  )
-
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam R     Type of result class
+    * @param input
+    *   Input model
+    * @param result
+    *   Resulting, converted model
+    * @tparam I
+    *   Type of input model
+    * @tparam R
+    *   Type of result class
     */
   final case class ConversionPair[I <: EntityModel, R <: UniqueEntity](
       input: I,
@@ -80,13 +95,19 @@ object ConverterTestData extends LazyLogging {
     def getPair: (I, R) = (input, result)
   }
 
-  /**
-    * Case class to denote a consistent pair of input and expected output of a conversion
+  /** Case class to denote a consistent pair of input and expected output of a
+    * conversion
     *
-    * @param input  Input model
-    * @param result Resulting, converted model
-    * @tparam I     Type of input model
-    * @tparam M     Type of result class
+    * @param input
+    *   Input model
+    * @param resultModel
+    *   Resulting, converted model
+    * @param resultType
+    *   Resulting, converted type of the model
+    * @tparam I
+    *   Type of input model
+    * @tparam M
+    *   Type of result class
     */
   final case class ConversionPairWithType[
       I <: EntityModel,
@@ -102,7 +123,7 @@ object ConverterTestData extends LazyLogging {
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: GridModel = GridModel.build(
+  val testGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
     PfGridParser
       .parse(testGridFile)
       .getOrElse(
@@ -303,7 +324,20 @@ object ConverterTestData extends LazyLogging {
     category = "Statischer Generator"
   )
 
-  val generatePvs = Map(
+  val statGenCosPhiExcMsg: String => String = (id: String) =>
+    s"Can't determine cos phi rated for static generator: $id. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+
+  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
+    albedo = Fixed(0.2),
+    azimuth = UniformDistribution(-90, 90),
+    etaConv = Fixed(0.95),
+    elevationAngle = UniformDistribution(20, 50),
+    qCharacteristic = FixedQCharacteristic,
+    kG = Fixed(0.9),
+    kT = Fixed(1)
+  )
+
+  val generatePvs: Map[String, ConversionPair[StaticGenerator, PvInput]] = Map(
     "somePvPlant" -> ConversionPair(
       staticGenerator.copy(category = "Fotovoltaik"),
       new PvInput(
@@ -330,7 +364,32 @@ object ConverterTestData extends LazyLogging {
     generatePvs.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${StaticGenerator.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for StaticGenerator/PvInput with key: $key "
+      )
+    )
+  }
+
+  val staticGenerator2FeedInPair = Map(
+    "someStatGen" -> ConversionPair(
+      staticGenerator,
+      new FixedFeedInInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        Quantities.getQuantity(11d, MEGAVOLTAMPERE),
+        0.91
+      )
+    )
+  )
+
+  def getStaticGenerator2FixedFeedInPair(
+      key: String
+  ): ConversionPair[StaticGenerator, FixedFeedInInput] = {
+    staticGenerator2FeedInPair.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for static generator to fixed feed in with key: $key"
       )
     )
   }
@@ -338,7 +397,7 @@ object ConverterTestData extends LazyLogging {
   val wecModelGeneration: WecModelGeneration = WecModelGeneration(
     capex = Fixed(100d),
     opex = Fixed(50d),
-    cpCharacteristics = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
+    cpCharacteristic = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
     hubHeight = Fixed(200),
     rotorArea = Fixed(45),
     etaConv = Fixed(96),
@@ -394,6 +453,57 @@ object ConverterTestData extends LazyLogging {
     generateWecs.getOrElse(
       key,
       throw TestException(s"Cannot find WEC generation pair with key: $key")
+    )
+  }
+
+  val transformerTypes = Map(
+    "SomeTrafo2wType" -> ConversionPair(
+      TransformerType2W(
+        id = "SomeTrafo2wType",
+        sRated = 40d,
+        vRatedA = 110d,
+        vRatedB = 10d,
+        dV = 2.5,
+        dPhi = 5d,
+        tapSide = 0,
+        tapNeutr = 0,
+        tapMin = -10,
+        tapMax = 10,
+        uk = 5,
+        iNoLoad = 1,
+        pFe = 10,
+        pCu = 6
+      ),
+      new Transformer2WTypeInput(
+        UUID.randomUUID(),
+        "SomeTrafo2wType",
+        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
+        Quantities.getQuantity(15.1249319, OHM),
+        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
+        Quantities.getQuantity(110d, KILOVOLT),
+        Quantities.getQuantity(10d, KILOVOLT),
+        Quantities.getQuantity(826.4462809, MetricPrefix.NANO(SIEMENS)),
+        Quantities
+          .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
+          .to(MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(2.5, PERCENT),
+        Quantities.getQuantity(5d, DEGREE_GEOM),
+        false,
+        0,
+        -10,
+        10
+      )
+    )
+  )
+
+  def getTransformer2wType(
+      key: String
+  ): ConversionPair[TransformerType2W, Transformer2WTypeInput] = {
+    transformerTypes.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${TransformerType2W.getClass.getSimpleName} with key: $key "
+      )
     )
   }
 

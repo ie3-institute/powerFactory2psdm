@@ -6,62 +6,33 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.ModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
+import edu.ie3.powerFactory2psdm.config.model.{
+  PvConversionConfig,
+  WecConversionConfig
+}
 
-final case class ConversionConfig(modelConfigs: ModelConfigs)
+final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
 
+/** Config used for the grid conversion
+  */
 object ConversionConfig {
 
-  case class ModelConfigs(
-      pvConfig: PvConfig
-  )
-
-  case class PvConfig(
-      conversionMode: PvConversionMode,
-      individualConfigs: Option[List[IndividualPvConfig]]
-  )
-
-  case class IndividualPvConfig(
-      ids: Set[String],
-      conversionMode: PvConversionMode
-  )
-
-  case class BatteryStorageConfig(
-      conversionMode: BatteryStorageConversionMode,
-      individualConfigs: Option[List[IndividualBatteryStorageConfig]]
-  )
-
-  case class IndividualBatteryStorageConfig(
-      ids: Set[String],
-      conversionMode: BatteryStorageConversionMode
-  )
-
-  sealed trait PvConversionMode
-
-  case object PvFixedFeedIn extends PvConversionMode
-
-  case class PvModelGeneration(
-      albedo: GenerationMethod,
-      azimuth: GenerationMethod,
-      height: GenerationMethod,
-      etaConv: GenerationMethod,
-      qCharacteristic: QCharacteristic,
-      kG: GenerationMethod,
-      kT: GenerationMethod
-  ) extends PvConversionMode
-
-  sealed trait WecConversionMode
-
-  case object WecFixedFeedIn extends WecConversionMode
-
-  case class WecModelGeneration(
-      capex: GenerationMethod,
-      opex: GenerationMethod,
-      cpCharacteristics: String,
-      hubHeight: GenerationMethod,
-      rotorArea: GenerationMethod,
-      etaConv: GenerationMethod,
-      qCharacteristic: QCharacteristic
+  /** Groups all configs for model conversion of static generators.
+    *
+    * @param pvConfig
+    *   config for the pv models
+    * @param sRatedSource
+    *   which apparent powegit logr source to choose from the PowerFactory model
+    * @param cosPhiSource
+    *   which cosinus phi source to choose from the PowerFactory model
+    */
+  final case class StatGenModelConfigs(
+      pvConfig: PvConversionConfig,
+      wecConfig: WecConversionConfig,
+      sRatedSource: ParameterSource,
+      cosPhiSource: ParameterSource
   )
 
   sealed trait BatteryStorageConversionMode
@@ -84,30 +55,60 @@ object ConversionConfig {
 
   sealed trait GenerationMethod
 
-  case class Fixed(
+  /** Use the given value fixed value
+    *
+    * @param value
+    *   to be used
+    */
+  final case class Fixed(
       value: Double
   ) extends GenerationMethod
 
-  case class UniformDistribution(
+  /** Sample a value between [[lowerBound]] and [[upperBound]] from a uniform
+    * distribution
+    *
+    * @param lowerBound
+    *   of the distribution
+    * @param upperBound
+    *   of the distribution
+    */
+  final case class UniformDistribution(
       lowerBound: Double,
       upperBound: Double
   ) extends GenerationMethod
 
-  case class NormalDistribution(
+  /** Sample a value from a normal distribution
+    *
+    * @param mean
+    *   of the distribution
+    * @param standardDeviation
+    *   of the distribution
+    */
+  final case class NormalDistribution(
       mean: Double,
       standardDeviation: Double
   ) extends GenerationMethod
 
+  /** Trait to group QCharacteristic (reactive power characteristic)
+    */
   sealed trait QCharacteristic
 
-  // use cos phi value of the model
-  case object FixedQCharacteristic extends QCharacteristic
+  /** Use the cosinus phi power factor of the model to establish a fixed
+    * QCharacteristic
+    */
+  final case object FixedQCharacteristic extends QCharacteristic
 
-  /*
-  reactive power characteristic dependent on either power or nodal voltage magnitude as described here:
-  https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics
-   */
-  case class DependentQCharacteristic(characteristic: String)
+  /** Dependent power characteristic dependent on either power or nodal voltage
+    * magnitude.
+    *
+    * @param characteristic
+    *   to follow
+    * @see
+    *   See
+    *   [[https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics PowerSystemDataModel]]
+    *   for details and how the [[characteristic]] string has to look like.
+    */
+  final case class DependentQCharacteristic(characteristic: String)
       extends QCharacteristic
 
 }

@@ -6,8 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.exception.pf
 
-/**
-  * Base class for grouping power factory related exceptions
+/** Base class for grouping power factory related exceptions
   */
 class PfException(
     private val msg: String,
