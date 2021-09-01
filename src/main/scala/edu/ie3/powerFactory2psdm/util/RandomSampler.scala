@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.util
 
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
   Fixed,
   NormalDistribution,

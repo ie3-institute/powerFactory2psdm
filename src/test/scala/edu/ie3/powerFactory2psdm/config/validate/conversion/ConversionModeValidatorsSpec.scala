@@ -21,7 +21,7 @@ import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
   lowerUpperBoundViolation,
   upperBoundViolation
 }
-import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.WecConversionModeValidator.validateWecModelGenerationParams
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.WecConversionModeValidator.validateModelGenerationParams
 import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.{
   PvConversionModeValidator,
   WecConversionModeValidator
@@ -229,7 +229,7 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
         )
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            validateModelGenerationParams(faultyParams)
           )
         exc.getMessage.startsWith(
           "The WEC q characteristic configuration isn't valid."
@@ -241,7 +241,7 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
           wecModelGeneration.copy(cpCharacteristic = "I am a cpCharacteristic.")
         val exc =
           intercept[ConversionConfigException](
-            validateWecModelGenerationParams(faultyParams)
+            validateModelGenerationParams(faultyParams)
           )
         exc.getMessage.startsWith(
           "The WECs cpCharacteristic configuration isn't valid."
