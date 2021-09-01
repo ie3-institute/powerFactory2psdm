@@ -6,11 +6,9 @@
 
 package edu.ie3.powerFactory2psdm.config.model
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
-  ModelConversionMode,
-  QCharacteristic
-}
-import edu.ie3.powerFactory2psdm.config.model.PvConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.QCharacteristic
+import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
   IndividualPvConfig,
   PvModelConversionMode
 }
@@ -28,12 +26,12 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
   * @param individualConfigs
   *   for certain generators
   */
-final case class PvConfig(
+final case class PvConversionConfig(
     conversionMode: PvModelConversionMode,
     individualConfigs: Option[List[IndividualPvConfig]]
 ) extends DefaultModelConfig
 
-object PvConfig {
+object PvConversionConfig {
 
   /** Individual configuration for conversion of the set of generators with the
     * given [[ids]]

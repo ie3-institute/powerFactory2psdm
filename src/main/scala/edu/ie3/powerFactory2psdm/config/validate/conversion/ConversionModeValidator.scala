@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.config.validate.conversion
 
 trait ConversionModeValidator[T] {
-  def apply(config: T): Unit
+  def apply(conversionMode: T): Unit
 }
 
 object ConversionModeValidator {

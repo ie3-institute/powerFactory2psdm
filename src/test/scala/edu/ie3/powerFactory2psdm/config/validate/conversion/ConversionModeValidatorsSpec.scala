@@ -11,7 +11,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
 }
-import edu.ie3.powerFactory2psdm.config.model.PvConfig.{
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
   PvFixedFeedIn,
   PvModelGeneration
 }

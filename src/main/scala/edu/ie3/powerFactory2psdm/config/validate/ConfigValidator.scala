@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.config.validate
 
+import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.system.characteristic.{
   ReactivePowerCharacteristic,
   WecCharacteristicInput
@@ -15,13 +16,15 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic,
-  ModelConversionMode,
   QCharacteristic
 }
 import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
-import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelConversionMode
-import edu.ie3.powerFactory2psdm.config.model.WecConfig.WecModelConversionMode
-import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelConversionMode
+import edu.ie3.powerFactory2psdm.config.validate.conversion.{
+  ConversionModeValidator,
+  ConversionModeValidators
+}
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -37,7 +40,7 @@ trait ConfigValidator[T] {
   def validate(config: T): Unit
 }
 
-object ConfigValidator {
+object ConfigValidator extends LazyLogging {
 
   /** Checks the parsed [[ConversionConfig]] for general soundness.
     *
@@ -54,8 +57,12 @@ object ConfigValidator {
     Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
       .flatMap(getConversionModes)
       .foreach {
-        case x: PvModelConversionMode  => ConversionModeValidator(x)
+        case x: PvModelConversionMode  => PvConversionModeValidator(x)
         case x: WecModelConversionMode => ConversionModeValidator(x)
+        case conversionMode =>
+          logger.warn(
+            s"The conversion mode $conversionMode is currently not validated."
+          )
       }
   }
 

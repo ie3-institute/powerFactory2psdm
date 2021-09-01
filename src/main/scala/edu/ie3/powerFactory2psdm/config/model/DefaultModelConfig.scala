@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.config.model
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
 
 trait DefaultModelConfig {
   val conversionMode: ModelConversionMode

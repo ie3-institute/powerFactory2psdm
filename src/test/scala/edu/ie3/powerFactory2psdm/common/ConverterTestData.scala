@@ -36,8 +36,8 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
 }
-import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelGeneration
-import edu.ie3.powerFactory2psdm.config.model.WecConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{

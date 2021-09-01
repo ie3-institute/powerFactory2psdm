@@ -8,7 +8,10 @@ package edu.ie3.powerFactory2psdm.config
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
-import edu.ie3.powerFactory2psdm.config.model.{PvConfig, WecConfig}
+import edu.ie3.powerFactory2psdm.config.model.{
+  PvConversionConfig,
+  WecConversionConfig
+}
 
 final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
 
@@ -26,8 +29,8 @@ object ConversionConfig {
     *   which cosinus phi source to choose from the PowerFactory model
     */
   final case class StatGenModelConfigs(
-      pvConfig: PvConfig,
-      wecConfig: WecConfig,
+      pvConfig: PvConversionConfig,
+      wecConfig: WecConversionConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
   )

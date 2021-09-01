@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.model.PvConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   convertQCharacteristic,
   determineCosPhiRated

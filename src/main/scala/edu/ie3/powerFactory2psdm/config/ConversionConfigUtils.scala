@@ -8,8 +8,6 @@ package edu.ie3.powerFactory2psdm.config
 
 object ConversionConfigUtils {
 
-  trait ModelConversionMode
-
   /** Groups different sources for certain parameters of power factory models
     */
   sealed trait ParameterSource

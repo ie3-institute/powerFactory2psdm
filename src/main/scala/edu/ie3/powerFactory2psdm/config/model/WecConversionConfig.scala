@@ -6,22 +6,20 @@
 
 package edu.ie3.powerFactory2psdm.config.model
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
-  ModelConversionMode,
-  QCharacteristic
-}
-import edu.ie3.powerFactory2psdm.config.model.WecConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.QCharacteristic
+import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.{
   IndividualWecConfig,
   WecModelConversionMode
 }
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 
-final case class WecConfig(
+final case class WecConversionConfig(
     conversionMode: WecModelConversionMode,
     individualConfigs: Option[List[IndividualWecConfig]]
 ) extends DefaultModelConfig
 
-object WecConfig {
+object WecConversionConfig {
 
   final case class IndividualWecConfig(
       ids: Set[String],

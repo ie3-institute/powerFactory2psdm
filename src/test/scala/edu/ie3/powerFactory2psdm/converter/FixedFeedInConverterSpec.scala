@@ -7,7 +7,7 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.FixedQCharacteristic
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.FixedQCharacteristic
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
