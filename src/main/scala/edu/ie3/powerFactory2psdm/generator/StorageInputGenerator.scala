@@ -9,15 +9,13 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.StorageInput
 import edu.ie3.datamodel.models.input.system.`type`.StorageTypeInput
-import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
-  BatteryStorageModelGeneration,
-  DependentQCharacteristic,
-  FixedQCharacteristic
+import edu.ie3.powerFactory2psdm.config.model.BsConversionConfig.BatteryStorageModelGeneration
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
+  convertQCharacteristic,
+  determineCosPhiRated
 }
-import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.generator.types.StorageTypeInputGenerator
-import edu.ie3.powerFactory2psdm.model.powerfactory.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import java.util.UUID
 
@@ -28,30 +26,16 @@ object StorageInputGenerator {
       node: NodeInput,
       params: BatteryStorageModelGeneration
   ): (StorageInput, StorageTypeInput) = {
-    val cosPhiRated = input.indCapFlag match {
-      case 0 => input.cosPhi
-      case 1 => -input.cosPhi
-      case _ =>
-        throw ElementConfigurationException(
-          s"The inductive capacitive specifier of the static generator: ${input.id} should be either 0 or 1"
-        )
-    }
-    val qCharacteristics: ReactivePowerCharacteristic =
-      params.qCharacteristic match {
-        case FixedQCharacteristic =>
-          ReactivePowerCharacteristic.parse(
-            s"cosPhiFixed:{(0.0, $cosPhiRated)}"
-          )
-        case DependentQCharacteristic(characteristic) =>
-          ReactivePowerCharacteristic.parse(characteristic)
-      }
+    val cosPhiRated = determineCosPhiRated(input)
+    val qCharacteristic =
+      convertQCharacteristic(params.qCharacteristic, cosPhiRated)
     val storageTypeInput = StorageTypeInputGenerator.generate(input, params)
 
     val storageInput = new StorageInput(
       UUID.randomUUID(),
       input.id,
       node,
-      qCharacteristics,
+      qCharacteristic,
       storageTypeInput
     )
     (storageInput, storageTypeInput)

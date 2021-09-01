@@ -17,7 +17,7 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import scala.util.{Failure, Success, Try}
 
-/** Utility object to hold utility functions for model converison
+/** Utility object to hold utility functions for model conversion
   */
 object ConversionHelper {
 
