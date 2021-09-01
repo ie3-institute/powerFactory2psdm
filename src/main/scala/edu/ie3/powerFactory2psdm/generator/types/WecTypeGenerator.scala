@@ -60,7 +60,7 @@ object WecTypeGenerator {
         )
     }
     val cpCharacteristic: WecCharacteristicInput = new WecCharacteristicInput(
-      params.cpCharacteristics
+      params.cpCharacteristic
     )
     val etaConv: ComparableQuantity[Dimensionless] =
       Quantities.getQuantity(RandomSampler.sample(params.etaConv), PERCENT)

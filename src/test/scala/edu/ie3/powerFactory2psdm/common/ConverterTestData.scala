@@ -12,10 +12,7 @@ import edu.ie3.datamodel.models.StandardUnits.{
   EFFICIENCY,
   SOLAR_HEIGHT
 }
-import edu.ie3.datamodel.models.input.connector.`type`.{
-  LineTypeInput,
-  Transformer2WTypeInput
-}
+import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
@@ -398,7 +395,7 @@ object ConverterTestData extends LazyLogging {
   val wecModelGeneration: WecModelGeneration = WecModelGeneration(
     capex = Fixed(100d),
     opex = Fixed(50d),
-    cpCharacteristics = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
+    cpCharacteristic = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",
     hubHeight = Fixed(200),
     rotorArea = Fixed(45),
     etaConv = Fixed(96),
