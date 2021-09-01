@@ -30,7 +30,7 @@ import edu.ie3.powerFactory2psdm.model.entity.types.{
   TransformerType2W
 }
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.powerFactory2psdm.util.QuantityUtil.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._

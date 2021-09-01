@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.util
 
-import edu.ie3.powerFactory2psdm.util.QuantityUtil.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
 import edu.ie3.util.quantities.PowerSystemUnits.{
   DEGREE_GEOM,
@@ -23,7 +23,7 @@ import tech.units.indriya.unit.Units.{AMPERE, OHM, PERCENT, SIEMENS, VOLT}
 
 import javax.measure.MetricPrefix
 
-class QuantityUtilSpec extends Matchers with AnyWordSpecLike {
+class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
   "A rich quantity util" should {
     implicit val quantityTolerance: Double = 1e-9
     val value = 10.123154122

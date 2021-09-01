@@ -11,7 +11,7 @@ import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
 import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.Node
-import edu.ie3.powerFactory2psdm.util.QuantityUtil.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.Point
 
 import java.util.UUID

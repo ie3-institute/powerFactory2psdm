@@ -34,7 +34,7 @@ import javax.measure.quantity.{
 }
 
 @deprecated("This class will be moved to the PowerSystemUtils")
-object QuantityUtil {
+object QuantityUtils {
 
   /** Implicit class to enrich the [[Double]] with [[ComparableQuantity]]
     * conversion capabilities
