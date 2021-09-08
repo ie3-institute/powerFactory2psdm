@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.StorageInput
 import edu.ie3.datamodel.models.input.system.`type`.StorageTypeInput
-import edu.ie3.powerFactory2psdm.config.model.BsConversionConfig.BatteryStorageModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.BsConversionConfig.BsModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   convertQCharacteristic,
   determineCosPhiRated
@@ -24,7 +24,7 @@ object StorageInputGenerator {
   def generate(
       input: StaticGenerator,
       node: NodeInput,
-      params: BatteryStorageModelGeneration
+      params: BsModelGeneration
   ): (StorageInput, StorageTypeInput) = {
     val cosPhiRated = determineCosPhiRated(input)
     val qCharacteristic =
