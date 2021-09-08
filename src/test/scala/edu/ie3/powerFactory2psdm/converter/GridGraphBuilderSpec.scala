@@ -30,9 +30,7 @@ class GridGraphBuilderSpec extends Matchers with AnyWordSpecLike {
     )
     val inspect = new BiconnectivityInspector(gridGraph)
     val vertexSets = inspect.getConnectedComponents.asScala
-      .map(
-        graph => graph.vertexSet()
-      )
+      .map(graph => graph.vertexSet())
 
     "add the correct number of nodes to the gridGraph" in {
       gridGraph.vertexSet().size shouldBe testGrid.nodes.size

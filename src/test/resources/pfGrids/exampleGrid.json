@@ -1,4 +1,11 @@
 {
+  "projectSettings": [
+    {
+      "unitSystem": 0,
+      "prefixPQS": "M",
+      "prefixLength": "k"
+    }
+  ],
   "nodes": [
     {
       "id": "Grid.ElmNet\\Bus_0001.ElmTerm",
@@ -146,6 +153,10 @@
         {
           "id": "Grid.ElmNet\\Trf_0005_0006.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\Statischer Generator.ElmGenstat",
+          "pfCls": "ElmGenstat"
         }
       ]
     },
@@ -416,12 +427,12 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
-          "pfCls": "ElmTr2"
-        },
-        {
           "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
+        },
+        {
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
+          "pfCls": "ElmTr2"
         }
       ]
     },
@@ -433,11 +444,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
@@ -757,132 +768,138 @@
   ],
   "trafoTypes2w": [
     {
-      "id": "TypTr2 0004 to 0007.TypTr2"
+      "id": "TypTr2 0004 to 0007.TypTr2",
+      "curmg": 0.0,
+      "dutap": 2.200000047683716,
+      "nntap0": 0,
+      "ntpmn": -1,
+      "ntpmx": 1,
+      "pcutr": 0.0,
+      "pfe": 0.0,
+      "phitr": 0.0,
+      "strn": 100.0,
+      "tap_side": 0,
+      "uktr": 20.91200065612793,
+      "utrn_h": 132.0,
+      "utrn_l": 1.0
     },
     {
-      "id": "TypTr2 0004 to 0009.TypTr2"
+      "id": "TypTr2 0004 to 0009.TypTr2",
+      "curmg": 0.0,
+      "dutap": 3.0999999046325684,
+      "nntap0": 0,
+      "ntpmn": -1,
+      "ntpmx": 1,
+      "pcutr": 0.0,
+      "pfe": 0.0,
+      "phitr": 0.0,
+      "strn": 100.0,
+      "tap_side": 0,
+      "uktr": 55.61800003051758,
+      "utrn_h": 132.0,
+      "utrn_l": 33.0
     },
     {
-      "id": "TypTr2 0007 to 0008.TypTr2"
+      "id": "TypTr2 0007 to 0008.TypTr2",
+      "curmg": 0.0,
+      "dutap": 100.0,
+      "nntap0": 0,
+      "ntpmn": -1,
+      "ntpmx": 1,
+      "pcutr": 0.0,
+      "pfe": 0.0,
+      "phitr": 0.0,
+      "strn": 100.0,
+      "tap_side": 0,
+      "uktr": 17.614999771118164,
+      "utrn_h": 11.0,
+      "utrn_l": 1.0
     },
     {
-      "id": "TypTr2 0007 to 0009.TypTr2"
+      "id": "TypTr2 0007 to 0009.TypTr2",
+      "curmg": 0.0,
+      "dutap": 100.0,
+      "nntap0": 0,
+      "ntpmn": -1,
+      "ntpmx": 1,
+      "pcutr": 0.0,
+      "pfe": 0.0,
+      "phitr": 0.0,
+      "strn": 100.0,
+      "tap_side": 0,
+      "uktr": 11.000999450683594,
+      "utrn_h": 33.0,
+      "utrn_l": 1.0
     },
     {
-      "id": "TypTr2 0005 to 0006.TypTr2"
+      "id": "TypTr2 0005 to 0006.TypTr2",
+      "curmg": 0.0,
+      "dutap": 6.800000190734863,
+      "nntap0": 0,
+      "ntpmn": -1,
+      "ntpmx": 1,
+      "pcutr": 0.0,
+      "pfe": 0.0,
+      "phitr": 0.0,
+      "strn": 100.0,
+      "tap_side": 0,
+      "uktr": 25.20199966430664,
+      "utrn_h": 132.0,
+      "utrn_l": 33.0
     }
   ],
   "trafos3w": [],
   "trafoTypes3w": [],
   "loads": [
     {
-      "id": "Grid.ElmNet\\Load_0011.ElmLod",
-      "coslini": 0.8892877697944641,
-      "pf_recap": 0,
-      "slini": 3.9357337951660156,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0011.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0011.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0012.ElmLod",
-      "coslini": 0.9672796130180359,
-      "pf_recap": 0,
-      "slini": 6.3063459396362305,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0012.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0013.ElmLod",
-      "coslini": 0.9187926650047302,
-      "pf_recap": 0,
-      "slini": 14.693195343017578,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0013.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0014.ElmLod",
-      "coslini": 0.9480450749397278,
-      "pf_recap": 0,
-      "slini": 15.716551780700684,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0014.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0002.ElmLod",
-      "coslini": 0.8630567789077759,
-      "pf_recap": 0,
-      "slini": 25.143190383911133,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0002.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0003.ElmLod",
-      "coslini": 0.9802591800689697,
-      "pf_recap": 0,
-      "slini": 96.09703063964844,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0003.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0003.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0004.ElmLod",
-      "coslini": 0.9966880679130554,
-      "pf_recap": 1,
-      "slini": 47.95883560180664,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0004.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0005.ElmLod",
-      "coslini": 0.9785497784614563,
-      "pf_recap": 0,
-      "slini": 7.766594886779785,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0005.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0005.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0006.ElmLod",
-      "coslini": 0.8309071660041809,
-      "pf_recap": 0,
-      "slini": 13.479243278503418,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0006.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0015.ElmLod",
-      "coslini": 0.9480450749397278,
-      "pf_recap": 0,
-      "slini": 15.716551780700684,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0015.ElmLod"
     },
     {
-      "id": "Grid.ElmNet\\Load_0010.ElmLod",
-      "coslini": 0.8405709862709045,
-      "pf_recap": 0,
-      "slini": 10.70700740814209,
-      "u0": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0010.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0010.ElmLod"
     }
   ],
   "loadsLV": [
     {
-      "id": "Grid.ElmNet\\Niederspannungslast.ElmLodlv",
-      "coslini": 0.9700000286102295,
-      "pf_recap": 0,
-      "slini": 1.0,
-      "bus1Id": "Grid.ElmNet\\Bus_0007.ElmTerm"
+      "id": "Grid.ElmNet\\Niederspannungslast.ElmLodlv"
     }
   ],
   "loadsMV": [
     {
-      "id": "Grid.ElmNet\\Load_0009.ElmLodmv",
-      "coslini": 0.8999999761581421,
-      "pf_recap": 0,
-      "slini": 32.77777862548828,
-      "bus1Id": "Grid.ElmNet\\Bus_0009.ElmTerm"
+      "id": "Grid.ElmNet\\Load_0009.ElmLodmv"
     }
   ],
-  "statGen": [],
+  "statGen": [
+    {
+      "id": "Grid.ElmNet\\Statischer Generator.ElmGenstat"
+    }
+  ],
   "extGrid": [
     {
       "id": "Grid.ElmNet\\Externes Netz.ElmXnet"

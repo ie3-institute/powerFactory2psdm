@@ -6,9 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.exception.io
 
-/** Base class for grouping io related exceptions
-  */
-class IoException(
+final case class ConversionConfigException(
     private val msg: String,
     private val cause: Throwable = None.orNull
-) extends Exception(msg, cause)
+) extends IoException(msg, cause)
