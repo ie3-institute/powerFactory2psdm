@@ -8,14 +8,16 @@ package edu.ie3.powerFactory2psdm.util
 
 import java.nio.file.{Files, Paths}
 import org.scalafmt.interfaces.Scalafmt
+import java.io.File
 
 object Formatter {
 
   def format(str: String, fmtPath: Option[String]): String = {
     val classLoader = this.getClass.getClassLoader
     val scalafmt = Scalafmt.create(classLoader)
+    val configFile = new File(classLoader.getResource(".scalafmt.conf").getFile)
     val defaultConfigPath =
-      Paths.get(classLoader.getResource(".scalafmt.conf").getPath)
+      Paths.get(configFile.getPath)
     val defaultConfig =
       if (Files.exists(defaultConfigPath)) defaultConfigPath else Paths.get("")
     val config = fmtPath.fold(defaultConfig)(Paths.get(_))
