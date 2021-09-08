@@ -15,17 +15,21 @@ import edu.ie3.datamodel.models.StandardUnits.{
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
+  StorageTypeInput,
   SystemParticipantTypeInput,
   WecTypeInput
 }
-import edu.ie3.datamodel.models.input.system.FixedFeedInInput
-import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
+import edu.ie3.datamodel.models.input.system.{
+  FixedFeedInInput,
+  PvInput,
+  StorageInput,
+  WecInput
+}
 import edu.ie3.datamodel.models.input.system.characteristic.{
   CosPhiFixed,
   ReactivePowerCharacteristic,
   WecCharacteristicInput
 }
-import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
@@ -34,9 +38,12 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
 }
+import edu.ie3.powerFactory2psdm.config.model.BsConversionConfig
+import edu.ie3.powerFactory2psdm.config.model.BsConversionConfig.BsModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConversionMode
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
-import java.io.File
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -61,12 +68,6 @@ import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  VOLTAMPERE
-}
 import pureconfig.generic.auto._
 import tech.units.indriya.quantity.Quantities
 
@@ -120,6 +121,33 @@ object ConverterTestData extends LazyLogging {
       resultModel: M,
       resultType: T
   )
+
+  /** Case class to denote a consistent pair of input and expected output of a
+    * model generation
+    *
+    * @param input
+    *   Input model
+    * @param modelConversionMode
+    *   Conversion mode of model
+    * @param resultModel
+    *   Resulting, converted model
+    * @tparam I
+    *   Type of input model
+    * @tparam C
+    *   Conversion mode config
+    * @tparam M
+    *   Type of result class
+    */
+  final case class GenerationPair[
+      I <: EntityModel,
+      C <: ModelConversionMode,
+      M <: UniqueEntity
+  ](
+      input: I,
+      modelConversionMode: C,
+      resultModel: M
+  )
+
   logger.warn("Building the grid model")
 
   val testGridFile =
@@ -410,6 +438,7 @@ object ConverterTestData extends LazyLogging {
       throw TestException(s"Cannot find WEC type with key: $key")
     )
   }
+
   val generateWecs: Map[String, ConversionPairWithType[
     StaticGenerator,
     WecInput,
@@ -489,4 +518,88 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
+  val bsModelGeneration: BsModelGeneration = BsModelGeneration(
+    capex = Fixed(100),
+    opex = Fixed(50),
+    eStorage = Fixed(30),
+    pMax = Fixed(20),
+    activePowerGradient = Fixed(10),
+    eta = Fixed(95),
+    dod = Fixed(90),
+    lifeTime = Fixed(1000),
+    lifeCycle = Fixed(2000),
+    qCharacteristic = FixedQCharacteristic
+  )
+
+  val generateStorageTypes: Map[String, GenerationPair[
+    StaticGenerator,
+    BsModelGeneration,
+    StorageTypeInput
+  ]] = {
+    Map(
+      "someStorage_type" -> GenerationPair(
+        staticGenerator.copy(id = "someStorage"),
+        bsModelGeneration,
+        new StorageTypeInput(
+          UUID.randomUUID(),
+          "someStorage_type",
+          100.toEuro,
+          50.toEuroPerMegaWattHour,
+          30.toKiloWattHour,
+          staticGenerator.sRated.toMegaVoltAmpere,
+          staticGenerator.cosPhi,
+          20.toKiloWatt,
+          10.toPercentPerHour,
+          95.toPercent,
+          90.toPercent,
+          1000.toHour,
+          2000
+        )
+      )
+    )
+  }
+
+  def getGenerateStorageType(
+      key: String
+  ): GenerationPair[StaticGenerator, BsModelGeneration, StorageTypeInput] = {
+    generateStorageTypes.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find generate storage type with key: $key "
+      )
+    )
+  }
+
+  val generateStorage: Map[String, GenerationPair[
+    StaticGenerator,
+    BsModelGeneration,
+    StorageInput
+  ]] =
+    Map(
+      "someStorage" -> GenerationPair(
+        staticGenerator.copy(id = "someStorage"),
+        bsModelGeneration,
+        new StorageInput(
+          UUID.randomUUID(),
+          "someStorage",
+          getNodePair("someNode").result,
+          ConversionHelper.convertQCharacteristic(
+            bsModelGeneration.qCharacteristic,
+            staticGenerator.cosPhi
+          ),
+          getGenerateStorageType("someStorage_type").resultModel
+        )
+      )
+    )
+
+  def getGenerateStorage(
+      key: String
+  ): GenerationPair[StaticGenerator, BsModelGeneration, StorageInput] = {
+    generateStorage.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find generate storage type with key: $key "
+      )
+    )
+  }
 }
