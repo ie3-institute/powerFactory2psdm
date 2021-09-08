@@ -6,8 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.datamodel.models.OperationTime
-import edu.ie3.datamodel.models.StandardLoadProfile.DefaultLoadProfiles
+import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
@@ -21,14 +20,14 @@ object LoadConverter {
 
   def convert(input: Load, node: NodeInput): LoadInput = {
     val id = input.id
-    val cosphi = input.indCapFlag match {
+    val cosPhi = input.indCapFlag match {
       case 0.0 => input.cosphi
       case 1.0 => -input.cosphi
     }
     val s = Quantities.getQuantity(input.s, MEGAVOLTAMPERE)
     val eCons = Quantities.getQuantity(0d, KILOWATTHOUR)
     val varCharacteristicString =
-      "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosphi)
+      "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosPhi)
 
     new LoadInput(
       UUID.randomUUID(),
@@ -37,11 +36,11 @@ object LoadConverter {
       OperationTime.notLimited(),
       node,
       new CosPhiFixed(varCharacteristicString),
-      DefaultLoadProfiles.NO_STANDARD_LOAD_PROFILE,
+      BdewLoadProfile.H0,
       false,
       eCons,
       s,
-      cosphi
+      cosPhi
     )
   }
 

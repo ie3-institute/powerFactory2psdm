@@ -12,25 +12,25 @@ final case class ConversionConfig(modelConfigs: ModelConfigs)
 
 object ConversionConfig {
 
-  case class ModelConfigs(
+  final case class ModelConfigs(
       pvConfig: PvConfig
   )
 
-  case class PvConfig(
+  final case class PvConfig(
       conversionMode: PvConversionMode,
       individualConfigs: Option[List[IndividualPvConfig]]
   )
 
-  case class IndividualPvConfig(
+  final case class IndividualPvConfig(
       ids: Set[String],
       conversionMode: PvConversionMode
   )
 
   sealed trait PvConversionMode
 
-  case object PvFixedFeedIn extends PvConversionMode
+  final case object PvFixedFeedIn extends PvConversionMode
 
-  case class PvModelGeneration(
+  final case class PvModelGeneration(
       albedo: GenerationMethod,
       azimuth: GenerationMethod,
       etaConv: GenerationMethod,
@@ -40,16 +40,16 @@ object ConversionConfig {
 
   sealed trait GenerationMethod
 
-  case class Fixed(
+  final case class Fixed(
       value: Double
   ) extends GenerationMethod
 
-  case class UniformDistribution(
+  final case class UniformDistribution(
       lowerBound: Double,
       upperBound: Double
   ) extends GenerationMethod
 
-  case class NormalDistribution(
+  final case class NormalDistribution(
       mean: Double,
       standardDeviation: Double
   ) extends GenerationMethod

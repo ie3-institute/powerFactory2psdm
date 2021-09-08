@@ -7,18 +7,17 @@
 package edu.ie3.powerFactory2psdm.model.powerfactory
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
-import edu.ie3.powerFactory2psdm.model.powerfactory.RawGridModel.{
-  Loads,
-  LoadsLV,
-  LoadsMV
-}
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
+import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
-/**
-  * Electrical load
+/** Electrical load
   *
-  * @param id identifier
-  * @param s apparent power in MVA
-  * @param cosphi cosinus phi value
+  * @param id
+  *   identifier
+  * @param s
+  *   apparent power in MVA
+  * @param cosphi
+  *   cosinus phi value
   */
 final case class Load(
     id: String,

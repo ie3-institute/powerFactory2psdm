@@ -7,11 +7,10 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.{
-  LineTypeInput,
-  Transformer2WTypeInput
-}
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
+import edu.ie3.datamodel.models.input.connector.`type`.{LineTypeInput, Transformer2WTypeInput}
+import edu.ie3.datamodel.models.input.system.LoadInput
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
@@ -20,30 +19,18 @@ import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.entity.{
-  ConnectedElement,
-  EntityModel,
-  Node,
-  Subnet
-}
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  TransformerType2W
-}
+import edu.ie3.powerFactory2psdm.model.entity.{ConnectedElement, EntityModel, Node, Subnet}
+import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, TransformerType2W}
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.util.quantities.PowerSystemUnits.PU
+import edu.ie3.powerFactory2psdm.model.powerfactory.Load
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, KILOVOLT, KILOWATTHOUR, MEGAVOLTAMPERE, PU, VOLTAMPERE}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  VOLTAMPERE
-}
 import pureconfig.generic.auto._
 
-import java.util.UUID
+import java.util.{Locale, UUID}
 import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
@@ -279,7 +266,7 @@ object ConverterTestData extends LazyLogging {
         new CosPhiFixed(
           "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, 0.97812)
         ),
-        DefaultLoadProfiles.NO_STANDARD_LOAD_PROFILE,
+        BdewLoadProfile.H0,
         false,
         Quantities.getQuantity(0d, KILOWATTHOUR),
         Quantities.getQuantity(13.23123, MEGAVOLTAMPERE),

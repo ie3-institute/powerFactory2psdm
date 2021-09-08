@@ -7,14 +7,6 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
-import edu.ie3.powerFactory2psdm.model.Subnet
-import edu.ie3.powerFactory2psdm.model.powerfactory.{
-  GridModel,
-  Load,
-  Node,
-  RawGridModel
-}
 import edu.ie3.powerFactory2psdm.model.entity.Subnet
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 

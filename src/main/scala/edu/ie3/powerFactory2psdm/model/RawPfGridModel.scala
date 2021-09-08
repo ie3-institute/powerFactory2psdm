@@ -112,7 +112,6 @@ object RawPfGridModel {
       prefixLength: Option[String]
   )
 
-  final case class LoadsLV(id: Option[String])
   final case class LoadsLV(
       bus1Id: Option[String],
       pf_recap: Option[Double],
