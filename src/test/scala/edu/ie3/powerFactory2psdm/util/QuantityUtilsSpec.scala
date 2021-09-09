@@ -8,18 +8,11 @@ package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  OHM_PER_KILOMETRE,
-  PU,
-  SIEMENS_PER_KILOMETRE,
-  VOLTAMPERE
-}
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, EURO, EURO_PER_MEGAWATTHOUR, KILOVOLT, KILOWATT, KILOWATTHOUR, OHM_PER_KILOMETRE, PERCENT_PER_HOUR, PU, SIEMENS_PER_KILOMETRE, VOLTAMPERE}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{AMPERE, OHM, PERCENT, SIEMENS, VOLT}
+import tech.units.indriya.unit.Units.{AMPERE, HOUR, OHM, PERCENT, SIEMENS, VOLT}
 
 import javax.measure.MetricPrefix
 
@@ -115,6 +108,60 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
         Quantities.getQuantity(
           value,
           KILOVOLT
+        )
+      )
+    }
+
+    "convert a double to euro" in {
+      value.toEuro should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          EURO
+        )
+      )
+    }
+
+    "convert a double to euro per megawatt hour" in {
+      value.toEuroPerMegaWattHour should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          EURO_PER_MEGAWATTHOUR
+        )
+      )
+    }
+
+    "convert a double to euro per kilowatt hour" in {
+      value.toKiloWattHour should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          KILOWATTHOUR
+        )
+      )
+    }
+
+    "convert a double to percent per hour" in {
+      value.toPercentPerHour should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          PERCENT_PER_HOUR
+        )
+      )
+    }
+
+    "convert a double to hour" in {
+      value.toHour should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          HOUR
+        )
+      )
+    }
+
+    "convert a double to kilowatt" in {
+      value.toKiloWatt should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          KILOWATT
         )
       )
     }

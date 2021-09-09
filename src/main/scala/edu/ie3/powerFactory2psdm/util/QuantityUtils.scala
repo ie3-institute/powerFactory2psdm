@@ -6,32 +6,14 @@
 
 package edu.ie3.powerFactory2psdm.util
 
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  OHM_PER_KILOMETRE,
-  PU,
-  SIEMENS_PER_KILOMETRE,
-  VOLTAMPERE
-}
-import edu.ie3.util.quantities.interfaces.{
-  SpecificConductance,
-  SpecificResistance
-}
+import edu.ie3.util.quantities.PowerSystemUnits._
+import edu.ie3.util.quantities.interfaces.{Currency, DimensionlessRate, EnergyPrice, SpecificConductance, SpecificResistance}
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{AMPERE, OHM, PERCENT, SIEMENS, VOLT}
+import tech.units.indriya.unit.Units.{AMPERE, HOUR, OHM, PERCENT, SIEMENS, VOLT}
 
 import javax.measure.MetricPrefix
-import javax.measure.quantity.{
-  Angle,
-  Dimensionless,
-  ElectricConductance,
-  ElectricCurrent,
-  ElectricPotential,
-  ElectricResistance,
-  Power
-}
+import javax.measure.quantity.{Angle, Dimensionless, ElectricConductance, ElectricCurrent, ElectricPotential, ElectricResistance, Energy, Power, Time}
 
 @deprecated("This class will be moved to the PowerSystemUtils")
 object QuantityUtils {
@@ -97,6 +79,42 @@ object QuantityUtils {
       Quantities.getQuantity(
         value,
         KILOVOLT
+      )
+
+    def toEuro: ComparableQuantity[Currency] =
+      Quantities.getQuantity(
+        value,
+        EURO
+      )
+
+    def toEuroPerMegaWattHour: ComparableQuantity[EnergyPrice] =
+      Quantities.getQuantity(
+        value,
+        EURO_PER_MEGAWATTHOUR
+      )
+
+    def toKiloWattHour: ComparableQuantity[Energy] =
+      Quantities.getQuantity(
+        value,
+        KILOWATTHOUR
+      )
+
+    def toPercentPerHour: ComparableQuantity[DimensionlessRate] =
+      Quantities.getQuantity(
+        value,
+        PERCENT_PER_HOUR
+      )
+
+    def toHour: ComparableQuantity[Time] =
+      Quantities.getQuantity(
+        value,
+        HOUR
+      )
+
+    def toKiloWatt: ComparableQuantity[Power] =
+      Quantities.getQuantity(
+        value,
+        KILOWATT
       )
 
   }
