@@ -10,10 +10,11 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.QCharacteristic
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
-  determineCosPhiRated,
-  convertQCharacteristic
+  convertQCharacteristic,
+  determineCosPhiRated
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
 import tech.units.indriya.quantity.Quantities
 
@@ -39,7 +40,7 @@ object FixedFeedInConverter {
     val cosPhiRated = determineCosPhiRated(input)
     val reactivePowerCharacteristic =
       convertQCharacteristic(qCharacteristic, cosPhiRated)
-    val s = Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
+    val s = input.sRated.toMegaVoltAmpere
 
     new FixedFeedInInput(
       UUID.randomUUID(),

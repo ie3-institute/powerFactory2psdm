@@ -11,10 +11,11 @@ import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
-  determineCosPhiRated,
-  convertQCharacteristic
+  convertQCharacteristic,
+  determineCosPhiRated
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
 import tech.units.indriya.ComparableQuantity
@@ -44,19 +45,15 @@ object PvInputGenerator {
       node: NodeInput,
       params: PvModelGeneration
   ): PvInput = {
-    val albedo: Double = sample(params.albedo)
-    val azimuth: ComparableQuantity[Angle] =
-      Quantities.getQuantity(sample(params.azimuth), DEGREE_GEOM)
-    val etaConv: ComparableQuantity[Dimensionless] =
-      Quantities.getQuantity(sample(params.etaConv), PERCENT)
-    val height: ComparableQuantity[Angle] =
-      Quantities.getQuantity(sample(params.elevationAngle), DEGREE_GEOM)
-    val kG: Double = sample(params.kG)
-    val kT: Double = sample(params.kT)
-    val sRated: ComparableQuantity[Power] =
-      Quantities.getQuantity(input.sRated, MEGAVOLTAMPERE)
+    val albedo = sample(params.albedo)
+    val azimuth = sample(params.azimuth).toDegreeGeom
+    val etaConv = sample(params.etaConv).toPercent
+    val height = sample(params.elevationAngle).toDegreeGeom
+    val kG = sample(params.kG)
+    val kT = sample(params.kT)
+    val sRated = input.sRated.toMegaVoltAmpere
     val cosPhiRated = determineCosPhiRated(input)
-    val qCharacteristics: ReactivePowerCharacteristic =
+    val qCharacteristics =
       convertQCharacteristic(params.qCharacteristic, cosPhiRated)
 
     new PvInput(

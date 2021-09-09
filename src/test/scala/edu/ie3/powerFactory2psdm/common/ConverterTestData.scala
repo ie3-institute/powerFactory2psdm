@@ -29,15 +29,9 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   PvModelGeneration,
   UniformDistribution
 }
-import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  TransformerType2W
-}
 import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
   EntityModel,
@@ -55,13 +49,8 @@ import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import pureconfig.generic.auto._
-
 import java.io.File
 import java.util.UUID
-import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
@@ -297,13 +286,13 @@ object ConverterTestData extends LazyLogging {
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
         0.2,
-        Quantities.getQuantity(0, AZIMUTH),
-        Quantities.getQuantity(95, EFFICIENCY),
-        Quantities.getQuantity(35, SOLAR_HEIGHT),
+        0.toDegreeGeom,
+        95.toPercent,
+        35.toDegreeGeom,
         1d,
         0.9,
         false,
-        Quantities.getQuantity(11, MEGAVOLTAMPERE),
+        11.toMegaVoltAmpere,
         0.91
       )
     )
@@ -328,7 +317,7 @@ object ConverterTestData extends LazyLogging {
         "someStatGen",
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
-        Quantities.getQuantity(11d, MEGAVOLTAMPERE),
+        11.toMegaVoltAmpere,
         0.91
       )
     )
