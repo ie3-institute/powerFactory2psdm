@@ -18,6 +18,7 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
 }
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
+import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
@@ -28,6 +29,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   PvModelGeneration,
   UniformDistribution
 }
+import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
@@ -44,11 +46,18 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   Subnet
 }
 import edu.ie3.util.quantities.PowerSystemUnits._
+import edu.ie3.powerFactory2psdm.model.entity.types.{
+  LineType,
+  TransformerType2W
+}
+import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
+import pureconfig.generic.auto._
 
 import java.io.File
 import java.util.UUID
@@ -166,7 +175,7 @@ object ConverterTestData extends LazyLogging {
         "someNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        Quantities.getQuantity(1d, PU),
+        1d.toPu,
         false,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -192,7 +201,7 @@ object ConverterTestData extends LazyLogging {
         "someSlackNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        Quantities.getQuantity(1d, PU),
+        1d.toPu,
         true,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -238,30 +247,12 @@ object ConverterTestData extends LazyLogging {
         new LineTypeInput(
           UUID.randomUUID(),
           "someLineType",
-          Quantities.getQuantity(
-            151.51515197753906,
-            StandardUnits.ADMITTANCE_PER_LENGTH
-          ),
-          Quantities.getQuantity(
-            1.543,
-            StandardUnits.ADMITTANCE_PER_LENGTH
-          ),
-          Quantities.getQuantity(
-            6.753542423248291,
-            StandardUnits.IMPEDANCE_PER_LENGTH
-          ),
-          Quantities.getQuantity(
-            20.61956214904785,
-            StandardUnits.IMPEDANCE_PER_LENGTH
-          ),
-          Quantities.getQuantity(
-            1000,
-            StandardUnits.ELECTRIC_CURRENT_MAGNITUDE
-          ),
-          Quantities.getQuantity(
-            132.0,
-            StandardUnits.RATED_VOLTAGE_MAGNITUDE
-          )
+          151.51515197753906.toMicroSiemensPerKilometre,
+          1.543.toMicroSiemensPerKilometre,
+          6.753542423248291.toOhmPerKilometre,
+          20.61956214904785.toOhmPerKilometre,
+          1.toKiloAmpere,
+          132.0.toKiloVolt
         )
       )
   )
@@ -375,17 +366,15 @@ object ConverterTestData extends LazyLogging {
       new Transformer2WTypeInput(
         UUID.randomUUID(),
         "SomeTrafo2wType",
-        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
-        Quantities.getQuantity(15.1249319, OHM),
-        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
-        Quantities.getQuantity(110d, KILOVOLT),
-        Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(826.4462809, MetricPrefix.NANO(SIEMENS)),
-        Quantities
-          .getQuantity(33047.519046, MetricPrefix.NANO(SIEMENS))
-          .to(MetricPrefix.NANO(SIEMENS)),
-        Quantities.getQuantity(2.5, PERCENT),
-        Quantities.getQuantity(5d, DEGREE_GEOM),
+        45.375.toMilliOhm,
+        15.1249319.toOhm,
+        40d.toMegaVoltAmpere,
+        110d.toKiloVolt,
+        10d.toKiloVolt,
+        826.4462809.toNanoSiemens,
+        33047.519046.toNanoSiemens,
+        2.5.toPercent,
+        5d.toDegreeGeom,
         false,
         0,
         -10,
