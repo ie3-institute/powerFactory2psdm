@@ -8,7 +8,19 @@ package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
-import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, EURO, EURO_PER_MEGAWATTHOUR, KILOVOLT, KILOWATT, KILOWATTHOUR, OHM_PER_KILOMETRE, PERCENT_PER_HOUR, PU, SIEMENS_PER_KILOMETRE, VOLTAMPERE}
+import edu.ie3.util.quantities.PowerSystemUnits.{
+  DEGREE_GEOM,
+  EURO,
+  EURO_PER_MEGAWATTHOUR,
+  KILOVOLT,
+  KILOWATT,
+  KILOWATTHOUR,
+  OHM_PER_KILOMETRE,
+  PERCENT_PER_HOUR,
+  PU,
+  SIEMENS_PER_KILOMETRE,
+  VOLTAMPERE
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
