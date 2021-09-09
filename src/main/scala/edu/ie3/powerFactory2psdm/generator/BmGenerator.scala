@@ -10,10 +10,12 @@ import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.BmInput
 import edu.ie3.datamodel.models.input.system.`type`.BmTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.BmModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper
+import edu.ie3.powerFactory2psdm.generator.types.BmTypeGenerator
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
-
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
+import edu.ie3.powerFactory2psdm.util.RandomSampler
 import java.util.UUID
 
 object BmGenerator {
@@ -35,20 +37,24 @@ object BmGenerator {
   def generate(
       input: StaticGenerator,
       node: NodeInput,
-      params: WecModelGeneration
+      params: BmModelGeneration
   ): (BmInput, BmTypeInput) = {
     val cosPhiRated = ConversionHelper.determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic = ConversionHelper
       .convertQCharacteristic(params.qCharacteristic, cosPhiRated)
     val bmTypeInput = BmTypeGenerator.convert(input, params)
+    val feedInTariff =
+      RandomSampler.sample(params.feedInTariff).toEuroPerMegaWattHour
 
     val bmInput = new BmInput(
       UUID.randomUUID(),
       input.id,
       node,
       qCharacteristics,
-      wecTypeInput,
-      false
+      BmTypeInput,
+      params.marketReaction,
+      params.costControlled,
+      feedInTariff
     )
     (bmInput, bmTypeInput)
   }

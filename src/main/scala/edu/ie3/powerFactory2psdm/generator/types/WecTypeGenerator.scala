@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator.types
 import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInput
-import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.RandomSampler
@@ -18,7 +18,6 @@ import edu.ie3.util.quantities.interfaces.{Currency, EnergyPrice}
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{METRE, PERCENT, SQUARE_METRE}
-
 import java.util.UUID
 import javax.measure.quantity.{Area, Dimensionless, Length, Power}
 

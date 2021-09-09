@@ -65,9 +65,9 @@ object BmConversionConfig {
     * @param capex
     *   - Capital expense for this type of BM in €
     * @param opex
-    *   - Capital expense for this type of BM in €
+    *   - Capital expense for this type of BM in € per megawatt hour
     * @param activePowerGradient
-    *   – Maximum permissible gradient of active power change in %
+    *   – Maximum permissible gradient of active power change in % per hour
     * @param etaConv
     *   - Efficiency of converter for this type of BM in %
     * @param qCharacteristic
