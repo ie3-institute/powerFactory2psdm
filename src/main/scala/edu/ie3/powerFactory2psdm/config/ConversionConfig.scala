@@ -9,6 +9,7 @@ package edu.ie3.powerFactory2psdm.config
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
 import edu.ie3.powerFactory2psdm.config.model.{
+  BmConversionConfig,
   PvConversionConfig,
   WecConversionConfig
 }
@@ -31,6 +32,7 @@ object ConversionConfig {
   final case class StatGenModelConfigs(
       pvConfig: PvConversionConfig,
       wecConfig: WecConversionConfig,
+      bmConfig: BmConversionConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
   )

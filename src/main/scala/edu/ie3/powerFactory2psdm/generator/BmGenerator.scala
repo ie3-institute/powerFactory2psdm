@@ -7,19 +7,18 @@
 package edu.ie3.powerFactory2psdm.generator
 
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.datamodel.models.input.system.WecInput
-import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
+import edu.ie3.datamodel.models.input.system.BmInput
+import edu.ie3.datamodel.models.input.system.`type`.BmTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper
-import edu.ie3.powerFactory2psdm.generator.types.WecTypeGenerator
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import java.util.UUID
 
-object WecGenerator {
+object BmGenerator {
 
-  /** Generates a [[WecInput]] and a [[WecTypeInput]] to replace a shallow
+  /** Generates a [[BmInput]] and a [[BmTypeInput]] to replace a shallow
     * [[StaticGenerator]]. As a static generator does not hold all parameters
     * necessary, the other parameters are generated via the defined generation
     * methods for every parameter.
@@ -31,19 +30,19 @@ object WecGenerator {
     * @param params
     *   parameters for generating missing parameters
     * @return
-    *   [[WecInput]] and a [[WecTypeInput]] that replace the [[StaticGenerator]]
+    *   [[BmInput]] and a [[BmTypeInput]] that replace the [[StaticGenerator]]
     */
   def generate(
       input: StaticGenerator,
       node: NodeInput,
       params: WecModelGeneration
-  ): (WecInput, WecTypeInput) = {
+  ): (BmInput, BmTypeInput) = {
     val cosPhiRated = ConversionHelper.determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic = ConversionHelper
       .convertQCharacteristic(params.qCharacteristic, cosPhiRated)
-    val wecTypeInput = WecTypeGenerator.convert(input, params)
+    val bmTypeInput = BmTypeGenerator.convert(input, params)
 
-    val wecInput = new WecInput(
+    val bmInput = new BmInput(
       UUID.randomUUID(),
       input.id,
       node,
@@ -51,7 +50,7 @@ object WecGenerator {
       wecTypeInput,
       false
     )
-    (wecInput, wecTypeInput)
+    (bmInput, bmTypeInput)
   }
 
 }

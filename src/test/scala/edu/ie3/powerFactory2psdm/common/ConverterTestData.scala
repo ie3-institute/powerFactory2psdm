@@ -34,7 +34,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   FixedQCharacteristic
 }
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
-import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -394,7 +394,7 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
-  val wecModelGeneration: WecModelGeneration = WecModelGeneration(
+  val wecModelGeneration: WecModelGeneration = BmModelGeneration(
     capex = Fixed(100d),
     opex = Fixed(50d),
     cpCharacteristic = "cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}",

@@ -11,9 +11,9 @@ import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
   PvModelConversionMode,
   PvModelGeneration
 }
-import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.{
-  WecFixedFeedIn,
-  WecModelConversionMode,
+import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.{
+  BmFixedFeedIn,
+  BmModelConversionMode,
   WecModelGeneration
 }
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
@@ -92,11 +92,11 @@ object ConversionModeValidators {
 
   }
   object WecConversionModeValidator
-      extends ConversionModeValidator[WecModelConversionMode] {
+      extends ConversionModeValidator[BmModelConversionMode] {
 
-    def apply(conversionMode: WecModelConversionMode): Unit =
+    def apply(conversionMode: BmModelConversionMode): Unit =
       conversionMode match {
-        case x: WecFixedFeedIn     => validateQCharacteristic(x.qCharacteristic)
+        case x: BmFixedFeedIn      => validateQCharacteristic(x.qCharacteristic)
         case x: WecModelGeneration => validateModelGenerationParams(x)
       }
 

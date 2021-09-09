@@ -20,7 +20,7 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
 }
 import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelConversionMode
-import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.BmModelConversionMode
 import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
@@ -50,8 +50,8 @@ object ConfigValidator extends LazyLogging {
     Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
       .flatMap(getConversionModes)
       .foreach {
-        case x: PvModelConversionMode  => PvConversionModeValidator(x)
-        case x: WecModelConversionMode => WecConversionModeValidator(x)
+        case x: PvModelConversionMode => PvConversionModeValidator(x)
+        case x: BmModelConversionMode => WecConversionModeValidator(x)
         case conversionMode =>
           logger.warn(
             s"The conversion mode $conversionMode is currently not validated."
