@@ -7,21 +7,15 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.StandardUnits.{
-  AZIMUTH,
-  EFFICIENCY,
-  SOLAR_HEIGHT
-}
 import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
   Transformer2WTypeInput
 }
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
-import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
+import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   Fixed,
@@ -39,7 +33,6 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   StaticGenerator,
   Subnet
 }
-import edu.ie3.util.quantities.PowerSystemUnits._
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   TransformerType2W
