@@ -11,11 +11,18 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
   Transformer2WTypeInput
 }
-import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
+import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import java.io.File
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  Fixed,
+  FixedQCharacteristic,
+  PvModelGeneration,
+  UniformDistribution
+}
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
@@ -23,6 +30,7 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
   EntityModel,
   Node,
+  StaticGenerator,
   Subnet
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.{
@@ -34,7 +42,7 @@ import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
-
+import java.io.File
 import java.util.UUID
 
 object ConverterTestData extends LazyLogging {
@@ -236,6 +244,85 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val staticGenerator: StaticGenerator = StaticGenerator(
+    id = "someStatGen",
+    busId = "someNode",
+    sRated = 11,
+    cosPhi = 0.91,
+    indCapFlag = 0,
+    category = "Statischer Generator"
+  )
+
+  val statGenCosPhiExcMsg: String => String = (id: String) =>
+    s"Can't determine cos phi rated for static generator: $id. Exception: The inductive capacitive specifier should be either 0 (inductive) or 1 (capacitive)"
+
+  val pvModelGeneration: PvModelGeneration = PvModelGeneration(
+    albedo = Fixed(0.2),
+    azimuth = UniformDistribution(-90, 90),
+    etaConv = Fixed(0.95),
+    elevationAngle = UniformDistribution(20, 50),
+    qCharacteristic = FixedQCharacteristic,
+    kG = Fixed(0.9),
+    kT = Fixed(1)
+  )
+
+  val generatePvs = Map(
+    "somePvPlant" -> ConversionPair(
+      staticGenerator.copy(category = "Fotovoltaik"),
+      new PvInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        0.2,
+        0.toDegreeGeom,
+        95.toPercent,
+        35.toDegreeGeom,
+        1d,
+        0.9,
+        false,
+        11.toMegaVoltAmpere,
+        0.91
+      )
+    )
+  )
+
+  def getGeneratePvPair(
+      key: String
+  ): ConversionPair[StaticGenerator, PvInput] = {
+    generatePvs.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for StaticGenerator/PvInput with key: $key "
+      )
+    )
+  }
+
+  val staticGenerator2FeedInPair = Map(
+    "someStatGen" -> ConversionPair(
+      staticGenerator,
+      new FixedFeedInInput(
+        UUID.randomUUID(),
+        "someStatGen",
+        getNodePair("someNode").result,
+        new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
+        11.toMegaVoltAmpere,
+        0.91
+      )
+    )
+  )
+
+  def getStaticGenerator2FixedFeedInPair(
+      key: String
+  ): ConversionPair[StaticGenerator, FixedFeedInInput] = {
+    staticGenerator2FeedInPair.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for static generator to fixed feed in with key: $key"
       )
     )
   }

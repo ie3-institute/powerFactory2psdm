@@ -60,7 +60,14 @@ attributes4export = {
     'loads': [],
     'loadsLV': [],
     'loadsMV': [],
-    'statGen': [],
+    'statGen': [
+        'sgn',
+        'sgini',
+        'cosgini',
+        'cosn',
+        'pf_recap',
+        'cCategory'
+    ],
     'circuitBreaker' : [],
     'extGrid': [],
     'powerPlants': [],
