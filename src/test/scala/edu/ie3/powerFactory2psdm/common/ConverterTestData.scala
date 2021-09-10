@@ -7,32 +7,18 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.StandardUnits.{
-  AZIMUTH,
-  EFFICIENCY,
-  SOLAR_HEIGHT
-}
+import edu.ie3.datamodel.models.StandardUnits.{AZIMUTH, EFFICIENCY, SOLAR_HEIGHT}
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
-import edu.ie3.datamodel.models.input.system.`type`.{
-  SystemParticipantTypeInput,
-  WecTypeInput
-}
+import edu.ie3.datamodel.models.input.system.`type`.{BmTypeInput, SystemParticipantTypeInput, WecTypeInput}
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
 import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
-import edu.ie3.datamodel.models.input.system.characteristic.{
-  CosPhiFixed,
-  ReactivePowerCharacteristic,
-  WecCharacteristicInput
-}
+import edu.ie3.datamodel.models.input.system.characteristic.{CosPhiFixed, ReactivePowerCharacteristic, WecCharacteristicInput}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
-  DependentQCharacteristic,
-  FixedQCharacteristic
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{DependentQCharacteristic, FixedQCharacteristic}
 import edu.ie3.powerFactory2psdm.config.model.BmConversionConfig.BmModelGeneration
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
@@ -40,22 +26,10 @@ import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGenera
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
-import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
-  Fixed,
-  UniformDistribution
-}
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{Fixed, UniformDistribution}
 import edu.ie3.powerFactory2psdm.io.PfGridParser
-import edu.ie3.powerFactory2psdm.model.entity.{
-  ConnectedElement,
-  EntityModel,
-  Node,
-  StaticGenerator,
-  Subnet
-}
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  TransformerType2W
-}
+import edu.ie3.powerFactory2psdm.model.entity.{ConnectedElement, EntityModel, Node, StaticGenerator, Subnet}
+import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, TransformerType2W}
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.PowerSystemUnits.MEGAVOLTAMPERE
@@ -483,7 +457,7 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
-  val bmModelGeneration = BmModelGeneration(
+  val bmModelGeneration: BmModelGeneration = BmModelGeneration(
     capex = Fixed(100),
     opex = Fixed(50),
     activePowerGradient = Fixed(25),
@@ -492,6 +466,17 @@ object ConverterTestData extends LazyLogging {
     marketReaction = false,
     costControlled = false,
     feedInTariff = Fixed(10)
+  )
+
+  val bmTypes = new BmTypeInput(
+    UUID.randomUUID(),
+    "someBm_type_11MVA",
+    100.toEuro,
+    50.toEuroPerMegaWattHour,
+    25.toPercentPerHour,
+    staticGenerator.sRated.toMegaVoltAmpere,
+    0.91,
+    95.toPercent
   )
 
 }
