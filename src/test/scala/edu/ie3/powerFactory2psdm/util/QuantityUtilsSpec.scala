@@ -8,25 +8,14 @@ package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.scalatest.QuantityMatchers.equalWithTolerance
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  EURO,
-  EURO_PER_MEGAWATTHOUR,
-  KILOVOLT,
-  KILOWATT,
-  KILOWATTHOUR,
-  OHM_PER_KILOMETRE,
-  PERCENT_PER_HOUR,
-  PU,
-  SIEMENS_PER_KILOMETRE,
-  VOLTAMPERE
-}
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, EURO, EURO_PER_MEGAWATTHOUR, KILOMETRE, KILOVOLT, KILOWATT, KILOWATTHOUR, OHM_PER_KILOMETRE, PERCENT_PER_HOUR, PU, SIEMENS_PER_KILOMETRE, VOLTAMPERE}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{AMPERE, HOUR, OHM, PERCENT, SIEMENS, VOLT}
+import tech.units.indriya.unit.Units.{AMPERE, HOUR, METRE, OHM, PERCENT, SIEMENS, VOLT}
 
 import javax.measure.MetricPrefix
+import javax.measure.quantity.Length
 
 class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
   "A rich quantity util" should {
@@ -174,6 +163,24 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
         Quantities.getQuantity(
           value,
           KILOWATT
+        )
+      )
+    }
+
+    "convert a double to kilometre" in {
+      value.toKilometre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          KILOMETRE
+        )
+      )
+    }
+
+    "convert a double to metre" in {
+      value.toMetre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          METRE
         )
       )
     }
