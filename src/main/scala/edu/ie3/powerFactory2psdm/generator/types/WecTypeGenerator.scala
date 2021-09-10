@@ -12,6 +12,7 @@ import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInp
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.util.RandomSampler
 import edu.ie3.util.quantities.PowerSystemUnits
 import edu.ie3.util.quantities.interfaces.{Currency, EnergyPrice}
@@ -41,16 +42,9 @@ object WecTypeGenerator {
       params: WecModelGeneration
   ): WecTypeInput = {
 
-    val capex: ComparableQuantity[Currency] = Quantities.getQuantity(
-      RandomSampler.sample(params.capex),
-      PowerSystemUnits.EURO
-    )
-    val opex: ComparableQuantity[EnergyPrice] = Quantities.getQuantity(
-      RandomSampler.sample(params.opex),
-      PowerSystemUnits.EURO_PER_MEGAWATTHOUR
-    )
-    val sRated: ComparableQuantity[Power] =
-      Quantities.getQuantity(statGen.sRated, PowerSystemUnits.MEGAVOLTAMPERE)
+    val capex = RandomSampler.sample(params.capex).toEuro
+    val opex = RandomSampler.sample(params.opex).toEuroPerMegaWattHour
+    val sRated = statGen.sRated.toMegaVoltAmpere
     val cosPhiRated: Double = statGen.indCapFlag match {
       case 0 => statGen.cosPhi
       case 1 => -statGen.cosPhi
@@ -59,18 +53,13 @@ object WecTypeGenerator {
           s"The inductive capacitive specifier of the static generator: ${statGen.id} should be either 0 or 1"
         )
     }
-    val cpCharacteristic: WecCharacteristicInput = new WecCharacteristicInput(
+    val cpCharacteristic = new WecCharacteristicInput(
       params.cpCharacteristic
     )
-    val etaConv: ComparableQuantity[Dimensionless] =
-      Quantities.getQuantity(RandomSampler.sample(params.etaConv), PERCENT)
-    val rotorArea: ComparableQuantity[Area] = Quantities.getQuantity(
-      RandomSampler.sample(params.rotorArea),
-      SQUARE_METRE
-    )
-    val hubHeight: ComparableQuantity[Length] =
-      Quantities.getQuantity(RandomSampler.sample(params.hubHeight), METRE)
-    val id: String = s"WEC_Type_${sRated}MVA_${rotorArea}m2_${hubHeight}m"
+    val etaConv = RandomSampler.sample(params.etaConv).toPercent
+    val rotorArea = RandomSampler.sample(params.rotorArea).toSquareMetre
+    val hubHeight = RandomSampler.sample(params.hubHeight).toMetre
+    val id = s"WEC_Type_${sRated}MVA_${rotorArea}m2_${hubHeight}m"
 
     new WecTypeInput(
       UUID.randomUUID(),

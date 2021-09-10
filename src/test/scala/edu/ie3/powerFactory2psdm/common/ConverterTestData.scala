@@ -7,30 +7,22 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.StandardUnits.{
-  AZIMUTH,
-  EFFICIENCY,
-  SOLAR_HEIGHT
-}
 import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
 }
-import edu.ie3.datamodel.models.input.system.FixedFeedInInput
-import edu.ie3.datamodel.models.input.system.{PvInput, WecInput}
+import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.characteristic.{
-  CosPhiFixed,
   ReactivePowerCharacteristic,
   WecCharacteristicInput
 }
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
-import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
+import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
@@ -52,34 +44,17 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   StaticGenerator,
   Subnet
 }
-import edu.ie3.util.quantities.PowerSystemUnits._
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  TransformerType2W
-}
-import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   TransformerType2W
 }
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.util.quantities.PowerSystemUnits
-import edu.ie3.util.quantities.PowerSystemUnits.{MEGAVOLTAMPERE, PU}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  VOLTAMPERE
-}
 import pureconfig.generic.auto._
-import tech.units.indriya.quantity.Quantities
-
 import java.io.File
 import java.util.UUID
-import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
@@ -401,14 +376,14 @@ object ConverterTestData extends LazyLogging {
     "someWecType" -> new WecTypeInput(
       UUID.randomUUID(),
       "someWecType",
-      Quantities.getQuantity(100, StandardUnits.CAPEX),
-      Quantities.getQuantity(50, StandardUnits.ENERGY_PRICE),
-      Quantities.getQuantity(11, PowerSystemUnits.MEGAVOLTAMPERE),
+      100.toEuro,
+      50.toEuroPerMegaWattHour,
+      11.toMegaVoltAmpere,
       0.91,
       new WecCharacteristicInput("cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}"),
-      Quantities.getQuantity(96, StandardUnits.EFFICIENCY),
-      Quantities.getQuantity(45, StandardUnits.ROTOR_AREA),
-      Quantities.getQuantity(200, StandardUnits.HUB_HEIGHT)
+      96.toPercent,
+      45.toSquareMetre,
+      200.toMetre
     )
   )
 
