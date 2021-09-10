@@ -15,7 +15,6 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
-import edu.ie3.datamodel.models.{OperationTime, StandardUnits, UniqueEntity}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
@@ -27,7 +26,6 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
   UniformDistribution
 }
 import edu.ie3.powerFactory2psdm.converter.CoordinateConverter
-import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.io.PfGridParser
@@ -47,18 +45,8 @@ import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOMETRE,
-  KILOVOLT,
-  PU,
-  VOLTAMPERE
-}
-import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
-import pureconfig.ConfigSource
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
 import pureconfig.generic.auto._
+
 import java.io.File
 import java.util.UUID
 
@@ -362,7 +350,7 @@ object ConverterTestData extends LazyLogging {
           getNodePair("someSlackNode").result,
           1,
           getLineTypePair("someLineType").result,
-          Quantities.getQuantity(1.5, KILOMETRE),
+          1.5.toKilometre,
           CoordinateConverter.buildLineString(
             List((11.1123, 52.1425), (11.1153, 52.1445))
           ),

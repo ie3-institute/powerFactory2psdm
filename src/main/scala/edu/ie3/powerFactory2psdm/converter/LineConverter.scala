@@ -16,6 +16,7 @@ import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.model.entity.Line
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
@@ -60,12 +61,7 @@ object LineConverter {
       nodeB: NodeInput
   ): LineInput = {
     val id = input.id
-    val length = Quantities
-      .getQuantity(
-        input.length * lengthPrefix.value,
-        METRE
-      )
-      .to(StandardUnits.LINE_LENGTH)
+    val length = (input.length * lengthPrefix.value).toMetre
     val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
       case None => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)

@@ -7,13 +7,38 @@
 package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.util.quantities.PowerSystemUnits._
-import edu.ie3.util.quantities.interfaces.{Currency, DimensionlessRate, EnergyPrice, SpecificConductance, SpecificResistance}
+import edu.ie3.util.quantities.interfaces.{
+  Currency,
+  DimensionlessRate,
+  EnergyPrice,
+  SpecificConductance,
+  SpecificResistance
+}
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{AMPERE, HOUR, METRE, OHM, PERCENT, SIEMENS, VOLT}
+import tech.units.indriya.unit.Units.{
+  AMPERE,
+  HOUR,
+  METRE,
+  OHM,
+  PERCENT,
+  SIEMENS,
+  VOLT
+}
 
 import javax.measure.MetricPrefix
-import javax.measure.quantity.{Angle, Dimensionless, ElectricConductance, ElectricCurrent, ElectricPotential, ElectricResistance, Energy, Length, Power, Time}
+import javax.measure.quantity.{
+  Angle,
+  Dimensionless,
+  ElectricConductance,
+  ElectricCurrent,
+  ElectricPotential,
+  ElectricResistance,
+  Energy,
+  Length,
+  Power,
+  Time
+}
 
 @deprecated("This class will be moved to the PowerSystemUtils")
 object QuantityUtils {
