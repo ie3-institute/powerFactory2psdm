@@ -58,19 +58,21 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     Creates a list with an attribute dictionary for each raw PowerFactory element
     """
     elements = []
-    pf_edges = ["ElmLne", "ElmCoup"]
+    single_node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
+    double_node_connection = ["ElmLne", "ElmCoup", "ElmTr2"]
     has_type = ["ElmLne"]
     for raw_element in raw_elements:
+        element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
 
-        # export connected elements of nodes and transformers
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        # export connected elements of nodes
+        if element_class == "ElmTerm":
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
         # export ids of nodes the edges are connected to
-        if (raw_element.GetClassName() in pf_edges):
+        if element_class in double_node_connection:
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
@@ -80,7 +82,13 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
             except Exception:
                 element["bus2Id"] = None
 
-        if raw_element.GetClassName() in has_type:
+        if element_class in single_node_connection:
+            try:
+                element["busId"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
+            except Exception:
+                element["busId"] = None
+
+        if element_class in has_type:
             element["typId"] = name_without_preamble(raw_element.typ_id.GetFullName())
 
         elements.append(element)
