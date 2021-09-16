@@ -7,15 +7,31 @@
 package edu.ie3.powerFactory2psdm.config.validate.conversion
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{DependentQCharacteristic, FixedQCharacteristic}
-import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{PvFixedFeedIn, PvModelGeneration}
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
+  DependentQCharacteristic,
+  FixedQCharacteristic
+}
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
+  PvFixedFeedIn,
+  PvModelGeneration
+}
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
-import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{lowerBoundViolation, lowerUpperBoundViolation, upperBoundViolation}
+import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator.{
+  lowerBoundViolation,
+  lowerUpperBoundViolation,
+  upperBoundViolation
+}
 import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.WecConversionModeValidator.validateModelGenerationParams
-import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.{PvConversionModeValidator, WecConversionModeValidator}
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators.{
+  PvConversionModeValidator,
+  WecConversionModeValidator
+}
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
-import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{Fixed, UniformDistribution}
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
+  Fixed,
+  UniformDistribution
+}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
