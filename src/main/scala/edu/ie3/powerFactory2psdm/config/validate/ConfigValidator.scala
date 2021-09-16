@@ -50,8 +50,8 @@ object ConfigValidator extends LazyLogging {
     Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
       .flatMap(getConversionModes)
       .foreach {
-        case x: PvModelConversionMode  => PvConversionModeValidator(x)
-        case x: WecModelConversionMode => WecConversionModeValidator(x)
+        case x: PvModelConversionMode  => PvConversionModeValidator.validate(x)
+        case x: WecModelConversionMode => WecConversionModeValidator.validate(x)
         case conversionMode =>
           logger.warn(
             s"The conversion mode $conversionMode is currently not validated."

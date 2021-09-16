@@ -30,7 +30,7 @@ object ConversionModeValidators {
   object PvConversionModeValidator
       extends ConversionModeValidator[PvModelConversionMode] {
 
-    def apply(conversionMode: PvModelConversionMode): Unit = {
+    def validate(conversionMode: PvModelConversionMode): Unit = {
       conversionMode match {
         case x: PvFixedFeedIn     => validateQCharacteristic(x.qCharacteristic)
         case x: PvModelGeneration => validateModelGenerationParams(x)
@@ -94,7 +94,7 @@ object ConversionModeValidators {
   object WecConversionModeValidator
       extends ConversionModeValidator[WecModelConversionMode] {
 
-    def apply(conversionMode: WecModelConversionMode): Unit =
+    def validate(conversionMode: WecModelConversionMode): Unit =
       conversionMode match {
         case x: WecFixedFeedIn     => validateQCharacteristic(x.qCharacteristic)
         case x: WecModelGeneration => validateModelGenerationParams(x)

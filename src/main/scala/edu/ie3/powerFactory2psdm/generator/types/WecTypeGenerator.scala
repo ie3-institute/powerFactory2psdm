@@ -10,6 +10,7 @@ import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.`type`.WecTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.WecCharacteristicInput
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
@@ -45,14 +46,7 @@ object WecTypeGenerator {
     val capex = RandomSampler.sample(params.capex).toEuro
     val opex = RandomSampler.sample(params.opex).toEuroPerMegaWattHour
     val sRated = statGen.sRated.toMegaVoltAmpere
-    val cosPhiRated: Double = statGen.indCapFlag match {
-      case 0 => statGen.cosPhi
-      case 1 => -statGen.cosPhi
-      case _ =>
-        throw ElementConfigurationException(
-          s"The inductive capacitive specifier of the static generator: ${statGen.id} should be either 0 or 1"
-        )
-    }
+    val cosPhiRated = ConversionHelper.determineCosPhiRated(statGen)
     val cpCharacteristic = new WecCharacteristicInput(
       params.cpCharacteristic
     )

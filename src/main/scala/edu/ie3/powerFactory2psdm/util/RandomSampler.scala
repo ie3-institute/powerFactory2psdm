@@ -7,24 +7,25 @@
 package edu.ie3.powerFactory2psdm.util
 
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
-import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
-  Fixed,
-  NormalDistribution,
-  UniformDistribution
-}
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod._
 import org.apache.commons.math3.distribution.{
-  NormalDistribution => MathNormalDistribution
+  NormalDistribution => GaussianDistribution
 }
 
+import scala.util.Random
+
 object RandomSampler {
+
+  private val seed = 42
 
   def sample(generationMethod: ParameterSamplingMethod): Double =
     generationMethod match {
       case Fixed(value) => value
       case UniformDistribution(lowerBound, upperBound) =>
-        scala.util.Random.between(lowerBound, upperBound)
+        new Random(seed).between(lowerBound, upperBound)
       case NormalDistribution(mean, standardDeviation) =>
-        new MathNormalDistribution(mean, standardDeviation).sample()
+        val distribution = new GaussianDistribution(mean, standardDeviation)
+        distribution.reseedRandomGenerator(seed)
+        distribution.sample()
     }
-
 }

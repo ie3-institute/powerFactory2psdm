@@ -24,7 +24,7 @@ object ConversionConfig {
     * @param pvConfig
     *   config for the pv models
     * @param sRatedSource
-    *   which apparent powegit logr source to choose from the PowerFactory model
+    *   which apparent power source to choose from the PowerFactory model
     * @param cosPhiSource
     *   which cosinus phi source to choose from the PowerFactory model
     */
