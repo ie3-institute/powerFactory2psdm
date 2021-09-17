@@ -17,12 +17,13 @@ import scala.util.Random
 object RandomSampler {
 
   private val seed = 42
+  private val random = new Random(seed)
 
   def sample(generationMethod: ParameterSamplingMethod): Double =
     generationMethod match {
       case Fixed(value) => value
       case UniformDistribution(lowerBound, upperBound) =>
-        new Random(seed).between(lowerBound, upperBound)
+        random.between(lowerBound, upperBound)
       case NormalDistribution(mean, standardDeviation) =>
         val distribution = new GaussianDistribution(mean, standardDeviation)
         distribution.reseedRandomGenerator(seed)
