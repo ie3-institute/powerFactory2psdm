@@ -6,14 +6,13 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   BasicDataSource,
   LoadFlowSource,
   ParameterSource
 }
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
-import edu.ie3.powerFactory2psdm.model.entity.EntityModel
 
 /** A static generator
   *

@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.FixedFeedInInput
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.QCharacteristic
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.QCharacteristic
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   convertQCharacteristic,
   determineCosPhiRated

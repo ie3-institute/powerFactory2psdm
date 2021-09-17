@@ -24,7 +24,16 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{AMPERE, HOUR, OHM, PERCENT, SIEMENS, VOLT}
+import tech.units.indriya.unit.Units.{
+  AMPERE,
+  HOUR,
+  METRE,
+  OHM,
+  PERCENT,
+  SIEMENS,
+  SQUARE_METRE,
+  VOLT
+}
 
 import javax.measure.MetricPrefix
 
@@ -174,6 +183,24 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
         Quantities.getQuantity(
           value,
           KILOWATT
+        )
+      )
+    }
+
+    "convert a double to metre" in {
+      value.toMetre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          METRE
+        )
+      )
+    }
+
+    "convert a double to square metre" in {
+      value.toSquareMetre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          SQUARE_METRE
         )
       )
     }
