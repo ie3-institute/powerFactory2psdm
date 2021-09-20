@@ -189,15 +189,6 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
       )
     }
 
-    "convert a double to metre" in {
-      value.toMetre should equalWithTolerance(
-        Quantities.getQuantity(
-          value,
-          METRE
-        )
-      )
-    }
-
     "convert a double to square metre" in {
       value.toSquareMetre should equalWithTolerance(
         Quantities.getQuantity(

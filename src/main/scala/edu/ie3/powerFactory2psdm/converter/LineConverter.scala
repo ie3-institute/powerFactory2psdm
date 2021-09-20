@@ -61,7 +61,9 @@ object LineConverter {
       nodeB: NodeInput
   ): LineInput = {
     val id = input.id
-    val length = (input.length * lengthPrefix.value).toMetre
+    // fixme: StandardUnits conversion is handled in the PSDM as intended when 2.0.2 is released
+    val length =
+      (input.length * lengthPrefix.value).toMetre.to(StandardUnits.LINE_LENGTH)
     val geopos = input.gpsCoords match {
       case Some(gpsCoords) => CoordinateConverter.buildLineString(gpsCoords)
       case None => GridAndGeoUtils.buildSafeLineStringBetweenNodes(nodeA, nodeB)
