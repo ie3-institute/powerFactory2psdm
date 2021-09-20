@@ -9,7 +9,7 @@ package edu.ie3.powerFactory2psdm.generator
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.PvModelGeneration
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   convertQCharacteristic,
   determineCosPhiRated
@@ -29,7 +29,7 @@ object PvInputGenerator {
 
   /** Generates a [[PvInput]] model from a [[StaticGenerator]]. As a static
     * generator does not hold all parameters necessary, the other parameters are
-    * generated via the defined generation methods for every parameter.
+    * generated via the defined parameter sampling methods for every parameter.
     *
     * @param input
     *   base model for generating a [[PvInput]]

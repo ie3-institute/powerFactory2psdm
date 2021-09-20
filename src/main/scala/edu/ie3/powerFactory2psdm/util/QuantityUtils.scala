@@ -16,6 +16,7 @@ import edu.ie3.util.quantities.interfaces.{
 }
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
+import tech.units.indriya.unit.Units
 import tech.units.indriya.unit.Units.{
   AMPERE,
   HOUR,
@@ -23,12 +24,14 @@ import tech.units.indriya.unit.Units.{
   OHM,
   PERCENT,
   SIEMENS,
+  SQUARE_METRE,
   VOLT
 }
 
 import javax.measure.MetricPrefix
 import javax.measure.quantity.{
   Angle,
+  Area,
   Dimensionless,
   ElectricConductance,
   ElectricCurrent,
@@ -153,5 +156,13 @@ object QuantityUtils {
         value,
         KILOMETRE
       )
+  }
+
+    def toSquareMetre: ComparableQuantity[Area] =
+      Quantities.getQuantity(
+        value,
+        SQUARE_METRE
+      )
+
   }
 }

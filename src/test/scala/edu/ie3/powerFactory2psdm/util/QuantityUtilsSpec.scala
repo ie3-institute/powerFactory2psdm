@@ -32,6 +32,7 @@ import tech.units.indriya.unit.Units.{
   OHM,
   PERCENT,
   SIEMENS,
+  SQUARE_METRE,
   VOLT
 }
 
@@ -184,6 +185,24 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
         Quantities.getQuantity(
           value,
           KILOWATT
+        )
+      )
+    }
+
+    "convert a double to metre" in {
+      value.toMetre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          METRE
+        )
+      )
+    }
+
+    "convert a double to square metre" in {
+      value.toSquareMetre should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          SQUARE_METRE
         )
       )
     }
