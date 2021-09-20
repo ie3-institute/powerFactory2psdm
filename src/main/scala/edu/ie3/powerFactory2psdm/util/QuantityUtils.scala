@@ -16,7 +16,6 @@ import edu.ie3.util.quantities.interfaces.{
 }
 import tech.units.indriya.ComparableQuantity
 import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units
 import tech.units.indriya.unit.Units.{
   AMPERE,
   HOUR,
@@ -156,7 +155,6 @@ object QuantityUtils {
         value,
         KILOMETRE
       )
-  }
 
     def toSquareMetre: ComparableQuantity[Area] =
       Quantities.getQuantity(

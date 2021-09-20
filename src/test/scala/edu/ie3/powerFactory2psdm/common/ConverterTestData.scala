@@ -7,8 +7,6 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.`type`.Transformer2WTypeInput
-import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
@@ -17,6 +15,7 @@ import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.characteristic.{
   ReactivePowerCharacteristic,
   WecCharacteristicInput
+}
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
@@ -28,7 +27,6 @@ import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInp
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
-import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
@@ -56,6 +54,7 @@ import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   TransformerType2W
 }
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
@@ -65,7 +64,7 @@ import java.util.UUID
 
 object ConverterTestData extends LazyLogging {
 
-  val config: ConversionConfig =
+  val config =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   /** Case class to denote a consistent pair of input and expected output of a
