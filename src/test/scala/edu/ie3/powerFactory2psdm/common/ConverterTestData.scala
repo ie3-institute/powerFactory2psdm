@@ -454,7 +454,7 @@ object ConverterTestData extends LazyLogging {
       ),
       new Transformer2WTypeInput(
         UUID.randomUUID(),
-        "SomeTrafo2wType",
+        "someTrafo2WType",
         45.375.toMilliOhm,
         15.1249319.toOhm,
         40d.toMegaVoltAmpere,
