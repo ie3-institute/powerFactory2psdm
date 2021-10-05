@@ -15,10 +15,9 @@ import edu.ie3.powerFactory2psdm.model.entity.types.Transformer2WType
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
-
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
-import javax.measure.MetricPrefix
 
 object Transformer2WTypeConverters {
 
@@ -67,15 +66,15 @@ object Transformer2WTypeConverters {
     new Transformer2WTypeInput(
       UUID.randomUUID(),
       input.id,
-      Quantities.getQuantity(rSc, OHM),
-      Quantities.getQuantity(xSc, OHM),
-      Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
-      Quantities.getQuantity(vRatedA, VOLT),
-      Quantities.getQuantity(vRatedB, VOLT),
-      Quantities.getQuantity(gNoLoad, SIEMENS),
-      Quantities.getQuantity(bNoLoad, SIEMENS),
-      Quantities.getQuantity(input.dV, PERCENT),
-      Quantities.getQuantity(input.dPhi, DEGREE_GEOM),
+      rSc.toOhm,
+      xSc.toOhm,
+      sRated.toMegaVoltAmpere,
+      vRatedA.toVolt,
+      vRatedB.toVolt,
+      gNoLoad.toSiemens,
+      bNoLoad.toSiemens,
+      input.dV.toPercent,
+      input.dPhi.toDegreeGeom,
       tapSide,
       input.tapNeutr.toInt,
       input.tapMin.toInt,

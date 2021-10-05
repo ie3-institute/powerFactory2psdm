@@ -8,21 +8,21 @@ package edu.ie3.powerFactory2psdm.model
 
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  LineTypes,
+  PowerPlants,
+  Trafos3w,
   Lines,
-  Loads,
+  Pvs,
+  Switches,
+  TrafoTypes3w,
   LoadsLV,
   LoadsMV,
   Nodes,
-  PowerPlants,
-  ProjectSettings,
-  Pvs,
-  StatGen,
-  Switches,
-  TrafoTypes2w,
-  TrafoTypes3w,
   Trafos2w,
-  Trafos3w
+  StatGen,
+  Loads,
+  ProjectSettings,
+  LineTypes,
+  TrafoTypes2w
 }
 
 final case class RawPfGridModel(
@@ -56,7 +56,7 @@ object RawPfGridModel {
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(id: Option[String])
+  final case class Loads(id: Option[String], busId: Option[String])
 
   final case class LineTypes(
       bline: Option[Double],
@@ -68,7 +68,16 @@ object RawPfGridModel {
       rline: Option[Double]
   )
 
-  final case class StatGen(id: Option[String])
+  final case class StatGen(
+      sgn: Option[Double],
+      cCategory: Option[String],
+      pf_recap: Option[Double],
+      busId: Option[String],
+      id: Option[String],
+      sgini: Option[Double],
+      cosn: Option[Double],
+      cosgini: Option[Double]
+  )
 
   final case class Lines(
       id: Option[String],
@@ -77,11 +86,11 @@ object RawPfGridModel {
       typeId: Option[String]
   )
 
-  final case class PowerPlants(id: Option[String])
+  final case class PowerPlants(id: Option[String], busId: Option[String])
 
   final case class Trafos3w()
 
-  final case class ExtGrid(id: Option[String])
+  final case class ExtGrid(id: Option[String], busId: Option[String])
 
   final case class TrafoTypes2w(
       nntap0: Option[Double],
@@ -106,7 +115,7 @@ object RawPfGridModel {
       prefixLength: Option[String]
   )
 
-  final case class LoadsLV(id: Option[String])
+  final case class LoadsLV(id: Option[String], busId: Option[String])
 
   final case class Nodes(
       vtarget: Option[Double],
@@ -129,6 +138,6 @@ object RawPfGridModel {
 
   final case class TrafoTypes3w()
 
-  final case class LoadsMV(id: Option[String])
+  final case class LoadsMV(id: Option[String], busId: Option[String])
 
 }
