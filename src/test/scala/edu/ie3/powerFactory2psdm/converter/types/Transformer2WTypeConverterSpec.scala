@@ -24,7 +24,7 @@ class Transformer2WTypeConverterSpec
     implicit val quantityTolerance: Double = 1e-6
 
     "convert a transformer type correctly" in {
-      val actual = Transformer2WTypeConverters.convert(input)
+      val actual = Transformer2WTypeConverter.convert(input)
 
       actual.getId shouldBe expected.getId
 
@@ -46,7 +46,7 @@ class Transformer2WTypeConverterSpec
     "throw an exception, when the input model does not allow to calculate short circuit parameters correctly" in {
       val invalidInput = input.copy(pCu = 3000)
       val thrown = intercept[ConversionException](
-        Transformer2WTypeConverters.convert(invalidInput)
+        Transformer2WTypeConverter.convert(invalidInput)
       )
       thrown.getMessage shouldBe s"Short circuit experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty " +
         s"parameters. The short circuit resistance can't exceed the short circuit impedance."
@@ -55,7 +55,7 @@ class Transformer2WTypeConverterSpec
     "throw an exception, when the input model does not allow to calculate no load circuit parameters correctly" in {
       val invalidInput = input.copy(pFe = 1000)
       val thrown = intercept[ConversionException](
-        Transformer2WTypeConverters.convert(invalidInput)
+        Transformer2WTypeConverter.convert(invalidInput)
       )
       thrown.getMessage shouldBe s"No load experiment calculations of 2w transformer type: ${input.id} is not possible due to faulty parameters." +
         s"The no load conductance can't exceed the no load admittance."

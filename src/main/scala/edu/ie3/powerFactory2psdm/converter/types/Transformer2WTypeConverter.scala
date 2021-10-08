@@ -19,7 +19,7 @@ import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
 
-object Transformer2WTypeConverters {
+object Transformer2WTypeConverter {
 
   def convert(input: Transformer2WType): Transformer2WTypeInput = {
 
