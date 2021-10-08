@@ -45,41 +45,41 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     val value = 10.123154122
 
     "convert a double to a percent quantity" in {
-      value.toPercent should equalWithTolerance(
+      value.asPercent should equalWithTolerance(
         Quantities.getQuantity(value, PERCENT)
       )
     }
 
     "convert a double to a pu value" in {
-      value.toPu should equalWithTolerance(Quantities.getQuantity(value, PU))
+      value.asPu should equalWithTolerance(Quantities.getQuantity(value, PU))
     }
 
     "convert a double to degree geom" in {
-      value.toDegreeGeom should equalWithTolerance(
+      value.asDegreeGeom should equalWithTolerance(
         Quantities.getQuantity(value, DEGREE_GEOM)
       )
     }
 
     "convert a double to siemens" in {
-      value.toSiemens should equalWithTolerance(
+      value.asSiemens should equalWithTolerance(
         Quantities.getQuantity(value, SIEMENS)
       )
     }
 
     "convert a double to nano siemens" in {
-      value.toNanoSiemens should equalWithTolerance(
+      value.asNanoSiemens should equalWithTolerance(
         Quantities.getQuantity(value, MetricPrefix.NANO(SIEMENS))
       )
     }
 
     "convert a double to micro siemens per kilometre" in {
-      value.toMicroSiemensPerKilometre should equalWithTolerance(
+      value.asMicroSiemensPerKilometre should equalWithTolerance(
         Quantities.getQuantity(value, MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE))
       )
     }
 
     "convert a double to ohm" in {
-      value.toOhm should equalWithTolerance(
+      value.asOhm should equalWithTolerance(
         Quantities.getQuantity(
           value,
           OHM
@@ -88,13 +88,13 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to milli ohm" in {
-      value.toMilliOhm should equalWithTolerance(
+      value.asMilliOhm should equalWithTolerance(
         Quantities.getQuantity(value, MetricPrefix.MILLI(OHM))
       )
     }
 
     "convert a double to ohm per kilometre" in {
-      value.toOhmPerKilometre should equalWithTolerance(
+      value.asOhmPerKilometre should equalWithTolerance(
         Quantities.getQuantity(
           value,
           OHM_PER_KILOMETRE
@@ -103,7 +103,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to mega volt ampere" in {
-      value.toMegaVoltAmpere should equalWithTolerance(
+      value.asMegaVoltAmpere should equalWithTolerance(
         Quantities.getQuantity(
           value,
           MetricPrefix.MEGA(VOLTAMPERE)
@@ -112,7 +112,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to kilo ampere" in {
-      value.toKiloAmpere should equalWithTolerance(
+      value.asKiloAmpere should equalWithTolerance(
         Quantities.getQuantity(
           value,
           MetricPrefix.KILO(AMPERE)
@@ -121,13 +121,13 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to volt" in {
-      value.toVolt should equalWithTolerance(
+      value.asVolt should equalWithTolerance(
         Quantities.getQuantity(value, VOLT)
       )
     }
 
     "convert a double to kilo volt" in {
-      value.toKiloVolt should equalWithTolerance(
+      value.asKiloVolt should equalWithTolerance(
         Quantities.getQuantity(
           value,
           KILOVOLT
@@ -136,7 +136,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to euro" in {
-      value.toEuro should equalWithTolerance(
+      value.asEuro should equalWithTolerance(
         Quantities.getQuantity(
           value,
           EURO
@@ -145,7 +145,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to euro per megawatt hour" in {
-      value.toEuroPerMegaWattHour should equalWithTolerance(
+      value.asEuroPerMegaWattHour should equalWithTolerance(
         Quantities.getQuantity(
           value,
           EURO_PER_MEGAWATTHOUR
@@ -154,7 +154,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to euro per kilowatt hour" in {
-      value.toKiloWattHour should equalWithTolerance(
+      value.asKiloWattHour should equalWithTolerance(
         Quantities.getQuantity(
           value,
           KILOWATTHOUR
@@ -163,7 +163,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to percent per hour" in {
-      value.toPercentPerHour should equalWithTolerance(
+      value.asPercentPerHour should equalWithTolerance(
         Quantities.getQuantity(
           value,
           PERCENT_PER_HOUR
@@ -172,7 +172,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to hour" in {
-      value.toHour should equalWithTolerance(
+      value.asHour should equalWithTolerance(
         Quantities.getQuantity(
           value,
           HOUR
@@ -181,7 +181,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to kilowatt" in {
-      value.toKiloWatt should equalWithTolerance(
+      value.asKiloWatt should equalWithTolerance(
         Quantities.getQuantity(
           value,
           KILOWATT
@@ -190,7 +190,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to square metre" in {
-      value.toSquareMetre should equalWithTolerance(
+      value.asSquareMetre should equalWithTolerance(
         Quantities.getQuantity(
           value,
           SQUARE_METRE
@@ -199,7 +199,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to kilometre" in {
-      value.toKilometre should equalWithTolerance(
+      value.asKilometre should equalWithTolerance(
         Quantities.getQuantity(
           value,
           KILOMETRE
@@ -208,7 +208,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
     }
 
     "convert a double to metre" in {
-      value.toMetre should equalWithTolerance(
+      value.asMetre should equalWithTolerance(
         Quantities.getQuantity(
           value,
           METRE

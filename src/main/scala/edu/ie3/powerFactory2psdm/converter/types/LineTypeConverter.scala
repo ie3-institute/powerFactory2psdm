@@ -20,12 +20,12 @@ object LineTypeConverter {
     new LineTypeInput(
       UUID.randomUUID(),
       input.id,
-      input.b.toMicroSiemensPerKilometre,
-      input.g.toMicroSiemensPerKilometre,
-      input.r.toOhmPerKilometre,
-      input.x.toOhmPerKilometre,
-      input.iMax.toKiloAmpere,
-      input.vRated.toKiloVolt
+      input.b.asMicroSiemensPerKilometre,
+      input.g.asMicroSiemensPerKilometre,
+      input.r.asOhmPerKilometre,
+      input.x.asOhmPerKilometre,
+      input.iMax.asKiloAmpere,
+      input.vRated.asKiloVolt
     )
   }
 

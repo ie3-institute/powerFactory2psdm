@@ -197,7 +197,7 @@ object ConverterTestData extends LazyLogging {
         "someNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        1d.toPu,
+        1d.asPu,
         false,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -223,7 +223,7 @@ object ConverterTestData extends LazyLogging {
         "someSlackNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        1d.toPu,
+        1d.asPu,
         true,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -269,12 +269,12 @@ object ConverterTestData extends LazyLogging {
         new LineTypeInput(
           UUID.randomUUID(),
           "someLineType",
-          151.51515197753906.toMicroSiemensPerKilometre,
-          1.543.toMicroSiemensPerKilometre,
-          6.753542423248291.toOhmPerKilometre,
-          20.61956214904785.toOhmPerKilometre,
-          1.toKiloAmpere,
-          132.0.toKiloVolt
+          151.51515197753906.asMicroSiemensPerKilometre,
+          1.543.asMicroSiemensPerKilometre,
+          6.753542423248291.asOhmPerKilometre,
+          20.61956214904785.asOhmPerKilometre,
+          1.asKiloAmpere,
+          132.0.asKiloVolt
         )
       )
   )
@@ -319,13 +319,13 @@ object ConverterTestData extends LazyLogging {
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
         0.2,
-        0.toDegreeGeom,
-        95.toPercent,
-        35.toDegreeGeom,
+        0.asDegreeGeom,
+        95.asPercent,
+        35.asDegreeGeom,
         1d,
         0.9,
         false,
-        11.toMegaVoltAmpere,
+        11.asMegaVoltAmpere,
         0.91
       )
     )
@@ -350,7 +350,7 @@ object ConverterTestData extends LazyLogging {
         "someStatGen",
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
-        11.toMegaVoltAmpere,
+        11.asMegaVoltAmpere,
         0.91
       )
     )
@@ -382,14 +382,14 @@ object ConverterTestData extends LazyLogging {
     "someWecType" -> new WecTypeInput(
       UUID.randomUUID(),
       "someWecType",
-      100.toEuro,
-      50.toEuroPerMegaWattHour,
-      11.toMegaVoltAmpere,
+      100.asEuro,
+      50.asEuroPerMegaWattHour,
+      11.asMegaVoltAmpere,
       0.91,
       new WecCharacteristicInput("cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}"),
-      96.toPercent,
-      45.toSquareMetre,
-      200.toMetre
+      96.asPercent,
+      45.asSquareMetre,
+      200.asMetre
     )
   )
 
@@ -447,7 +447,7 @@ object ConverterTestData extends LazyLogging {
           getNodePair("someSlackNode").result,
           1,
           getLineTypePair("someLineType").result,
-          1.5.toKilometre,
+          1.5.asKilometre,
           CoordinateConverter.buildLineString(
             List((11.1123, 52.1425), (11.1153, 52.1445))
           ),
@@ -485,15 +485,15 @@ object ConverterTestData extends LazyLogging {
       new Transformer2WTypeInput(
         UUID.randomUUID(),
         "SomeTrafo2wType",
-        45.375.toMilliOhm,
-        15.1249319.toOhm,
-        40d.toMegaVoltAmpere,
-        110d.toKiloVolt,
-        10d.toKiloVolt,
-        826.4462809.toNanoSiemens,
-        33047.519046.toNanoSiemens,
-        2.5.toPercent,
-        5d.toDegreeGeom,
+        45.375.asMilliOhm,
+        15.1249319.asOhm,
+        40d.asMegaVoltAmpere,
+        110d.asKiloVolt,
+        10d.asKiloVolt,
+        826.4462809.asNanoSiemens,
+        33047.519046.asNanoSiemens,
+        2.5.asPercent,
+        5d.asDegreeGeom,
         false,
         0,
         -10,

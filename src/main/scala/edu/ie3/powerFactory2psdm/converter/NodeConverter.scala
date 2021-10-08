@@ -74,7 +74,7 @@ object NodeConverter {
       node.id,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
-      node.vTarget.toPu,
+      node.vTarget.asPu,
       slack,
       geoPosition,
       voltLvl,

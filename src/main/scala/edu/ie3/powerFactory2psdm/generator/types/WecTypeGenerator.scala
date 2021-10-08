@@ -43,16 +43,16 @@ object WecTypeGenerator {
       params: WecModelGeneration
   ): WecTypeInput = {
 
-    val capex = RandomSampler.sample(params.capex).toEuro
-    val opex = RandomSampler.sample(params.opex).toEuroPerMegaWattHour
-    val sRated = statGen.sRated.toMegaVoltAmpere
+    val capex = RandomSampler.sample(params.capex).asEuro
+    val opex = RandomSampler.sample(params.opex).asEuroPerMegaWattHour
+    val sRated = statGen.sRated.asMegaVoltAmpere
     val cosPhiRated = ConversionHelper.determineCosPhiRated(statGen)
     val cpCharacteristic = new WecCharacteristicInput(
       params.cpCharacteristic
     )
-    val etaConv = RandomSampler.sample(params.etaConv).toPercent
-    val rotorArea = RandomSampler.sample(params.rotorArea).toSquareMetre
-    val hubHeight = RandomSampler.sample(params.hubHeight).toMetre
+    val etaConv = RandomSampler.sample(params.etaConv).asPercent
+    val rotorArea = RandomSampler.sample(params.rotorArea).asSquareMetre
+    val hubHeight = RandomSampler.sample(params.hubHeight).asMetre
     val id = s"WEC_Type_${sRated}MVA_${rotorArea}m2_${hubHeight}m"
 
     new WecTypeInput(
