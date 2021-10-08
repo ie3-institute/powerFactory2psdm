@@ -26,7 +26,7 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Trafos2w
   * @param extTapControl
   *   optional identification for any external tap controller of the model
   */
-case class Transformer2W(
+final case class Transformer2W(
     override val id: String,
     nodeHvId: String,
     nodeLvId: String,
