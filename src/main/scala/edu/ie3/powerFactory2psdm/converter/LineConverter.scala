@@ -14,12 +14,14 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Line
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
+import scala.util.{Failure, Success}
 
 object LineConverter {
 
@@ -43,10 +45,17 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
+      val lineType = LineTypeConverter.getLineType(line.typId, lineTypes) match {
+        case Success(lineType) => lineType
+        case Failure(exception) =>
+          throw ConversionException(
+            s"Could not convert line: $line due to failed line type retrieval.", exception
+          )
+      }
       LineConverter.convert(
         line,
         lineLengthPrefix,
-        LineTypeConverter.getLineType(line.typId, lineTypes),
+        lineType,
         NodeConverter.getNode(line.nodeAId, nodes),
         NodeConverter.getNode(line.nodeBId, nodes)
       )
