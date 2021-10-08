@@ -32,9 +32,9 @@ object LineTypeConverter {
   }
 
   def getLineType(
-     id: String,
-     lineTypes: Map[String, LineTypeInput]
-   ): Try[LineTypeInput] = {
+      id: String,
+      lineTypes: Map[String, LineTypeInput]
+  ): Try[LineTypeInput] = {
     lineTypes
       .get(id)
       .map(Success(_))

@@ -45,13 +45,15 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
-      val lineType = LineTypeConverter.getLineType(line.typId, lineTypes) match {
-        case Success(lineType) => lineType
-        case Failure(exception) =>
-          throw ConversionException(
-            s"Could not convert line: $line due to failed line type retrieval.", exception
-          )
-      }
+      val lineType =
+        LineTypeConverter.getLineType(line.typId, lineTypes) match {
+          case Success(lineType) => lineType
+          case Failure(exception) =>
+            throw ConversionException(
+              s"Could not convert line: $line due to failed line type retrieval.",
+              exception
+            )
+        }
       LineConverter.convert(
         line,
         lineLengthPrefix,
