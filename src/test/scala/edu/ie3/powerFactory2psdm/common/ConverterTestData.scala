@@ -60,6 +60,7 @@ import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
 
 import java.io.File
 import java.util.UUID
@@ -232,6 +233,32 @@ object ConverterTestData extends LazyLogging {
         true,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
+        2
+      )
+    ),
+    "someMvNode" -> ConversionPair(
+      Node(
+        "someMvNode",
+        10.0,
+        1.0,
+        Some(11.1123),
+        Some(52.1425),
+        List(
+          ConnectedElement(
+            "someConnectedElement",
+            "ElmXnet"
+          )
+        )
+      ),
+      new NodeInput(
+        UUID.randomUUID(),
+        "someMvNode",
+        OperatorInput.NO_OPERATOR_ASSIGNED,
+        OperationTime.notLimited(),
+        1d.asPu,
+        true,
+        geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
+        MV_10KV,
         2
       )
     )
@@ -470,9 +497,9 @@ object ConverterTestData extends LazyLogging {
   }
 
   val transformerTypes = Map(
-    "SomeTrafo2wType" -> ConversionPair(
+    "someTrafo2WType" -> ConversionPair(
       Transformer2WType(
-        id = "SomeTrafo2wType",
+        id = "someTrafo2WType",
         sRated = 40d,
         vRatedA = 110d,
         vRatedB = 10d,
@@ -489,7 +516,7 @@ object ConverterTestData extends LazyLogging {
       ),
       new Transformer2WTypeInput(
         UUID.randomUUID(),
-        "SomeTrafo2wType",
+        "someTrafo2WType",
         45.375.asMilliOhm,
         15.1249319.asOhm,
         40d.asMegaVoltAmpere,
