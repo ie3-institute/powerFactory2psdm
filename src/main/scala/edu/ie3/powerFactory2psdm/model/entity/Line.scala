@@ -22,7 +22,7 @@ final case class Line(
     id: String,
     nodeAId: String,
     nodeBId: String,
-    typId: String,
+    typeId: String,
     length: Double,
     gpsCoords: Option[(List[(Double, Double)])]
 ) extends EntityModel
@@ -39,7 +39,7 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
-    val typId = rawLine.typId.getOrElse(
+    val typId = rawLine.typeId.getOrElse(
       throw MissingParameterException(
         s"Line: $id has no defined type - line conversion without defined type" +
           s" is not supported "

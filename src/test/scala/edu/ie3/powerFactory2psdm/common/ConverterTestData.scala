@@ -16,7 +16,7 @@ import edu.ie3.datamodel.models.input.system.characteristic.{
   ReactivePowerCharacteristic,
   WecCharacteristicInput
 }
-import edu.ie3.datamodel.models.input.connector.LineInput
+import edu.ie3.datamodel.models.input.connector.{LineInput, Transformer2WInput}
 import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
   Transformer2WTypeInput
@@ -47,18 +47,20 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   Line,
   Node,
   StaticGenerator,
-  Subnet
+  Subnet,
+  Transformer2W
 }
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
-  TransformerType2W
+  Transformer2WType
 }
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
+
 import java.io.File
 import java.util.UUID
 
@@ -109,7 +111,8 @@ object ConverterTestData extends LazyLogging {
       resultModel: M,
       resultType: T
   )
-  logger.warn("Building the grid model")
+
+  logger.info("Building the grid model")
 
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
@@ -123,6 +126,8 @@ object ConverterTestData extends LazyLogging {
         )
       )
   )
+
+  logger.info("Sucessfully built the grid model")
 
   val id2node: Map[String, Node] =
     testGrid.nodes.map(node => (node.id, node)).toMap
@@ -466,7 +471,7 @@ object ConverterTestData extends LazyLogging {
 
   val transformerTypes = Map(
     "SomeTrafo2wType" -> ConversionPair(
-      TransformerType2W(
+      Transformer2WType(
         id = "SomeTrafo2wType",
         sRated = 40d,
         vRatedA = 110d,
@@ -501,7 +506,7 @@ object ConverterTestData extends LazyLogging {
       )
     ),
     "10 -> 0.4" -> ConversionPair(
-      TransformerType2W(
+      Transformer2WType(
         id = "10 -> 0.4",
         sRated = 40d,
         vRatedA = 10d,
@@ -520,17 +525,15 @@ object ConverterTestData extends LazyLogging {
       new Transformer2WTypeInput(
         UUID.randomUUID(),
         "10 -> 0.4",
-        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
-        Quantities.getQuantity(15.1249319, OHM),
-        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
-        Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(0.4, KILOVOLT),
-        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
-        Quantities
-          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
-          .to(MetricPrefix.NANO(SIEMENS)),
-        Quantities.getQuantity(2.5, PERCENT),
-        Quantities.getQuantity(5d, DEGREE_GEOM),
+        45.375.asMilliOhm,
+        15.1249319.asOhm,
+        40d.asMegaVoltAmpere,
+        10d.asKiloVolt,
+        0.4.asKiloVolt,
+        2480.5790.asNanoSiemens,
+        32972.94113.asNanoSiemens,
+        2.5.asPercent,
+        5d.asDegreeGeom,
         false,
         0,
         -10,

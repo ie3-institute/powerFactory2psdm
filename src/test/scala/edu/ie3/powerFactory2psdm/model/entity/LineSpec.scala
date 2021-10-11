@@ -27,7 +27,7 @@ class LineSpec extends Matchers with AnyWordSpecLike {
         )
       ),
       dline = Some(1.5),
-      typId = Some("SomeLineType")
+      typeId = Some("SomeLineType")
     )
 
     "throw an exception if the id is missing" in {

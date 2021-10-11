@@ -46,7 +46,7 @@ object LineConverter {
   ): List[LineInput] = {
     lines.map(line => {
       val lineType =
-        LineTypeConverter.getLineType(line.typId, lineTypes) match {
+        LineTypeConverter.getLineType(line.typeId, lineTypes) match {
           case Success(lineType) => lineType
           case Failure(exception) =>
             throw ConversionException(
