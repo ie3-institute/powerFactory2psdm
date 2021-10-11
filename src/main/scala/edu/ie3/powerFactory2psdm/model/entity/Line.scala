@@ -27,7 +27,7 @@ final case class Line(
 
 object Line {
 
-  def build(rawLine: Lines): Line = {
+  def build(rawLine: Lines) = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")
     )
@@ -37,10 +37,6 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
-    Line(
-      id,
-      nodeAId,
-      nodeBId
-    )
+    Line(id, nodeAId, nodeBId)
   }
 }

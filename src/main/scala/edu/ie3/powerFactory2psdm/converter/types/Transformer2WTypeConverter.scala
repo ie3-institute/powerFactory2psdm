@@ -11,14 +11,17 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   ElementConfigurationException
 }
-import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
+import edu.ie3.powerFactory2psdm.model.entity.types.Transformer2WType
+import tech.units.indriya.quantity.Quantities
+import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
+import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
 
-object TransformerType2WConverter {
+object Transformer2WTypeConverter {
 
-  def convert(input: TransformerType2W): Transformer2WTypeInput = {
+  def convert(input: Transformer2WType): Transformer2WTypeInput = {
 
     val sRated = input.sRated * 1e6
     val vRatedA = input.vRatedA * 1e3
