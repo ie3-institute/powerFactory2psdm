@@ -41,7 +41,10 @@ attributes4export = {
         "sline",
         "uline",
     ],
-    'trafos2w': [],
+    'trafos2w': [
+        "nntap",
+        "ntrcn",
+    ],
     'switches':[],
     'trafoTypes2w': [
         "strn",

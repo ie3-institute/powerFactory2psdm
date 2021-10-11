@@ -71,26 +71,4 @@ object ConversionConfig {
       standardDeviation: Double
   ) extends GenerationMethod
 
-  /** Trait to group QCharacteristic (reactive power characteristic)
-    */
-  sealed trait QCharacteristic
-
-  /** Use the cosinus phi power factor of the model to establish a fixed
-    * QCharacteristic
-    */
-  final case object FixedQCharacteristic extends QCharacteristic
-
-  /** Dependent power characteristic dependent on either power or nodal voltage
-    * magnitude.
-    *
-    * @param characteristic
-    *   to follow
-    * @see
-    *   See
-    *   [[https://powersystemdatamodel.readthedocs.io/en/latest/models/input/participant/general.html?highlight=reactive#reactive-power-characteristics PowerSystemDataModel]]
-    *   for details and how the [[characteristic]] string has to look like.
-    */
-  final case class DependentQCharacteristic(characteristic: String)
-      extends QCharacteristic
-
 }

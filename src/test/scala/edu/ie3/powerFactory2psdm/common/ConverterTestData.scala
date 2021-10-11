@@ -499,16 +499,90 @@ object ConverterTestData extends LazyLogging {
         -10,
         10
       )
+    ),
+    "10 -> 0.4" -> ConversionPair(
+      TransformerType2W(
+        id = "10 -> 0.4",
+        sRated = 40d,
+        vRatedA = 10d,
+        vRatedB = 0.4,
+        dV = 2.5,
+        dPhi = 5d,
+        tapSide = 0,
+        tapNeutr = 0,
+        tapMin = -10,
+        tapMax = 10,
+        uk = 5,
+        iNoLoad = 1,
+        pFe = 10,
+        pCu = 6
+      ),
+      new Transformer2WTypeInput(
+        UUID.randomUUID(),
+        "10 -> 0.4",
+        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
+        Quantities.getQuantity(15.1249319, OHM),
+        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
+        Quantities.getQuantity(10d, KILOVOLT),
+        Quantities.getQuantity(0.4, KILOVOLT),
+        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
+        Quantities
+          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
+          .to(MetricPrefix.NANO(SIEMENS)),
+        Quantities.getQuantity(2.5, PERCENT),
+        Quantities.getQuantity(5d, DEGREE_GEOM),
+        false,
+        0,
+        -10,
+        10
+      )
     )
   )
 
-  def getTransformer2wType(
+  def getTransformer2WTypePair(
       key: String
-  ): ConversionPair[TransformerType2W, Transformer2WTypeInput] = {
+  ): ConversionPair[Transformer2WType, Transformer2WTypeInput] = {
     transformerTypes.getOrElse(
       key,
       throw TestException(
-        s"Cannot find input/result pair for ${TransformerType2W.getClass.getSimpleName} with key: $key "
+        s"Cannot find input/result pair for ${Transformer2WType.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val transformers2w = Map(
+    "someTransformer2W" -> ConversionPair(
+      Transformer2W(
+        "someTransformer2W",
+        "someNode",
+        "someMvNode",
+        "10 -> 0.4",
+        1,
+        1,
+        None
+      ),
+      new Transformer2WInput(
+        UUID.randomUUID(),
+        "someTransformer2W",
+        OperatorInput.NO_OPERATOR_ASSIGNED,
+        OperationTime.notLimited(),
+        getNodePair("someMvNode").result,
+        getNodePair("someNode").result,
+        1,
+        getTransformer2WTypePair("10 -> 0.4").result,
+        1,
+        true
+      )
+    )
+  )
+
+  def getTransformer2WPair(
+      key: String
+  ): ConversionPair[Transformer2W, Transformer2WInput] = {
+    transformers2w.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Transformer2W.getClass.getSimpleName} with key: $key "
       )
     )
   }
