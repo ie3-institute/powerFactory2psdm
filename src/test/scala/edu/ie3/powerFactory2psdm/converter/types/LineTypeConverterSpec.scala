@@ -26,7 +26,5 @@ class LineTypeConverterSpec extends Matchers with AnyWordSpecLike {
       actual.getiMax shouldBe expected.getiMax
       actual.getvRated shouldBe expected.getvRated
     }
-
   }
-
 }
