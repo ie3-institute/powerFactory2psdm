@@ -58,18 +58,36 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     Creates a list with an attribute dictionary for each raw PowerFactory element
     """
     elements = []
-    pf_edges = ["ElmLne", "ElmCoup"]
+    single_node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
+    edges = ["ElmLne", "ElmCoup"]
+    typed_models = ["ElmLne", "ElmTr2"]
     for raw_element in raw_elements:
+        element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
 
-        # export connected elements of nodes and transformers
-        if (raw_element.GetClassName() in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        # export connected elements of nodes
+        if element_class == "ElmTerm":
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
-        # export ids of nodes the edges are connected to
-        if (raw_element.GetClassName() in pf_edges):
+        # if element is a 2 winding transformer
+        if (element_class == "ElmTr2"):
+            try:
+                element["busHvId"] = name_without_preamble(raw_element.bushv.cterm.GetFullName())
+            except Exception:
+                element["busHvId"] = None
+            try:
+                element["busLvId"] = name_without_preamble(raw_element.buslv.cterm.GetFullName())
+            except Exception:
+                element["busLvId"] = None
+            try:
+                element["cPtapc"] = name_without_preamble(raw_element.c_ptapc.GetFullName())
+            except Exception:
+                element["cPtapc"] = None
+
+        if element_class in edges:
+            # export ids of nodes the edges are connected to
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
@@ -78,6 +96,18 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
                 element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
             except Exception:
                 element["bus2Id"] = None
+
+        if element_class in single_node_connection:
+            try:
+                element["busId"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
+            except Exception:
+                element["busId"] = None
+
+        if element_class in typed_models:
+            try:
+                element["typeId"] = name_without_preamble(raw_element.typ_id.GetFullName())
+            except:
+                element["typeId"] = None
 
         elements.append(element)
     return elements

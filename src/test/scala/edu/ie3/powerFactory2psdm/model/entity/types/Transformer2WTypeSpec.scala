@@ -4,17 +4,16 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.types
+package edu.ie3.powerFactory2psdm.model.entity.types
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.TrafoTypes2w
-import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
+class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
 
-  "A Transformer2wTypeSpec" should {
+  "A Transformer2WTypeSpec" should {
 
     val id = "Some2wTransformerType"
 
@@ -38,7 +37,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without an id" in {
       val faulty1 = input.copy(id = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty1)
+        Transformer2WType.build(faulty1)
       )
       exc.getMessage shouldBe s"There is no id for transformer-type: $faulty1"
     }
@@ -46,7 +45,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter strn" in {
       val faulty2 = input.copy(strn = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty2)
+        Transformer2WType.build(faulty2)
       )
       exc.getMessage shouldBe s"There is no rated apparent power for transformer-type: $id"
     }
@@ -54,7 +53,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter utrn_h" in {
       val faulty3 = input.copy(utrn_h = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty3)
+        Transformer2WType.build(faulty3)
       )
       exc.getMessage shouldBe s"There is no voltage of high winding side for transformer-type: $id"
     }
@@ -62,7 +61,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter utrn_l" in {
       val faulty4 = input.copy(utrn_l = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty4)
+        Transformer2WType.build(faulty4)
       )
       exc.getMessage shouldBe s"There is no voltage of low winding side for transformer-type: $id"
     }
@@ -70,7 +69,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter dutap" in {
       val faulty5 = input.copy(dutap = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty5)
+        Transformer2WType.build(faulty5)
       )
       exc.getMessage shouldBe s"There is no voltage magnitude deviation per tap position for transfomer type: $id"
     }
@@ -78,7 +77,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter dV" in {
       val faulty6 = input.copy(phitr = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty6)
+        Transformer2WType.build(faulty6)
       )
       exc.getMessage shouldBe s"There is no voltage angle deviation per tap position for transformer-type: $id"
     }
@@ -86,7 +85,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter tap_side" in {
       val faulty7 = input.copy(tap_side = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty7)
+        Transformer2WType.build(faulty7)
       )
       exc.getMessage shouldBe s"There is no selection of winding where tap changer is installed for transformer-type: $id"
     }
@@ -94,7 +93,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter nntap0" in {
       val faulty8 = input.copy(nntap0 = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty8)
+        Transformer2WType.build(faulty8)
       )
       exc.getMessage shouldBe s"There is no neutral tap position defined for transformer-type: $id"
     }
@@ -102,7 +101,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter ntpmn" in {
       val faulty9 = input.copy(ntpmn = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty9)
+        Transformer2WType.build(faulty9)
       )
       exc.getMessage shouldBe s"There is no minmum tap position defined for transformer-type: $id"
     }
@@ -110,7 +109,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter ntpmx" in {
       val faulty10 = input.copy(ntpmx = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty10)
+        Transformer2WType.build(faulty10)
       )
       exc.getMessage shouldBe s"There is no maximum tap position defined for transformer-type: $id"
     }
@@ -118,7 +117,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter uktr" in {
       val faulty11 = input.copy(uktr = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty11)
+        Transformer2WType.build(faulty11)
       )
       exc.getMessage shouldBe s"There is no short circuit voltage defined for transformer-type: $id"
     }
@@ -126,7 +125,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter curmg" in {
       val faulty12 = input.copy(curmg = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty12)
+        Transformer2WType.build(faulty12)
       )
       exc.getMessage shouldBe s"There is no no load current defined for transformer-type: $id"
     }
@@ -134,7 +133,7 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter pfe" in {
       val faulty13 = input.copy(pfe = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty13)
+        Transformer2WType.build(faulty13)
       )
       exc.getMessage shouldBe s"There is no iron loss defined for transformer-type: $id"
     }
@@ -142,13 +141,13 @@ class TransformerType2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception when trying to build a TransformerType without parameter pcutr" in {
       val faulty13 = input.copy(pcutr = None)
       val exc = intercept[MissingParameterException](
-        TransformerType2W.build(faulty13)
+        Transformer2WType.build(faulty13)
       )
       exc.getMessage shouldBe s"There is no iron loss defined for transformer-type: $id"
     }
 
-    "build a correctly configured TransformerType2w" in {
-      val actual = TransformerType2W.build(input)
+    "build a correctly configured Transformer2WType" in {
+      val actual = Transformer2WType.build(input)
       actual.id shouldBe "Some2wTransformerType"
       actual.sRated shouldBe 40
       actual.vRatedA shouldBe 10

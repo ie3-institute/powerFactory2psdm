@@ -4,91 +4,67 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.config
+package edu.ie3.powerFactory2psdm.config.validate
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.models.input.system.characteristic.{
+  ReactivePowerCharacteristic,
+  WecCharacteristicInput
+}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
+  DependentQCharacteristic,
+  FixedQCharacteristic,
+  QCharacteristic
+}
+import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelConversionMode
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelConversionMode
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
+import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
+import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
   Fixed,
-  GenerationMethod,
-  ModelConfigs,
   NormalDistribution,
-  PvConfig,
-  PvModelGeneration,
   UniformDistribution
 }
-import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
+import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidators._
 
 import scala.util.{Failure, Success, Try}
 
-object ConfigValidator {
+object ConfigValidator extends LazyLogging {
 
   /** Checks the parsed [[ConversionConfig]] for general soundness.
+    *
     * @param config
     *   the parsed config
     */
-  def validate(config: ConversionConfig): Unit = {
+  def validateConversionConfig(config: ConversionConfig): Unit = {
     validateModelConfigs(config.modelConfigs)
   }
 
-  private[config] def validateModelConfigs(modelConfigs: ModelConfigs): Unit = {
-    validatePvConfig(modelConfigs.pvConfig)
-  }
-
-  private[config] def validatePvConfig(pvConfig: PvConfig): Unit = {
-    Seq(pvConfig.conversionMode) ++ pvConfig.individualConfigs
-      .getOrElse(Nil)
-      .map(conf => conf.conversionMode)
-      .collect { case pvModelGeneration: PvModelGeneration =>
-        pvModelGeneration
-      }
-      .map(validatePvModelGenerationParams)
-  }
-
-  private[config] def validatePvModelGenerationParams(
-      params: PvModelGeneration
+  private[config] def validateModelConfigs(
+      modelConfigs: StatGenModelConfigs
   ): Unit = {
-    validateGenerationMethod(params.albedo, 0, 1) match {
-      case Success(_) =>
-      case Failure(exc) =>
-        throw ConversionConfigException(
-          s"The albedo of the plants surrounding: ${params.albedo} isn't valid. Exception: ${exc.getMessage}"
-        )
-    }
-    validateGenerationMethod(params.azimuth, -90, 90) match {
-      case Success(_) =>
-      case Failure(exc) =>
-        throw ConversionConfigException(
-          s"The azimuth of the plant: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
-        )
-    }
-    validateGenerationMethod(params.etaConv, 0, 100) match {
-      case Success(_) =>
-      case Failure(exc) =>
-        throw ConversionConfigException(
-          s"The efficiency of the plants inverter: ${params.azimuth} isn't valid. Exception: ${exc.getMessage}"
-        )
-    }
-    validateGenerationMethod(params.kG, 0, 1) match {
-      case Success(_) =>
-      case Failure(exc) =>
-        throw ConversionConfigException(
-          s"The PV generator correction factor (kG): ${params.kG} isn't valid. Exception: ${exc.getMessage}"
-        )
-    }
-    validateGenerationMethod(params.kT, 0, 1) match {
-      case Success(_) =>
-      case Failure(exc) =>
-        throw ConversionConfigException(
-          s"The PV temperature correction factor (kT): ${params.kT} isn't valid. Exception: ${exc.getMessage}"
-        )
-    }
+    Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
+      .flatMap(getConversionModes)
+      .foreach {
+        case x: PvModelConversionMode  => PvConversionModeValidator.validate(x)
+        case x: WecModelConversionMode => WecConversionModeValidator.validate(x)
+        case conversionMode =>
+          logger.warn(
+            s"The conversion mode $conversionMode is currently not validated."
+          )
+      }
   }
 
-  private[config] def validateGenerationMethod(
-      genMethod: GenerationMethod,
+  private[config] def validateParameterSamplingMethod(
+      parameter: ParameterSamplingMethod,
       lowerBound: Double,
       upperBound: Double
   ): Try[Unit] =
-    genMethod match {
+    parameter match {
       case Fixed(value) =>
         checkForBoundViolation(value, lowerBound, upperBound)
       case UniformDistribution(min, max) =>
@@ -146,5 +122,19 @@ object ConfigValidator {
         s"The minimum: $min and maximum: $max of the uniform distribution lie below the lower bound: $lowerBound and above the upper bound: $upperBound "
       )
     )
+
+  private[config] def validateQCharacteristic(
+      qCharacteristic: QCharacteristic
+  ): Try[Unit] = Try(qCharacteristic).flatMap {
+    case FixedQCharacteristic => Success(())
+    case DependentQCharacteristic(characteristic) =>
+      Try {
+        ReactivePowerCharacteristic.parse(characteristic)
+      }.map(_ => ())
+  }
+
+  private[config] def validateCpCharacteristic(
+      cpCharacteristic: String
+  ): Try[Unit] = Try(new WecCharacteristicInput(cpCharacteristic))
 
 }

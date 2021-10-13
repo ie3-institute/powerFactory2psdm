@@ -41,7 +41,7 @@ import edu.ie3.powerFactory2psdm.model.entity.EntityModel
   * @param pCu
   *   Copper losses in kW
   */
-final case class TransformerType2W(
+final case class Transformer2WType(
     id: String,
     sRated: Double,
     vRatedA: Double,
@@ -58,9 +58,9 @@ final case class TransformerType2W(
     pCu: Double
 ) extends EntityModel
 
-object TransformerType2W {
+object Transformer2WType {
 
-  def build(rawType: TrafoTypes2w): TransformerType2W = {
+  def build(rawType: TrafoTypes2w): Transformer2WType = {
     val id = rawType.id.getOrElse(
       throw MissingParameterException(
         s"There is no id for transformer-type: $rawType"
@@ -145,7 +145,7 @@ object TransformerType2W {
       )
     )
 
-    TransformerType2W(
+    Transformer2WType(
       id,
       sRated,
       vRatedA,

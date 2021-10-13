@@ -24,7 +24,7 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
 import edu.ie3.powerFactory2psdm.model.entity.{Line, Node, Switch}
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
-  TransformerType2W
+  Transformer2WType
 }
 import edu.ie3.powerFactory2psdm.model.setting.{ConversionPrefixes, UnitSystem}
 
@@ -54,7 +54,7 @@ final case class PreprocessedPfGridModel(
     lineTypes: List[LineType],
     lines: List[Line],
     switches: List[Switch],
-    transformerTypes2W: List[TransformerType2W],
+    transformerTypes2W: List[Transformer2WType],
     conversionPrefixes: ConversionPrefixes
 )
 
@@ -148,7 +148,7 @@ object PreprocessedPfGridModel extends LazyLogging {
     val lines = rawLines.map(line => Line.build(line))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
-    val trafoTypes2W = rawTrafoTpyes2W.map(TransformerType2W.build)
+    val trafoTypes2W = rawTrafoTpyes2W.map(Transformer2WType.build)
 
     PreprocessedPfGridModel(
       nodes,

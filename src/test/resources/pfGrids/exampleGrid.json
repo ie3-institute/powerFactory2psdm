@@ -474,6 +474,11 @@
       "bus2Id": "Grid.ElmNet\\Bus_0002.ElmTerm"
     },
     {
+      "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0003.ElmTerm"
+    },
+    {
       "id": "Grid.ElmNet\\Line_0010_0011.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0010.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0011.ElmTerm"
@@ -487,11 +492,6 @@
       "id": "Grid.ElmNet\\Line_0013_0014.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0014.ElmTerm"
-    },
-    {
-      "id": "Grid.ElmNet\\Line_0002_0003.ElmLne",
-      "bus1Id": "Grid.ElmNet\\Bus_0002.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Bus_0003.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Line_0001_0005.ElmLne",
@@ -509,6 +509,11 @@
       "bus2Id": "Grid.ElmNet\\Bus_0005.ElmTerm"
     },
     {
+      "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
+      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
+    },
+    {
       "id": "Grid.ElmNet\\Line_0003_0004.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0003.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0004.ElmTerm"
@@ -522,11 +527,6 @@
       "id": "Grid.ElmNet\\Line_0006_0011.ElmLne",
       "bus1Id": "Grid.ElmNet\\Bus_0011.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0006.ElmTerm"
-    },
-    {
-      "id": "Grid.ElmNet\\Line_0006_0012.ElmLne",
-      "bus1Id": "Grid.ElmNet\\Bus_0006.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Bus_0012.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Line_0006_0013.ElmLne",
@@ -560,6 +560,15 @@
       "xline": 20.61956214904785
     },
     {
+      "id": "TypLne 0002 to 0003.TypLne",
+      "bline": 251.37741088867188,
+      "gline": 0.0,
+      "rline": 8.18753719329834,
+      "sline": 1.0,
+      "uline": 132.0,
+      "xline": 34.49428176879883
+    },
+    {
       "id": "TypLne 0010 to 0011.TypLne",
       "bline": 0.0,
       "gline": 0.0,
@@ -585,15 +594,6 @@
       "sline": 1.0,
       "uline": 33.0,
       "xline": 3.78993821144104
-    },
-    {
-      "id": "TypLne 0002 to 0003.TypLne",
-      "bline": 251.37741088867188,
-      "gline": 0.0,
-      "rline": 8.18753719329834,
-      "sline": 1.0,
-      "uline": 132.0,
-      "xline": 34.49428176879883
     },
     {
       "id": "TypLne 0001 to 0005.TypLne",
@@ -623,6 +623,15 @@
       "xline": 30.296852111816406
     },
     {
+      "id": "TypLne 0006 to 0012.TypLne",
+      "bline": 0.0,
+      "gline": 0.0,
+      "rline": 1.3384901285171509,
+      "sline": 1.0,
+      "uline": 33.0,
+      "xline": 2.7857706546783447
+    },
+    {
       "id": "TypLne 0003 to 0004.TypLne",
       "bline": 198.57667541503906,
       "gline": 0.0,
@@ -648,15 +657,6 @@
       "sline": 1.0,
       "uline": 33.0,
       "xline": 2.1660213470458984
-    },
-    {
-      "id": "TypLne 0006 to 0012.TypLne",
-      "bline": 0.0,
-      "gline": 0.0,
-      "rline": 1.3384901285171509,
-      "sline": 1.0,
-      "uline": 33.0,
-      "xline": 2.7857706546783447
     },
     {
       "id": "TypLne 0006 to 0013.TypLne",
@@ -926,25 +926,21 @@
   "switches": [
     {
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
-      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
-      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
-      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
-      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     }

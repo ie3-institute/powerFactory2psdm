@@ -12,6 +12,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 }
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.ProjectSettings
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes
+import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 import org.scalatest.PrivateMethodTester
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -63,8 +64,8 @@ class PreprocessedPfGridModelSpec
         PreprocessedPfGridModel invokePrivate buildConversionPrefixes(
           settings
         )
-      conversionPrefixes.loadPQSPrefixValue shouldBe 1e3
-      conversionPrefixes.lineLengthPrefixValue shouldBe 1e3
+      conversionPrefixes.loadPQSPrefix shouldBe ConversionPrefix(1e3)
+      conversionPrefixes.lineLengthPrefix shouldBe ConversionPrefix(1e3)
     }
 
     "throw an exception when the pqsPrefix is missing" in {
