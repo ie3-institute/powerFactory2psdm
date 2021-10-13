@@ -7,38 +7,33 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.connector.Transformer2WInput
-import edu.ie3.datamodel.models.input.connector.`type`.{
-  LineTypeInput,
-  Transformer2WTypeInput
-}
-import edu.ie3.datamodel.models.input.system.{
-  FixedFeedInInput,
-  PvInput,
-  WecInput
-}
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
 }
+import edu.ie3.datamodel.models.input.system.WecInput
 import edu.ie3.datamodel.models.input.system.characteristic.{
-  CosPhiFixed,
   ReactivePowerCharacteristic,
   WecCharacteristicInput
 }
-import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
+import edu.ie3.datamodel.models.input.connector.{LineInput, Transformer2WInput}
+import edu.ie3.datamodel.models.input.connector.`type`.{
+  LineTypeInput,
+  Transformer2WTypeInput
+}
+import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
+import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
-import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
-import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
   FixedQCharacteristic
 }
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
-import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
-import java.io.File
+import edu.ie3.powerFactory2psdm.converter.CoordinateConverter
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -49,34 +44,30 @@ import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.entity.{
   ConnectedElement,
   EntityModel,
+  Line,
   Node,
   StaticGenerator,
   Subnet,
   Transformer2W
 }
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   Transformer2WType
 }
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.util.quantities.PowerSystemUnits.PU
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
-import edu.ie3.util.quantities.PowerSystemUnits.{
-  DEGREE_GEOM,
-  KILOVOLT,
-  VOLTAMPERE
-}
 import pureconfig.generic.auto._
+import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
 
+import java.io.File
 import java.util.UUID
-import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
-  val config: ConversionConfig =
+  val config =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   /** Case class to denote a consistent pair of input and expected output of a
@@ -122,7 +113,7 @@ object ConverterTestData extends LazyLogging {
       resultType: T
   )
 
-  logger.warn("Building the grid model")
+  logger.info("Building the grid model")
 
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
@@ -136,6 +127,8 @@ object ConverterTestData extends LazyLogging {
         )
       )
   )
+
+  logger.info("Sucessfully built the grid model")
 
   val id2node: Map[String, Node] =
     testGrid.nodes.map(node => (node.id, node)).toMap
@@ -210,7 +203,7 @@ object ConverterTestData extends LazyLogging {
         "someNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        1d.toPu,
+        1d.asPu,
         false,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -236,7 +229,7 @@ object ConverterTestData extends LazyLogging {
         "someSlackNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        1d.toPu,
+        1d.asPu,
         true,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         LV,
@@ -262,7 +255,7 @@ object ConverterTestData extends LazyLogging {
         "someMvNode",
         OperatorInput.NO_OPERATOR_ASSIGNED,
         OperationTime.notLimited(),
-        Quantities.getQuantity(1d, PU),
+        1d.asPu,
         true,
         geometryFactory.createPoint(new Coordinate(11.1123, 52.1425)),
         MV_10KV,
@@ -308,17 +301,17 @@ object ConverterTestData extends LazyLogging {
         new LineTypeInput(
           UUID.randomUUID(),
           "someLineType",
-          151.51515197753906.toMicroSiemensPerKilometre,
-          1.543.toMicroSiemensPerKilometre,
-          6.753542423248291.toOhmPerKilometre,
-          20.61956214904785.toOhmPerKilometre,
-          1.toKiloAmpere,
-          132.0.toKiloVolt
+          151.51515197753906.asMicroSiemensPerKilometre,
+          1.543.asMicroSiemensPerKilometre,
+          6.753542423248291.asOhmPerKilometre,
+          20.61956214904785.asOhmPerKilometre,
+          1.asKiloAmpere,
+          132.0.asKiloVolt
         )
       )
   )
 
-  def getLineType(key: String): ConversionPair[LineType, LineTypeInput] = {
+  def getLineTypePair(key: String): ConversionPair[LineType, LineTypeInput] = {
     lineTypes.getOrElse(
       key,
       throw TestException(
@@ -358,13 +351,13 @@ object ConverterTestData extends LazyLogging {
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
         0.2,
-        0.toDegreeGeom,
-        95.toPercent,
-        35.toDegreeGeom,
+        0.asDegreeGeom,
+        95.asPercent,
+        35.asDegreeGeom,
         1d,
         0.9,
         false,
-        11.toMegaVoltAmpere,
+        11.asMegaVoltAmpere,
         0.91
       )
     )
@@ -389,7 +382,7 @@ object ConverterTestData extends LazyLogging {
         "someStatGen",
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
-        11.toMegaVoltAmpere,
+        11.asMegaVoltAmpere,
         0.91
       )
     )
@@ -421,14 +414,14 @@ object ConverterTestData extends LazyLogging {
     "someWecType" -> new WecTypeInput(
       UUID.randomUUID(),
       "someWecType",
-      100.toEuro,
-      50.toEuroPerMegaWattHour,
-      11.toMegaVoltAmpere,
+      100.asEuro,
+      50.asEuroPerMegaWattHour,
+      11.asMegaVoltAmpere,
       0.91,
       new WecCharacteristicInput("cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}"),
-      96.toPercent,
-      45.toSquareMetre,
-      200.toMetre
+      96.asPercent,
+      45.asSquareMetre,
+      200.asMetre
     )
   )
 
@@ -468,6 +461,41 @@ object ConverterTestData extends LazyLogging {
     )
   }
 
+  val lines = Map(
+    "someLine" ->
+      ConversionPair(
+        Line(
+          "someLine",
+          "someNode",
+          "someSlackNode",
+          "someLineType",
+          1.5,
+          Some(List((11.1123, 52.1425), (11.1153, 52.1445)))
+        ),
+        new LineInput(
+          UUID.randomUUID(),
+          "someLine",
+          getNodePair("someNode").result,
+          getNodePair("someSlackNode").result,
+          1,
+          getLineTypePair("someLineType").result,
+          1.5.asKilometre,
+          CoordinateConverter.buildLineString(
+            List((11.1123, 52.1425), (11.1153, 52.1445))
+          ),
+          OlmCharacteristicInput.CONSTANT_CHARACTERISTIC
+        )
+      )
+  )
+  def getLinePair(key: String): ConversionPair[Line, LineInput] = {
+    lines.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Line.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
   val transformerTypes = Map(
     "someTrafo2WType" -> ConversionPair(
       Transformer2WType(
@@ -489,15 +517,15 @@ object ConverterTestData extends LazyLogging {
       new Transformer2WTypeInput(
         UUID.randomUUID(),
         "someTrafo2WType",
-        45.375.toMilliOhm,
-        15.1249319.toOhm,
-        40d.toMegaVoltAmpere,
-        110d.toKiloVolt,
-        10d.toKiloVolt,
-        826.4462809.toNanoSiemens,
-        33047.519046.toNanoSiemens,
-        2.5.toPercent,
-        5d.toDegreeGeom,
+        45.375.asMilliOhm,
+        15.1249319.asOhm,
+        40d.asMegaVoltAmpere,
+        110d.asKiloVolt,
+        10d.asKiloVolt,
+        826.4462809.asNanoSiemens,
+        33047.519046.asNanoSiemens,
+        2.5.asPercent,
+        5d.asDegreeGeom,
         false,
         0,
         -10,
@@ -524,17 +552,15 @@ object ConverterTestData extends LazyLogging {
       new Transformer2WTypeInput(
         UUID.randomUUID(),
         "10 -> 0.4",
-        Quantities.getQuantity(45.375, MetricPrefix.MILLI(OHM)),
-        Quantities.getQuantity(15.1249319, OHM),
-        Quantities.getQuantity(40d, MetricPrefix.MEGA(VOLTAMPERE)),
-        Quantities.getQuantity(10d, KILOVOLT),
-        Quantities.getQuantity(0.4, KILOVOLT),
-        Quantities.getQuantity(2480.5790, MetricPrefix.NANO(SIEMENS)),
-        Quantities
-          .getQuantity(32972.94113, MetricPrefix.NANO(SIEMENS))
-          .to(MetricPrefix.NANO(SIEMENS)),
-        Quantities.getQuantity(2.5, PERCENT),
-        Quantities.getQuantity(5d, DEGREE_GEOM),
+        45.375.asMilliOhm,
+        15.1249319.asOhm,
+        40d.asMegaVoltAmpere,
+        10d.asKiloVolt,
+        0.4.asKiloVolt,
+        2480.5790.asNanoSiemens,
+        32972.94113.asNanoSiemens,
+        2.5.asPercent,
+        5d.asDegreeGeom,
         false,
         0,
         -10,

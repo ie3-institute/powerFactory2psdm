@@ -53,104 +53,110 @@ object QuantityUtils {
     */
   implicit class RichQuantityDouble(value: Double) {
 
-    def toPercent: ComparableQuantity[Dimensionless] =
+    def asPercent: ComparableQuantity[Dimensionless] =
       Quantities.getQuantity(value, PERCENT)
 
-    def toPu: ComparableQuantity[Dimensionless] =
+    def asPu: ComparableQuantity[Dimensionless] =
       Quantities.getQuantity(value, PU)
 
-    def toDegreeGeom: ComparableQuantity[Angle] =
+    def asDegreeGeom: ComparableQuantity[Angle] =
       Quantities.getQuantity(value, DEGREE_GEOM)
 
-    def toSiemens: ComparableQuantity[ElectricConductance] =
+    def asSiemens: ComparableQuantity[ElectricConductance] =
       Quantities.getQuantity(value, SIEMENS)
 
-    def toNanoSiemens: ComparableQuantity[ElectricConductance] =
+    def asNanoSiemens: ComparableQuantity[ElectricConductance] =
       Quantities.getQuantity(value, MetricPrefix.NANO(SIEMENS))
 
-    def toMicroSiemensPerKilometre: ComparableQuantity[SpecificConductance] =
+    def asMicroSiemensPerKilometre: ComparableQuantity[SpecificConductance] =
       Quantities.getQuantity(
         value,
         MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
       )
 
-    def toOhm: ComparableQuantity[ElectricResistance] = Quantities.getQuantity(
+    def asOhm: ComparableQuantity[ElectricResistance] = Quantities.getQuantity(
       value,
       OHM
     )
 
-    def toMilliOhm: ComparableQuantity[ElectricResistance] =
+    def asMilliOhm: ComparableQuantity[ElectricResistance] =
       Quantities.getQuantity(value, MetricPrefix.MILLI(OHM))
 
-    def toOhmPerKilometre: ComparableQuantity[SpecificResistance] =
+    def asOhmPerKilometre: ComparableQuantity[SpecificResistance] =
       Quantities.getQuantity(
         value,
         OHM_PER_KILOMETRE
       )
 
-    def toMegaVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
+    def asMegaVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
       value,
       MetricPrefix.MEGA(VOLTAMPERE)
     )
 
-    def toKiloAmpere: ComparableQuantity[ElectricCurrent] =
+    def asKiloAmpere: ComparableQuantity[ElectricCurrent] =
       Quantities.getQuantity(
         value,
         MetricPrefix.KILO(AMPERE)
       )
 
-    def toVolt: ComparableQuantity[ElectricPotential] =
+    def asVolt: ComparableQuantity[ElectricPotential] =
       Quantities.getQuantity(value, VOLT)
 
-    def toKiloVolt: ComparableQuantity[ElectricPotential] =
+    def asKiloVolt: ComparableQuantity[ElectricPotential] =
       Quantities.getQuantity(
         value,
         KILOVOLT
       )
 
-    def toEuro: ComparableQuantity[Currency] =
+    def asEuro: ComparableQuantity[Currency] =
       Quantities.getQuantity(
         value,
         EURO
       )
 
-    def toEuroPerMegaWattHour: ComparableQuantity[EnergyPrice] =
+    def asEuroPerMegaWattHour: ComparableQuantity[EnergyPrice] =
       Quantities.getQuantity(
         value,
         EURO_PER_MEGAWATTHOUR
       )
 
-    def toKiloWattHour: ComparableQuantity[Energy] =
+    def asKiloWattHour: ComparableQuantity[Energy] =
       Quantities.getQuantity(
         value,
         KILOWATTHOUR
       )
 
-    def toPercentPerHour: ComparableQuantity[DimensionlessRate] =
+    def asPercentPerHour: ComparableQuantity[DimensionlessRate] =
       Quantities.getQuantity(
         value,
         PERCENT_PER_HOUR
       )
 
-    def toHour: ComparableQuantity[Time] =
+    def asHour: ComparableQuantity[Time] =
       Quantities.getQuantity(
         value,
         HOUR
       )
 
-    def toKiloWatt: ComparableQuantity[Power] =
+    def asKiloWatt: ComparableQuantity[Power] =
       Quantities.getQuantity(
         value,
         KILOWATT
       )
 
-    def toMetre: ComparableQuantity[Length] =
+    def asMetre: ComparableQuantity[Length] =
       Quantities.getQuantity(
         value,
         METRE
       )
 
-    def toSquareMetre: ComparableQuantity[Area] =
+    def asKilometre: ComparableQuantity[Length] =
+      Quantities.getQuantity(
+        value,
+        KILOMETRE
+      )
+
+    def asSquareMetre: ComparableQuantity[Area] =
       Quantities.getQuantity(
         value,
         SQUARE_METRE

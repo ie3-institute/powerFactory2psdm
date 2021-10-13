@@ -9,23 +9,56 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  GridConfigurationException
+}
+import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
+import edu.ie3.util.quantities.PowerSystemUnits.PU
 import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.Node
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.Point
+import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
 
 object NodeConverter {
 
+  /** Convert all nodes subnet by subnet.
+    *
+    * @param subnets
+    *   subnets of the grid
+    * @return
+    *   Map of node id to PSDM [[NodeInput]]
+    */
+  def convertNodesOfSubnets(subnets: List[Subnet]): Map[String, NodeInput] = {
+    subnets.flatMap(subnet => convertNodesOfSubnet(subnet)).toMap
+  }
+
+  /** Converts all nodes within a subnet to PSDM [[NodeInput]] s
+    *
+    * @param subnet
+    *   the subnet with reference to all PF nodes that live within
+    * @return
+    *   list of all converted [[NodeInput]]
+    */
+  def convertNodesOfSubnet(
+      subnet: Subnet
+  ): Set[(String, NodeInput)] =
+    subnet.nodes
+      .map(node =>
+        (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
+      )
+
   /** Converts a PowerFactory node into a PSDM node.
     *
-    * @param id
-    *   id of the PF node to convert
-    * @param id2node
-    *   Map of ids and their associated [[Node]] s
-    * @param subnet
-    *   subnet the PF node lives in
+    * @param node
+    *   the PF node to convert
+    * @param subnetId
+    *   subnet id the node is assigned to
+    * @param voltLvl
+    *   voltage level of the node
     * @return
     *   a PSDM [[NodeInput]]
     */
@@ -41,7 +74,7 @@ object NodeConverter {
       node.id,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
-      node.vTarget.toPu,
+      node.vTarget.asPu,
       slack,
       geoPosition,
       voltLvl,
@@ -66,4 +99,13 @@ object NodeConverter {
           s"There is more than one external grid connected to Node: ${node.id}"
         )
     }
+
+  def getNode(id: String, nodes: Map[String, NodeInput]): NodeInput = {
+    nodes.getOrElse(
+      id,
+      throw ConversionException(
+        s"Can't find node $id within the converted nodes."
+      )
+    )
+  }
 }

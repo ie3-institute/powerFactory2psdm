@@ -6,8 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.powerFactory2psdm.model.entity.Subnet
+import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
@@ -22,7 +21,7 @@ case object GridConverter {
 
   /** Converts the grid elements of the PowerFactory grid
     *
-    * @param rawGrid
+    * @param grid
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
@@ -32,20 +31,15 @@ case object GridConverter {
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
     val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
-    val psdmNodes = subnets.flatMap(subnet => convertNodesOfSubnet(subnet))
+    val nodes = NodeConverter.convertNodesOfSubnets(subnets)
+    val lineTypes = grid.lineTypes
+      .map(lineType => (lineType.id, LineTypeConverter.convert(lineType)))
+      .toMap
+    val lines = LineConverter.convertLines(
+      grid.lines,
+      grid.conversionPrefixes.lineLengthPrefix(),
+      nodes,
+      lineTypes
+    )
   }
-
-  /** Converts all nodes within a subnet to PSDM [[NodeInput]]
-    *
-    * @param subnet
-    *   the subnet with reference to all PF nodes that live within
-    * @return
-    *   list of all converted [[NodeInput]]
-    */
-  def convertNodesOfSubnet(
-      subnet: Subnet
-  ): List[NodeInput] =
-    subnet.nodes
-      .map(node => NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
-      .toList
 }

@@ -21,13 +21,15 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Lines
 final case class Line(
     id: String,
     nodeAId: String,
-    nodeBId: String
+    nodeBId: String,
+    typeId: String,
+    length: Double,
+    gpsCoords: Option[(List[(Double, Double)])]
 ) extends EntityModel
     with Edge
 
 object Line {
-
-  def build(rawLine: Lines) = {
+  def build(rawLine: Lines): Line = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")
     )
@@ -37,6 +39,34 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
-    Line(id, nodeAId, nodeBId)
+    val typId = rawLine.typeId.getOrElse(
+      throw MissingParameterException(
+        s"Line: $id has no defined type - line conversion without defined type" +
+          s" is not supported "
+      )
+    )
+    val length = rawLine.dline.getOrElse(
+      throw MissingParameterException(
+        s"Line: $id has no defined length"
+      )
+    )
+
+    val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords match {
+      case Some(List(Some(Nil))) => None
+      case Some(coords) =>
+        Option(coords.flatten.map { case List(Some(lat), Some(lon)) =>
+          (lat, lon)
+        })
+      case None => None
+    }
+
+    Line(
+      id,
+      nodeAId,
+      nodeBId,
+      typId,
+      length,
+      gpsCoords
+    )
   }
 }

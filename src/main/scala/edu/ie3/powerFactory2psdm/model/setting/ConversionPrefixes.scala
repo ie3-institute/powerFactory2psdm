@@ -6,6 +6,8 @@
 
 package edu.ie3.powerFactory2psdm.model.setting
 
+import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
+
 /** For the active, reactive and apparent power of loads and the length of lines
   * the unit system within power factory can be adjusted. This class holds the
   * proper prefix values for their conversion.
@@ -16,14 +18,16 @@ package edu.ie3.powerFactory2psdm.model.setting
   *   prefix value for length of lines
   */
 class ConversionPrefixes private (
-    pqsPrefix: Double,
-    lengthPrefix: Double
+    pqsPrefix: ConversionPrefix,
+    lengthPrefix: ConversionPrefix
 ) {
-  def loadPQSPrefixValue: Double = pqsPrefix
-  def lineLengthPrefixValue: Double = lengthPrefix
+  def loadPQSPrefix(): ConversionPrefix = pqsPrefix
+  def lineLengthPrefix(): ConversionPrefix = lengthPrefix
 }
 
 object ConversionPrefixes {
+  final case class ConversionPrefix(value: Double)
+
   def apply(
       pqsPrefSymbol: String,
       lengthPrefSymbol: String
@@ -34,20 +38,21 @@ object ConversionPrefixes {
     )
   }
 
-  private def getMetricPrefixBySymbol(symbol: String): Double = symbol match {
-    case "a" => 1e-18
-    case "f" => 1e-15
-    case "p" => 1e-12
-    case "n" => 1e-9
-    case "u" => 1e-6
-    case "m" => 1e-3
-    case ""  => 1
-    case "k" => 1e3
-    case "M" => 1e6
-    case "G" => 1e9
-    case "T" => 1e12
-    case "P" => 1e15
-    case "E" => 1e18
-  }
+  private def getMetricPrefixBySymbol(symbol: String): ConversionPrefix =
+    symbol match {
+      case "a" => ConversionPrefix(1e-18)
+      case "f" => ConversionPrefix(1e-15)
+      case "p" => ConversionPrefix(1e-12)
+      case "n" => ConversionPrefix(1e-9)
+      case "u" => ConversionPrefix(1e-6)
+      case "m" => ConversionPrefix(1e-3)
+      case ""  => ConversionPrefix(1)
+      case "k" => ConversionPrefix(1e3)
+      case "M" => ConversionPrefix(1e6)
+      case "G" => ConversionPrefix(1e9)
+      case "T" => ConversionPrefix(1e12)
+      case "P" => ConversionPrefix(1e15)
+      case "E" => ConversionPrefix(1e18)
+    }
 
 }

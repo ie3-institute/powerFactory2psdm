@@ -20,7 +20,14 @@ class LineSpec extends Matchers with AnyWordSpecLike {
       id = Some(id),
       bus1Id = Some("SomeBusA"),
       bus2Id = Some("SomeBusB"),
-      typeId = Some("SomeTypeId")
+      GPScoords = Some(
+        List(
+          Some(List(Some(11.1123), Some(52.1425))),
+          Some(List(Some(11.1153), Some(52.1445)))
+        )
+      ),
+      dline = Some(1.5),
+      typeId = Some("SomeLineType")
     )
 
     "throw an exception if the id is missing" in {

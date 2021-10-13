@@ -46,12 +46,12 @@ object PvInputGenerator {
       params: PvModelGeneration
   ): PvInput = {
     val albedo = sample(params.albedo)
-    val azimuth = sample(params.azimuth).toDegreeGeom
-    val etaConv = sample(params.etaConv).toPercent
-    val height = sample(params.elevationAngle).toDegreeGeom
+    val azimuth = sample(params.azimuth).asDegreeGeom
+    val etaConv = sample(params.etaConv).asPercent
+    val height = sample(params.elevationAngle).asDegreeGeom
     val kG = sample(params.kG)
     val kT = sample(params.kT)
-    val sRated = input.sRated.toMegaVoltAmpere
+    val sRated = input.sRated.asMegaVoltAmpere
     val cosPhiRated = determineCosPhiRated(input)
     val qCharacteristics =
       convertQCharacteristic(params.qCharacteristic, cosPhiRated)

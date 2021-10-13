@@ -10,8 +10,6 @@ import java.nio.file.{Files, Paths}
 import org.scalafmt.interfaces.Scalafmt
 import java.io.File
 
-import java.io.File
-
 object Formatter {
 
   def format(str: String, fmtPath: Option[String]): String = {
