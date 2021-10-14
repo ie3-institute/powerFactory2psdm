@@ -22,6 +22,7 @@ import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
+import scala.util.{Failure, Success, Try}
 
 object NodeConverter {
 
@@ -100,12 +101,16 @@ object NodeConverter {
         )
     }
 
-  def getNode(id: String, nodes: Map[String, NodeInput]): NodeInput = {
-    nodes.getOrElse(
-      id,
-      throw ConversionException(
-        s"Can't find node $id within the converted nodes."
+  def getNode(id: String, nodes: Map[String, NodeInput]): Try[NodeInput] = {
+    nodes
+      .get(id)
+      .map(Success(_))
+      .getOrElse(
+        Failure(
+          ConversionException(
+            s"Can't find node $id within the converted nodes."
+          )
+        )
       )
-    )
   }
 }

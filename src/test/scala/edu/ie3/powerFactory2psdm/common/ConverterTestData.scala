@@ -631,7 +631,7 @@ object ConverterTestData extends LazyLogging {
         "someSwitch",
         getNodePair("someNode").input.id,
         getNodePair("someSlackNode").input.id,
-        1.0
+        1
       ),
       new SwitchInput(
         UUID.randomUUID(),

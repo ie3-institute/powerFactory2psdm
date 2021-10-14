@@ -63,7 +63,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
       switch.id shouldBe "Some_Switch.ElmCoup"
       switch.nodeAId shouldBe "SomeBusA"
       switch.nodeBId shouldBe "SomeBusB"
-      switch.onOff shouldBe 1.0
+      switch.onOff shouldBe 1
     }
 
   }

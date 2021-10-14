@@ -24,7 +24,7 @@ final case class Switch(
     id: String,
     nodeAId: String,
     nodeBId: String,
-    onOff: Double
+    onOff: Int
 ) extends EntityModel
     with Edge
 
@@ -45,11 +45,13 @@ object Switch extends LazyLogging {
     val id = rawSwitch.id.getOrElse(
       throw MissingParameterException(s"There is no id for switch $rawSwitch")
     )
-    val onOff = rawSwitch.on_off.getOrElse(
-      throw MissingParameterException(
-        s"Switch: $id has no defined open/closed state"
+    val onOff = rawSwitch.on_off
+      .getOrElse(
+        throw MissingParameterException(
+          s"Switch: $id has no defined open/closed state"
+        )
       )
-    )
+      .toInt
     (rawSwitch.bus1Id, rawSwitch.bus2Id) match {
       case (Some(bus1Id), Some(bus2Id)) =>
         Some(

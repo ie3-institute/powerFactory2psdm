@@ -105,7 +105,7 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
             PvConversionModeValidator.validate(faultyParams)
           )
         exc shouldBe ConversionConfigException(
-          s"The efficiency of the plants inverter: ${faultyParams.azimuth} isn't valid.",
+          s"The efficiency of the plants inverter: ${faultyParams.etaConv} isn't valid.",
           upperBoundViolation(101, 100).exception
         )
       }
@@ -144,7 +144,7 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
             PvConversionModeValidator.validate(faultyParams)
           )
         exc.getMessage.startsWith(
-          "The PV q characteristic configuration isn't valid."
+          s"The PV q characteristic: $faultyQCharacteristic configuration isn't valid."
         ) shouldBe true
       }
     }

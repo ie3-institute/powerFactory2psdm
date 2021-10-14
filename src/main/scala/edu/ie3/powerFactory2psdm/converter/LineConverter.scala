@@ -13,7 +13,9 @@ import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
+import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter.getLineType
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Line
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
@@ -45,22 +47,35 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
-      val lineType =
-        LineTypeConverter.getLineType(line.typeId, lineTypes) match {
-          case Success(lineType) => lineType
-          case Failure(exception) =>
-            throw ConversionException(
-              s"Could not convert line: $line due to failed line type retrieval.",
-              exception
-            )
-        }
-      LineConverter.convert(
-        line,
-        lineLengthPrefix,
-        lineType,
-        NodeConverter.getNode(line.nodeAId, nodes),
-        NodeConverter.getNode(line.nodeBId, nodes)
-      )
+      (
+        getNode(line.nodeAId, nodes),
+        getNode(line.nodeBId, nodes),
+        getLineType(line.typeId, lineTypes)
+      ) match {
+        case (Success(nodeA), Success(nodeB), Success(lineType)) =>
+          convert(
+            line,
+            lineLengthPrefix,
+            lineType,
+            nodeA,
+            nodeB
+          )
+        case (Failure(exc), _, _) =>
+          throw ConversionException(
+            s"Can't retrieve ${line.nodeAId} for line ${line.id}",
+            exc
+          )
+        case (_, Failure(exc), _) =>
+          throw ConversionException(
+            s"Can't retrieve ${line.nodeBId} for line ${line.id}",
+            exc
+          )
+        case (_, _, Failure(exc)) =>
+          throw ConversionException(
+            s"Could not convert line: $line due to failed line type retrieval.",
+            exc
+          )
+      }
     })
   }
 
