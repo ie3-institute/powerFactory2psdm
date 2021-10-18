@@ -17,6 +17,14 @@ import scala.util.{Failure, Success}
 
 object SwitchConverter {
 
+  /** * Converts a raw PF switch to a PSDM [[SwitchInput]]
+    * @param rawSwitch
+    *   PF switch
+    * @param nodeId2nodeInput
+    *   mapping of node ids to converted PSDM nodes
+    * @return
+    *   a PSDM [[SwitchInput]]
+    */
   def convert(
       rawSwitch: Switch,
       nodeId2nodeInput: Map[String, NodeInput]
