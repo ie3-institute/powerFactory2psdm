@@ -12,16 +12,11 @@ import edu.ie3.datamodel.models.input.connector.{
   SwitchInput,
   Transformer2WInput
 }
-import edu.ie3.datamodel.models.input.connector.`type`.{
-  LineTypeInput,
-  Transformer2WTypeInput
-}
 import edu.ie3.datamodel.models.input.system.`type`.{
   SystemParticipantTypeInput,
   WecTypeInput
 }
 import edu.ie3.datamodel.models.input.system.characteristic.{
-  CosPhiFixed,
   OlmCharacteristicInput,
   ReactivePowerCharacteristic,
   WecCharacteristicInput
@@ -31,10 +26,13 @@ import edu.ie3.datamodel.models.input.system.{
   PvInput,
   WecInput
 }
-import edu.ie3.datamodel.models.input.connector.`type`.{LineTypeInput, Transformer2WTypeInput}
+import edu.ie3.datamodel.models.input.connector.`type`.{
+  LineTypeInput,
+  Transformer2WTypeInput
+}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime, StandardUnits, UniqueEntity}
+import edu.ie3.datamodel.models.BdewLoadProfile
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
@@ -53,41 +51,33 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
 }
 import edu.ie3.powerFactory2psdm.io.PfGridParser
 import edu.ie3.powerFactory2psdm.model.entity.{
-  ConnectedElement,
-  EntityModel,
   Line,
-  Node,
   StaticGenerator,
-  Subnet,
   Transformer2W
 }
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  Transformer2WType
-}
+import edu.ie3.powerFactory2psdm.model.entity.types.Transformer2WType
 import edu.ie3.powerFactory2psdm.model.entity._
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.model.entity.{ConnectedElement, EntityModel, Node, Subnet}
-import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, TransformerType2W}
+import edu.ie3.powerFactory2psdm.model.entity.{
+  ConnectedElement,
+  EntityModel,
+  Node,
+  Subnet
+}
+import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import edu.ie3.powerFactory2psdm.model.powerfactory.Load
-import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, KILOVOLT, KILOWATTHOUR, MEGAVOLTAMPERE, PU, VOLTAMPERE}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS}
 import pureconfig.generic.auto._
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
-
 import java.io.File
-import java.util.UUID
 import java.util.{Locale, UUID}
-import javax.measure.MetricPrefix
 
 object ConverterTestData extends LazyLogging {
 
-  val config =
+  val config: ConversionConfig =
     ConfigSource.default.at("conversion-config").loadOrThrow[ConversionConfig]
 
   /** Case class to denote a consistent pair of input and expected output of a
@@ -530,8 +520,8 @@ object ConverterTestData extends LazyLogging {
         ),
         BdewLoadProfile.H0,
         false,
-        Quantities.getQuantity(0d, KILOWATTHOUR),
-        Quantities.getQuantity(13.23123, MEGAVOLTAMPERE),
+        0d.asKiloWattHour,
+        13.23123.asMegaVoltAmpere,
         0.97812
       )
     )
