@@ -7,23 +7,30 @@
 package edu.ie3.powerFactory2psdm.common
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.models.input.system.`type`.{
-  SystemParticipantTypeInput,
-  WecTypeInput
+import edu.ie3.datamodel.models.input.connector.{
+  LineInput,
+  SwitchInput,
+  Transformer2WInput
 }
-import edu.ie3.datamodel.models.input.system.WecInput
-import edu.ie3.datamodel.models.input.system.characteristic.{
-  ReactivePowerCharacteristic,
-  WecCharacteristicInput
-}
-import edu.ie3.datamodel.models.input.connector.{LineInput, Transformer2WInput}
 import edu.ie3.datamodel.models.input.connector.`type`.{
   LineTypeInput,
   Transformer2WTypeInput
 }
-import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput}
-import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
+import edu.ie3.datamodel.models.input.system.`type`.{
+  SystemParticipantTypeInput,
+  WecTypeInput
+}
+import edu.ie3.datamodel.models.input.system.characteristic.{
+  CosPhiFixed,
+  OlmCharacteristicInput,
+  ReactivePowerCharacteristic,
+  WecCharacteristicInput
+}
+import edu.ie3.datamodel.models.input.system.{
+  FixedFeedInInput,
+  PvInput,
+  WecInput
+}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
@@ -55,6 +62,7 @@ import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   Transformer2WType
 }
+import edu.ie3.powerFactory2psdm.model.entity._
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
@@ -613,6 +621,33 @@ object ConverterTestData extends LazyLogging {
       key,
       throw TestException(
         s"Cannot find input/result pair for ${Transformer2W.getClass.getSimpleName} with key: $key "
+      )
+    )
+  }
+
+  val switches = Map(
+    "someSwitch" -> ConversionPair(
+      Switch(
+        "someSwitch",
+        getNodePair("someNode").input.id,
+        getNodePair("someSlackNode").input.id,
+        1
+      ),
+      new SwitchInput(
+        UUID.randomUUID(),
+        "someSwitch",
+        getNodePair("someNode").result,
+        getNodePair("someSlackNode").result,
+        true
+      )
+    )
+  )
+
+  def getSwitches(key: String): ConversionPair[Switch, SwitchInput] = {
+    switches.getOrElse(
+      key,
+      throw TestException(
+        s"Cannot find input/result pair for ${Switch.getClass.getSimpleName} with key: $key "
       )
     )
   }

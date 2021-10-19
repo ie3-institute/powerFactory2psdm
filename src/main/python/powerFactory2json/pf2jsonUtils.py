@@ -45,7 +45,6 @@ attributes4export = {
         "nntap",
         "ntrcn",
     ],
-    'switches':[],
     'trafoTypes2w': [
         "strn",
         "utrn_h",
@@ -60,6 +59,9 @@ attributes4export = {
         "pcutr",
         "pfe",
         "curmg"
+    ],
+    'switches':[
+        "on_off"
     ],
     'trafos3w': [],
     'trafoTypes3w': [],

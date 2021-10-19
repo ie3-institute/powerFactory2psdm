@@ -414,12 +414,12 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
-          "pfCls": "ElmCoup"
-        },
-        {
           "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "pfCls": "ElmCoup"
         }
       ]
     },
@@ -1063,21 +1063,25 @@
   "switches": [
     {
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
+      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
+      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+      "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     }

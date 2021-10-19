@@ -60,7 +60,7 @@ object ConversionModeValidators {
         case Success(_) =>
         case Failure(exc) =>
           throw ConversionConfigException(
-            s"The efficiency of the plants inverter: ${params.azimuth} isn't valid.",
+            s"The efficiency of the plants inverter: ${params.etaConv} isn't valid.",
             exc
           )
       }
@@ -84,7 +84,7 @@ object ConversionModeValidators {
         case Success(_) =>
         case Failure(exc) =>
           throw ConversionConfigException(
-            "The PV q characteristic configuration isn't valid.",
+            s"The PV q characteristic: ${params.qCharacteristic} configuration isn't valid.",
             exc
           )
       }
