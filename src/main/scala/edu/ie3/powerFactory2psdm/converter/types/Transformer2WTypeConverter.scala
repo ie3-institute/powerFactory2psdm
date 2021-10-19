@@ -11,18 +11,17 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   ElementConfigurationException
 }
-import edu.ie3.powerFactory2psdm.model.entity.types.TransformerType2W
+import edu.ie3.powerFactory2psdm.model.entity.types.Transformer2WType
 import tech.units.indriya.quantity.Quantities
 import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
 import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
-
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
-import javax.measure.MetricPrefix
 
-object TransformerType2WConverter {
+object Transformer2WTypeConverter {
 
-  def convert(input: TransformerType2W): Transformer2WTypeInput = {
+  def convert(input: Transformer2WType): Transformer2WTypeInput = {
 
     val sRated = input.sRated * 1e6
     val vRatedA = input.vRatedA * 1e3
@@ -67,15 +66,15 @@ object TransformerType2WConverter {
     new Transformer2WTypeInput(
       UUID.randomUUID(),
       input.id,
-      Quantities.getQuantity(rSc, OHM),
-      Quantities.getQuantity(xSc, OHM),
-      Quantities.getQuantity(input.sRated, MetricPrefix.MEGA(VOLTAMPERE)),
-      Quantities.getQuantity(vRatedA, VOLT),
-      Quantities.getQuantity(vRatedB, VOLT),
-      Quantities.getQuantity(gNoLoad, SIEMENS),
-      Quantities.getQuantity(bNoLoad, SIEMENS),
-      Quantities.getQuantity(input.dV, PERCENT),
-      Quantities.getQuantity(input.dPhi, DEGREE_GEOM),
+      rSc.asOhm,
+      xSc.asOhm,
+      sRated.asMegaVoltAmpere,
+      vRatedA.asVolt,
+      vRatedB.asVolt,
+      gNoLoad.asSiemens,
+      bNoLoad.asSiemens,
+      input.dV.asPercent,
+      input.dPhi.asDegreeGeom,
       tapSide,
       input.tapNeutr.toInt,
       input.tapMin.toInt,

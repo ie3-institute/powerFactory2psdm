@@ -29,7 +29,10 @@ attributes4export = {
         "GPSlat",
         "GPSlon"
     ],
-    'lines': [],
+    'lines': [
+        "dline",
+        "GPScoords"
+    ],
     'lineTypes': [
         "rline",
         "xline",
@@ -38,8 +41,10 @@ attributes4export = {
         "sline",
         "uline",
     ],
-    'trafos2w': [],
-    'switches':[],
+    'trafos2w': [
+        "nntap",
+        "ntrcn",
+    ],
     'trafoTypes2w': [
         "strn",
         "utrn_h",
@@ -54,6 +59,9 @@ attributes4export = {
         "pcutr",
         "pfe",
         "curmg"
+    ],
+    'switches':[
+        "on_off"
     ],
     'trafos3w': [],
     'trafoTypes3w': [],
@@ -75,7 +83,14 @@ attributes4export = {
         'pf_recap',
         'u0'
     ],
-    'statGen': [],
+    'statGen': [
+        'sgn',
+        'sgini',
+        'cosgini',
+        'cosn',
+        'pf_recap',
+        'cCategory'
+    ],
     'circuitBreaker' : [],
     'extGrid': [],
     'powerPlants': [],

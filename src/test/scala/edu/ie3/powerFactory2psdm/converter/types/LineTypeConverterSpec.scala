@@ -6,14 +6,14 @@
 
 package edu.ie3.powerFactory2psdm.converter.types
 
-import edu.ie3.powerFactory2psdm.common.ConverterTestData.getLineType
+import edu.ie3.powerFactory2psdm.common.ConverterTestData.getLineTypePair
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 class LineTypeConverterSpec extends Matchers with AnyWordSpecLike {
 
   "The line type converter" should {
-    val conversionPair = getLineType("someLineType")
+    val conversionPair = getLineTypePair("someLineType")
 
     "convert a line type correctly" in {
       val actual = LineTypeConverter.convert(conversionPair.input)
@@ -26,7 +26,5 @@ class LineTypeConverterSpec extends Matchers with AnyWordSpecLike {
       actual.getiMax shouldBe expected.getiMax
       actual.getvRated shouldBe expected.getvRated
     }
-
   }
-
 }

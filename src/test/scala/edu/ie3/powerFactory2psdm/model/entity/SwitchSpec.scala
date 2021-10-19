@@ -22,13 +22,20 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
     val input = Switches(
       id = Some(id),
       bus1Id = Some("SomeBusA"),
-      bus2Id = Some("SomeBusB")
+      bus2Id = Some("SomeBusB"),
+      on_off = Some(1.0)
     )
 
     "throw an exception when building if the id is missing" in {
       val switch = input.copy(id = None)
       val exc = intercept[MissingParameterException](Switch.maybeBuild(switch))
       exc.getMessage shouldBe s"There is no id for switch $switch"
+    }
+
+    "throw an exception when building if the on/off variable is missing" in {
+      val switch = input.copy(on_off = None)
+      val exc = intercept[MissingParameterException](Switch.maybeBuild(switch))
+      exc.getMessage shouldBe s"Switch: $id has no defined open/closed state"
     }
 
     "return None when building if the bus1Id is missing" in {
@@ -43,6 +50,12 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
       switch shouldBe None
     }
 
+    "throw an exception if the switch isn't connected to any node" in {
+      val switch = input.copy(bus1Id = None, bus2Id = None)
+      val exc = intercept[MissingParameterException](Switch.maybeBuild(switch))
+      exc.getMessage shouldBe s"Switch: $id is not connected to any node"
+    }
+
     "build a fully configured switch correctly" in {
       val switch = Switch
         .maybeBuild(input)
@@ -50,6 +63,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
       switch.id shouldBe "Some_Switch.ElmCoup"
       switch.nodeAId shouldBe "SomeBusA"
       switch.nodeBId shouldBe "SomeBusB"
+      switch.onOff shouldBe 1
     }
 
   }

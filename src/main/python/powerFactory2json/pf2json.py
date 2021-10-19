@@ -58,38 +58,71 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     Creates a list with an attribute dictionary for each raw PowerFactory element
     """
     elements = []
-    pf_edges = ["ElmLne", "ElmCoup"]
-    node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv"]
+    single_node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
+    edges = ["ElmLne", "ElmCoup"]
+    typed_models = ["ElmLne", "ElmTr2"]
     for raw_element in raw_elements:
-        elem_class = raw_element.GetClassName()
+        element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)
-        # export connected elements of nodes and transformers
-        if (elem_class in ["ElmTerm", "ElmTr2", "ElmTr3"]):
+        element_id = name_without_preamble(raw_element.GetFullName())
+
+        # export connected elements of nodes
+        if element_class == "ElmTerm":
             element["conElms"] = []
             for con_elm in raw_element.GetConnectedElements():
                 element["conElms"].append(get_attribute_dict(con_elm, attributes4export["conElms"], True))
 
-        # export ids of nodes the edges are connected to
-        if (elem_class in pf_edges or elem_class in node_connection):
+        # if element is a 2 winding transformer
+        if (element_class == "ElmTr2"):
+            try:
+                element["busHvId"] = name_without_preamble(raw_element.bushv.cterm.GetFullName())
+            except Exception:
+                app.PrintWarn(f"Could not determine the id of the hv-bus for transformer {element_id}")
+                element["busHvId"] = None
+            try:
+                element["busLvId"] = name_without_preamble(raw_element.buslv.cterm.GetFullName())
+            except Exception:
+                app.PrintWarn(f"Could not determine the id of the lv-bus for transformer {element_id}")
+                element["busLvId"] = None
+            try:
+                element["cPtapc"] = name_without_preamble(raw_element.c_ptapc.GetFullName())
+            except Exception:
+                element["cPtapc"] = None
+
+        if element_class in edges:
+            # export ids of nodes the edges are connected to
             try:
                 element["bus1Id"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
             except Exception:
+                app.PrintWarn(f"Could not determine the first bus id of element {element_id}")
                 element["bus1Id"] = None
+            try:
+                element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
+            except Exception:
+                app.PrintWarn(f"Could not determine the second bus id of element {element_id}")
+                element["bus2Id"] = None
 
-            if (raw_element.GetClassName() in pf_edges):
-                try:
-                    element["bus2Id"] = name_without_preamble(raw_element.bus2.cterm.GetFullName())
-                except Exception:
-                    element["bus2Id"] = None
+        if element_class in single_node_connection:
+            try:
+                element["busId"] = name_without_preamble(raw_element.bus1.cterm.GetFullName())
+            except Exception:
+                app.PrintWarn(f"Could not determine bus-id of element {element_id}")
+                element["busId"] = None
 
+        if element_class in typed_models:
+            try:
+                element["typeId"] = name_without_preamble(raw_element.typ_id.GetFullName())
+            except:
+                app.PrintWarn(f"Could not determine the type-id of element {element_id}")
+                element["typeId"] = None
 
         elements.append(element)
     return elements
 
 
-dpf = powerfactory.GetApplication()
-dpf.EchoOff()
-project = dpf.GetActiveProject()
+app = powerfactory.GetApplication()
+app.EchoOff()
+project = app.GetActiveProject()
 pfGrid = {}  # resulting pf grid json export
 
 # get general settings
@@ -101,10 +134,13 @@ pfGrid.update({"projectSettings":
     }]
 })
 
+app.PrintInfo("Starting to generate the JSON export")
+
 # generate json strings
 for element_name in elements4export:
-    pfGrid.update({element_name: get_attribute_dicts(dpf.GetCalcRelevantObjects(elements4export[element_name]),
+    pfGrid.update({element_name: get_attribute_dicts(app.GetCalcRelevantObjects(elements4export[element_name]),
                                                      attributes4export[element_name])})
+app.PrintInfo("Writing that stuff into a file")
 
 # write
 if not os.path.exists(exported_grid_dir):
@@ -112,3 +148,6 @@ if not os.path.exists(exported_grid_dir):
 
 with open(exported_grid_file, 'w') as f:
     json.dump(pfGrid, f, indent= 2)
+
+app.PrintInfo("I'm done. Where is my money?")
+app.EchoOn()

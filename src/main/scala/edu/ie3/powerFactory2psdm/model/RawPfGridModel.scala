@@ -8,21 +8,21 @@ package edu.ie3.powerFactory2psdm.model
 
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
-  LineTypes,
+  PowerPlants,
+  Trafos3w,
   Lines,
-  Loads,
+  Pvs,
+  Switches,
+  TrafoTypes3w,
   LoadsLV,
   LoadsMV,
   Nodes,
-  PowerPlants,
-  ProjectSettings,
-  Pvs,
-  StatGen,
-  Switches,
-  TrafoTypes2w,
-  TrafoTypes3w,
   Trafos2w,
-  Trafos3w
+  StatGen,
+  Loads,
+  ProjectSettings,
+  LineTypes,
+  TrafoTypes2w
 }
 
 final case class RawPfGridModel(
@@ -48,6 +48,7 @@ object RawPfGridModel {
 
   final case class Switches(
       id: Option[String],
+      on_off: Option[Double],
       bus1Id: Option[String],
       bus2Id: Option[String]
   )
@@ -75,19 +76,31 @@ object RawPfGridModel {
       rline: Option[Double]
   )
 
-  final case class StatGen(id: Option[String])
-
-  final case class Lines(
+  final case class StatGen(
+      sgn: Option[Double],
+      cCategory: Option[String],
+      pf_recap: Option[Double],
+      busId: Option[String],
       id: Option[String],
-      bus1Id: Option[String],
-      bus2Id: Option[String]
+      sgini: Option[Double],
+      cosn: Option[Double],
+      cosgini: Option[Double]
   )
 
-  final case class PowerPlants(id: Option[String])
+  final case class Lines(
+      GPScoords: Option[List[Option[List[Option[Double]]]]],
+      typeId: Option[String],
+      dline: Option[Double],
+      id: Option[String],
+      bus2Id: Option[String],
+      bus1Id: Option[String]
+  )
+
+  final case class PowerPlants(id: Option[String], busId: Option[String])
 
   final case class Trafos3w()
 
-  final case class ExtGrid(id: Option[String])
+  final case class ExtGrid(id: Option[String], busId: Option[String])
 
   final case class TrafoTypes2w(
       nntap0: Option[Double],
@@ -130,8 +143,13 @@ object RawPfGridModel {
   )
 
   final case class Trafos2w(
+      typeId: Option[String],
       id: Option[String],
-      conElms: Option[List[Option[ConElms]]]
+      ntrcn: Option[Double],
+      cPtapc: Option[String],
+      busLvId: Option[String],
+      nntap: Option[Double],
+      busHvId: Option[String]
   )
 
   final case class TrafoTypes3w()
