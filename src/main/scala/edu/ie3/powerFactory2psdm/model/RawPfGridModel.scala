@@ -59,7 +59,6 @@ object RawPfGridModel {
 
   final case class Loads(
       bus1Id: Option[String],
-      u0: Option[Double],
       pf_recap: Option[Double],
       id: Option[String],
       coslini: Option[Double],

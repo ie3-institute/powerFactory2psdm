@@ -52,5 +52,4 @@ object LoadConverter {
       cosPhi
     )
   }
-
 }
