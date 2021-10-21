@@ -65,9 +65,21 @@ attributes4export = {
     ],
     'trafos3w': [],
     'trafoTypes3w': [],
-    'loads': [],
-    'loadsLV': [],
-    'loadsMV': [],
+    'loads': [
+        'slini',
+        'coslini',
+        'pf_recap'
+    ],
+    'loadsLV': [
+        'slini',
+        'coslini',
+        'pf_recap'
+    ],
+    'loadsMV': [
+        'slini',
+        'coslini',
+        'pf_recap'
+    ],
     'statGen': [
         'sgn',
         'sgini',

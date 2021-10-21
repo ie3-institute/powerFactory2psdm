@@ -5,6 +5,7 @@
  */
 
 package edu.ie3.powerFactory2psdm.model
+
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
   PowerPlants,
@@ -56,7 +57,13 @@ object RawPfGridModel {
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
-  final case class Loads(id: Option[String], busId: Option[String])
+  final case class Loads(
+      bus1Id: Option[String],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
   final case class LineTypes(
       bline: Option[Double],
@@ -117,7 +124,13 @@ object RawPfGridModel {
       prefixLength: Option[String]
   )
 
-  final case class LoadsLV(id: Option[String], busId: Option[String])
+  final case class LoadsLV(
+      bus1Id: Option[String],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
   final case class Nodes(
       vtarget: Option[Double],
@@ -140,6 +153,12 @@ object RawPfGridModel {
 
   final case class TrafoTypes3w()
 
-  final case class LoadsMV(id: Option[String], busId: Option[String])
+  final case class LoadsMV(
+      bus1Id: Option[String],
+      pf_recap: Option[Double],
+      id: Option[String],
+      coslini: Option[Double],
+      slini: Option[Double]
+  )
 
 }
