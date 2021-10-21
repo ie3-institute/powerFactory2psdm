@@ -10,21 +10,30 @@ import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.powerFactory2psdm.model.powerfactory.Load
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
+import edu.ie3.powerFactory2psdm.model.entity.Load
 import edu.ie3.util.quantities.PowerSystemUnits.{KILOWATTHOUR, MEGAVOLTAMPERE}
 import tech.units.indriya.quantity.Quantities
 
 import java.util.{Locale, UUID}
+import scala.util.{Failure, Success}
 
 object LoadConverter {
 
   def convert(input: Load, node: NodeInput): LoadInput = {
     val id = input.id
-    val cosPhi = input.indCapFlag match {
-      case 0.0 => input.cosphi
-      case 1.0 => -input.cosphi
+    val cosPhi = ConversionHelper.determineCosPhiRated(
+      input.indCapFlag,
+      input.cosphi
+    ) match {
+      case Success(value) => value
+      case Failure(exc) =>
+        throw ConversionException(
+          s"Couldn't determine cos phi rated for load: $id. Exception: ",
+          exc
+        )
     }
-    val s = Quantities.getQuantity(input.s, MEGAVOLTAMPERE)
+    val sRated = Quantities.getQuantity(input.s, MEGAVOLTAMPERE)
     val eCons = Quantities.getQuantity(0d, KILOWATTHOUR)
     val varCharacteristicString =
       "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosPhi)
@@ -39,7 +48,7 @@ object LoadConverter {
       BdewLoadProfile.H0,
       false,
       eCons,
-      s,
+      sRated,
       cosPhi
     )
   }

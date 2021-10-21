@@ -67,7 +67,6 @@ import edu.ie3.powerFactory2psdm.model.entity.{
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
-import edu.ie3.powerFactory2psdm.model.powerfactory.Load
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
@@ -508,7 +507,7 @@ object ConverterTestData extends LazyLogging {
 
   val loads = Map(
     "someLoad" -> ConversionPair(
-      Load("someLoad", "someNode", 13.23123, 0.97812, 0.0),
+      Load("someLoad", "someNode", 13.23123, 0.97812, 0),
       new LoadInput(
         UUID.randomUUID(),
         "someLoad",

@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.powerFactory2psdm.model.powerfactory
+package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
@@ -24,7 +24,7 @@ final case class Load(
     nodeId: String,
     s: Double,
     cosphi: Double,
-    indCapFlag: Double
+    indCapFlag: Int
 ) extends EntityModel
 
 object Load {
@@ -42,11 +42,13 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap.getOrElse(
-      throw MissingParameterException(
-        s"Load $id has no defined inductive/capacitive specifier"
+    val indCap = input.pf_recap
+      .getOrElse(
+        throw MissingParameterException(
+          s"Load $id has no defined inductive/capacitive specifier"
+        )
       )
-    )
+      .toInt
     Load(id, nodeId, s, cosphi, indCap)
   }
 
@@ -65,11 +67,13 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap.getOrElse(
-      throw MissingParameterException(
-        s"LV Load $id has no defined inductive/capacitive specifier"
+    val indCap = input.pf_recap
+      .getOrElse(
+        throw MissingParameterException(
+          s"LV Load $id has no defined inductive/capacitive specifier"
+        )
       )
-    )
+      .toInt
     Load(id, nodeId, s, cosphi, indCap)
   }
 
@@ -88,11 +92,13 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"MV Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap.getOrElse(
-      throw MissingParameterException(
-        s"MV Load $id has no defined inductive/capacitive specifier"
+    val indCap = input.pf_recap
+      .getOrElse(
+        throw MissingParameterException(
+          s"MV Load $id has no defined inductive/capacitive specifier"
+        )
       )
-    )
+      .toInt
     Load(id, nodeId, s, cosphi, indCap)
   }
 }

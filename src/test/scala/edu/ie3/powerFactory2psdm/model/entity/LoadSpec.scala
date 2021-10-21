@@ -8,7 +8,6 @@ package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Loads
-import edu.ie3.powerFactory2psdm.model.powerfactory.Load
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
