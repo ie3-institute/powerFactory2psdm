@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.model
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ConversionException,
   GridConfigurationException,
@@ -15,13 +16,24 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   LineTypes,
   Lines,
+  Loads,
+  LoadsLV,
+  LoadsMV,
   Nodes,
   ProjectSettings,
+  StatGen,
   Switches,
   TrafoTypes2w,
   Trafos2w
 }
-import edu.ie3.powerFactory2psdm.model.entity.{Line, Node, Switch}
+import edu.ie3.powerFactory2psdm.model.entity.{
+  Line,
+  Load,
+  Node,
+  StaticGenerator,
+  Switch,
+  Transformer2W
+}
 import edu.ie3.powerFactory2psdm.model.entity.types.{
   LineType,
   Transformer2WType
@@ -54,7 +66,10 @@ final case class PreprocessedPfGridModel(
     lineTypes: List[LineType],
     lines: List[Line],
     switches: List[Switch],
+    transformers2W: List[Transformer2W],
     transformerTypes2W: List[Transformer2WType],
+    loads: List[Load],
+    staticGenerators: List[StaticGenerator],
     conversionPrefixes: ConversionPrefixes
 )
 
@@ -68,7 +83,11 @@ object PreprocessedPfGridModel extends LazyLogging {
     * @return
     *   the preprocessed PowerFactory grid model
     */
-  def build(rawGrid: RawPfGridModel): PreprocessedPfGridModel = {
+  def build(
+      rawGrid: RawPfGridModel,
+      sRatedSource: ParameterSource,
+      cosPhiSource: ParameterSource
+  ): PreprocessedPfGridModel = {
     val projectSettings = extractProjectSettings(rawGrid.projectSettings)
     checkUnitSystem(
       projectSettings.unitSystem.getOrElse(
@@ -82,28 +101,35 @@ object PreprocessedPfGridModel extends LazyLogging {
       throw GridConfigurationException("There are no nodes in the grid.")
     )
     val rawLines = rawGrid.lines.getOrElse({
-      logger.debug("There are no lines in the grid.")
+      logger debug "There are no lines in the grid."
       List.empty[Lines]
     })
     val rawLineTypes = rawGrid.lineTypes.getOrElse({
-      logger.debug("There are no lines in the grid.")
+      logger debug "There are no lines in the grid."
       List.empty[LineTypes]
     })
     val rawSwitches = rawGrid.switches.getOrElse({
-      logger.debug("There are no switches in the grid.")
+      logger debug "There are no switches in the grid."
       List.empty[Switches]
     })
     val rawTrafos2W = rawGrid.trafos2w.getOrElse({
-      logger.debug("There are no switches in the grid.")
+      logger debug "There are no switches in the grid."
       List.empty[Trafos2w]
     })
     val rawTrafoTpyes2W = rawGrid.trafoTypes2w.getOrElse({
-      logger.debug("There are no 2w trafo types in the grid.")
+      logger debug "There are no 2w trafo types in the grid."
       List.empty[TrafoTypes2w]
+    })
+    val rawLoads =
+      (rawGrid.loads ++ rawGrid.loadsLV ++ rawGrid.loadsMV).flatten.toList
+    if (rawLoads.isEmpty) logger debug "There are no loads in the grid."
+    val rawStaticGenerators = rawGrid.statGen.getOrElse({
+      logger debug "There are no static generators in the grid."
+      List.empty[StatGen]
     })
 
     val models =
-      rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ rawTrafoTpyes2W
+      rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ rawTrafoTpyes2W ++ rawLoads ++ rawStaticGenerators
     val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
@@ -129,10 +155,34 @@ object PreprocessedPfGridModel extends LazyLogging {
             s"Transformer $trafo2w has no defined id"
           )
         )
-      case trafoTypes2w: TrafoTypes2w =>
-        trafoTypes2w.id.getOrElse(
+      case trafoType2w: TrafoTypes2w =>
+        trafoType2w.id.getOrElse(
           throw MissingParameterException(
-            s"Transformer type $trafoTypes2w has no defined id"
+            s"Transformer type $trafoType2w has no defined id"
+          )
+        )
+      case load: Loads =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"Load $load has no defined id"
+          )
+        )
+      case load: LoadsLV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"LV load $load has no defined id"
+          )
+        )
+      case load: LoadsMV =>
+        load.id.getOrElse(
+          throw MissingParameterException(
+            s"MV load $load has no defined id"
+          )
+        )
+      case staticGenerator: StatGen =>
+        staticGenerator.id.getOrElse(
+          throw MissingParameterException(
+            s"Static generator $staticGenerator has no defined id"
           )
         )
     }
@@ -148,14 +198,30 @@ object PreprocessedPfGridModel extends LazyLogging {
     val lines = rawLines.map(line => Line.build(line))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
+    val transformers2W = rawTrafos2W.map(Transformer2W.build)
     val trafoTypes2W = rawTrafoTpyes2W.map(Transformer2WType.build)
+    val loads = rawLoads.map {
+      case load: Loads   => Load.build(load)
+      case load: LoadsLV => Load.build(load)
+      case load: LoadsMV => Load.build(load)
+      case other =>
+        throw ConversionException(
+          s"Encountered unexpected load type: $other. I hate surprises!"
+        )
+    }
+    val staticGenerators = rawStaticGenerators.map(statGen =>
+      StaticGenerator.build(statGen, sRatedSource, cosPhiSource)
+    )
 
     PreprocessedPfGridModel(
       nodes,
       lineTypes,
       lines,
       switches,
+      transformers2W,
       trafoTypes2W,
+      loads,
+      staticGenerators,
       conversionPrefixes
     )
   }

@@ -37,6 +37,6 @@ object RunConversion extends LazyLogging {
       .getOrElse(
         throw GridParsingException("Parsing the Json grid file failed")
       )
-    val psdmGrid = GridConverter.convert(pfGrid)
+    val psdmGrid = GridConverter.convert(pfGrid, config)
   }
 }
