@@ -6,7 +6,9 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.converter.types.{LineTypeConverter, Transformer2WTypeConverter}
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
@@ -14,8 +16,12 @@ import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
   */
 case object GridConverter {
 
-  def convert(pfGrid: RawPfGridModel) = {
-    val grid = PreprocessedPfGridModel.build(pfGrid)
+  def convert(pfGrid: RawPfGridModel, config: ConversionConfig) = {
+    val grid = PreprocessedPfGridModel.build(
+      pfGrid,
+      config.modelConfigs.sRatedSource,
+      config.modelConfigs.cosPhiSource
+    )
     val gridElements = convertGridElements(grid)
   }
 
@@ -25,7 +31,8 @@ case object GridConverter {
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: PreprocessedPfGridModel
+      grid: PreprocessedPfGridModel,
+      statGenConversionConfig: StatGenModelConfigs
   ): Unit = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
@@ -41,5 +48,16 @@ case object GridConverter {
       nodes,
       lineTypes
     )
+    val transformer2WTypes = grid.transformerTypes2W
+      .map(transformer =>
+        transformer.id -> Transformer2WTypeConverter.convert(transformer)
+      )
+      .toMap
+    val transfomers2W = Transformer2WConverter.convertTransformers(
+      grid.transformers2W,
+      nodes,
+      transformer2WTypes
+    )
+    val loads = LoadConverter.convertLoads(grid.loads, nodes)
   }
 }
