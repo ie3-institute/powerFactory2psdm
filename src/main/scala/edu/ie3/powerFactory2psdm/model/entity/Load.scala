@@ -8,14 +8,14 @@ package edu.ie3.powerFactory2psdm.model.entity
 
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
-import edu.ie3.powerFactory2psdm.model.entity.EntityModel
+import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 
 /** Electrical load
   *
   * @param id
   *   identifier
   * @param s
-  *   apparent power in MVA
+  *   apparent power in VA
   * @param cosphi
   *   cosinus phi value
   */
@@ -29,7 +29,7 @@ final case class Load(
 
 object Load {
 
-  def build(input: Loads): Load = {
+  def build(input: Loads, conversionPrefix: ConversionPrefix): Load = {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"Load $input has no defined id.")
     )
@@ -38,7 +38,7 @@ object Load {
     )
     val s = input.slini.getOrElse(
       throw MissingParameterException(s"Load $id has no defined apparent power")
-    )
+    ) * conversionPrefix.value
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"Load $id has no defined cosinus phi")
     )
@@ -59,11 +59,13 @@ object Load {
     val nodeId = input.bus1Id.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined bus")
     )
+    // for some weird reason the unit prefix adjustable via the project setting only applies to general and mv loads
+    // for lv loads the unit is always kVA hence we scale it to VA via 1e3
     val s = input.slini.getOrElse(
       throw MissingParameterException(
         s"LV Load $id has no defined apparent power"
       )
-    ) / 1000
+    ) * 1e3
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined cosinus phi")
     )
@@ -77,7 +79,7 @@ object Load {
     Load(id, nodeId, s, cosphi, indCap)
   }
 
-  def build(input: LoadsMV): Load = {
+  def build(input: LoadsMV, conversionPrefix: ConversionPrefix): Load = {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"MV Load $input has no defined id.")
     )
@@ -88,7 +90,7 @@ object Load {
       throw MissingParameterException(
         s"MV Load $id has no defined apparent power"
       )
-    )
+    ) * conversionPrefix.value
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"MV Load $id has no defined cosinus phi")
     )

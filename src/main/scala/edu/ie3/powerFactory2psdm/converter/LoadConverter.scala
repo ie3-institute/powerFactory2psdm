@@ -12,8 +12,7 @@ import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Load
-import edu.ie3.util.quantities.PowerSystemUnits.{KILOWATTHOUR, MEGAVOLTAMPERE}
-import tech.units.indriya.quantity.Quantities
+import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 
 import java.util.{Locale, UUID}
 import scala.util.{Failure, Success}
@@ -33,8 +32,8 @@ object LoadConverter {
           exc
         )
     }
-    val sRated = Quantities.getQuantity(input.s, MEGAVOLTAMPERE)
-    val eCons = Quantities.getQuantity(0d, KILOWATTHOUR)
+    val sRated = input.s.asVoltAmpere
+    val eCons = 0d.asKiloWattHour
     val varCharacteristicString =
       "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosPhi)
 
