@@ -75,8 +75,8 @@ object Load {
     val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined bus")
     )
-    // for some weird reason the unit prefix adjustable via the project setting only applies to general and mv loads
-    // for lv loads the unit is always kVA hence we scale it to VA via 1e3
+    // for some weird reason the unit prefix adjustable via the project setting within PowerFactory only applies to
+    // general loads and mv loads for lv loads the unit is always kVA hence we scale it to VA via 1e3
     val s = input.slini.getOrElse(
       throw MissingParameterException(
         s"LV Load $id has no defined apparent power"
