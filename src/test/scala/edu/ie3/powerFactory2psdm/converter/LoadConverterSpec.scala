@@ -7,7 +7,10 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData
-import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.entity.Load.getIsScaled
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -38,10 +41,14 @@ private class LoadConverterSpec extends Matchers with AnyWordSpecLike {
     "determine whether scaling should be applied" in {
       getIsScaled(Some(1.0)) shouldBe Success(true)
       getIsScaled(Some(0.0)) shouldBe Success(false)
-      getIsScaled(Some(2.0)) shouldBe Failure(ElementConfigurationException(
-        s"The isScaled specifier: 2.0 should be either 0 or 1."
-      ))
-      getIsScaled(None) shouldBe Failure(MissingParameterException("The isScaled specifier is missing."))
+      getIsScaled(Some(2.0)) shouldBe Failure(
+        ElementConfigurationException(
+          s"The isScaled specifier: 2 should be either 0 or 1."
+        )
+      )
+      getIsScaled(None) shouldBe Failure(
+        MissingParameterException("The isScaled specifier is missing.")
+      )
     }
   }
 }

@@ -507,7 +507,15 @@ object ConverterTestData extends LazyLogging {
 
   val loads = Map(
     "someLoad" -> ConversionPair(
-      Load("someLoad", "someNode", 13.23123, 0.97812, 0),
+      Load(
+        "someLoad",
+        "someNode",
+        13.23123,
+        0.97812,
+        0,
+        isScaled = false,
+        None
+      ),
       new LoadInput(
         UUID.randomUUID(),
         "someLoad",
