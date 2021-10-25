@@ -31,22 +31,21 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       actual.isSlack shouldBe expected.isSlack
     }
 
+
+    "convert a correctly configured slack pf node to a correctly configured slack PSDM Node" in {
+      val conversionPair = getNodePair("someSlackNode")
+      val input = conversionPair.input
+      val expected = conversionPair.result
+
+      val actual = NodeConverter.convertNode(
+        input,
+        2,
+        GermanVoltageLevelUtils.LV
+      )
+      actual.getId shouldBe expected.getId
+      actual.getVoltLvl shouldBe expected.getVoltLvl
+      actual.getSubnet shouldBe expected.getSubnet
+      actual.isSlack shouldBe expected.isSlack
+    }
   }
-
-  "convert a correctly configured slack pf node to a correctly configured slack PSDM Node" in {
-    val conversionPair = getNodePair("someSlackNode")
-    val input = conversionPair.input
-    val expected = conversionPair.result
-
-    val actual = NodeConverter.convertNode(
-      input,
-      2,
-      GermanVoltageLevelUtils.LV
-    )
-    actual.getId shouldBe expected.getId
-    actual.getVoltLvl shouldBe expected.getVoltLvl
-    actual.getSubnet shouldBe expected.getSubnet
-    actual.isSlack shouldBe expected.isSlack
-  }
-
 }

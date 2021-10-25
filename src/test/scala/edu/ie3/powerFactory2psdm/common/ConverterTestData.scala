@@ -510,7 +510,7 @@ object ConverterTestData extends LazyLogging {
       Load(
         "someLoad",
         "someNode",
-        13.23123,
+        13231.23,
         0.97812,
         0,
         isScaled = false,
@@ -528,7 +528,7 @@ object ConverterTestData extends LazyLogging {
         BdewLoadProfile.H0,
         false,
         0d.asKiloWattHour,
-        13.23123.asMegaVoltAmpere,
+        13231.23.asVoltAmpere,
         0.97812
       )
     )
