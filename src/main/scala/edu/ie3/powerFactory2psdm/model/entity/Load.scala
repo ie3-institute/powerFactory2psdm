@@ -9,6 +9,9 @@ package edu.ie3.powerFactory2psdm.model.entity
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
+import org.apache.logging.log4j.core.config.ConfigurationException
+
+import scala.util.{Failure, Success, Try}
 
 /** Electrical load
   *
@@ -24,7 +27,9 @@ final case class Load(
     nodeId: String,
     s: Double,
     cosphi: Double,
-    indCapFlag: Int
+    indCapFlag: Int,
+    isScaled: Boolean,
+    scalingFactor: Option[Double]
 ) extends EntityModel
 
 object Load {
@@ -33,7 +38,7 @@ object Load {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"Load $id has no defined bus")
     )
     val s = input.slini.getOrElse(
@@ -49,14 +54,22 @@ object Load {
         )
       )
       .toInt
-    Load(id, nodeId, s, cosphi, indCap)
+    getIsScaled(input.i_scale) match {
+      case Success(isScaled) =>
+        Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
+      case Failure(exc) =>
+        throw new ConfigurationException(
+          s"Could not determine whether load $id is scaled.",
+          exc
+        )
+    }
   }
 
   def build(input: LoadsLV): Load = {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"LV Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined bus")
     )
     // for some weird reason the unit prefix adjustable via the project setting only applies to general and mv loads
@@ -76,14 +89,23 @@ object Load {
         )
       )
       .toInt
-    Load(id, nodeId, s, cosphi, indCap)
+    getIsScaled(input.i_scale) match {
+      case Success(isScaled) =>
+        Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
+      case Failure(exc) =>
+        throw new ConfigurationException(
+          s"Could not determine whether lv load $id is scaled.",
+          exc
+        )
+
+    }
   }
 
   def build(input: LoadsMV, conversionPrefix: ConversionPrefix): Load = {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"MV Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"MV Load $id has no defined bus")
     )
     val s = input.slini.getOrElse(
@@ -101,6 +123,21 @@ object Load {
         )
       )
       .toInt
-    Load(id, nodeId, s, cosphi, indCap)
+    getIsScaled(input.i_scale) match {
+      case Success(isScaled) =>
+        Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
+      case Failure(exc) =>
+        throw new ConfigurationException(
+          s"Could not determine whether mv load $id is scaled.",
+          exc
+        )
+    }
+  }
+
+  def getIsScaled(maybeIsScaled: Option[Double]): Try[Boolean] = Try {
+    maybeIsScaled.get.toInt match {
+      case 0 => false
+      case 1 => true
+    }
   }
 }
