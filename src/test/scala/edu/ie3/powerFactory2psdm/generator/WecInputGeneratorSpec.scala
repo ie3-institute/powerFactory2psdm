@@ -15,7 +15,7 @@ import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
-class WecGeneratorSpec extends Matchers with AnyWordSpecLike {
+class WecInputGeneratorSpec extends Matchers with AnyWordSpecLike {
 
   "A wec generator" should {
     val generationPair = getGenerateWecPair("someWec")
@@ -25,7 +25,8 @@ class WecGeneratorSpec extends Matchers with AnyWordSpecLike {
 
     "generate a WecInput correctly" in {
       val expected = generationPair.resultModel
-      val actual = WecGenerator.generate(input, node, modelGenerationConfig)._1
+      val actual =
+        WecInputGenerator.generate(input, node, modelGenerationConfig)._1
 
       actual.getId shouldBe expected.getId
       actual.getNode shouldBe expected.getNode
@@ -33,7 +34,8 @@ class WecGeneratorSpec extends Matchers with AnyWordSpecLike {
 
     "generate a WecTypeInput correctly" in {
       val expected = generationPair.resultType
-      val actual = WecGenerator.generate(input, node, modelGenerationConfig)._2
+      val actual =
+        WecInputGenerator.generate(input, node, modelGenerationConfig)._2
 
       actual.getsRated shouldBe expected.getsRated
       actual.getEtaConv shouldBe expected.getEtaConv

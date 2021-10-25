@@ -10,17 +10,17 @@ import edu.ie3.powerFactory2psdm.config.model.IndividualModelConfig.ModelConvers
 
 /** Default model config to apply for the model conversion.
   */
-trait DefaultModelConfig {
+trait DefaultModelConfig[T <: IndividualModelConfig] {
   val conversionMode: ModelConversionMode
-  val individualConfigs: Option[List[IndividualModelConfig]]
-}
+  val individualConfigs: Option[List[T]]
 
-object DefaultModelConfig {
+  def getIndividualModelConfig(modelId: String): Option[T] =
+    individualConfigs.flatMap(configs => configs.find(_.ids.contains(modelId)))
 
   /** Return conversion modes of the default and all individual model configs.
     */
   def getConversionModes(
-      config: DefaultModelConfig
+      config: DefaultModelConfig[T]
   ): Seq[ModelConversionMode] = {
     Seq(config.conversionMode) ++ config.individualConfigs
       .getOrElse(Nil)

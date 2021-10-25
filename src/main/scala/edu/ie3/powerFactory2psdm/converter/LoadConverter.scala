@@ -21,13 +21,18 @@ import scala.util.{Failure, Success}
 
 object LoadConverter {
 
-  def convertLoads(input: List[Load], nodes: Map[String, NodeInput]): List[LoadInput] = {
+  def convertLoads(
+      input: List[Load],
+      nodes: Map[String, NodeInput]
+  ): List[LoadInput] = {
     input map { load =>
       getNode(load.nodeId, nodes) match {
         case Success(node) => convert(load, node)
-        case Failure(exc) => throw ConversionException(
-          s"Could not convert load due to inability of finding its converted node with id: ${load.nodeId}", exc
-        )
+        case Failure(exc) =>
+          throw ConversionException(
+            s"Could not convert load due to inability of finding its converted node with id: ${load.nodeId}",
+            exc
+          )
       }
     }
   }

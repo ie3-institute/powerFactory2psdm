@@ -29,7 +29,7 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 final case class PvConversionConfig(
     conversionMode: PvModelConversionMode,
     individualConfigs: Option[List[IndividualPvConfig]]
-) extends DefaultModelConfig
+) extends DefaultModelConfig[IndividualPvConfig] {}
 
 object PvConversionConfig {
 

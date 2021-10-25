@@ -17,7 +17,7 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import java.util.UUID
 
-object WecGenerator {
+object WecInputGenerator {
 
   /** Generates a [[WecInput]] and a [[WecTypeInput]] to replace a shallow
     * [[StaticGenerator]]. As a static generator does not hold all parameters

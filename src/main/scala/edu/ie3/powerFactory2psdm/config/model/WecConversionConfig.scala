@@ -29,7 +29,7 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 final case class WecConversionConfig(
     conversionMode: WecModelConversionMode,
     individualConfigs: Option[List[IndividualWecConfig]]
-) extends DefaultModelConfig
+) extends DefaultModelConfig[IndividualWecConfig]
 
 object WecConversionConfig {
 

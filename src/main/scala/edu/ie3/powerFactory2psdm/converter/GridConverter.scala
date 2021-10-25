@@ -8,7 +8,10 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
-import edu.ie3.powerFactory2psdm.converter.types.{LineTypeConverter, Transformer2WTypeConverter}
+import edu.ie3.powerFactory2psdm.converter.types.{
+  LineTypeConverter,
+  Transformer2WTypeConverter
+}
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
@@ -59,5 +62,6 @@ case object GridConverter {
       transformer2WTypes
     )
     val loads = LoadConverter.convertLoads(grid.loads, nodes)
+    val statGenModels = ???
   }
 }
