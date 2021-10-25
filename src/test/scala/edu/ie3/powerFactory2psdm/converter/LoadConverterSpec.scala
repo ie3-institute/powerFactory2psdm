@@ -18,7 +18,10 @@ import edu.ie3.scalatest.QuantityMatchers
 
 import scala.util.{Failure, Success}
 
-private class LoadConverterSpec extends Matchers with AnyWordSpecLike with QuantityMatchers {
+private class LoadConverterSpec
+    extends Matchers
+    with AnyWordSpecLike
+    with QuantityMatchers {
 
   "A load converter" should {
     val loadPair = ConverterTestData.getLoadPair("someLoad")
@@ -42,7 +45,10 @@ private class LoadConverterSpec extends Matchers with AnyWordSpecLike with Quant
 
     "convert a scaled load correctly" in {
       val scalingFactor = 0.5
-      val scaledLoad = loadPair.input.copy(isScaled = true, scalingFactor = Some(scalingFactor))
+      val scaledLoad = loadPair.input.copy(
+        isScaled = true,
+        scalingFactor = Some(scalingFactor)
+      )
       val actual = LoadConverter.convert(scaledLoad, node)
       val expected = loadPair.result
       actual.getId shouldBe expected.getId
@@ -53,7 +59,9 @@ private class LoadConverterSpec extends Matchers with AnyWordSpecLike with Quant
       actual.getStandardLoadProfile shouldBe expected.getStandardLoadProfile
       actual.isDsm shouldBe expected.isDsm
       actual.geteConsAnnual shouldBe expected.geteConsAnnual
-      actual.getsRated should equalWithTolerance(expected.getsRated.multiply(0.5))
+      actual.getsRated should equalWithTolerance(
+        expected.getsRated.multiply(0.5)
+      )
       actual.getCosPhiRated shouldBe expected.getCosPhiRated
     }
 

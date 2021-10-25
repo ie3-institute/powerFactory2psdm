@@ -31,7 +31,6 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       actual.isSlack shouldBe expected.isSlack
     }
 
-
     "convert a correctly configured slack pf node to a correctly configured slack PSDM Node" in {
       val conversionPair = getNodePair("someSlackNode")
       val input = conversionPair.input
