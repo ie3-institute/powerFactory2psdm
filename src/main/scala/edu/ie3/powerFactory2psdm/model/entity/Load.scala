@@ -6,7 +6,10 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ElementConfigurationException,
+  MissingParameterException
+}
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 import org.apache.logging.log4j.core.config.ConfigurationException
@@ -134,10 +137,17 @@ object Load {
     }
   }
 
-  def getIsScaled(maybeIsScaled: Option[Double]): Try[Boolean] = Try {
-    maybeIsScaled.get.toInt match {
-      case 0 => false
-      case 1 => true
+  def getIsScaled(maybeIsScaled: Option[Double]): Try[Boolean] =
+    maybeIsScaled.map(_.toInt) match {
+      case Some(x) if x == 0 => Success(false)
+      case Some(x) if x == 1 => Success(true)
+      case Some(x) =>
+        Failure(
+          ElementConfigurationException(
+            s"The isScaled specifier: $x should be either 0 or 1."
+          )
+        )
+      case None =>
+        Failure(MissingParameterException("The isScaled specifier is missing."))
     }
-  }
 }
