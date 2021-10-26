@@ -28,7 +28,7 @@ object Transformer2WConverter extends LazyLogging {
       (
         getNode(transformer.nodeLvId, nodes),
         getNode(transformer.nodeHvId, nodes),
-        getTransformer2WType(transformer.id, types)
+        getTransformer2WType(transformer.typeId, types)
       ) match {
         case (Success(nodeLv), Success(nodeHv), Success(transformer2WType)) =>
           Transformer2WConverter.convert(

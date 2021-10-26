@@ -33,7 +33,7 @@ object Load {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"Load $id has no defined bus")
     )
     val s = input.slini.getOrElse(
@@ -56,7 +56,7 @@ object Load {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"LV Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined bus")
     )
     val s = input.slini.getOrElse(
@@ -81,7 +81,7 @@ object Load {
     val id = input.id.getOrElse(
       throw MissingParameterException(s"MV Load $input has no defined id.")
     )
-    val nodeId = input.bus1Id.getOrElse(
+    val nodeId = input.busId.getOrElse(
       throw MissingParameterException(s"MV Load $id has no defined bus")
     )
     val s = input.slini.getOrElse(

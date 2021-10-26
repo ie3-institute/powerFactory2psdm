@@ -91,8 +91,10 @@ case object GridConverter {
       lineTypes
     )
     val transformer2WTypes = grid.transformerTypes2W
-      .map(transformer =>
-        transformer.id -> Transformer2WTypeConverter.convert(transformer)
+      .map(transformerType =>
+        transformerType.id -> Transformer2WTypeConverter.convert(
+          transformerType
+        )
       )
       .toMap
     val transfomers2W = Transformer2WConverter.convertTransformers(

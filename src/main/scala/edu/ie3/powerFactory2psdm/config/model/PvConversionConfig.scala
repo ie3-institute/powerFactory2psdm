@@ -29,7 +29,7 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 final case class PvConversionConfig(
     conversionMode: PvModelConversionMode,
     individualConfigs: Option[List[IndividualPvConfig]]
-) extends DefaultModelConfig[IndividualPvConfig] {}
+) extends DefaultModelConfig[PvModelConversionMode, IndividualPvConfig] {}
 
 object PvConversionConfig {
 
@@ -44,7 +44,7 @@ object PvConversionConfig {
   final case class IndividualPvConfig(
       ids: Set[String],
       conversionMode: PvModelConversionMode
-  ) extends IndividualModelConfig
+  ) extends IndividualModelConfig[PvModelConversionMode]
 
   /** Trait to denote modes for converting pv static generators
     */

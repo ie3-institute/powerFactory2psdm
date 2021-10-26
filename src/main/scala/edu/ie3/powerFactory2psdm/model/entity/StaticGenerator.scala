@@ -14,7 +14,8 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
 }
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
-import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories._
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.getCategory
 
 import scala.util.{Failure, Success, Try}
 
@@ -39,7 +40,7 @@ final case class StaticGenerator(
     sRated: Double,
     cosPhi: Double,
     indCapFlag: Int,
-    category: Value
+    category: StatGenCategories.Value
 ) extends EntityModel
 
 object StaticGenerator extends LazyLogging {
