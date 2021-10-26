@@ -25,6 +25,14 @@ import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.{
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.generator.{PvInputGenerator, WecInputGenerator}
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.{
+  BATTERY,
+  BIOGAS,
+  OTHER,
+  PV,
+  WEC
+}
+
 import scala.util.{Failure, Success}
 
 object StaticGeneratorConverter extends LazyLogging {
@@ -86,7 +94,7 @@ object StaticGeneratorConverter extends LazyLogging {
       case Success(node) => node
     }
     statGen.category match {
-      case "Fotovoltaik" => {
+      case PV =>
         val maybeIndividualConfig =
           conversionConfig.pvConfig.getIndividualModelConfig(statGen.id)
         val conversionMode = maybeIndividualConfig
@@ -102,8 +110,7 @@ object StaticGeneratorConverter extends LazyLogging {
           case modelGeneration: PvModelGeneration =>
             PvInputGenerator.generate(statGen, node, modelGeneration)
         }
-      }
-      case "Wind" => {
+      case WEC =>
         val maybeIndividualConfig =
           conversionConfig.wecConfig.getIndividualModelConfig(statGen.id)
         val conversionMode = maybeIndividualConfig
@@ -119,9 +126,14 @@ object StaticGeneratorConverter extends LazyLogging {
           case modelGeneration: WecModelGeneration =>
             WecInputGenerator.generate(statGen, node, modelGeneration)
         }
-      }
-      case other =>
-        logger error s"Specific model generation for category: $other is currently not supported."
+      case BIOGAS =>
+        logger error s"Specific model generation for category: $BIOGAS is currently not supported. Generator ${statGen.id} will not be converted."
+
+      case BATTERY =>
+        logger error s"Specific model generation for category: $BATTERY is currently not supported. Generator ${statGen.id} will not be converted."
+
+      case OTHER =>
+        logger error s"Specific model generation for category: $OTHER is currently not supported. Generator ${statGen.id} will not be converted."
     }
   }
 

@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
+import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   BasicDataSource,
   LoadFlowSource,
@@ -13,6 +14,9 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
 }
 import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.StatGen
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories._
+
+import scala.util.{Failure, Success, Try}
 
 /** A static generator
   *
@@ -35,10 +39,28 @@ final case class StaticGenerator(
     sRated: Double,
     cosPhi: Double,
     indCapFlag: Int,
-    category: String
+    category: Value
 ) extends EntityModel
 
-object StaticGenerator {
+object StaticGenerator extends LazyLogging {
+
+  object StatGenCategories extends Enumeration {
+    val PV: Value = Value("Fotovoltaik")
+    val WEC: Value = Value("Wind")
+    val BIOGAS: Value = Value("Biogas")
+    val BATTERY: Value = Value("Batterie")
+    val OTHER: Value = Value("Other")
+
+    def getCategory(category: String): Value = {
+      Try(withName(category)) match {
+        case Failure(_) => {
+          logger debug s"The category $category is not explicitly handled. Will assign $OTHER instead."
+          OTHER
+        }
+        case Success(value) => value
+      }
+    }
+  }
 
   def build(
       input: StatGen,
@@ -90,9 +112,11 @@ object StaticGenerator {
         )
       )
       .toInt
-    val category = input.cCategory.getOrElse(
-      throw MissingParameterException(
-        s"There is no category specifier defined for static generator: $id"
+    val category = getCategory(
+      input.cCategory.getOrElse(
+        throw MissingParameterException(
+          s"There is no category specifier defined for static generator: $id"
+        )
       )
     )
     StaticGenerator(id, busId, sRated, cosPhi, indCapFlag, category)
