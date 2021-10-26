@@ -6,6 +6,30 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
+import edu.ie3.datamodel.graph.SubGridTopologyGraph
+import edu.ie3.datamodel.models.input.{MeasurementUnitInput, NodeInput}
+import edu.ie3.datamodel.models.input.connector.Transformer3WInput
+import edu.ie3.datamodel.models.input.container.{
+  GraphicElements,
+  JointGridContainer,
+  RawGridElements,
+  SystemParticipants
+}
+import edu.ie3.datamodel.models.input.graphics.{
+  LineGraphicInput,
+  NodeGraphicInput
+}
+import edu.ie3.datamodel.models.input.system.{
+  BmInput,
+  ChpInput,
+  EvInput,
+  EvcsInput,
+  FixedFeedInInput,
+  HpInput,
+  PvInput,
+  StorageInput,
+  WecInput
+}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
 import edu.ie3.powerFactory2psdm.converter.types.{
@@ -14,18 +38,34 @@ import edu.ie3.powerFactory2psdm.converter.types.{
 }
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
+import scala.jdk.CollectionConverters.SetHasAsJava
+
 /** Functionalities to transform an exported and then parsed PowerFactory grid
   * to the PSDM.
   */
 case object GridConverter {
 
-  def convert(pfGrid: RawPfGridModel, config: ConversionConfig) = {
+  def convert(
+      pfGrid: RawPfGridModel,
+      config: ConversionConfig
+  ): JointGridContainer = {
     val grid = PreprocessedPfGridModel.build(
       pfGrid,
       config.modelConfigs.sRatedSource,
       config.modelConfigs.cosPhiSource
     )
-    val gridElements = convertGridElements(grid)
+    val (gridElements, convertedNodes) = convertGridElements(grid)
+    val participants =
+      convertParticipants(grid, convertedNodes, config.modelConfigs)
+    new JointGridContainer(
+      config.gridName,
+      gridElements,
+      participants,
+      new GraphicElements(
+        Set.empty[NodeGraphicInput].asJava,
+        Set.empty[LineGraphicInput].asJava
+      )
+    )
   }
 
   /** Converts the grid elements of the PowerFactory grid
@@ -34,9 +74,8 @@ case object GridConverter {
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: PreprocessedPfGridModel,
-      statGenConversionConfig: StatGenModelConfigs
-  ): Unit = {
+      grid: PreprocessedPfGridModel
+  ): (RawGridElements, Map[String, NodeInput]) = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
@@ -61,7 +100,46 @@ case object GridConverter {
       nodes,
       transformer2WTypes
     )
-    val loads = LoadConverter.convertLoads(grid.loads, nodes)
-    val statGenModels = ???
+    val switches =
+      grid.switches.map(switch => SwitchConverter.convert(switch, nodes))
+
+    (
+      new RawGridElements(
+        nodes.values.toSet.asJava,
+        lines.toSet.asJava,
+        transfomers2W.toSet.asJava,
+        Set.empty[Transformer3WInput].asJava,
+        switches.toSet.asJava,
+        Set.empty[MeasurementUnitInput].asJava
+      ),
+      nodes
+    )
+
+  }
+
+  def convertParticipants(
+      grid: PreprocessedPfGridModel,
+      convertedNodes: Map[String, NodeInput],
+      statGenConversionConfig: StatGenModelConfigs
+  ): SystemParticipants = {
+    val loads = LoadConverter.convertLoads(grid.loads, convertedNodes)
+    val statGenModelContainer = StaticGeneratorConverter.convert(
+      grid.staticGenerators,
+      statGenConversionConfig,
+      convertedNodes
+    )
+    new SystemParticipants(
+      Set.empty[BmInput].asJava,
+      Set.empty[ChpInput].asJava,
+      Set.empty[EvcsInput].asJava,
+      Set.empty[EvInput].asJava,
+      statGenModelContainer.fixedFeedIns.toSet.asJava,
+      Set.empty[HpInput].asJava,
+      loads.toSet.asJava,
+      statGenModelContainer.pvInputs.toSet.asJava,
+      Set.empty[StorageInput].asJava,
+      statGenModelContainer.wecInputs.toSet.asJava
+    )
+
   }
 }

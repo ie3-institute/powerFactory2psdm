@@ -7,6 +7,9 @@
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
+import edu.ie3.datamodel.io.csv.DefaultDirectoryHierarchy
+import edu.ie3.datamodel.io.naming.{DefaultDirectoryHierarchy, EntityPersistenceNamingStrategy, FileNamingStrategy}
+import edu.ie3.datamodel.io.sink.CsvFileSink
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
 import edu.ie3.powerFactory2psdm.converter.GridConverter
@@ -37,6 +40,28 @@ object RunConversion extends LazyLogging {
       .getOrElse(
         throw GridParsingException("Parsing the Json grid file failed")
       )
+    logger.info("Converting grid to PSDM")
     val psdmGrid = GridConverter.convert(pfGrid, config)
+
+    val baseTargetDirectory = config.output.targetFolder
+
+    val csvSink = if (config.output.csvConfig.directoryHierarchy) {
+      new CsvFileSink(
+        baseTargetDirectory,
+        new FileNamingStrategy(
+          new EntityPersistenceNamingStrategy(),
+          new DefaultDirectoryHierarchy(baseTargetDirectory, config.gridName)
+        ),
+        false,
+        config.output.csvConfig.separator
+      )
+    } else {
+      new CsvFileSink(
+        baseTargetDirectory,
+        new FileNamingStrategy(),
+        false,
+        config.output.csvConfig.separator
+      )
+    }
   }
 }
