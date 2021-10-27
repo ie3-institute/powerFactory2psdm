@@ -115,10 +115,14 @@ case object GridConverter {
 
   }
 
-  /** Convert system participants to PSDM
+  /** Convert system participants of the power factory grid.
+    *
     * @param grid
+    *   the PF grid
     * @param convertedNodes
+    *   the converted nodes
     * @param statGenConversionConfig
+    *   the conversion configuration for static generators
     * @return
     */
   def convertParticipants(
