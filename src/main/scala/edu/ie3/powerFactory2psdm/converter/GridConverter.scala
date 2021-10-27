@@ -6,7 +6,6 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.datamodel.graph.SubGridTopologyGraph
 import edu.ie3.datamodel.models.input.{MeasurementUnitInput, NodeInput}
 import edu.ie3.datamodel.models.input.connector.Transformer3WInput
 import edu.ie3.datamodel.models.input.container.{
@@ -24,11 +23,8 @@ import edu.ie3.datamodel.models.input.system.{
   ChpInput,
   EvInput,
   EvcsInput,
-  FixedFeedInInput,
   HpInput,
-  PvInput,
-  StorageInput,
-  WecInput
+  StorageInput
 }
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
@@ -119,6 +115,12 @@ case object GridConverter {
 
   }
 
+  /** Convert system participants to PSDM
+    * @param grid
+    * @param convertedNodes
+    * @param statGenConversionConfig
+    * @return
+    */
   def convertParticipants(
       grid: PreprocessedPfGridModel,
       convertedNodes: Map[String, NodeInput],

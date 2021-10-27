@@ -11,7 +11,7 @@ import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   subnet2Ids,
   subnet3Ids,
   subnet4Ids,
-  testGrid
+  preProcessedGrid
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
@@ -25,21 +25,21 @@ class GridGraphBuilderSpec extends Matchers with AnyWordSpecLike {
   "The GridGraphBuilder" should {
 
     val gridGraph = GridGraphBuilder.build(
-      testGrid.nodes,
-      testGrid.lines ++ testGrid.switches
+      preProcessedGrid.nodes,
+      preProcessedGrid.lines ++ preProcessedGrid.switches
     )
     val inspect = new BiconnectivityInspector(gridGraph)
     val vertexSets = inspect.getConnectedComponents.asScala
       .map(graph => graph.vertexSet())
 
     "add the correct number of nodes to the gridGraph" in {
-      gridGraph.vertexSet().size shouldBe testGrid.nodes.size
+      gridGraph.vertexSet().size shouldBe preProcessedGrid.nodes.size
     }
 
     "add the correct number of edges to the gridGraph" in {
       gridGraph
         .edgeSet()
-        .size shouldBe (testGrid.lines ++ testGrid.switches).size
+        .size shouldBe (preProcessedGrid.lines ++ preProcessedGrid.switches).size
     }
 
     "generate the correct number of subnets" in {

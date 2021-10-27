@@ -26,8 +26,6 @@ import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.generator.{PvInputGenerator, WecInputGenerator}
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.{
-  BATTERY,
-  BIOGAS,
   OTHER,
   PV,
   WEC
@@ -67,6 +65,7 @@ object StaticGeneratorConverter extends LazyLogging {
           case x: FixedFeedInInput => (x :: fixed, pv, wec)
           case x: PvInput          => (fixed, x :: pv, wec)
           case x: WecInput         => (fixed, pv, x :: wec)
+          case ()                  => (fixed, pv, wec)
           case x => {
             logger error s"Got an unexpected model: $x. This will be ignored and not converted!"
             (fixed, pv, wec)
@@ -126,14 +125,9 @@ object StaticGeneratorConverter extends LazyLogging {
           case modelGeneration: WecModelGeneration =>
             WecInputGenerator.generate(statGen, node, modelGeneration)
         }
-      case BIOGAS =>
-        logger error s"Specific model generation for category: $BIOGAS is currently not supported. Generator ${statGen.id} will not be converted."
-
-      case BATTERY =>
-        logger error s"Specific model generation for category: $BATTERY is currently not supported. Generator ${statGen.id} will not be converted."
-
       case OTHER =>
-        logger error s"Specific model generation for category: $OTHER is currently not supported. Generator ${statGen.id} will not be converted."
+        logger error s"Generator: ${statGen.id} will not be converted as its category is marked as $OTHER. " +
+          s"For supported categories check class [[StatGenCategories]]"
     }
   }
 

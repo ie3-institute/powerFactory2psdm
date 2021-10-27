@@ -19,7 +19,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val id = "someLoad"
       val input = Loads(
         id = Some(id),
-        bus1Id = Some("someNode"),
+        busId = Some("someNode"),
         pf_recap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432)
@@ -32,7 +32,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the node id is missing" in {
-        val faulty = input.copy(bus1Id = None)
+        val faulty = input.copy(busId = None)
         val exc = intercept[MissingParameterException](Load.build(faulty))
         exc.getMessage shouldBe s"Load $id has no defined bus"
       }
@@ -72,7 +72,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val id = "someLoad"
       val input = LoadsLV(
         id = Some(id),
-        bus1Id = Some("someNode"),
+        busId = Some("someNode"),
         pf_recap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432)
@@ -85,7 +85,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the node id is missing" in {
-        val faulty = input.copy(bus1Id = None)
+        val faulty = input.copy(busId = None)
         val exc = intercept[MissingParameterException](Load.build(faulty))
         exc.getMessage shouldBe s"LV Load $id has no defined bus"
       }
@@ -124,7 +124,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val id = "someLoad"
       val input = LoadsMV(
         id = Some(id),
-        bus1Id = Some("someNode"),
+        busId = Some("someNode"),
         pf_recap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432)
@@ -137,7 +137,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the node id is missing" in {
-        val faulty = input.copy(bus1Id = None)
+        val faulty = input.copy(busId = None)
         val exc = intercept[MissingParameterException](Load.build(faulty))
         exc.getMessage shouldBe s"MV Load $id has no defined bus"
       }

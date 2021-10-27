@@ -48,14 +48,13 @@ object StaticGenerator extends LazyLogging {
   object StatGenCategories extends Enumeration {
     val PV: Value = Value("Fotovoltaik")
     val WEC: Value = Value("Wind")
-    val BIOGAS: Value = Value("Biogas")
-    val BATTERY: Value = Value("Batterie")
     val OTHER: Value = Value("Other")
 
     def getCategory(category: String): Value = {
       Try(withName(category)) match {
         case Failure(_) => {
-          logger debug s"The category $category is not explicitly handled. Will assign $OTHER instead."
+          logger debug s"The category $category is not explicitly handled. Will assign $OTHER instead. NOTE: These generators " +
+            s"will not be converted. "
           OTHER
         }
         case Success(value) => value

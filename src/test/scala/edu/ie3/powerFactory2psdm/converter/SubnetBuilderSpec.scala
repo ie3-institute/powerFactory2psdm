@@ -10,7 +10,7 @@ import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   id2node,
   subnet1Ids,
   subnet2Ids,
-  testGrid
+  preProcessedGrid
 }
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
@@ -26,8 +26,8 @@ class SubnetBuilderSpec extends Matchers with AnyWordSpecLike {
   "The SubnetBuilder" should {
 
     val gridGraph = GridGraphBuilder.build(
-      testGrid.nodes,
-      testGrid.lines ++ testGrid.switches
+      preProcessedGrid.nodes,
+      preProcessedGrid.lines ++ preProcessedGrid.switches
     )
     val subgraphs =
       new BiconnectivityInspector(gridGraph).getConnectedComponents
