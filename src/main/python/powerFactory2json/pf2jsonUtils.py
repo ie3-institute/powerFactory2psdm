@@ -68,17 +68,24 @@ attributes4export = {
     'loads': [
         'slini',
         'coslini',
-        'pf_recap'
+        'pf_recap',
+        'i_scale',
+        'scale0'
     ],
     'loadsLV': [
         'slini',
         'coslini',
-        'pf_recap'
+        'pf_recap',
+        'i_scale',
+        'scale0'
+
     ],
     'loadsMV': [
         'slini',
         'coslini',
-        'pf_recap'
+        'pf_recap',
+        'i_scale',
+        'scale0'
     ],
     'statGen': [
         'sgn',

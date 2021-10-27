@@ -88,6 +88,11 @@ object QuantityUtils {
         OHM_PER_KILOMETRE
       )
 
+    def asVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
+      value,
+      VOLTAMPERE
+    )
+
     def asMegaVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
       value,
       MetricPrefix.MEGA(VOLTAMPERE)

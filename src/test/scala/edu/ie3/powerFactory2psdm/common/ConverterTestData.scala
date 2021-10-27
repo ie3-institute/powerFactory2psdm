@@ -507,7 +507,15 @@ object ConverterTestData extends LazyLogging {
 
   val loads = Map(
     "someLoad" -> ConversionPair(
-      Load("someLoad", "someNode", 13.23123, 0.97812, 0),
+      Load(
+        "someLoad",
+        "someNode",
+        13231.23,
+        0.97812,
+        0,
+        isScaled = false,
+        None
+      ),
       new LoadInput(
         UUID.randomUUID(),
         "someLoad",
@@ -520,7 +528,7 @@ object ConverterTestData extends LazyLogging {
         BdewLoadProfile.H0,
         false,
         0d.asKiloWattHour,
-        13.23123.asMegaVoltAmpere,
+        13231.23.asVoltAmpere,
         0.97812
       )
     )
