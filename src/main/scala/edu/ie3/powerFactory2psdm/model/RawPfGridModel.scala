@@ -61,7 +61,9 @@ object RawPfGridModel {
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
-      slini: Option[Double]
+      scale0: Option[Double],
+      slini: Option[Double],
+      i_scale: Option[Double]
   )
 
   final case class LineTypes(
@@ -128,7 +130,9 @@ object RawPfGridModel {
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
-      slini: Option[Double]
+      scale0: Option[Double],
+      slini: Option[Double],
+      i_scale: Option[Double]
   )
 
   final case class Nodes(
@@ -157,7 +161,9 @@ object RawPfGridModel {
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
-      slini: Option[Double]
+      scale0: Option[Double],
+      slini: Option[Double],
+      i_scale: Option[Double]
   )
 
 }
