@@ -10,10 +10,7 @@ import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ConversionException,
-  ElementConfigurationException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Load

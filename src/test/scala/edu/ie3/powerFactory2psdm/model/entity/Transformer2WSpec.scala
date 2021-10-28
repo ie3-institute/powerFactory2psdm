@@ -47,7 +47,7 @@ class Transformer2WSpec extends Matchers with AnyWordSpecLike {
     "throw an exception if the type id is missing" in {
       val trafo = input.copy(typeId = None)
       val exc = intercept[MissingParameterException](Transformer2W.build(trafo))
-      exc.getMessage shouldBe s"Trafo2w: $id has no type id."
+      exc.getMessage shouldBe s"Trafo2w: $id has no type id. Transformer conversion without specified types is not supported."
     }
 
     "throw an exception if the tap pos is missing" in {

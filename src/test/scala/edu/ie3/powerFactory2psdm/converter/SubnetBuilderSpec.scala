@@ -7,16 +7,15 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
-  id2node,
+  buildPreProcessedTestGrid,
   subnet1Ids,
-  subnet2Ids,
-  preProcessedGrid
+  subnet2Ids
 }
 import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException,
   TestException
 }
-import edu.ie3.powerFactory2psdm.model.entity.Subnet
+import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -24,13 +23,17 @@ import org.scalatest.wordspec.AnyWordSpecLike
 class SubnetBuilderSpec extends Matchers with AnyWordSpecLike {
 
   "The SubnetBuilder" should {
+    val preProcessedGrid = buildPreProcessedTestGrid
 
     val gridGraph = GridGraphBuilder.build(
       preProcessedGrid.nodes,
-      preProcessedGrid.lines ++ preProcessedGrid.switches
+      preProcessedGrid.lines ++ buildPreProcessedTestGrid.switches
     )
     val subgraphs =
       new BiconnectivityInspector(gridGraph).getConnectedComponents
+
+    val id2node: Map[String, Node] =
+      buildPreProcessedTestGrid.nodes.map(node => (node.id, node)).toMap
 
     "build a subnet for each subgraph" in {
       SubnetBuilder

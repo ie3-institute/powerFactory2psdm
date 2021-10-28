@@ -79,6 +79,7 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.
 
 import java.io.File
 import java.util.{Locale, UUID}
+import scala.util.{Failure, Success, Try}
 
 object ConverterTestData extends LazyLogging {
 
@@ -128,29 +129,34 @@ object ConverterTestData extends LazyLogging {
       resultType: T
   )
 
-  logger.info("Building the grid model")
-
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val rawGrid: RawPfGridModel = PfGridParser
-    .parse(testGridFile)
-    .getOrElse(
-      throw GridParsingException(
-        s"Couldn't parse the grid file $testGridFile"
+  def parseRawGrid: RawPfGridModel =
+    PfGridParser
+      .parse(testGridFile)
+      .getOrElse(
+        throw GridParsingException(
+          s"Couldn't parse the grid file $testGridFile"
+        )
       )
-    )
 
-  val preProcessedGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
-    rawGrid,
-    config.modelConfigs.sRatedSource,
-    config.modelConfigs.cosPhiSource
-  )
-
-  logger.info("Sucessfully built the grid model")
-
-  val id2node: Map[String, Node] =
-    preProcessedGrid.nodes.map(node => (node.id, node)).toMap
+  def buildPreProcessedTestGrid: PreprocessedPfGridModel =
+    Try {
+      PreprocessedPfGridModel.build(
+        parseRawGrid,
+        config.modelConfigs.sRatedSource,
+        config.modelConfigs.cosPhiSource
+      )
+    } match {
+      case Failure(exc) =>
+        throw TestException(
+          s"Could not build the grid in $testGridFile and therefore was not able to initialize the ConverterTestData. " +
+            s"This is probably due to the generated grid schema of the SchemaGenerator and the test grid being out of sync.",
+          exc
+        )
+      case Success(grid) => grid
+    }
 
   val bus1Id = "Grid.ElmNet\\Bus_0001.ElmTerm"
   val bus2Id = "Grid.ElmNet\\Bus_0002.ElmTerm"
@@ -699,6 +705,10 @@ object ConverterTestData extends LazyLogging {
         s"Cannot find input/result pair for ${Switch.getClass.getSimpleName} with key: $key "
       )
     )
+  }
+
+  def main(args: Array[String]) = {
+    println("hi")
   }
 
 }

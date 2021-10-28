@@ -201,9 +201,9 @@ object PreprocessedPfGridModel extends LazyLogging {
     val transformers2W = rawTrafos2W.map(Transformer2W.build)
     val trafoTypes2W = rawTrafoTpyes2W.map(Transformer2WType.build)
     val loads = rawLoads.map {
-      case load: Loads   => Load.build(load)
+      case load: Loads   => Load.build(load, conversionPrefixes.loadPQSPrefix())
       case load: LoadsLV => Load.build(load)
-      case load: LoadsMV => Load.build(load)
+      case load: LoadsMV => Load.build(load, conversionPrefixes.loadPQSPrefix())
       case other =>
         throw ConversionException(
           s"Encountered unexpected load type: $other. I hate surprises!"

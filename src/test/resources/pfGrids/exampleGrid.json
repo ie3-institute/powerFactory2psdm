@@ -422,12 +422,12 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
-          "pfCls": "ElmCoup"
-        },
-        {
           "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
           "pfCls": "ElmTr2"
+        },
+        {
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "pfCls": "ElmCoup"
         }
       ]
     },
@@ -439,11 +439,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
@@ -989,77 +989,99 @@
     {
       "id": "Grid.ElmNet\\Load_0011.ElmLod",
       "coslini": 0.8892877697944641,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 3.9357337951660156e+24,
       "busId": "Grid.ElmNet\\Bus_0011.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0012.ElmLod",
       "coslini": 0.9672796130180359,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 6.30634593963623e+24,
       "busId": "Grid.ElmNet\\Bus_0012.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0013.ElmLod",
       "coslini": 0.9187926650047302,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.4693195343017578e+25,
       "busId": "Grid.ElmNet\\Bus_0013.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0014.ElmLod",
       "coslini": 0.9480450749397278,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.5716551780700683e+25,
       "busId": "Grid.ElmNet\\Bus_0014.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0002.ElmLod",
       "coslini": 0.8630567789077759,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 2.514319038391113e+25,
       "busId": "Grid.ElmNet\\Bus_0002.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0003.ElmLod",
       "coslini": 0.9802591800689697,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 9.609703063964843e+25,
       "busId": "Grid.ElmNet\\Bus_0003.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0004.ElmLod",
       "coslini": 0.9966880679130554,
+      "i_scale": 1,
       "pf_recap": 1,
+      "scale0": 1.0,
       "slini": 4.795883560180664e+25,
       "busId": "Grid.ElmNet\\Bus_0004.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0005.ElmLod",
       "coslini": 0.9785497784614563,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 7.766594886779785e+24,
       "busId": "Grid.ElmNet\\Bus_0005.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0006.ElmLod",
       "coslini": 0.8309071660041809,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.3479243278503417e+25,
       "busId": "Grid.ElmNet\\Bus_0006.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0015.ElmLod",
       "coslini": 0.9480450749397278,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.5716551780700683e+25,
       "busId": "Grid.ElmNet\\Bus_0015.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Load_0010.ElmLod",
       "coslini": 0.8405709862709045,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.070700740814209e+25,
       "busId": "Grid.ElmNet\\Bus_0010.ElmTerm"
     }
@@ -1068,14 +1090,18 @@
     {
       "id": "Grid.ElmNet\\Niederspannungslast.ElmLodlv",
       "coslini": 0.9700000286102295,
+      "i_scale": 0,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 1.0,
       "busId": "Grid.ElmNet\\Bus_0007.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Niederspannungslast(1).ElmLodlv",
       "coslini": 1.0,
+      "i_scale": 0,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 0.0,
       "busId": "Grid.ElmNet\\Bus_0001.ElmTerm"
     }
@@ -1084,14 +1110,18 @@
     {
       "id": "Grid.ElmNet\\Load_0009.ElmLodmv",
       "coslini": 0.8999999761581421,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 3.2777778625488283e+25,
       "busId": "Grid.ElmNet\\Bus_0009.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\Mittelspannungslast.ElmLodmv",
       "coslini": 1.0,
+      "i_scale": 1,
       "pf_recap": 0,
+      "scale0": 1.0,
       "slini": 0.0,
       "busId": "Grid.ElmNet\\Bus_0001.ElmTerm"
     }
@@ -1139,16 +1169,16 @@
   "pvs": [],
   "switches": [
     {
-      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
-      "on_off": 1,
-      "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
-    },
-    {
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S2.ElmCoup",
       "on_off": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
+    },
+    {
+      "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+      "on_off": 1,
+      "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm"
     },
     {
       "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",

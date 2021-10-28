@@ -18,8 +18,8 @@ class GridConverterSpec extends Matchers with AnyWordSpecLike {
 
   "A grid converter" should {
     val config = ConverterTestData.config
-    val rawGrid = ConverterTestData.rawGrid
-    val preProcessedGrid = ConverterTestData.preProcessedGrid
+    val rawGrid = ConverterTestData.parseRawGrid
+    val preProcessedGrid = ConverterTestData.buildPreProcessedTestGrid
     val result = GridConverter.convert(rawGrid, config)
 
     "convert all grid elements" in {
