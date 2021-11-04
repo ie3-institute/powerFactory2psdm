@@ -20,11 +20,11 @@ class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
     val input = TrafoTypes2w(
       id = Some(id),
       strn = Some(40),
-      utrn_h = Some(10),
-      utrn_l = Some(0.4),
+      utrnH = Some(10),
+      utrnL = Some(0.4),
       dutap = Some(1.2),
       phitr = Some(12),
-      tap_side = Some(0),
+      tapSide = Some(0),
       nntap0 = Some(-1),
       ntpmn = Some(-3),
       ntpmx = Some(5),
@@ -51,7 +51,7 @@ class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception when trying to build a TransformerType without parameter utrn_h" in {
-      val faulty3 = input.copy(utrn_h = None)
+      val faulty3 = input.copy(utrnH = None)
       val exc = intercept[MissingParameterException](
         Transformer2WType.build(faulty3)
       )
@@ -59,7 +59,7 @@ class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception when trying to build a TransformerType without parameter utrn_l" in {
-      val faulty4 = input.copy(utrn_l = None)
+      val faulty4 = input.copy(utrnL = None)
       val exc = intercept[MissingParameterException](
         Transformer2WType.build(faulty4)
       )
@@ -83,7 +83,7 @@ class Transformer2WTypeSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception when trying to build a TransformerType without parameter tap_side" in {
-      val faulty7 = input.copy(tap_side = None)
+      val faulty7 = input.copy(tapSide = None)
       val exc = intercept[MissingParameterException](
         Transformer2WType.build(faulty7)
       )

@@ -45,7 +45,7 @@ object Switch extends LazyLogging {
     val id = rawSwitch.id.getOrElse(
       throw MissingParameterException(s"There is no id for switch $rawSwitch")
     )
-    val onOff = rawSwitch.on_off
+    val onOff = rawSwitch.onOff
       .getOrElse(
         throw MissingParameterException(
           s"Switch: $id has no defined open/closed state"

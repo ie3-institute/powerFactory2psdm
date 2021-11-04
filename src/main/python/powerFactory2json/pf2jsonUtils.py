@@ -16,13 +16,9 @@ elements4export = {
     'switches': '*.ElmCoup'
 }
 
-nested_elements4export = {'cpZone', 'cpArea'}
-
 
 attributes4export = {
     'conElms': [],
-    'cpZone': [],
-    'cpArea': [],
     'nodes': [
         "vtarget",
         "uknom",
