@@ -32,6 +32,13 @@ def safe_name(unsafe_str):
         return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
     return unsafe_str
 
+def to_camel_case(snake_str):
+    components = snake_str.split('_')
+    # We capitalize the first letter of each component except the first one
+    # with the 'title' method and join them together.
+    return components[0] + ''.join(x.title() for x in components[1:])
+
+
 def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
     """
     Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
@@ -45,9 +52,9 @@ def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
                 and inspect.isclass(member[1])
         ) and member[0] in attributes_to_include:
             if not isinstance(member[1], powerfactory.DataObject):
-                element[safe_name(member[0])] = member[1]
+                element[to_camel_case(safe_name(member[0]))] = member[1]
             elif isinstance(member[1], powerfactory.DataObject) and member[0] in nested_elements4export:
-                element[safe_name(member[0])] = get_attribute_dicts([member[1]], attributes4export[member[0]])
+                element[to_camel_case(safe_name(member[0]))] = get_attribute_dicts([member[1]], attributes4export[member[0]])
     if append_type:
         element["pfCls"] = raw_element.GetClassName()
     return element
