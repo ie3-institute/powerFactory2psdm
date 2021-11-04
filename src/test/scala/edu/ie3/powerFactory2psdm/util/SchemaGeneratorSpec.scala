@@ -212,11 +212,11 @@ class SchemaGeneratorSpec
         |    {
         |      "conElms": [
         |        {
-        |          "loc_name": "Klemmleiste(1)",
+        |          "locName": "Klemmleiste(1)",
         |          "pfCls": "ElmTerm"
         |        },
         |        {
-        |          "loc_name": "Klemmleiste",
+        |          "locName": "Klemmleiste",
         |          "pfCls": "ElmTerm"
         |        }
         |      ]
@@ -226,15 +226,15 @@ class SchemaGeneratorSpec
         |    {
         |      "conElms": [
         |        {
-        |          "loc_name": "Klemmleiste OS",
+        |          "locName": "Klemmleiste OS",
         |          "pfCls": "ElmTerm"
         |        },
         |        {
-        |          "loc_name": "Klemmleiste MS",
+        |          "locName": "Klemmleiste MS",
         |          "pfCls": "ElmTerm"
         |        },
         |        {
-        |          "loc_name": "Klemmleiste MS2",
+        |          "locName": "Klemmleiste MS2",
         |          "pfCls": "ElmTerm"
         |        }
         |      ]
@@ -259,7 +259,7 @@ class SchemaGeneratorSpec
          |
          |  final case class Trafos3w(conElms: Option[List[Option[ConElms]]])
          |
-         |  final case class ConElms(loc_name: Option[String], pfCls: Option[String])
+         |  final case class ConElms(locName: Option[String], pfCls: Option[String])
          |
          |  final case class Lines(conElms: Option[List[Option[ConElms]]])
          |
@@ -289,21 +289,21 @@ class SchemaGeneratorSpec
         |      },
         |      "cpZone": [
         |        {
-        |          "loc_name": "myZone",
+        |          "locName": "myZone",
         |          "additionalParam": "myParam",
         |          "leet": [
         |            {
-        |              "loc_name": "myZone",
+        |              "locName": "myZone",
         |              "additionalParam": "myParam"
         |            }
         |          ]
         |        },
         |        {
-        |          "loc_name": "myZone",
+        |          "locName": "myZone",
         |          "additionalParam": "myParam",
         |          "leet": [
         |            {
-        |              "loc_name": "myZone",
+        |              "locName": "myZone",
         |              "additionalParam": "myParam"
         |            }
         |          ]
@@ -312,8 +312,8 @@ class SchemaGeneratorSpec
         |      "nestedArray": [
         |        []
         |      ],
-        |      "loc_name": "Klemmleiste MS2",
-        |      "root_id": null,
+        |      "locName": "Klemmleiste MS2",
+        |      "rootId": null,
         |      "uknom": 11.0,
         |      "vmax": 1.0499999523162842,
         |      "vmin": 0.0,
@@ -327,21 +327,21 @@ class SchemaGeneratorSpec
         |      "cpSubstat": null,
         |      "cpZone": [
         |        {
-        |          "loc_name": "myZone",
+        |          "locName": "myZone",
         |          "additionalParam": "myParam",
         |          "leet": [
         |            {
-        |              "loc_name": "myZone",
+        |              "locName": "myZone",
         |              "additionalParam": "myParam"
         |            }
         |          ]
         |        },
         |        {
-        |          "loc_name": "myZone",
+        |          "locName": "myZone",
         |          "additionalParam": "myParam",
         |          "leet": [
         |            {
-        |              "loc_name": "myZone",
+        |              "locName": "myZone",
         |              "additionalParam": "myParam"
         |            }
         |          ]
@@ -350,8 +350,8 @@ class SchemaGeneratorSpec
         |      "nestedArray": [
         |        []
         |      ],
-        |      "loc_name": "Klemmleiste MS2",
-        |      "root_id": null,
+        |      "locName": "Klemmleiste MS2",
+        |      "rootId": null,
         |      "uknom": 11.0,
         |      "vmax": 1.0499999523162842,
         |      "vmin": 0.0,
@@ -381,21 +381,21 @@ class SchemaGeneratorSpec
          |object PowerFactoryGrid {
          |
          |  final case class CpZone(
-         |      loc_name: Option[String],
+         |      locName: Option[String],
          |      additionalParam: Option[String],
          |      leet: Option[List[Option[Leet]]]
          |  )
          |
          |  final case class Nodes(
-         |      loc_name: Option[String],
-         |      root_id: Option[String],
          |      AccessTime: Option[Double],
+         |      locName: Option[String],
          |      GPSlon: Option[Double],
          |      nestedArray: Option[List[Option[List[Option[String]]]]],
          |      cpZone: Option[List[Option[CpZone]]],
          |      vmin: Option[Double],
          |      GPSlat: Option[Double],
          |      foo: Option[Foo],
+         |      rootId: Option[String],
          |      cpSubstat: Option[String],
          |      Vtarget: Option[Double],
          |      uknom: Option[Double],
@@ -405,7 +405,7 @@ class SchemaGeneratorSpec
          |  )
          |
          |  final case class Leet(
-         |      loc_name: Option[String],
+         |      locName: Option[String],
          |      additionalParam: Option[String]
          |  )
          |
