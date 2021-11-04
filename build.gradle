@@ -46,9 +46,9 @@ dependencies {
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
-	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.0.7'
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.0.8'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
-	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.0.7'
+	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.0.8'
 
 
 	implementation('com.github.ie3-institute:PowerSystemDataModel:2.0.1') {
