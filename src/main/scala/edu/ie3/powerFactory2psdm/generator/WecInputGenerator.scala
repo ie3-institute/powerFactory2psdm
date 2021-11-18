@@ -31,19 +31,19 @@ object WecInputGenerator {
     * @param params
     *   parameters for generating missing parameters
     * @return
-    *   [[WecInput]] and a [[WecTypeInput]] that replace the [[StaticGenerator]]
+    *   [[WecInput]] that replaces the [[StaticGenerator]]
     */
   def generate(
       input: StaticGenerator,
       node: NodeInput,
       params: WecModelGeneration
-  ): (WecInput, WecTypeInput) = {
+  ): WecInput = {
     val cosPhiRated = ConversionHelper.determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic = ConversionHelper
       .convertQCharacteristic(params.qCharacteristic, cosPhiRated)
     val wecTypeInput = WecTypeGenerator.convert(input, params)
 
-    val wecInput = new WecInput(
+    new WecInput(
       UUID.randomUUID(),
       input.id,
       node,
@@ -51,7 +51,6 @@ object WecInputGenerator {
       wecTypeInput,
       false
     )
-    (wecInput, wecTypeInput)
   }
 
 }
