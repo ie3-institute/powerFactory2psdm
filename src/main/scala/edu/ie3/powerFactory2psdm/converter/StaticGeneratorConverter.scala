@@ -8,14 +8,29 @@ package edu.ie3.powerFactory2psdm.converter
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.NodeInput
-import edu.ie3.datamodel.models.input.system.{FixedFeedInInput, PvInput, SystemParticipantInput, WecInput}
+import edu.ie3.datamodel.models.input.system.{
+  FixedFeedInInput,
+  PvInput,
+  SystemParticipantInput,
+  WecInput
+}
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
-import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{PvFixedFeedIn, PvModelGeneration}
-import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.{WecFixedFeedIn, WecModelGeneration}
+import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.{
+  PvFixedFeedIn,
+  PvModelGeneration
+}
+import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.{
+  WecFixedFeedIn,
+  WecModelGeneration
+}
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.generator.{PvInputGenerator, WecInputGenerator}
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
-import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.{OTHER, PV, WEC}
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.{
+  OTHER,
+  PV,
+  WEC
+}
 
 import scala.util.{Failure, Success, Try}
 
@@ -49,9 +64,9 @@ object StaticGeneratorConverter extends LazyLogging {
       case ((fixed, pv, wec), statGen) =>
         convert(statGen, conversionConfig, nodes) match {
           case x: Success[FixedFeedInInput] => (x.value :: fixed, pv, wec)
-          case x: Success[PvInput]          => (fixed, x .value:: pv, wec)
+          case x: Success[PvInput]          => (fixed, x.value :: pv, wec)
           case x: Success[WecInput]         => (fixed, pv, x.value :: wec)
-          case Failure(exc)                  =>
+          case Failure(exc) =>
             logger error exc.getMessage
             (fixed, pv, wec)
           case x =>
@@ -81,40 +96,42 @@ object StaticGeneratorConverter extends LazyLogging {
     }
     statGen.category match {
       case PV =>
-        val maybeIndividualConfig =
-          conversionConfig.pvConfig.getIndividualModelConfig(statGen.id)
-        val conversionMode = maybeIndividualConfig
-          .map(config => config.conversionMode)
-          .getOrElse(conversionConfig.pvConfig.conversionMode)
+        val conversionMode =
+          conversionConfig.pvConfig.getConversionMode(statGen.id)
         conversionMode match {
           case fixedFeedIn: PvFixedFeedIn =>
-            Success(FixedFeedInConverter.convert(
-              statGen,
-              node,
-              fixedFeedIn.qCharacteristic
-            ))
+            Success(
+              FixedFeedInConverter.convert(
+                statGen,
+                node,
+                fixedFeedIn.qCharacteristic
+              )
+            )
           case modelGeneration: PvModelGeneration =>
             Success(PvInputGenerator.generate(statGen, node, modelGeneration))
         }
       case WEC =>
-        val maybeIndividualConfig =
-          conversionConfig.wecConfig.getIndividualModelConfig(statGen.id)
-        val conversionMode = maybeIndividualConfig
-          .map(config => config.conversionMode)
-          .getOrElse(conversionConfig.wecConfig.conversionMode)
+        val conversionMode =
+          conversionConfig.wecConfig.getConversionMode(statGen.id)
         conversionMode match {
           case fixedFeedIn: WecFixedFeedIn =>
-            Success(FixedFeedInConverter.convert(
-              statGen,
-              node,
-              fixedFeedIn.qCharacteristic
-            ))
+            Success(
+              FixedFeedInConverter.convert(
+                statGen,
+                node,
+                fixedFeedIn.qCharacteristic
+              )
+            )
           case modelGeneration: WecModelGeneration =>
             Success(WecInputGenerator.generate(statGen, node, modelGeneration))
         }
       case OTHER =>
-        Failure(ConversionException(s"Generator: ${statGen.id} will not be converted as its category is marked as $OTHER. " +
-          s"For supported categories check class [[StatGenCategories]]"))
+        Failure(
+          ConversionException(
+            s"Generator: ${statGen.id} will not be converted as its category is marked as $OTHER. " +
+              s"For supported categories check class [[StatGenCategories]]"
+          )
+        )
     }
   }
 

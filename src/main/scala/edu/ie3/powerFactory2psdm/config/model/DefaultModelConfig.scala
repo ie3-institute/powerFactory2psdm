@@ -26,4 +26,16 @@ trait DefaultModelConfig[M <: ModelConversionMode, I <: IndividualModelConfig[
       .getOrElse(Nil)
       .map(conf => conf.conversionMode)
   }
+
+  /** Return individual conversion mode of the model if there is one or
+    * otherwise the default one
+    *
+    * @param modelId the model id for which to retrieve the conversion mode
+    * @return
+    */
+  def getConversionMode(modelId: String): M = {
+    getIndividualModelConfig(modelId)
+      .map(config => config.conversionMode)
+      .getOrElse(conversionMode)
+  }
 }
