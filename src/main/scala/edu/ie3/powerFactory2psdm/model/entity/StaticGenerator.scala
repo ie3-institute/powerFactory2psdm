@@ -83,7 +83,7 @@ object StaticGenerator {
           )
         )
     }
-    val indCapFlag = input.pf_recap
+    val indCapFlag = input.pfRecap
       .getOrElse(
         throw MissingParameterException(
           s"There is no inductive capacitive specifier defined for static generator: $id"

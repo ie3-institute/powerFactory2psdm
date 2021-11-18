@@ -127,6 +127,13 @@ object SchemaGenerator extends LazyLogging {
       collectionStack: Int
   ) {
 
+    def snakeToCamel(name: String) = "_([a-z\\d])".r.replaceAllIn(
+      name,
+      { m =>
+        m.group(1).toUpperCase()
+      }
+    )
+
     def fieldString: String =
       simpleString(rawFieldName, rawFieldType, collectionStack)
 
@@ -136,9 +143,9 @@ object SchemaGenerator extends LazyLogging {
         collectionStack: Int
     ): String =
       if (collectionStack == 0) {
-        s"$name: Option[${`type`}]"
+        s"${snakeToCamel(name)}: Option[${`type`}]"
       } else {
-        s"$name:" + (0 until collectionStack)
+        s"${snakeToCamel(name)}:" + (0 until collectionStack)
           .foldLeft("Option[")((cur, _) =>
             cur + s"List[Option["
           ) + `type` + "]" * (collectionStack * 2 + 1)
