@@ -90,7 +90,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
 
 def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
     """
-    Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
+    Creates a dict which includes all members/fields noted in attributes_to_include of a given raw PowerFactory element.
     """
     element = {"id": name_without_preamble(raw_element.GetFullName())}
     for member in inspect.getmembers(raw_element):
