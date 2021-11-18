@@ -50,14 +50,14 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap
+    val indCap = input.pfRecap
       .getOrElse(
         throw MissingParameterException(
           s"Load $id has no defined inductive/capacitive specifier"
         )
       )
       .toInt
-    getIsScaled(input.i_scale) match {
+    getIsScaled(input.iScale) match {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>
@@ -85,14 +85,14 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"LV Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap
+    val indCap = input.pfRecap
       .getOrElse(
         throw MissingParameterException(
           s"LV Load $id has no defined inductive/capacitive specifier"
         )
       )
       .toInt
-    getIsScaled(input.i_scale) match {
+    getIsScaled(input.iScale) match {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>
@@ -119,14 +119,14 @@ object Load {
     val cosphi = input.coslini.getOrElse(
       throw MissingParameterException(s"MV Load $id has no defined cosinus phi")
     )
-    val indCap = input.pf_recap
+    val indCap = input.pfRecap
       .getOrElse(
         throw MissingParameterException(
           s"MV Load $id has no defined inductive/capacitive specifier"
         )
       )
       .toInt
-    getIsScaled(input.i_scale) match {
+    getIsScaled(input.iScale) match {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>

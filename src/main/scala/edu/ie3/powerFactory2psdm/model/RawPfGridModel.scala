@@ -47,7 +47,7 @@ object RawPfGridModel {
 
   final case class Switches(
       id: Option[String],
-      on_off: Option[Double],
+      onOff: Option[Double],
       bus1Id: Option[String],
       bus2Id: Option[String]
   )
@@ -57,13 +57,13 @@ object RawPfGridModel {
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
   final case class Loads(
-      pf_recap: Option[Double],
+      pfRecap: Option[Double],
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
       scale0: Option[Double],
       slini: Option[Double],
-      i_scale: Option[Double]
+      iScale: Option[Double]
   )
 
   final case class LineTypes(
@@ -79,7 +79,7 @@ object RawPfGridModel {
   final case class StatGen(
       sgn: Option[Double],
       cCategory: Option[String],
-      pf_recap: Option[Double],
+      pfRecap: Option[Double],
       busId: Option[String],
       id: Option[String],
       sgini: Option[Double],
@@ -110,13 +110,13 @@ object RawPfGridModel {
       ntpmn: Option[Double],
       dutap: Option[Double],
       strn: Option[Double],
-      utrn_l: Option[Double],
+      utrnL: Option[Double],
       curmg: Option[Double],
-      tap_side: Option[Double],
+      tapSide: Option[Double],
       ntpmx: Option[Double],
       pcutr: Option[Double],
       phitr: Option[Double],
-      utrn_h: Option[Double]
+      utrnH: Option[Double]
   )
 
   final case class ProjectSettings(
@@ -126,13 +126,13 @@ object RawPfGridModel {
   )
 
   final case class LoadsLV(
-      pf_recap: Option[Double],
+      pfRecap: Option[Double],
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
       scale0: Option[Double],
       slini: Option[Double],
-      i_scale: Option[Double]
+      iScale: Option[Double]
   )
 
   final case class Nodes(
@@ -157,13 +157,13 @@ object RawPfGridModel {
   final case class TrafoTypes3w()
 
   final case class LoadsMV(
-      pf_recap: Option[Double],
+      pfRecap: Option[Double],
       busId: Option[String],
       id: Option[String],
       coslini: Option[Double],
       scale0: Option[Double],
       slini: Option[Double],
-      i_scale: Option[Double]
+      iScale: Option[Double]
   )
 
 }

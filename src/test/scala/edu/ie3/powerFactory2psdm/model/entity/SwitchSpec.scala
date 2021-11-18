@@ -23,7 +23,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
       id = Some(id),
       bus1Id = Some("SomeBusA"),
       bus2Id = Some("SomeBusB"),
-      on_off = Some(1.0)
+      onOff = Some(1.0)
     )
 
     "throw an exception when building if the id is missing" in {
@@ -33,7 +33,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception when building if the on/off variable is missing" in {
-      val switch = input.copy(on_off = None)
+      val switch = input.copy(onOff = None)
       val exc = intercept[MissingParameterException](Switch.maybeBuild(switch))
       exc.getMessage shouldBe s"Switch: $id has no defined open/closed state"
     }

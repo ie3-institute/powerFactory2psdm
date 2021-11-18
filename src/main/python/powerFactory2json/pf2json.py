@@ -20,38 +20,6 @@ exported_grid_file = os.path.join(exported_grid_dir, "pfGrid.json")
 # Script #
 ##########
 
-def name_without_preamble(full_name):
-    """
-    Remove name pollution by omitting uniform file path preamble
-    """
-    match = re.search('(?<=Network Data\.IntPrjfolder\\\\|Type Library\.IntPrjfolder\\\\).*', full_name)
-    return match.group() if match is not None else full_name
-
-def safe_name(unsafe_str):
-    if unsafe_str in reserved_keywords or unsafe_str.endswith('_'):
-        return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
-    return unsafe_str
-
-def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
-    """
-    Creates a dict which includes all members/fields noted in included_fields of a given raw PowerFactory element.
-    """
-    element = {"id": name_without_preamble(raw_element.GetFullName())}
-    for member in inspect.getmembers(raw_element):
-        if not (
-                member[0].startswith('_')
-                and inspect.ismethod(member[1])
-                and isinstance(member[1], powerfactory.Method)
-                and inspect.isclass(member[1])
-        ) and member[0] in attributes_to_include:
-            if not isinstance(member[1], powerfactory.DataObject):
-                element[safe_name(member[0])] = member[1]
-            elif isinstance(member[1], powerfactory.DataObject) and member[0] in nested_elements4export:
-                element[safe_name(member[0])] = get_attribute_dicts([member[1]], attributes4export[member[0]])
-    if append_type:
-        element["pfCls"] = raw_element.GetClassName()
-    return element
-
 
 def get_attribute_dicts(raw_elements, attributes_to_include):
     """
@@ -119,6 +87,46 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
         elements.append(element)
     return elements
 
+
+def get_attribute_dict(raw_element, attributes_to_include, append_type=False):
+    """
+    Creates a dict which includes all members/fields noted in attributes_to_include of a given raw PowerFactory element.
+    """
+    element = {"id": name_without_preamble(raw_element.GetFullName())}
+    for member in inspect.getmembers(raw_element):
+        if not (
+                member[0].startswith('_')
+                and inspect.ismethod(member[1])
+                and isinstance(member[1], powerfactory.Method)
+                and inspect.isclass(member[1])
+        ) and member[0] in attributes_to_include:
+            if not isinstance(member[1], powerfactory.DataObject):
+                element[to_camel_case(safe_name(member[0]))] = member[1]
+            elif isinstance(member[1], powerfactory.DataObject) and member[0] in nested_elements4export:
+                element[to_camel_case(safe_name(member[0]))] = get_attribute_dicts([member[1]], attributes4export[member[0]])
+    if append_type:
+        element["pfCls"] = raw_element.GetClassName()
+    return element
+
+
+def name_without_preamble(full_name):
+    """
+    Remove name pollution by omitting uniform file path preamble
+    """
+    match = re.search('(?<=Network Data\.IntPrjfolder\\\\|Type Library\.IntPrjfolder\\\\).*', full_name)
+    return match.group() if match is not None else full_name
+
+def safe_name(unsafe_str):
+    if unsafe_str in reserved_keywords or unsafe_str.endswith('_'):
+        return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
+    return unsafe_str
+
+
+def to_camel_case(snake_str):
+    components = snake_str.split('_')
+    # We capitalize the first letter of each component except the first one
+    # with the 'title' method and join them together.
+    return components[0] + ''.join(x.title() for x in components[1:])
 
 app = powerfactory.GetApplication()
 app.EchoOff()

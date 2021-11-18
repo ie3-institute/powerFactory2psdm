@@ -73,13 +73,13 @@ object Transformer2WType {
       )
     )
 
-    val vRatedA = rawType.utrn_h.getOrElse(
+    val vRatedA = rawType.utrnH.getOrElse(
       throw MissingParameterException(
         s"There is no voltage of high winding side for transformer-type: $id"
       )
     )
 
-    val vRatedB = rawType.utrn_l.getOrElse(
+    val vRatedB = rawType.utrnL.getOrElse(
       throw MissingParameterException(
         s"There is no voltage of low winding side for transformer-type: $id"
       )
@@ -97,7 +97,7 @@ object Transformer2WType {
       )
     )
 
-    val tapSide = rawType.tap_side.getOrElse(
+    val tapSide = rawType.tapSide.getOrElse(
       throw MissingParameterException(
         s"There is no selection of winding where tap changer is installed for transformer-type: $id"
       )

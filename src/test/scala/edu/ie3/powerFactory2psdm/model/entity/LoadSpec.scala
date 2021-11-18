@@ -21,10 +21,10 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val input = Loads(
         id = Some(id),
         busId = Some("someNode"),
-        pf_recap = Some(0d),
+        pfRecap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432),
-        i_scale = Some(1),
+        iScale = Some(1),
         scale0 = Some(0.9)
       )
       val conversionPrefix = ConversionPrefix(1)
@@ -62,7 +62,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the inductive/capacitive specifier is missing" in {
-        val faulty = input.copy(pf_recap = None)
+        val faulty = input.copy(pfRecap = None)
         val exc = intercept[MissingParameterException](
           Load.build(faulty, conversionPrefix)
         )
@@ -87,10 +87,10 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val input = LoadsLV(
         id = Some(id),
         busId = Some("someNode"),
-        pf_recap = Some(0d),
+        pfRecap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432),
-        i_scale = Some(1),
+        iScale = Some(1),
         scale0 = Some(0.9)
       )
 
@@ -119,7 +119,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the inductive/capacitive specifier is missing" in {
-        val faulty = input.copy(pf_recap = None)
+        val faulty = input.copy(pfRecap = None)
         val exc = intercept[MissingParameterException](Load.build(faulty))
         exc.getMessage shouldBe s"LV Load $id has no defined inductive/capacitive specifier"
       }
@@ -141,10 +141,10 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       val input = LoadsMV(
         id = Some(id),
         busId = Some("someNode"),
-        pf_recap = Some(0d),
+        pfRecap = Some(0d),
         coslini = Some(0.841241),
         slini = Some(10.2432),
-        i_scale = Some(1),
+        iScale = Some(1),
         scale0 = Some(0.9)
       )
       val conversionPrefix = ConversionPrefix(1)
@@ -182,7 +182,7 @@ class LoadSpec extends Matchers with AnyWordSpecLike {
       }
 
       "throw an exception building a node if the inductive/capacitive specifier is missing" in {
-        val faulty = input.copy(pf_recap = None)
+        val faulty = input.copy(pfRecap = None)
         val exc = intercept[MissingParameterException](
           Load.build(faulty, conversionPrefix)
         )

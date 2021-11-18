@@ -26,7 +26,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
       sgini = Some(13),
       cosn = Some(0.84),
       cosgini = Some(0.91),
-      pf_recap = Some(0.0),
+      pfRecap = Some(0.0),
       cCategory = Some("Statischer Generator")
     )
 
@@ -83,7 +83,7 @@ class StaticGeneratorSpec extends Matchers with AnyWordSpecLike {
     }
 
     "throw an exception if the inductive capacitive flag is missing" in {
-      val faulty = input.copy(pf_recap = None)
+      val faulty = input.copy(pfRecap = None)
       val exc =
         intercept[MissingParameterException](
           StaticGenerator.build(
