@@ -30,7 +30,10 @@ final case class Line(
     with Edge
 
 object Line {
-  def build(rawLine: Lines, lineSectionsMap: Map[String, List[LineSection]]): Line = {
+  def build(
+      rawLine: Lines,
+      lineSectionsMap: Map[String, List[LineSection]]
+  ): Line = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")
     )

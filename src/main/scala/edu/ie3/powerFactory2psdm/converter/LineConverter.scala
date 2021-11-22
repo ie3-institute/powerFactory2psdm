@@ -47,32 +47,51 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
+      val lineType = (line.typeId, line.lineSections) match {
+        case (Some(lineTypeId), None) =>
+          getLineType(lineTypeId, lineTypes).getOrElse(
+            throw ConversionException(
+              s"Could not convert line: $line due to failed line type retrieval."
+            )
+          )
+        case (None, Some(lineSections)) =>
+          LineTypeConverter.convert(
+            line.id,
+            line.length,
+            lineSections,
+            lineTypes
+          )
+        case (Some(_), Some(_)) => {
+          throw ConversionException(
+            s"Line: ${line.id} has line types and line sections which both define line types. " +
+              s"This error should not happen since PowerFactory only lets you define one of the two."
+          )
+        }
+        case (None, None) =>
+          throw ConversionException(
+            s"Could not convert line: ${line.id} since there is no defined type in the model and there are no line section that specify the type"
+          )
+      }
       (
         getNode(line.nodeAId, nodes),
-        getNode(line.nodeBId, nodes),
-        getLineType(line.typeId, lineTypes)
+        getNode(line.nodeBId, nodes)
       ) match {
-        case (Success(nodeA), Success(nodeB), Success(lineType)) =>
-          convert(
+        case (Success(nodeA), Success(nodeB)) =>
+          LineConverter.convert(
             line,
             lineLengthPrefix,
             lineType,
             nodeA,
             nodeB
           )
-        case (Failure(exc), _, _) =>
+        case (Failure(exc), _) =>
           throw ConversionException(
             s"Can't retrieve ${line.nodeAId} for line ${line.id}",
             exc
           )
-        case (_, Failure(exc), _) =>
+        case (_, Failure(exc)) =>
           throw ConversionException(
             s"Can't retrieve ${line.nodeBId} for line ${line.id}",
-            exc
-          )
-        case (_, _, Failure(exc)) =>
-          throw ConversionException(
-            s"Could not convert line: $line due to failed line type retrieval.",
             exc
           )
       }

@@ -8,10 +8,38 @@ package edu.ie3.powerFactory2psdm.model
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
-import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, GridConfigurationException, MissingParameterException}
-import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{LineSections, LineTypes, Lines, Loads, LoadsLV, LoadsMV, Nodes, ProjectSettings, StatGen, Switches, TrafoTypes2w, Trafos2w}
-import edu.ie3.powerFactory2psdm.model.entity.{Line, LineSection, Load, Node, StaticGenerator, Switch, Transformer2W}
-import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, Transformer2WType}
+import edu.ie3.powerFactory2psdm.exception.pf.{
+  ConversionException,
+  GridConfigurationException,
+  MissingParameterException
+}
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
+  LineSections,
+  LineTypes,
+  Lines,
+  Loads,
+  LoadsLV,
+  LoadsMV,
+  Nodes,
+  ProjectSettings,
+  StatGen,
+  Switches,
+  TrafoTypes2w,
+  Trafos2w
+}
+import edu.ie3.powerFactory2psdm.model.entity.{
+  Line,
+  LineSection,
+  Load,
+  Node,
+  StaticGenerator,
+  Switch,
+  Transformer2W
+}
+import edu.ie3.powerFactory2psdm.model.entity.types.{
+  LineType,
+  Transformer2WType
+}
 import edu.ie3.powerFactory2psdm.model.setting.{ConversionPrefixes, UnitSystem}
 
 /** Representation of the grid which is to be converted to a PSDM
