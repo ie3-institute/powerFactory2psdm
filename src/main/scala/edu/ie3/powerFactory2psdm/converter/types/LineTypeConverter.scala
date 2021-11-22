@@ -10,13 +10,8 @@ import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.LineSection
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
-import edu.ie3.util.quantities.interfaces.SpecificConductance
-import tech.units.indriya.ComparableQuantity
-import tech.units.indriya.quantity.Quantities
-
 import java.util.UUID
-import javax.measure.quantity.{ElectricCurrent, ElectricPotential}
-import scala.math.{abs, min}
+import scala.math.abs
 import scala.util.{Failure, Success, Try}
 
 /** Functionality to translate a [[LineType]] to a [[LineTypeInput]]
