@@ -63,11 +63,12 @@ object StaticGeneratorConverter extends LazyLogging {
     val convertedModels = input.foldLeft(emptyModelContainer) {
       case ((fixed, pv, wec), statGen) =>
         convert(statGen, conversionConfig, nodes) match {
-          case Success(model) => model match {
-            case x: FixedFeedInInput => (x :: fixed, pv, wec)
-            case x: PvInput          => (fixed, x :: pv, wec)
-            case x: WecInput         => (fixed, pv, x :: wec)
-          }
+          case Success(model) =>
+            model match {
+              case x: FixedFeedInInput => (x :: fixed, pv, wec)
+              case x: PvInput          => (fixed, x :: pv, wec)
+              case x: WecInput         => (fixed, pv, x :: wec)
+            }
           case Failure(exc) =>
             logger error exc.getMessage
             (fixed, pv, wec)
