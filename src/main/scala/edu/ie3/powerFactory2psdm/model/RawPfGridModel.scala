@@ -1,14 +1,9 @@
-/*
- * © 2021. TU Dortmund University,
- * Institute of Energy Systems, Energy Efficiency and Energy Economics,
- * Research group Distribution grid planning and operation
- */
-
 package edu.ie3.powerFactory2psdm.model
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
   ExtGrid,
   PowerPlants,
   Trafos3w,
+  LineSections,
   Lines,
   Pvs,
   Switches,
@@ -29,6 +24,7 @@ final case class RawPfGridModel(
     loadsMV: Option[List[LoadsMV]],
     nodes: Option[List[Nodes]],
     projectSettings: Option[List[ProjectSettings]],
+    lineSections: Option[List[LineSections]],
     powerPlants: Option[List[PowerPlants]],
     trafoTypes3w: Option[List[TrafoTypes3w]],
     pvs: Option[List[Pvs]],
@@ -51,8 +47,6 @@ object RawPfGridModel {
       bus1Id: Option[String],
       bus2Id: Option[String]
   )
-
-  final case class Pvs()
 
   final case class ConElms(id: Option[String], pfCls: Option[String])
 
@@ -101,6 +95,14 @@ object RawPfGridModel {
   final case class Trafos3w()
 
   final case class ExtGrid(id: Option[String], busId: Option[String])
+
+  final case class LineSections(
+      id: Option[String],
+      dline: Option[Double],
+      typeId: Option[String]
+  )
+
+  final case class Pvs()
 
   final case class TrafoTypes2w(
       utrnH: Option[Double],
