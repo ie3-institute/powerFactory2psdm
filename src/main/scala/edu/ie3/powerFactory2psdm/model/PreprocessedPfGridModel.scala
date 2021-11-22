@@ -206,7 +206,7 @@ object PreprocessedPfGridModel extends LazyLogging {
       case load: LoadsMV => Load.build(load, conversionPrefixes.loadPQSPrefix())
       case other =>
         throw ConversionException(
-          s"Encountered unexpected load type: $other. I hate surprises!"
+          s"Encountered unexpected load type: $other. Processing of this load type is not supported."
         )
     }
     val staticGenerators = rawStaticGenerators.map(statGen =>

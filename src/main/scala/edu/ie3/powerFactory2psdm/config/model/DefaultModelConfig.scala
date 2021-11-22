@@ -30,7 +30,8 @@ trait DefaultModelConfig[M <: ModelConversionMode, I <: IndividualModelConfig[
   /** Return individual conversion mode of the model if there is one or
     * otherwise the default one
     *
-    * @param modelId the model id for which to retrieve the conversion mode
+    * @param modelId
+    *   the model id for which to retrieve the conversion mode
     * @return
     */
   def getConversionMode(modelId: String): M = {
