@@ -68,13 +68,16 @@ class LineTypeConverterSpec extends Matchers with AnyWordSpecLike {
           typeId = "lineTypeB"
         )
       )
+
+      implicit val quantityTolerance: Double = 1e-6
+
       val actual =
         LineTypeConverter.convert("testLine", 2, lineSections, lineTypes)
       actual.getB should equalWithTolerance(1.5.asMicroSiemensPerKilometre)
       actual.getG should equalWithTolerance(1.5.asMicroSiemensPerKilometre)
       actual.getR should equalWithTolerance(1.5.asOhmPerKilometre)
       actual.getX should equalWithTolerance(1.5.asOhmPerKilometre)
-      actual.getiMax should equalWithTolerance(1.asKiloAmpere)
+      actual.getiMax should equalWithTolerance(1000.asAmpere)
       actual.getvRated should equalWithTolerance(20.asKiloVolt)
     }
   }

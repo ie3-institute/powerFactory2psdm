@@ -71,7 +71,7 @@ object QuantityUtils {
     def asMicroSiemensPerKilometre: ComparableQuantity[SpecificConductance] =
       Quantities.getQuantity(
         value,
-        MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE)
+        MICRO_SIEMENS_PER_KILOMETRE
       )
 
     def asOhm: ComparableQuantity[ElectricResistance] = Quantities.getQuantity(
@@ -97,6 +97,12 @@ object QuantityUtils {
       value,
       MetricPrefix.MEGA(VOLTAMPERE)
     )
+
+    def asAmpere: ComparableQuantity[ElectricCurrent] =
+      Quantities.getQuantity(
+        value,
+        AMPERE
+      )
 
     def asKiloAmpere: ComparableQuantity[ElectricCurrent] =
       Quantities.getQuantity(
