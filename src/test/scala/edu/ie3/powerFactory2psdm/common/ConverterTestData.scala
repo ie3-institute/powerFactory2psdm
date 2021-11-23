@@ -493,7 +493,8 @@ object ConverterTestData extends LazyLogging {
           "someLine",
           "someNode",
           "someSlackNode",
-          "someLineType",
+          Some("someLineType"),
+          None,
           1.5,
           Some(List((11.1123, 52.1425), (11.1153, 52.1445)))
         ),

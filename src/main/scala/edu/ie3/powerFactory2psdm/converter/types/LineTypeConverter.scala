@@ -47,8 +47,6 @@ object LineTypeConverter {
       case x if x < 0         => aggregatedLineSectionLength
       case x if x > 0         => lineLength
     }
-
-    if (abs(lineLength - aggregatedLineSectionLength) < 1e-3) {
       val weightedLineTypes = lineSections.map(section => {
         val lineType = getLineType(section.typeId, lineTypes)
           .getOrElse(
@@ -89,7 +87,6 @@ object LineTypeConverter {
           )
         })
       weightedLineType
-    }
   }
 
   def getLineType(
