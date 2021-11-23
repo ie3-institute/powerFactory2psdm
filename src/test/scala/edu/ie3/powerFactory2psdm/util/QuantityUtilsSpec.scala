@@ -16,6 +16,7 @@ import edu.ie3.util.quantities.PowerSystemUnits.{
   KILOVOLT,
   KILOWATT,
   KILOWATTHOUR,
+  MICRO_SIEMENS_PER_KILOMETRE,
   OHM_PER_KILOMETRE,
   PERCENT_PER_HOUR,
   PU,
@@ -74,7 +75,7 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
 
     "convert a double to micro siemens per kilometre" in {
       value.asMicroSiemensPerKilometre should equalWithTolerance(
-        Quantities.getQuantity(value, MetricPrefix.MICRO(SIEMENS_PER_KILOMETRE))
+        Quantities.getQuantity(value, MICRO_SIEMENS_PER_KILOMETRE)
       )
     }
 
