@@ -47,46 +47,46 @@ object LineTypeConverter {
       case x if x < 0         => aggregatedLineSectionLength
       case x if x > 0         => lineLength
     }
-      val weightedLineTypes = lineSections.map(section => {
-        val lineType = getLineType(section.typeId, lineTypes)
-          .getOrElse(
-            throw ConversionException(
-              s"Can't find line type ${section.typeId} of section ${section.id} within the converted line types."
-            )
+    val weightedLineTypes = lineSections.map(section => {
+      val lineType = getLineType(section.typeId, lineTypes)
+        .getOrElse(
+          throw ConversionException(
+            s"Can't find line type ${section.typeId} of section ${section.id} within the converted line types."
           )
-        (section.length, lineType)
-      })
-      val lineType = new LineTypeInput(
-        UUID.randomUUID(),
-        "Custom_line_type_" + lineId,
-        0.asMicroSiemensPerKilometre,
-        0.asMicroSiemensPerKilometre,
-        0.asOhmPerKilometre,
-        0.asOhmPerKilometre,
-        Double.MaxValue.asKiloAmpere,
-        Double.MaxValue.asKiloVolt
-      )
+        )
+      (section.length, lineType)
+    })
+    val lineType = new LineTypeInput(
+      UUID.randomUUID(),
+      "Custom_line_type_" + lineId,
+      0.asMicroSiemensPerKilometre,
+      0.asMicroSiemensPerKilometre,
+      0.asOhmPerKilometre,
+      0.asOhmPerKilometre,
+      Double.MaxValue.asKiloAmpere,
+      Double.MaxValue.asKiloVolt
+    )
 
-      val weightedLineType =
-        weightedLineTypes.foldLeft(lineType)((averageType, current) => {
-          val currentLine = current._2
-          val weightingFactor = current._1 / totalLength
-          new LineTypeInput(
-            averageType.getUuid,
-            averageType.getId,
-            averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
-            averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
-            averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
-            averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
-            if (averageType.getiMax().isLessThan(currentLine.getiMax()))
-              averageType.getiMax()
-            else currentLine.getiMax(),
-            if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
-              currentLine.getvRated()
-            else averageType.getvRated()
-          )
-        })
-      weightedLineType
+    val weightedLineType =
+      weightedLineTypes.foldLeft(lineType)((averageType, current) => {
+        val currentLine = current._2
+        val weightingFactor = current._1 / totalLength
+        new LineTypeInput(
+          averageType.getUuid,
+          averageType.getId,
+          averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
+          averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
+          averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
+          averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
+          if (averageType.getiMax().isLessThan(currentLine.getiMax()))
+            averageType.getiMax()
+          else currentLine.getiMax(),
+          if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
+            currentLine.getvRated()
+          else averageType.getvRated()
+        )
+      })
+    weightedLineType
   }
 
   def getLineType(

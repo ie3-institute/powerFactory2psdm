@@ -56,16 +56,20 @@ class LineTypeConverterSpec extends Matchers with AnyWordSpecLike {
           20.asKiloVolt
         )
       )
-      val lineSections = List(LineSection(
-        id = "lineSectionA",
-        length = 1,
-        typeId = "lineTypeA"
-      ), LineSection(
-        id = "lineSectionB",
-        length = 1,
-        typeId = "lineTypeB"
-      ))
-      val actual = LineTypeConverter.convert("testLine", 2, lineSections, lineTypes)
+      val lineSections = List(
+        LineSection(
+          id = "lineSectionA",
+          length = 1,
+          typeId = "lineTypeA"
+        ),
+        LineSection(
+          id = "lineSectionB",
+          length = 1,
+          typeId = "lineTypeB"
+        )
+      )
+      val actual =
+        LineTypeConverter.convert("testLine", 2, lineSections, lineTypes)
       actual.getB should equalWithTolerance(1.5.asMicroSiemensPerKilometre)
       actual.getG should equalWithTolerance(1.5.asMicroSiemensPerKilometre)
       actual.getR should equalWithTolerance(1.5.asOhmPerKilometre)
