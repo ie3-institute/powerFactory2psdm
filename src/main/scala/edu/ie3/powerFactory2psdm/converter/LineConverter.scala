@@ -67,8 +67,7 @@ object LineConverter {
             s"Can't retrieve ${line.nodeBId} for line ${line.id}",
             exc
           )
-        case (_, _, Failure(exc)) =>
-          throw ConversionException(
+        case (_, _, Failure(exc)) => throw ConversionException(
             s"Could not convert line: $line due to failed line type retrieval.",
             exc
           )
