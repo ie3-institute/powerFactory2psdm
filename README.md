@@ -4,6 +4,9 @@
 
 Convert PowerFactory projects to [PowerSystemDataModel](https://github.com/ie3-institute/PowerSystemDataModel).
 
+This repository is currently under development and implements functionality specific needed for a research project.
+For further information or feature requests feel free to reach.
+
 
 ## GitHook
 
