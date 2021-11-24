@@ -46,25 +46,19 @@ object LineConverter {
   ): List[LineInput] = {
     lines.map(line => {
       val lineType = (line.typeId, line.lineSections) match {
-        case (Some(lineTypeId), None) =>
-          getLineType(lineTypeId, lineTypes).getOrElse(
-            throw ConversionException(
-              s"Could not convert line: $line due to failed line type retrieval."
-            )
-          )
-        case (None, Some(lineSections)) =>
+        case (_, Some(lineSections)) =>
           LineTypeConverter.convert(
             line.id,
             line.length,
             lineSections,
             lineTypes
           )
-        case (Some(_), Some(_)) => {
-          throw ConversionException(
-            s"Line: ${line.id} has line types and line sections which both define line types. " +
-              s"This error should not happen since PowerFactory only lets you define one of the two."
+        case (Some(lineTypeId), None) =>
+          getLineType(lineTypeId, lineTypes).getOrElse(
+            throw ConversionException(
+              s"Could not convert line: $line due to failed line type retrieval."
+            )
           )
-        }
         case (None, None) =>
           throw ConversionException(
             s"Could not convert line: ${line.id} since there is no defined type in the model and there are no line section that specify the type"
