@@ -57,11 +57,13 @@ object LineConverter {
             nodeA,
             nodeB
           )
-        case (Failure(exc), _, _) => throw ConversionException(
+        case (Failure(exc), _, _) =>
+          throw ConversionException(
             s"Can't retrieve ${line.nodeAId} for line ${line.id}",
             exc
           )
-        case (_, Failure(exc), _) => throw ConversionException(
+        case (_, Failure(exc), _) =>
+          throw ConversionException(
             s"Can't retrieve ${line.nodeBId} for line ${line.id}",
             exc
           )
