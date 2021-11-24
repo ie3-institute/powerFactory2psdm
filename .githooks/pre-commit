@@ -1,6 +1,7 @@
+#!/bin/bash
+
 # All credits to: https://gist.github.com/bhaskarmelkani/8baff88980f9cd90f8c44e07e433eb73
 
-#!/bin/bash
 set -e
 
 # A precommit hook that uses spotless to format only staged files
