@@ -72,7 +72,10 @@ object LineConverter {
             s"Could not convert line: $line due to failed line type retrieval.",
             exc
           )
-        case _ => throw ConversionException(s"Could not convert line: $line due to failed line type retrieval.")
+        case _ =>
+          throw ConversionException(
+            s"Could not convert line: $line due to failed line type retrieval."
+          )
       }
     })
   }
