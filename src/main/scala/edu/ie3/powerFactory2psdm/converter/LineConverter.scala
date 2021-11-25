@@ -13,7 +13,6 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
-import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter.getLineType
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Line
