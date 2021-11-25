@@ -7,20 +7,17 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.StandardUnits
-import tech.units.indriya.unit.Units.METRE
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.connector.LineInput
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
-import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter.getLineType
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Line
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
-import tech.units.indriya.quantity.Quantities
 
 import java.util.UUID
 import scala.util.{Failure, Success}
