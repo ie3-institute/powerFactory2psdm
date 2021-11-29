@@ -18,10 +18,6 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   FixedQCharacteristic,
   QCharacteristic
 }
-import edu.ie3.powerFactory2psdm.config.model.DefaultModelConfig.getConversionModes
-import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelConversionMode
-import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelConversionMode
-import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValidator
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
@@ -47,16 +43,12 @@ object ConfigValidator extends LazyLogging {
   private[config] def validateModelConfigs(
       modelConfigs: StatGenModelConfigs
   ): Unit = {
-    Seq(modelConfigs.pvConfig, modelConfigs.wecConfig)
-      .flatMap(getConversionModes)
-      .foreach {
-        case x: PvModelConversionMode  => PvConversionModeValidator.validate(x)
-        case x: WecModelConversionMode => WecConversionModeValidator.validate(x)
-        case conversionMode =>
-          logger.warn(
-            s"The conversion mode $conversionMode is currently not validated."
-          )
-      }
+    modelConfigs.pvConfig.getConversionModes.foreach(
+      PvConversionModeValidator.validate
+    )
+    modelConfigs.wecConfig.getConversionModes.foreach(
+      WecConversionModeValidator.validate
+    )
   }
 
   private[config] def validateParameterSamplingMethod(

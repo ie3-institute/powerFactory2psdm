@@ -66,13 +66,20 @@ import edu.ie3.powerFactory2psdm.model.entity.{
   Subnet
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
-import edu.ie3.powerFactory2psdm.model.PreprocessedPfGridModel
+import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.MV_10KV
+import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.{
+  OTHER,
+  PV,
+  WEC
+}
+
 import java.io.File
 import java.util.{Locale, UUID}
+import scala.util.{Failure, Success, Try}
 
 object ConverterTestData extends LazyLogging {
 
@@ -122,12 +129,10 @@ object ConverterTestData extends LazyLogging {
       resultType: T
   )
 
-  logger.info("Building the grid model")
-
   val testGridFile =
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
-  val testGrid: PreprocessedPfGridModel = PreprocessedPfGridModel.build(
+  def parseRawGrid: RawPfGridModel =
     PfGridParser
       .parse(testGridFile)
       .getOrElse(
@@ -135,12 +140,23 @@ object ConverterTestData extends LazyLogging {
           s"Couldn't parse the grid file $testGridFile"
         )
       )
-  )
 
-  logger.info("Sucessfully built the grid model")
-
-  val id2node: Map[String, Node] =
-    testGrid.nodes.map(node => (node.id, node)).toMap
+  def buildPreProcessedTestGrid: PreprocessedPfGridModel =
+    Try {
+      PreprocessedPfGridModel.build(
+        parseRawGrid,
+        config.modelConfigs.sRatedSource,
+        config.modelConfigs.cosPhiSource
+      )
+    } match {
+      case Failure(exc) =>
+        throw TestException(
+          s"Could not build the grid in $testGridFile and therefore was not able to initialize the ConverterTestData. " +
+            s"This is probably due to the generated grid schema of the SchemaGenerator and the test grid being out of sync.",
+          exc
+        )
+      case Success(grid) => grid
+    }
 
   val bus1Id = "Grid.ElmNet\\Bus_0001.ElmTerm"
   val bus2Id = "Grid.ElmNet\\Bus_0002.ElmTerm"
@@ -335,7 +351,7 @@ object ConverterTestData extends LazyLogging {
     sRated = 11,
     cosPhi = 0.91,
     indCapFlag = 0,
-    category = "Statischer Generator"
+    category = OTHER
   )
 
   val statGenCosPhiExcMsg: String => String = (id: String) =>
@@ -353,7 +369,7 @@ object ConverterTestData extends LazyLogging {
 
   val generatePvs: Map[String, ConversionPair[StaticGenerator, PvInput]] = Map(
     "somePvPlant" -> ConversionPair(
-      staticGenerator.copy(category = "Fotovoltaik"),
+      staticGenerator.copy(category = PV),
       new PvInput(
         UUID.randomUUID(),
         "someStatGen",
@@ -446,7 +462,7 @@ object ConverterTestData extends LazyLogging {
     WecTypeInput
   ]] = Map(
     "someWec" -> ConversionPairWithType(
-      staticGenerator.copy(id = "someWec", category = "Wind"),
+      staticGenerator.copy(id = "someWec", category = WEC),
       new WecInput(
         UUID.randomUUID(),
         "someWec",
@@ -689,6 +705,10 @@ object ConverterTestData extends LazyLogging {
         s"Cannot find input/result pair for ${Switch.getClass.getSimpleName} with key: $key "
       )
     )
+  }
+
+  def main(args: Array[String]) = {
+    println("hi")
   }
 
 }

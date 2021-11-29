@@ -49,7 +49,9 @@ object Transformer2W {
       throw MissingParameterException(s"Trafo2w: $id has no lv bus id.")
     )
     val typeId = rawTrafo.typeId.getOrElse(
-      throw MissingParameterException(s"Trafo2w: $id has no type id.")
+      throw MissingParameterException(
+        s"Trafo2w: $id has no type. Transformer conversion without specified types is not supported."
+      )
     )
     val tapPos = rawTrafo.nntap
       .getOrElse(

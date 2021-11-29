@@ -157,5 +157,8 @@ build
 # Ignore out folder
 out
 
+# Ignore default folder for converted grids
+convertedGrids
+
 # Ignore grid json
 src/main/python/pfGridExport

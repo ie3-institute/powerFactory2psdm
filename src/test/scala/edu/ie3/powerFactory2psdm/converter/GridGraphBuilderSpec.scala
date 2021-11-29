@@ -7,39 +7,44 @@
 package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
+  buildPreProcessedTestGrid,
   subnet1Ids,
   subnet2Ids,
   subnet3Ids,
-  subnet4Ids,
-  testGrid
+  subnet4Ids
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
+import org.scalatest.BeforeAndAfter
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
 import scala.jdk.CollectionConverters._
 
-class GridGraphBuilderSpec extends Matchers with AnyWordSpecLike {
+class GridGraphBuilderSpec
+    extends Matchers
+    with AnyWordSpecLike
+    with BeforeAndAfter {
 
   "The GridGraphBuilder" should {
+    val preProcessedTestGrid = buildPreProcessedTestGrid
 
     val gridGraph = GridGraphBuilder.build(
-      testGrid.nodes,
-      testGrid.lines ++ testGrid.switches
+      preProcessedTestGrid.nodes,
+      preProcessedTestGrid.lines ++ preProcessedTestGrid.switches
     )
     val inspect = new BiconnectivityInspector(gridGraph)
     val vertexSets = inspect.getConnectedComponents.asScala
       .map(graph => graph.vertexSet())
 
     "add the correct number of nodes to the gridGraph" in {
-      gridGraph.vertexSet().size shouldBe testGrid.nodes.size
+      gridGraph.vertexSet().size shouldBe preProcessedTestGrid.nodes.size
     }
 
     "add the correct number of edges to the gridGraph" in {
       gridGraph
         .edgeSet()
-        .size shouldBe (testGrid.lines ++ testGrid.switches).size
+        .size shouldBe (preProcessedTestGrid.lines ++ preProcessedTestGrid.switches).size
     }
 
     "generate the correct number of subnets" in {

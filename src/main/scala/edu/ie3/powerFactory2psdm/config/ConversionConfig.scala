@@ -6,14 +6,21 @@
 
 package edu.ie3.powerFactory2psdm.config
 
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  OutputConfig,
+  StatGenModelConfigs
+}
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
 import edu.ie3.powerFactory2psdm.config.model.{
   PvConversionConfig,
   WecConversionConfig
 }
 
-final case class ConversionConfig(modelConfigs: StatGenModelConfigs)
+final case class ConversionConfig(
+    gridName: String,
+    modelConfigs: StatGenModelConfigs,
+    output: OutputConfig
+)
 
 /** Config used for the grid conversion
   */
@@ -33,6 +40,18 @@ object ConversionConfig {
       wecConfig: WecConversionConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
+  )
+
+  final case class OutputConfig(
+      targetFolder: String,
+      csvConfig: CsvConfig
+  )
+
+  final case class CsvConfig(
+      directoryHierarchy: Boolean = true,
+      fileEncoding: String = "UTF-8",
+      fileEnding: String = ".csv",
+      separator: String = ";"
   )
 
   sealed trait GenerationMethod
