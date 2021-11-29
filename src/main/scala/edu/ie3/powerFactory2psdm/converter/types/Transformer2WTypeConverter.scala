@@ -12,12 +12,10 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   ElementConfigurationException
 }
 import edu.ie3.powerFactory2psdm.model.entity.types.Transformer2WType
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.{OHM, PERCENT, SIEMENS, VOLT}
-import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, VOLTAMPERE}
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import math.{pow, sqrt}
 import java.util.UUID
+import scala.util.Try
 
 object Transformer2WTypeConverter {
 
@@ -80,7 +78,10 @@ object Transformer2WTypeConverter {
       input.tapMin.toInt,
       input.tapMax.toInt
     )
-
   }
 
+  def getTransformer2WType(
+      id: String,
+      types: Map[String, Transformer2WTypeInput]
+  ): Try[Transformer2WTypeInput] = Try(types(id))
 }

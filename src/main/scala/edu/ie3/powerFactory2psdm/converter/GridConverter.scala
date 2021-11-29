@@ -6,17 +6,62 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
+import edu.ie3.datamodel.models.input.{MeasurementUnitInput, NodeInput}
+import edu.ie3.datamodel.models.input.connector.Transformer3WInput
+import edu.ie3.datamodel.models.input.container.{
+  GraphicElements,
+  JointGridContainer,
+  RawGridElements,
+  SystemParticipants
+}
+import edu.ie3.datamodel.models.input.graphics.{
+  LineGraphicInput,
+  NodeGraphicInput
+}
+import edu.ie3.datamodel.models.input.system.{
+  BmInput,
+  ChpInput,
+  EvInput,
+  EvcsInput,
+  HpInput,
+  StorageInput
+}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.converter.types.{
+  LineTypeConverter,
+  Transformer2WTypeConverter
+}
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
+
+import scala.jdk.CollectionConverters.SetHasAsJava
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
   * to the PSDM.
   */
 case object GridConverter {
 
-  def convert(pfGrid: RawPfGridModel) = {
-    val grid = PreprocessedPfGridModel.build(pfGrid)
-    val gridElements = convertGridElements(grid)
+  def convert(
+      pfGrid: RawPfGridModel,
+      config: ConversionConfig
+  ): JointGridContainer = {
+    val grid = PreprocessedPfGridModel.build(
+      pfGrid,
+      config.modelConfigs.sRatedSource,
+      config.modelConfigs.cosPhiSource
+    )
+    val (gridElements, convertedNodes) = convertGridElements(grid)
+    val participants =
+      convertParticipants(grid, convertedNodes, config.modelConfigs)
+    new JointGridContainer(
+      config.gridName,
+      gridElements,
+      participants,
+      new GraphicElements(
+        Set.empty[NodeGraphicInput].asJava,
+        Set.empty[LineGraphicInput].asJava
+      )
+    )
   }
 
   /** Converts the grid elements of the PowerFactory grid
@@ -26,7 +71,7 @@ case object GridConverter {
     */
   def convertGridElements(
       grid: PreprocessedPfGridModel
-  ): Unit = {
+  ): (RawGridElements, Map[String, NodeInput]) = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
@@ -41,5 +86,68 @@ case object GridConverter {
       nodes,
       lineTypes
     )
+    val transformer2WTypes = grid.transformerTypes2W
+      .map(transformerType =>
+        transformerType.id -> Transformer2WTypeConverter.convert(
+          transformerType
+        )
+      )
+      .toMap
+    val transfomers2W = Transformer2WConverter.convertTransformers(
+      grid.transformers2W,
+      nodes,
+      transformer2WTypes
+    )
+    val switches =
+      grid.switches.map(switch => SwitchConverter.convert(switch, nodes))
+
+    (
+      new RawGridElements(
+        nodes.values.toSet.asJava,
+        lines.toSet.asJava,
+        transfomers2W.toSet.asJava,
+        Set.empty[Transformer3WInput].asJava,
+        switches.toSet.asJava,
+        Set.empty[MeasurementUnitInput].asJava
+      ),
+      nodes
+    )
+
+  }
+
+  /** Convert system participants of the power factory grid.
+    *
+    * @param grid
+    *   the PF grid
+    * @param convertedNodes
+    *   the converted nodes
+    * @param statGenConversionConfig
+    *   the conversion configuration for static generators
+    * @return
+    */
+  def convertParticipants(
+      grid: PreprocessedPfGridModel,
+      convertedNodes: Map[String, NodeInput],
+      statGenConversionConfig: StatGenModelConfigs
+  ): SystemParticipants = {
+    val loads = LoadConverter.convertLoads(grid.loads, convertedNodes)
+    val statGenModelContainer = StaticGeneratorConverter.convert(
+      grid.staticGenerators,
+      statGenConversionConfig,
+      convertedNodes
+    )
+    new SystemParticipants(
+      Set.empty[BmInput].asJava,
+      Set.empty[ChpInput].asJava,
+      Set.empty[EvcsInput].asJava,
+      Set.empty[EvInput].asJava,
+      statGenModelContainer.fixedFeedIns.toSet.asJava,
+      Set.empty[HpInput].asJava,
+      loads.toSet.asJava,
+      statGenModelContainer.pvInputs.toSet.asJava,
+      Set.empty[StorageInput].asJava,
+      statGenModelContainer.wecInputs.toSet.asJava
+    )
+
   }
 }

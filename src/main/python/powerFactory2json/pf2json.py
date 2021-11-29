@@ -7,7 +7,7 @@ import pf2jsonUtils
 # fixme: Delete reload after development
 import importlib
 importlib.reload(pf2jsonUtils)
-from pf2jsonUtils import attributes4export, elements4export, nested_elements4export, reserved_keywords
+from pf2jsonUtils import attributes4export, elements4export, reserved_keywords
 
 #################
 # Configuration #

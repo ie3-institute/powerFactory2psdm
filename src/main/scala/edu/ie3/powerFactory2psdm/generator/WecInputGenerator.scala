@@ -17,7 +17,7 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
 
 import java.util.UUID
 
-object WecGenerator {
+object WecInputGenerator {
 
   /** Generates a [[WecInput]] and a [[WecTypeInput]] to replace a shallow
     * [[StaticGenerator]]. As a static generator does not hold all parameters
@@ -31,19 +31,19 @@ object WecGenerator {
     * @param params
     *   parameters for generating missing parameters
     * @return
-    *   [[WecInput]] and a [[WecTypeInput]] that replace the [[StaticGenerator]]
+    *   [[WecInput]] that replaces the [[StaticGenerator]]
     */
   def generate(
       input: StaticGenerator,
       node: NodeInput,
       params: WecModelGeneration
-  ): (WecInput, WecTypeInput) = {
+  ): WecInput = {
     val cosPhiRated = ConversionHelper.determineCosPhiRated(input)
     val qCharacteristics: ReactivePowerCharacteristic = ConversionHelper
       .convertQCharacteristic(params.qCharacteristic, cosPhiRated)
     val wecTypeInput = WecTypeGenerator.convert(input, params)
 
-    val wecInput = new WecInput(
+    new WecInput(
       UUID.randomUUID(),
       input.id,
       node,
@@ -51,7 +51,6 @@ object WecGenerator {
       wecTypeInput,
       false
     )
-    (wecInput, wecTypeInput)
   }
 
 }

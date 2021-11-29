@@ -113,4 +113,10 @@ object NodeConverter {
         )
       )
   }
+
+  def missingNodeException(
+      system: String,
+      exc: Throwable
+  ): ConversionException =
+    ConversionException(s"Can't find converted node of $system", exc)
 }
