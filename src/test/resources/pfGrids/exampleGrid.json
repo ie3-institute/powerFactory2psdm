@@ -439,11 +439,11 @@
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
           "pfCls": "ElmCoup"
         },
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\S1.ElmCoup",
+          "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
         }
       ]
