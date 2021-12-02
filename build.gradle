@@ -90,8 +90,8 @@ dependencies {
 	testImplementation 'com.vladsch.flexmark:flexmark-all:0.35.10'
 
 	// Linter Scala //
-	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.10" // scala scapegoat
-	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.9" // scala scapegoat
+	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
+	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 }
 
 /* scapegoat hook configuration
