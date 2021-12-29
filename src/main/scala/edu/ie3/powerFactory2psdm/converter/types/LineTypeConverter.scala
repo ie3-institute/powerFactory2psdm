@@ -93,26 +93,24 @@ object LineTypeConverter extends LazyLogging {
       Double.MaxValue.asKiloVolt
     )
 
-    val weightedLineType =
-      weightedLineTypes.foldLeft(emptyLineType)((averageType, current) => {
-        val currentLine = current._2
-        val weightingFactor = current._1 / lineLength
-        new LineTypeInput(
-          averageType.getUuid,
-          averageType.getId,
-          averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
-          averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
-          averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
-          averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
-          if (averageType.getiMax().isLessThan(currentLine.getiMax()))
-            averageType.getiMax()
-          else currentLine.getiMax(),
-          if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
-            currentLine.getvRated()
-          else averageType.getvRated()
-        )
-      })
-    weightedLineType
+    weightedLineTypes.foldLeft(emptyLineType)((averageType, current) => {
+      val currentLine = current._2
+      val weightingFactor = current._1 / lineLength
+      new LineTypeInput(
+        averageType.getUuid,
+        averageType.getId,
+        averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
+        averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
+        averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
+        averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
+        if (averageType.getiMax().isLessThan(currentLine.getiMax()))
+          averageType.getiMax()
+        else currentLine.getiMax(),
+        if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
+          currentLine.getvRated()
+        else averageType.getvRated()
+      )
+    })
   }
 
   def getLineType(
