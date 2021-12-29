@@ -8,7 +8,7 @@ package edu.ie3.powerFactory2psdm.converter.types
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
-import edu.ie3.powerFactory2psdm.model.entity.LineSection
+import edu.ie3.powerFactory2psdm.model.entity.{Line, LineSection}
 import edu.ie3.powerFactory2psdm.model.entity.types.LineType
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 

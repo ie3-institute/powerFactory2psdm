@@ -45,6 +45,10 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
+      /*
+      Here we check if this is a line with line section and therefore multiple line types in which case we create an
+      averaged line type. If it isn't we just retrieve the line sections from the converted line types.
+       */
       val lineType = (line.typeId, line.lineSections) match {
         case (_, Some(lineSections)) =>
           LineTypeConverter.convert(

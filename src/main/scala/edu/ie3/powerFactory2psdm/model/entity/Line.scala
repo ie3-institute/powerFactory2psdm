@@ -17,6 +17,14 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Lines
   *   id of connected node
   * @param nodeBId
   *   id of connected node
+  * @param typeId
+  *   id of the corresponding line type
+  * @param lineSections
+  *   optional list of line sections the line consists of
+  * @param length
+  *   length of the line
+  * @param gpsCoords
+  *   optional list of gps coordinates of geo position of the line
   */
 final case class Line(
     id: String,
@@ -25,7 +33,7 @@ final case class Line(
     typeId: Option[String],
     lineSections: Option[List[LineSection]],
     length: Double,
-    gpsCoords: Option[(List[(Double, Double)])]
+    gpsCoords: Option[List[(Double, Double)]]
 ) extends EntityModel
     with Edge
 
