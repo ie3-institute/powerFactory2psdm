@@ -13,6 +13,7 @@ import edu.ie3.datamodel.models.input.connector.`type`.LineTypeInput
 import edu.ie3.datamodel.models.input.system.characteristic.OlmCharacteristicInput
 import edu.ie3.datamodel.utils.GridAndGeoUtils
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
+import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter
 import edu.ie3.powerFactory2psdm.converter.types.LineTypeConverter.getLineType
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Line
@@ -44,32 +45,49 @@ object LineConverter {
       lineTypes: Map[String, LineTypeInput]
   ): List[LineInput] = {
     lines.map(line => {
+      /*
+      Here we check if this is a line with line section and therefore multiple line types in which case we create an
+      averaged line type. If it isn't we just retrieve the line sections from the converted line types.
+       */
+      val lineType = (line.typeId, line.lineSections) match {
+        case (_, Some(lineSections)) =>
+          LineTypeConverter.convert(
+            line.id,
+            line.length,
+            lineSections,
+            lineTypes
+          )
+        case (Some(lineTypeId), None) =>
+          getLineType(lineTypeId, lineTypes).getOrElse(
+            throw ConversionException(
+              s"Could not convert line: $line due to failed line type retrieval."
+            )
+          )
+        case (None, None) =>
+          throw ConversionException(
+            s"Could not convert line: ${line.id} since there is no defined type in the model and there are no line section that specify the type"
+          )
+      }
       (
         getNode(line.nodeAId, nodes),
-        getNode(line.nodeBId, nodes),
-        getLineType(line.typeId, lineTypes)
+        getNode(line.nodeBId, nodes)
       ) match {
-        case (Success(nodeA), Success(nodeB), Success(lineType)) =>
-          convert(
+        case (Success(nodeA), Success(nodeB)) =>
+          LineConverter.convert(
             line,
             lineLengthPrefix,
             lineType,
             nodeA,
             nodeB
           )
-        case (Failure(exc), _, _) =>
+        case (Failure(exc), _) =>
           throw ConversionException(
             s"Can't retrieve ${line.nodeAId} for line ${line.id}",
             exc
           )
-        case (_, Failure(exc), _) =>
+        case (_, Failure(exc)) =>
           throw ConversionException(
             s"Can't retrieve ${line.nodeBId} for line ${line.id}",
-            exc
-          )
-        case (_, _, Failure(exc)) =>
-          throw ConversionException(
-            s"Could not convert line: $line due to failed line type retrieval.",
             exc
           )
       }
