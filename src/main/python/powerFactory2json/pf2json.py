@@ -28,7 +28,7 @@ def get_attribute_dicts(raw_elements, attributes_to_include):
     elements = []
     single_node_connection = ["ElmLod", "ElmLodlv", "ElmLodmv", "ElmPvsys", "ElmSym", "ElmGenstat", "ElmXnet"]
     edges = ["ElmLne", "ElmCoup"]
-    typed_models = ["ElmLne", "ElmTr2"]
+    typed_models = ["ElmLne", "ElmTr2", "ElmLnesec"]
     for raw_element in raw_elements:
         element_class = raw_element.GetClassName()
         element = get_attribute_dict(raw_element, attributes_to_include)

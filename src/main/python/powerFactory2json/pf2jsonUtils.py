@@ -13,11 +13,15 @@ elements4export = {
     'extGrid': '*.ElmXnet',
     'powerPlants': '*.ElmSym',  # renewable power plants
     'pvs': '*.ElmPvsys',  # additional photovoltaic units
-    'switches': '*.ElmCoup'
+    'switches': '*.ElmCoup',
+    'lineSections': '*.ElmLnesec'
 }
 
 
 attributes4export = {
+    'lineSections': [
+        "dline"
+    ],
     'conElms': [],
     'nodes': [
         "vtarget",
@@ -27,7 +31,8 @@ attributes4export = {
     ],
     'lines': [
         "dline",
-        "GPScoords"
+        "GPScoords",
+        "cubsecs"
     ],
     'lineTypes': [
         "rline",

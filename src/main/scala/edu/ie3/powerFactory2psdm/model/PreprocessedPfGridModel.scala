@@ -14,6 +14,7 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingParameterException
 }
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
+  LineSections,
   LineTypes,
   Lines,
   Loads,
@@ -28,6 +29,7 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
 }
 import edu.ie3.powerFactory2psdm.model.entity.{
   Line,
+  LineSection,
   Load,
   Node,
   StaticGenerator,
@@ -108,6 +110,10 @@ object PreprocessedPfGridModel extends LazyLogging {
       logger debug "There are no lines in the grid."
       List.empty[LineTypes]
     })
+    val rawLineSections = rawGrid.lineSections.getOrElse({
+      logger debug "There are no line sections in the grid."
+      List.empty[LineSections]
+    })
     val rawSwitches = rawGrid.switches.getOrElse({
       logger debug "There are no switches in the grid."
       List.empty[Switches]
@@ -129,7 +135,7 @@ object PreprocessedPfGridModel extends LazyLogging {
     })
 
     val models =
-      rawNodes ++ rawLines ++ rawLineTypes ++ rawSwitches ++ rawTrafos2W ++ rawTrafoTpyes2W ++ rawLoads ++ rawStaticGenerators
+      rawNodes ++ rawLines ++ rawLineTypes ++ rawLineSections ++ rawSwitches ++ rawTrafos2W ++ rawTrafoTpyes2W ++ rawLoads ++ rawStaticGenerators
     val modelIds = models.map {
       case node: Nodes =>
         node.id.getOrElse(
@@ -143,6 +149,12 @@ object PreprocessedPfGridModel extends LazyLogging {
         lineType.id.getOrElse(
           throw MissingParameterException(
             s"Line type $lineType has no defined id"
+          )
+        )
+      case lineSection: LineSections =>
+        lineSection.id.getOrElse(
+          throw MissingParameterException(
+            s"Line section $lineSection has no defined id"
           )
         )
       case switch: Switches =>
@@ -195,7 +207,8 @@ object PreprocessedPfGridModel extends LazyLogging {
     }
 
     val nodes = rawNodes.map(Node.build)
-    val lines = rawLines.map(line => Line.build(line))
+    val lineSectionsMap = LineSection.buildLineSectionMap(rawLineSections)
+    val lines = rawLines.map(line => Line.build(line, lineSectionsMap))
     val lineTypes = rawLineTypes.map(LineType.build)
     val switches = rawSwitches.flatMap(Switch.maybeBuild)
     val transformers2W = rawTrafos2W.map(Transformer2W.build)

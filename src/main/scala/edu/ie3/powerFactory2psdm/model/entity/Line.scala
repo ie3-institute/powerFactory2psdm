@@ -17,19 +17,31 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Lines
   *   id of connected node
   * @param nodeBId
   *   id of connected node
+  * @param typeId
+  *   id of the corresponding line type
+  * @param lineSections
+  *   optional list of line sections the line consists of
+  * @param length
+  *   length of the line
+  * @param gpsCoords
+  *   optional list of gps coordinates of geo position of the line
   */
 final case class Line(
     id: String,
     nodeAId: String,
     nodeBId: String,
-    typeId: String,
+    typeId: Option[String],
+    lineSections: Option[List[LineSection]],
     length: Double,
-    gpsCoords: Option[(List[(Double, Double)])]
+    gpsCoords: Option[List[(Double, Double)]]
 ) extends EntityModel
     with Edge
 
 object Line {
-  def build(rawLine: Lines): Line = {
+  def build(
+      rawLine: Lines,
+      lineSectionsMap: Map[String, List[LineSection]]
+  ): Line = {
     val id = rawLine.id.getOrElse(
       throw MissingParameterException(s"There is no id for line $rawLine")
     )
@@ -39,12 +51,8 @@ object Line {
     val nodeBId = rawLine.bus2Id.getOrElse(
       throw MissingParameterException(s"Line: $id has no defined node b")
     )
-    val typId = rawLine.typeId.getOrElse(
-      throw MissingParameterException(
-        s"Line: $id has no defined type - line conversion without defined type" +
-          s" is not supported "
-      )
-    )
+    val typId = rawLine.typeId
+    val lineSections = lineSectionsMap.get(id)
     val length = rawLine.dline.getOrElse(
       throw MissingParameterException(
         s"Line: $id has no defined length"
@@ -65,6 +73,7 @@ object Line {
       nodeAId,
       nodeBId,
       typId,
+      lineSections,
       length,
       gpsCoords
     )
