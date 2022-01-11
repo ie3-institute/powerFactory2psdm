@@ -144,7 +144,7 @@ object RawPfGridModel {
   )
 
   final case class Nodes(
-                        locName: Option[String],
+      locName: Option[String],
       vtarget: Option[Double],
       conElms: Option[List[Option[ConElms]]],
       GPSlat: Option[Double],
