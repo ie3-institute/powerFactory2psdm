@@ -8,8 +8,12 @@ package edu.ie3.powerFactory2psdm.converter
 
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.getNodePair
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.NodeUuidMappingInformation
+import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
+
+import java.io.File
 
 class NodeConverterSpec extends Matchers with AnyWordSpecLike {
 
@@ -23,7 +27,8 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       val actual = NodeConverter.convertNode(
         input,
         1,
-        GermanVoltageLevelUtils.LV
+        GermanVoltageLevelUtils.LV,
+        Map()
       )
       actual.getId shouldBe expected.getId
       actual.getVoltLvl shouldBe expected.getVoltLvl
@@ -39,12 +44,40 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       val actual = NodeConverter.convertNode(
         input,
         2,
-        GermanVoltageLevelUtils.LV
+        GermanVoltageLevelUtils.LV,
+        Map()
       )
       actual.getId shouldBe expected.getId
       actual.getVoltLvl shouldBe expected.getVoltLvl
       actual.getSubnet shouldBe expected.getSubnet
       actual.isSlack shouldBe expected.isSlack
+    }
+
+    "build a node name mapping correctly" in {
+      val csvMappingPath =
+        s"${new File(".").getCanonicalPath}/src/test/resources/id_mapping.csv"
+      val nodeUuidMappingInformation =
+        NodeUuidMappingInformation(csvMappingPath, ";")
+      val mapping = NodeConverter.getNodeNameMapping(nodeUuidMappingInformation)
+
+      mapping
+        .getOrElse(
+          "Node-A",
+          throw TestException("Map does not contain the given key.")
+        )
+        .toString shouldBe "15af4d66-e83a-5f3b-a992-2dd240cced81"
+      mapping
+        .getOrElse(
+          "Node-B",
+          throw TestException("Map does not contain the given key.")
+        )
+        .toString shouldBe "d254e50c-638f-5ec1-88d5-0332d13f5d0c"
+      mapping
+        .getOrElse(
+          "Node-C",
+          throw TestException("Map does not contain the given key.")
+        )
+        .toString shouldBe "1f085331-b7c5-5c20-aff5-09b3c6a7e0ab"
     }
   }
 }

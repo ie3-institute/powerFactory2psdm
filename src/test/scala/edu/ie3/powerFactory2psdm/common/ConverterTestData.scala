@@ -212,6 +212,7 @@ object ConverterTestData extends LazyLogging {
     "someNode" -> ConversionPair(
       Node(
         "someNode",
+        "someNode",
         0.4,
         1.0,
         Some(11.1123),
@@ -238,6 +239,7 @@ object ConverterTestData extends LazyLogging {
     "someSlackNode" -> ConversionPair(
       Node(
         "someSlackNode",
+        "someSlackNode",
         0.4,
         1.0,
         Some(11.1123),
@@ -263,6 +265,7 @@ object ConverterTestData extends LazyLogging {
     ),
     "someMvNode" -> ConversionPair(
       Node(
+        "someMvNode",
         "someMvNode",
         10.0,
         1.0,

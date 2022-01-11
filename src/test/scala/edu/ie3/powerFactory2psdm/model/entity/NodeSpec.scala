@@ -27,6 +27,7 @@ class NodeSpec extends Matchers with AnyWordSpecLike {
 
     val input = Nodes(
       id = Some(id),
+      locName = Some(id),
       vtarget = Some(1.0),
       uknom = Some(132.0),
       conElms = Some(List(Some(conElm))),

@@ -59,7 +59,8 @@ case object GridConverter {
       config.modelConfigs.sRatedSource,
       config.modelConfigs.cosPhiSource
     )
-    val (gridElements, convertedNodes) = convertGridElements(grid)
+    val (gridElements, convertedNodes) =
+      convertGridElements(grid, config.nodeMapping)
     val participants =
       convertParticipants(grid, convertedNodes, config.modelConfigs)
     new JointGridContainer(
