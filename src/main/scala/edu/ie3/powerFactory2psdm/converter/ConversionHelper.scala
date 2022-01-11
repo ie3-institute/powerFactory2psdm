@@ -80,4 +80,12 @@ object ConversionHelper {
         )
     }
 
+  def getDuplicates[T](items: Vector[T]): Vector[T] = {
+    val uniqueItems = items.distinct
+    if (uniqueItems.size == items.size) {
+      return Vector[T]()
+    }
+    items.diff(uniqueItems)
+  }
+
 }

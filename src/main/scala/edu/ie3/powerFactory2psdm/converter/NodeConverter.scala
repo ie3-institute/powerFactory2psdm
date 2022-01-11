@@ -9,10 +9,8 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.voltagelevels.VoltageLevel
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ConversionException,
-  GridConfigurationException
-}
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.NodeUuidMappingInformation
+import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, GridConfigurationException}
 import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import edu.ie3.util.quantities.PowerSystemUnits.PU
 import edu.ie3.powerFactory2psdm.exception.pf.GridConfigurationException
@@ -21,7 +19,9 @@ import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import org.locationtech.jts.geom.Point
 import tech.units.indriya.quantity.Quantities
 
+import java.io.IOException
 import java.util.UUID
+import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
 object NodeConverter {
@@ -33,8 +33,8 @@ object NodeConverter {
     * @return
     *   Map of node id to PSDM [[NodeInput]]
     */
-  def convertNodesOfSubnets(subnets: List[Subnet]): Map[String, NodeInput] = {
-    subnets.flatMap(subnet => convertNodesOfSubnet(subnet)).toMap
+  def convertNodesOfSubnets(subnets: List[Subnet], unsafeNodeId2Uuid: Map[String, UUID]): Map[String, NodeInput] = {
+    subnets.flatMap(subnet => convertNodesOfSubnet(subnet, unsafeNodeId2Uuid)).toMap
   }
 
   /** Converts all nodes within a subnet to PSDM [[NodeInput]] s
@@ -45,11 +45,12 @@ object NodeConverter {
     *   list of all converted [[NodeInput]]
     */
   def convertNodesOfSubnet(
-      subnet: Subnet
+    subnet: Subnet,
+    unsafeNodeId2Uuid: Map[String, UUID]
   ): Set[(String, NodeInput)] =
     subnet.nodes
       .map(node =>
-        (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl))
+        (node.id, NodeConverter.convertNode(node, subnet.id, subnet.voltLvl, unsafeNodeId2Uuid))
       )
 
   /** Converts a PowerFactory node into a PSDM node.
@@ -66,12 +67,14 @@ object NodeConverter {
   def convertNode(
       node: Node,
       subnetId: Int,
-      voltLvl: VoltageLevel
+      voltLvl: VoltageLevel,
+      shortNodeId2Uuid: Map[String, UUID]
   ): NodeInput = {
     val geoPosition: Point = CoordinateConverter.convert(node.lat, node.lon)
     val slack = isSlack(node)
+    val uuid = shortNodeId2Uuid.getOrElse(node.unsafeId, UUID.randomUUID())
     new NodeInput(
-      UUID.randomUUID(),
+      uuid,
       node.id,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
@@ -81,6 +84,49 @@ object NodeConverter {
       voltLvl,
       subnetId
     )
+  }
+
+  /** Creates a Map that maps from unsafe node ids to uuids from a csv file that is used for node conversion.
+   *  This can be used to keep uuids of the nodes consistent between original data and the converted grid.
+   *
+   * @param nodeUuidMappingInformation necessary mapping information
+   * @return Map from unsafe node id to uuid
+   */
+  def getNodeNameMapping(nodeUuidMappingInformation: NodeUuidMappingInformation): Map[String, UUID] = {
+    // parse csv file
+    val bufferedSource = Source.fromFile(nodeUuidMappingInformation.filePath)
+    val lines = bufferedSource.getLines()
+
+    lines.take(1).next.split(nodeUuidMappingInformation.csvSeparator) match {
+      case List("uuid", "id") =>
+      case _ => throw new IOException("Invalid CSV header. We expect the header of the node name mapping file to be \"uuid\" [CSV Sep.] \"id\".")
+    }
+
+    val nodeId2Uuid = lines.zipWithIndex.map{ case (line, index) =>
+      line.split(nodeUuidMappingInformation.csvSeparator).map(_.trim).match{
+        case Array(uuidString, id) =>
+          val uuid = Try(UUID.fromString(uuidString)) match {
+            case Failure(exception) => throw new IllegalArgumentException(
+              s"UUID: $uuidString on line: $line is not a valid UUID. Reason: ${exception.getMessage}")
+            case Success(uuid) => uuid
+          }
+          (id, uuid)
+        case Array(_) => throw new IOException(s"Invalid format on csv line $index. Every line should have exactly two elements.")
+      }}
+
+    // check for duplicates in ids or uuids
+    val (ids, uuids) = nodeId2Uuid.toVector.unzip
+    val duplicateIds = ConversionHelper.getDuplicates(ids)
+    if (duplicateIds.nonEmpty) {
+      throw ConversionException(f"There are the following duplicate ids in the node id to uuid mapping: $duplicateIds")
+    }
+    val duplicateUuids = ConversionHelper.getDuplicates(uuids)
+    if (duplicateIds.nonEmpty) {
+      throw ConversionException(f"There are the following duplicate uuids in the node id to uuid mapping: $duplicateUuids")
+    }
+
+    bufferedSource.close
+    nodeId2Uuid.toMap
   }
 
   /** Checks if a node is a slack node by checking if there is an external grid

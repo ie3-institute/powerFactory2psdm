@@ -12,7 +12,9 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Nodes
 /** Electrical node
   *
   * @param id
-  *   identifier
+  *   unique identifier that is based on the unsafe id but unique
+ * @param unsafeId
+ *   name of a node that is set within the "Name" section of the PF GUI but might not be unique
   * @param nominalVoltage
   *   nominal voltage in kV
   * @param vTarget
@@ -25,12 +27,13 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Nodes
   *   connected elements to the node
   */
 final case class Node(
-    id: String,
-    nominalVoltage: Double,
-    vTarget: Double,
-    lat: Option[Double],
-    lon: Option[Double],
-    conElms: List[ConnectedElement]
+   id: String,
+   unsafeId: String,
+   nominalVoltage: Double,
+   vTarget: Double,
+   lat: Option[Double],
+   lon: Option[Double],
+   conElms: List[ConnectedElement]
 ) extends EntityModel
 
 object Node {
@@ -45,6 +48,9 @@ object Node {
   def build(rawNode: Nodes): Node = {
     val id = rawNode.id.getOrElse(
       throw MissingParameterException(s"There is no id for node $rawNode")
+    )
+    val unsafeId = rawNode.locName.getOrElse(
+      throw MissingParameterException(s"There is no unsafe id for node $rawNode")
     )
     val nominalVoltage = rawNode.uknom.getOrElse(
       throw MissingParameterException(
@@ -65,6 +71,7 @@ object Node {
 
     Node(
       id,
+      unsafeId,
       nominalVoltage,
       vTarget,
       rawNode.GPSlat,

@@ -7,6 +7,7 @@
 package edu.ie3.powerFactory2psdm.config
 
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  NodeUuidMappingInformation,
   OutputConfig,
   StatGenModelConfigs
 }
@@ -19,6 +20,7 @@ import edu.ie3.powerFactory2psdm.config.model.{
 final case class ConversionConfig(
     gridName: String,
     modelConfigs: StatGenModelConfigs,
+    nodeMapping: Option[NodeUuidMappingInformation],
     output: OutputConfig
 )
 
@@ -40,6 +42,11 @@ object ConversionConfig {
       wecConfig: WecConversionConfig,
       sRatedSource: ParameterSource,
       cosPhiSource: ParameterSource
+  )
+
+  final case class NodeUuidMappingInformation(
+      filePath: String,
+      csvSeparator: String
   )
 
   final case class OutputConfig(

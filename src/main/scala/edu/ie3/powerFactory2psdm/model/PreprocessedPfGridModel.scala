@@ -8,38 +8,11 @@ package edu.ie3.powerFactory2psdm.model
 
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.ParameterSource
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ConversionException,
-  GridConfigurationException,
-  MissingParameterException
-}
-import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{
-  LineSections,
-  LineTypes,
-  Lines,
-  Loads,
-  LoadsLV,
-  LoadsMV,
-  Nodes,
-  ProjectSettings,
-  StatGen,
-  Switches,
-  TrafoTypes2w,
-  Trafos2w
-}
-import edu.ie3.powerFactory2psdm.model.entity.{
-  Line,
-  LineSection,
-  Load,
-  Node,
-  StaticGenerator,
-  Switch,
-  Transformer2W
-}
-import edu.ie3.powerFactory2psdm.model.entity.types.{
-  LineType,
-  Transformer2WType
-}
+import edu.ie3.powerFactory2psdm.converter.ConversionHelper
+import edu.ie3.powerFactory2psdm.exception.pf.{ConversionException, GridConfigurationException, MissingParameterException}
+import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{LineSections, LineTypes, Lines, Loads, LoadsLV, LoadsMV, Nodes, ProjectSettings, StatGen, Switches, TrafoTypes2w, Trafos2w}
+import edu.ie3.powerFactory2psdm.model.entity.{Line, LineSection, Load, Node, StaticGenerator, Switch, Transformer2W}
+import edu.ie3.powerFactory2psdm.model.entity.types.{LineType, Transformer2WType}
 import edu.ie3.powerFactory2psdm.model.setting.{ConversionPrefixes, UnitSystem}
 
 /** Representation of the grid which is to be converted to a PSDM
@@ -198,12 +171,17 @@ object PreprocessedPfGridModel extends LazyLogging {
           )
         )
     }
-    val uniqueIds = modelIds.distinct
-    if (uniqueIds.size < modelIds.size) {
-      val duplicateIds = modelIds.diff(uniqueIds)
+    val duplicateIds = ConversionHelper.getDuplicates(modelIds.toVector)
+    if (duplicateIds.nonEmpty) {
       throw GridConfigurationException(
         s"Can't build grid as there are grid elements with duplicated ids: $duplicateIds"
       )
+    }
+
+    val duplicateUnsafeNodeIds = ConversionHelper.getDuplicates(rawNodes.map(_.locName).toVector)
+    if (duplicateUnsafeNodeIds.nonEmpty) {
+      logger.warn(s"There are the following duplicated unsafe node ids within the nodes: $duplicateUnsafeNodeIds. " +
+        s"This leads to duplicated UUIDs if you supply an id to uuid mapping for the nodes.")
     }
 
     val nodes = rawNodes.map(Node.build)

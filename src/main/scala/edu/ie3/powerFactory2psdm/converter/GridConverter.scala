@@ -27,14 +27,23 @@ import edu.ie3.datamodel.models.input.system.{
   StorageInput
 }
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  NodeUuidMappingInformation,
+  StatGenModelConfigs
+}
+import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNodeNameMapping
 import edu.ie3.powerFactory2psdm.converter.types.{
   LineTypeConverter,
   Transformer2WTypeConverter
 }
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
 
+import java.io.IOException
+import java.util.UUID
+import scala.io.Source
 import scala.jdk.CollectionConverters.SetHasAsJava
+import scala.util.{Failure, Success, Try}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
   * to the PSDM.
@@ -70,13 +79,16 @@ case object GridConverter {
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: PreprocessedPfGridModel
+      grid: PreprocessedPfGridModel,
+      nodeUuidMapping: Option[NodeUuidMappingInformation]
   ): (RawGridElements, Map[String, NodeInput]) = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
     val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
-    val nodes = NodeConverter.convertNodesOfSubnets(subnets)
+    val nodeId2Uuid =
+      nodeUuidMapping.map(getNodeNameMapping).getOrElse(Map[String, UUID]())
+    val nodes = NodeConverter.convertNodesOfSubnets(subnets, nodeId2Uuid)
     val lineTypes = grid.lineTypes
       .map(lineType => (lineType.id, LineTypeConverter.convert(lineType)))
       .toMap
@@ -112,7 +124,6 @@ case object GridConverter {
       ),
       nodes
     )
-
   }
 
   /** Convert system participants of the power factory grid.
