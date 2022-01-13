@@ -148,6 +148,5 @@ case object GridConverter {
       Set.empty[StorageInput].asJava,
       statGenModelContainer.wecInputs.toSet.asJava
     )
-
   }
 }

@@ -92,6 +92,8 @@ dependencies {
 	// Linter Scala //
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
+
+	implementation 'com.opencsv:opencsv:5.5.2'
 }
 
 /* scapegoat hook configuration
