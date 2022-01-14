@@ -49,7 +49,7 @@ import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
   Fixed,
   UniformDistribution
 }
-import edu.ie3.powerFactory2psdm.io.PfGridParser
+import edu.ie3.powerFactory2psdm.io.IoUtils
 import edu.ie3.powerFactory2psdm.model.entity.{
   Line,
   StaticGenerator,
@@ -133,8 +133,8 @@ object ConverterTestData extends LazyLogging {
     s"${new File(".").getCanonicalPath}/src/test/resources/pfGrids/exampleGrid.json"
 
   def parseRawGrid: RawPfGridModel =
-    PfGridParser
-      .parse(testGridFile)
+    IoUtils
+      .parsePfGrid(testGridFile)
       .getOrElse(
         throw GridParsingException(
           s"Couldn't parse the grid file $testGridFile"
