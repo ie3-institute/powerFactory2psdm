@@ -21,7 +21,6 @@ import edu.ie3.datamodel.models.input.system._
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.datamodel.io.sink.CsvFileSink
-
 import java.io.{BufferedWriter, File, FileWriter}
 import scala.jdk.CollectionConverters._
 import java.util.UUID
@@ -40,7 +39,7 @@ object GridModelReducer {
 
     // output parameters
     val reducedGridName = "reduced_" + gridName
-    val outputDir = new File(new File(".") + "/out")
+    val outputDir = new File(new File(".") + "/out/reducedGrid")
 
     reduceGrid(
       csvSep,
@@ -50,6 +49,24 @@ object GridModelReducer {
       outputDir
     )
   }
+
+  /** Reduces a grid by eliminating all system participants of the grid and
+    * connecting a new one per node. Furthermore creates and writes mapping from
+    * node to the connected system participant. This is done to have a grid
+    * which we can map primary data to each node without any additional models
+    * in the grid that draw or generate power.
+    *
+    * @param csvSep
+    *   csv separator of the grid to reduce
+    * @param inputFolderPath
+    *   folder path of the input grid
+    * @param namingStrategy
+    *   naming strategy used in input grid
+    * @param reducedGridName
+    *   name for the reduced grid
+    * @param outputDir
+    *   directory for storing grid and system participant mapping
+    */
   def reduceGrid(
       csvSep: String,
       inputFolderPath: String,
@@ -97,11 +114,11 @@ object GridModelReducer {
     sink.persistJointGrid(reducedGrid)
 
     // write out mapping from node to system participant in csv file
-    val mappingFileName = new File(".").getCanonicalPath + ""
+    val mappingFileName = outputDir.getPath + "/node_participant_mapping.csv"
     writeMapping(mappingFileName, fixedFeedIns)
   }
 
-  def readGridModel(
+  private def readGridModel(
       csvSep: String,
       folderPath: String,
       namingStrategy: FileNamingStrategy
@@ -129,14 +146,14 @@ object GridModelReducer {
     (rawGridElements, graphicElements)
   }
 
-  def createFixedFeedIns(
+  private def createFixedFeedIns(
       gridElements: RawGridElements
   ): Set[FixedFeedInInput] = {
     val nodes = gridElements.getNodes
     nodes.asScala.map(createFixedFeedIn).toSet
   }
 
-  def createFixedFeedIn(node: NodeInput): FixedFeedInInput = {
+  private def createFixedFeedIn(node: NodeInput): FixedFeedInInput = {
     new FixedFeedInInput(
       UUID.randomUUID(),
       s"Participant-Node-${node.getUuid}",
@@ -149,7 +166,7 @@ object GridModelReducer {
     )
   }
 
-  def writeMapping[T <: SystemParticipantInput](
+  private def writeMapping[T <: SystemParticipantInput](
       fileName: String,
       participants: Set[T]
   ): Unit = {
@@ -162,7 +179,8 @@ object GridModelReducer {
     writeCsvFile(fileName, header, rows)
   }
 
-  def writeCsvFile(
+  /** Credits to isomarcte: https://stackoverflow.com/questions/52666231/how-to-write-to-a-csv-file-in-scala */
+  private def writeCsvFile(
       fileName: String,
       header: List[String],
       rows: List[List[String]]
@@ -176,9 +194,6 @@ object GridModelReducer {
           csvWriter.close()
         } match {
           case f @ Failure(_) =>
-            // Always return the original failure.  In production code we might
-            // define a new exception which wraps both exceptions in the case
-            // they both fail, but that is omitted here.
             Try(csvWriter.close()).recoverWith { case _ =>
               f
             }
