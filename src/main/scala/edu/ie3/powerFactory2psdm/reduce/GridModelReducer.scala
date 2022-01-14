@@ -28,8 +28,9 @@ object GridModelReducer {
     // input parameters
     val gridName = "exampleGrid"
     val csvSep = ","
-    val inputFolderPath =
-      "/Users/thomas/IdeaProjects/powerFactory2psdm/out/vn_146_lv_small/fullGrid"
+    val inputFolderPath = new File(
+      "."
+    ).getCanonicalPath + "/src/test/resources/psdmGrid/vn_146_lv_small"
     val namingStrategy = new FileNamingStrategy()
 
     // output parameters
