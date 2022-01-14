@@ -31,16 +31,37 @@ object GridModelReducer {
 
   def main(args: Array[String]): Unit = {
 
-    // 1. read in grid model without
+    // input parameters
     val gridName = "exampleGrid"
-    val reducedGridName = "reduced" + gridName
     val csvSep = ","
-    val folderPath = "./exampleGrid"
-    val namingStrategy = new FileNamingStrategy() // Default naming strategy
-    val (rawGridElements, graphicElements) =
-      readGridModel(csvSep, folderPath, namingStrategy)
+    val inputFolderPath =
+      "/Users/thomas/IdeaProjects/powerFactory2psdm/out/vn_146_lv_small/fullGrid"
+    val namingStrategy = new FileNamingStrategy()
 
-    // 3. create a system participant for each node
+    // output parameters
+    val reducedGridName = "reduced_" + gridName
+    val outputDir = new File(new File(".") + "/out")
+
+    reduceGrid(
+      csvSep,
+      inputFolderPath,
+      namingStrategy,
+      reducedGridName,
+      outputDir
+    )
+  }
+  def reduceGrid(
+      csvSep: String,
+      inputFolderPath: String,
+      namingStrategy: FileNamingStrategy,
+      reducedGridName: String,
+      outputDir: File
+  ): Unit = {
+
+    val (rawGridElements, graphicElements) =
+      readGridModel(csvSep, inputFolderPath, namingStrategy)
+
+    // create a system participant for each node
     val fixedFeedIns = createFixedFeedIns(rawGridElements)
     val systemParticipants = new SystemParticipants(
       Set.empty[BmInput].asJava,
@@ -61,17 +82,23 @@ object GridModelReducer {
       graphicElements
     )
 
-    // 4. write out grid
-    val resultFolderPath = "./exampleGrid"
+    // write out reduced grid
+    if (!outputDir.exists()) {
+      outputDir.mkdir()
+    }
     val initEmptyFiles = false
     val sink =
-      new CsvFileSink(resultFolderPath, namingStrategy, initEmptyFiles, csvSep)
+      new CsvFileSink(
+        outputDir.getCanonicalPath,
+        namingStrategy,
+        initEmptyFiles,
+        csvSep
+      )
     sink.persistJointGrid(reducedGrid)
 
-    // 5. write out mapping from node to system participant in csv file
+    // write out mapping from node to system participant in csv file
     val mappingFileName = new File(".").getCanonicalPath + ""
     writeMapping(mappingFileName, fixedFeedIns)
-
   }
 
   def readGridModel(
@@ -99,7 +126,6 @@ object GridModelReducer {
     val graphicElements = graphicsSource.getGraphicElements.orElseThrow(() =>
       new SourceException("Error during reading of graphic elements.")
     )
-
     (rawGridElements, graphicElements)
   }
 
