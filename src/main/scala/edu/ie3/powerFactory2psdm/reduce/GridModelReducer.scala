@@ -63,12 +63,12 @@ object GridModelReducer {
     *   directory for storing grid and system participant mapping
     */
   def reduceGrid(
-                  csvSep: String,
-                  inputFolderPath: String,
-                  namingStrategy: FileNamingStrategy,
-                  reducedGridName: String,
-                  outputDir: File
-                ): Unit = {
+      csvSep: String,
+      inputFolderPath: String,
+      namingStrategy: FileNamingStrategy,
+      reducedGridName: String,
+      outputDir: File
+  ): Unit = {
 
     val reducedGrid = reduceGrid(
       csvSep,
@@ -91,7 +91,10 @@ object GridModelReducer {
 
     // write out mapping from node to system participant in csv file
     val mappingFileName = outputDir.getPath + "/node_participant_mapping.csv"
-    writeMapping(mappingFileName, reducedGrid.getSystemParticipants.getFixedFeedIns.asScala.toSet)
+    writeMapping(
+      mappingFileName,
+      reducedGrid.getSystemParticipants.getFixedFeedIns.asScala.toSet
+    )
   }
 
   /** Reduces a grid by eliminating all system participants of the grid and
