@@ -86,7 +86,7 @@ dependencies {
 	implementation "org.scala-lang:scala-library:${scalaBinaryVersion}"
 
 	// TEST Scala //
-	testImplementation "org.scalatest:scalatest_${scalaVersion}:3.2.9"
+	testImplementation "org.scalatest:scalatest_${scalaVersion}:3.2.10"
 	testImplementation 'com.vladsch.flexmark:flexmark-all:0.35.10'
 
 	// Linter Scala //
