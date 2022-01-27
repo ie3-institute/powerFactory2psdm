@@ -32,7 +32,7 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
         input,
         1,
         GermanVoltageLevelUtils.LV,
-        Map()
+        Map.empty
       )
       actual.getId shouldBe expected.getId
       actual.getVoltLvl shouldBe expected.getVoltLvl

@@ -88,7 +88,7 @@ case object GridConverter {
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
     val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
     val nodeId2Uuid =
-      nodeUuidMapping.map(getNodeNameMapping).getOrElse(Map[String, UUID]())
+      nodeUuidMapping.map(getNodeNameMapping).getOrElse(Map.empty[String, UUID])
     val nodes = NodeConverter.convertNodesOfSubnets(subnets, nodeId2Uuid)
     val lineTypes = grid.lineTypes
       .map(lineType => (lineType.id, LineTypeConverter.convert(lineType)))

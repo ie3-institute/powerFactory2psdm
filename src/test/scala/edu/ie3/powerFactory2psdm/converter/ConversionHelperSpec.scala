@@ -64,7 +64,7 @@ class ConversionHelperSpec extends Matchers with AnyWordSpecLike {
       }
 
       "determines all duplicates of a sequence" in {
-        ConversionHelper.getDuplicates(Seq(1, 2, 3)) shouldBe Seq()
+        ConversionHelper.getDuplicates(Seq(1, 2, 3)) shouldBe Seq.empty
         ConversionHelper.getDuplicates(Seq("abc", "ab", "abc")) shouldBe Seq(
           "abc"
         )
