@@ -94,20 +94,20 @@ object LineTypeConverter extends LazyLogging {
     )
 
     weightedLineTypes.foldLeft(emptyLineType)((averageType, current) => {
-      val currentLine = current._2
+      val currentLineType = current._2
       val weightingFactor = current._1 / lineLength
       new LineTypeInput(
         averageType.getUuid,
         averageType.getId,
-        averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
-        averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
-        averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
-        averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
-        if (averageType.getiMax().isLessThan(currentLine.getiMax()))
+        averageType.getB.add(currentLineType.getB.multiply(weightingFactor)),
+        averageType.getG.add(currentLineType.getG.multiply(weightingFactor)),
+        averageType.getR.add(currentLineType.getR.multiply(weightingFactor)),
+        averageType.getX.add(currentLineType.getX.multiply(weightingFactor)),
+        if (averageType.getiMax().isLessThan(currentLineType.getiMax()))
           averageType.getiMax()
-        else currentLine.getiMax(),
+        else currentLineType.getiMax(),
         if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
-          currentLine.getvRated()
+          currentLineType.getvRated()
         else averageType.getvRated()
       )
     })

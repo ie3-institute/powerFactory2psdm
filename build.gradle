@@ -92,6 +92,8 @@ dependencies {
 	// Linter Scala //
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
+
+	implementation 'tech.units:indriya:2.1.3-SNAPSHOT'
 }
 
 /* scapegoat hook configuration
