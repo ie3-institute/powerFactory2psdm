@@ -69,7 +69,7 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       mapping
         .getOrElse(
           "Node-A",
-          throw TestException("Map does not contain the given key.")
+          fail("Map does not contain the given key.")
         )
         .toString shouldBe "15af4d66-e83a-5f3b-a992-2dd240cced81"
       mapping
