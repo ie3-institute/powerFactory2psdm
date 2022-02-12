@@ -92,7 +92,7 @@ object ConversionHelper {
   def getDuplicates[T](items: Seq[T]): Seq[T] = {
     val uniqueItems = items.distinct
     if (uniqueItems.size == items.size) {
-      return Vector[T]()
+      return Seq.empty[T]
     }
     items.diff(uniqueItems)
   }
