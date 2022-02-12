@@ -41,6 +41,12 @@ class NodeSpec extends Matchers with AnyWordSpecLike {
       exc.getMessage shouldBe s"There is no id for node $node"
     }
 
+    "throw an exception if the unsafe id is missing" in {
+      val node = input.copy(locName = None)
+      val exc = intercept[MissingParameterException](Node.build(node))
+      exc.getMessage shouldBe s"There is no unsafe id for node $node"
+    }
+
     "throw an exception if the nominal voltage is missing" in {
       val id = "BrokenBus1.ElmTerm"
       val node = input.copy(id = Some(id), uknom = None)
