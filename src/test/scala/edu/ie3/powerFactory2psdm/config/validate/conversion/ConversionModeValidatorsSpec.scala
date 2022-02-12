@@ -27,7 +27,6 @@ import edu.ie3.powerFactory2psdm.config.validate.conversion.ConversionModeValida
   WecConversionModeValidator
 }
 import edu.ie3.powerFactory2psdm.exception.io.ConversionConfigException
-import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
   Fixed,
   UniformDistribution
@@ -43,7 +42,7 @@ class ConversionModeValidatorsSpec extends Matchers with AnyWordSpecLike {
       val pvModelGeneration: PvModelGeneration =
         ConverterTestData.config.modelConfigs.pvConfig.conversionMode match {
           case PvFixedFeedIn(FixedQCharacteristic) =>
-            throw TestException(
+            fail(
               "The test pv config is supposed to be configured for PvModelGeneration"
             )
           case x: PvModelGeneration => x

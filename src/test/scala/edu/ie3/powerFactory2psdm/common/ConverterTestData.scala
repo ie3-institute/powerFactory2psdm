@@ -44,7 +44,6 @@ import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGenerati
 import edu.ie3.powerFactory2psdm.config.model.WecConversionConfig.WecModelGeneration
 import edu.ie3.powerFactory2psdm.converter.CoordinateConverter
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
-import edu.ie3.powerFactory2psdm.exception.pf.TestException
 import edu.ie3.powerFactory2psdm.generator.ParameterSamplingMethod.{
   Fixed,
   UniformDistribution
@@ -76,6 +75,7 @@ import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator.StatGenCategories.
   PV,
   WEC
 }
+import org.scalatest.Assertions.fail
 
 import java.io.File
 import java.util.{Locale, UUID}
@@ -150,7 +150,7 @@ object ConverterTestData extends LazyLogging {
       )
     } match {
       case Failure(exc) =>
-        throw TestException(
+        fail(
           s"Could not build the grid in $testGridFile and therefore was not able to initialize the ConverterTestData. " +
             s"This is probably due to the generated grid schema of the SchemaGenerator and the test grid being out of sync.",
           exc
@@ -295,7 +295,7 @@ object ConverterTestData extends LazyLogging {
   def getNodePair(key: String): ConversionPair[Node, NodeInput] = {
     nodes.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Node.getClass.getSimpleName} with key: $key "
       )
     )
@@ -311,7 +311,7 @@ object ConverterTestData extends LazyLogging {
 
   def getSubnet(key: String): Subnet = subnets.getOrElse(
     key,
-    throw TestException(s"Cannot find subnet with key: $key")
+    fail(s"Cannot find subnet with key: $key")
   )
 
   val lineTypes = Map(
@@ -342,7 +342,7 @@ object ConverterTestData extends LazyLogging {
   def getLineTypePair(key: String): ConversionPair[LineType, LineTypeInput] = {
     lineTypes.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${LineType.getClass.getSimpleName} with key: $key "
       )
     )
@@ -396,7 +396,7 @@ object ConverterTestData extends LazyLogging {
   ): ConversionPair[StaticGenerator, PvInput] = {
     generatePvs.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for StaticGenerator/PvInput with key: $key "
       )
     )
@@ -421,7 +421,7 @@ object ConverterTestData extends LazyLogging {
   ): ConversionPair[StaticGenerator, FixedFeedInInput] = {
     staticGenerator2FeedInPair.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for static generator to fixed feed in with key: $key"
       )
     )
@@ -456,7 +456,7 @@ object ConverterTestData extends LazyLogging {
   def getWecType(key: String): WecTypeInput = {
     wecType.getOrElse(
       key,
-      throw TestException(s"Cannot find WEC type with key: $key")
+      fail(s"Cannot find WEC type with key: $key")
     )
   }
   val generateWecs: Map[String, ConversionPairWithType[
@@ -485,7 +485,7 @@ object ConverterTestData extends LazyLogging {
   ): ConversionPairWithType[StaticGenerator, WecInput, WecTypeInput] = {
     generateWecs.getOrElse(
       key,
-      throw TestException(s"Cannot find WEC generation pair with key: $key")
+      fail(s"Cannot find WEC generation pair with key: $key")
     )
   }
 
@@ -519,7 +519,7 @@ object ConverterTestData extends LazyLogging {
   def getLinePair(key: String): ConversionPair[Line, LineInput] = {
     lines.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Line.getClass.getSimpleName} with key: $key "
       )
     )
@@ -557,7 +557,7 @@ object ConverterTestData extends LazyLogging {
   def getLoadPair(key: String): ConversionPair[Load, LoadInput] = {
     loads.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Load.getClass.getSimpleName} with key: $key "
       )
     )
@@ -641,7 +641,7 @@ object ConverterTestData extends LazyLogging {
   ): ConversionPair[Transformer2WType, Transformer2WTypeInput] = {
     transformerTypes.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Transformer2WType.getClass.getSimpleName} with key: $key "
       )
     )
@@ -678,7 +678,7 @@ object ConverterTestData extends LazyLogging {
   ): ConversionPair[Transformer2W, Transformer2WInput] = {
     transformers2w.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Transformer2W.getClass.getSimpleName} with key: $key "
       )
     )
@@ -705,7 +705,7 @@ object ConverterTestData extends LazyLogging {
   def getSwitches(key: String): ConversionPair[Switch, SwitchInput] = {
     switches.getOrElse(
       key,
-      throw TestException(
+      fail(
         s"Cannot find input/result pair for ${Switch.getClass.getSimpleName} with key: $key "
       )
     )

@@ -9,10 +9,7 @@ package edu.ie3.powerFactory2psdm.converter
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils
 import edu.ie3.powerFactory2psdm.common.ConverterTestData.getNodePair
 import edu.ie3.powerFactory2psdm.config.ConversionConfig.NodeUuidMappingInformation
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ConversionException,
-  TestException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -75,13 +72,13 @@ class NodeConverterSpec extends Matchers with AnyWordSpecLike {
       mapping
         .getOrElse(
           "Node-B",
-          throw TestException("Map does not contain the given key.")
+          fail("Map does not contain the given key.")
         )
         .toString shouldBe "d254e50c-638f-5ec1-88d5-0332d13f5d0c"
       mapping
         .getOrElse(
           "Node-C",
-          throw TestException("Map does not contain the given key.")
+          fail("Map does not contain the given key.")
         )
         .toString shouldBe "1f085331-b7c5-5c20-aff5-09b3c6a7e0ab"
     }
