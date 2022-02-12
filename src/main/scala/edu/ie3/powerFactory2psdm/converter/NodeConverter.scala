@@ -28,6 +28,8 @@ object NodeConverter {
     *
     * @param subnets
     *   subnets of the grid
+    * @param unsafeNodeId2Uuid
+    *   mapping form human readable identifier set in pf to the generated UUID
     * @return
     *   Map of node id to PSDM [[NodeInput]]
     */
@@ -44,6 +46,8 @@ object NodeConverter {
     *
     * @param subnet
     *   the subnet with reference to all PF nodes that live within
+    * @param unsafeNodeId2Uuid
+    *   mapping form human readable identifier set in pf to the generated UUID
     * @return
     *   list of all converted [[NodeInput]]
     */
@@ -72,6 +76,8 @@ object NodeConverter {
     *   subnet id the node is assigned to
     * @param voltLvl
     *   voltage level of the node
+    * @param unsafeNodeId2Uuid
+    *   mapping form human readable identifier set in pf to the generated UUID
     * @return
     *   a PSDM [[NodeInput]]
     */
@@ -79,11 +85,11 @@ object NodeConverter {
       node: Node,
       subnetId: Int,
       voltLvl: VoltageLevel,
-      shortNodeId2Uuid: Map[String, UUID]
+      unsafeNodeId2Uuid: Map[String, UUID]
   ): NodeInput = {
     val geoPosition: Point = CoordinateConverter.convert(node.lat, node.lon)
     val slack = isSlack(node)
-    val uuid = shortNodeId2Uuid.getOrElse(node.unsafeId, UUID.randomUUID())
+    val uuid = unsafeNodeId2Uuid.getOrElse(node.unsafeId, UUID.randomUUID())
     new NodeInput(
       uuid,
       node.id,
@@ -156,10 +162,8 @@ object NodeConverter {
         f"There are the following duplicate uuids in the node id to uuid mapping: $duplicateUuids"
       )
     }
-
-    val nodeId2Uuid = idsAndUuids.toMap
     bufferedSource.close
-    nodeId2Uuid
+    idsAndUuids.toMap
   }
 
   /** Checks if a node is a slack node by checking if there is an external grid

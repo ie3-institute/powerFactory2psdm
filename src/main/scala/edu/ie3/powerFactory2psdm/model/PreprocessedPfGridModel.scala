@@ -199,7 +199,7 @@ object PreprocessedPfGridModel extends LazyLogging {
           )
         )
     }
-    val duplicateIds = ConversionHelper.getDuplicates(modelIds.toVector)
+    val duplicateIds = ConversionHelper.getDuplicates(modelIds)
     if (duplicateIds.nonEmpty) {
       throw GridConfigurationException(
         s"Can't build grid as there are grid elements with duplicated ids: $duplicateIds"
@@ -207,7 +207,7 @@ object PreprocessedPfGridModel extends LazyLogging {
     }
 
     val duplicateUnsafeNodeIds =
-      ConversionHelper.getDuplicates(rawNodes.map(_.locName).toVector)
+      ConversionHelper.getDuplicates(rawNodes.map(_.locName))
     if (duplicateUnsafeNodeIds.nonEmpty) {
       logger.warn(
         s"There are the following duplicated unsafe node ids within the nodes: $duplicateUnsafeNodeIds. " +
