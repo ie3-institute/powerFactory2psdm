@@ -129,7 +129,8 @@ object NodeConverter {
           val uuid = Try(UUID.fromString(uuidString)) match {
             case Failure(exception) =>
               throw new IllegalArgumentException(
-                s"UUID: $uuidString on line: $line is not a valid UUID. Reason: ${exception.getMessage}"
+                s"UUID: $uuidString on line: $line is not a valid UUID.",
+                exception
               )
             case Success(uuid) => uuid
           }
