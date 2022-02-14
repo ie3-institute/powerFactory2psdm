@@ -20,6 +20,7 @@ import edu.ie3.powerFactory2psdm.io.IoUtils
 
 import java.io.File
 import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
+import edu.ie3.powerFactory2psdm.io.IoUtils.persistJointGridContainer
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
@@ -46,26 +47,13 @@ object RunConversion extends LazyLogging {
     logger.info("Converting grid to PSDM")
     val jointGridContainer = GridConverter.convert(pfGrid, config)
 
-    val baseTargetDirectory = config.output.targetFolder
+    persistJointGridContainer(
+      jointGridContainer,
+      config.gridName,
+      config.output.csvConfig.directoryHierarchy,
+      config.output.targetFolder,
+      config.output.csvConfig.separator
+    )
 
-    val csvSink = if (config.output.csvConfig.directoryHierarchy) {
-      new CsvFileSink(
-        baseTargetDirectory,
-        new FileNamingStrategy(
-          new EntityPersistenceNamingStrategy(),
-          new DefaultDirectoryHierarchy(baseTargetDirectory, config.gridName)
-        ),
-        false,
-        config.output.csvConfig.separator
-      )
-    } else {
-      new CsvFileSink(
-        baseTargetDirectory,
-        new FileNamingStrategy(),
-        false,
-        config.output.csvConfig.separator
-      )
-    }
-    csvSink.persistJointGrid(jointGridContainer)
   }
 }

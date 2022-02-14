@@ -9,7 +9,12 @@ package edu.ie3.powerFactory2psdm.io
 import com.opencsv.CSVWriter
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.exceptions.SourceException
-import edu.ie3.datamodel.io.naming.FileNamingStrategy
+import edu.ie3.datamodel.io.naming.{
+  DefaultDirectoryHierarchy,
+  EntityPersistenceNamingStrategy,
+  FileNamingStrategy
+}
+import edu.ie3.datamodel.io.sink.CsvFileSink
 import edu.ie3.datamodel.io.source.csv.{
   CsvGraphicSource,
   CsvRawGridSource,
@@ -21,8 +26,9 @@ import io.circe.generic.auto._
 import edu.ie3.datamodel.io.source.csv.CsvSystemParticipantSource
 import edu.ie3.datamodel.io.source.csv.CsvThermalSource
 import edu.ie3.datamodel.models.input.container.JointGridContainer
+
 import scala.io.Source
-import java.io.{BufferedWriter, File, FileWriter}
+import java.io.{BufferedWriter, FileWriter}
 import scala.jdk.CollectionConverters.IterableHasAsJava
 import scala.util.{Failure, Try}
 import io.circe.parser._
@@ -128,4 +134,52 @@ object IoUtils extends LazyLogging {
             success
         }
     )
+
+  /** Get either a flat or hierarchic file naming strategy.
+    *
+    * @param usesHierarchicNaming whether hierarchic or not
+    * @param baseDirectory the base directory for hierarchig file naming strategy
+    * @param gridName the name of the grid
+    * @return
+    */
+  def getFileNamingStrategy(
+   usesHierarchicNaming: Boolean,
+   baseDirectory: String,
+   gridName: String
+  ): FileNamingStrategy = {
+    if (usesHierarchicNaming)
+      new FileNamingStrategy(
+        new EntityPersistenceNamingStrategy(),
+        new DefaultDirectoryHierarchy(baseDirectory, gridName)
+      )
+    else new FileNamingStrategy()
+  }
+
+  /** Persist a joint grid container as csv files
+    *
+    * @param jointGridContainer the grid to persist
+    * @param gridName the grid name
+    * @param usesHierarchicNaming whether to use hierarchic naming or not
+    * @param targetDirectory the directory where to store the grid
+    * @param csvSeparator the csv separator
+    */
+  def persistJointGridContainer(
+      jointGridContainer: JointGridContainer,
+      gridName: String,
+      usesHierarchicNaming: Boolean,
+      targetDirectory: String,
+      csvSeparator: String
+  ): Unit = {
+    val fileNamingStrategy =
+      getFileNamingStrategy(usesHierarchicNaming, targetDirectory, gridName)
+
+    val csvSink = new CsvFileSink(
+      targetDirectory,
+      fileNamingStrategy,
+      false,
+      csvSeparator
+    )
+
+    csvSink.persistJointGrid(jointGridContainer)
+  }
 }
