@@ -44,6 +44,7 @@ class GridModelReducerSpec extends Matchers with AnyWordSpecLike {
       val fixedFeedIns = reducedGrid.getSystemParticipants.getFixedFeedIns
       val mappedNodes = fixedFeedIns.asScala.map(f => f.getNode)
 
+      nodes.isEmpty shouldBe false
       reducedGrid.getSystemParticipants.getFixedFeedIns.size shouldBe nodes.size
       nodes.asScala.toSet.diff(mappedNodes) shouldBe Set()
 
