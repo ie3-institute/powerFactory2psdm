@@ -83,7 +83,7 @@ object GridModelReducer {
     * @param reducedGridName
     *   name for the reduced grid
     */
-  private[reduce] def reduceGrid(
+   def reduceGrid(
       reducedGridName: String,
       inputGrid: JointGridContainer
                                 
