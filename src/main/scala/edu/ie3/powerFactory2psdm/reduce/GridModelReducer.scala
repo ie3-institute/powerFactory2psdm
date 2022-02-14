@@ -14,7 +14,10 @@ import edu.ie3.datamodel.models.input.system._
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.io.IoUtils
-import edu.ie3.powerFactory2psdm.io.IoUtils.{getFileNamingStrategy, persistJointGridContainer}
+import edu.ie3.powerFactory2psdm.io.IoUtils.{
+  getFileNamingStrategy,
+  persistJointGridContainer
+}
 
 import java.io.File
 import scala.jdk.CollectionConverters._
@@ -38,14 +41,14 @@ object GridModelReducer {
     ).getCanonicalPath + "/src/test/resources/psdmGrid/vn_146_lv_small"
     val inputUsesHierarchicNaming = false
 
-
     // output parameters
     val reducedGridName = "reduced_" + gridName
     val outputDir = new File(".").getCanonicalPath + "/out/reducedGrid"
     val outputUseHierarchicNaming = false
 
     // reduce grid
-    val inputNamingStrategy = getFileNamingStrategy(inputUsesHierarchicNaming, inputDir, gridName)
+    val inputNamingStrategy =
+      getFileNamingStrategy(inputUsesHierarchicNaming, inputDir, gridName)
     val inputGrid =
       IoUtils.parsePsdmGrid(
         reducedGridName,
@@ -83,12 +86,11 @@ object GridModelReducer {
     * @param reducedGridName
     *   name for the reduced grid
     */
-   def reduceGrid(
+  def reduceGrid(
       reducedGridName: String,
       inputGrid: JointGridContainer
-                                
   ): JointGridContainer = {
-    
+
     val rawGridElements = inputGrid.getRawGrid
 
     // create a system participant for each node
@@ -117,8 +119,10 @@ object GridModelReducer {
 
   /** Create exactly one fixed feed in at every node within the grid.
     *
-    * @param gridElements the grid's grid elements
-    * @return the set of created [[FixedFeedInInput]]s
+    * @param gridElements
+    *   the grid's grid elements
+    * @return
+    *   the set of created [[FixedFeedInInput]]s
     */
   private def createFixedFeedIns(
       gridElements: RawGridElements
@@ -128,7 +132,8 @@ object GridModelReducer {
 
   /** Create a fixed feed in at the supplied node.
     *
-    * @param node the node for which to create a [[FixedFeedInInput]]
+    * @param node
+    *   the node for which to create a [[FixedFeedInInput]]
     * @return
     */
   private def createFixedFeedIn(node: NodeInput): FixedFeedInInput = {
@@ -144,11 +149,16 @@ object GridModelReducer {
     )
   }
 
-  /** Write a mapping from system participant to the uuid it is connected to, to a csv file. The resulting csv consists
-    * of two columns, the system participant uuid and the node uuid at which the system participant is connected.
-    * @param fileName name of the resulting csv file
-    * @param participants the participants for which to write the mapping
-    * @tparam T the type of the system participant
+  /** Write a mapping from system participant to the uuid it is connected to, to
+    * a csv file. The resulting csv consists of two columns, the system
+    * participant uuid and the node uuid at which the system participant is
+    * connected.
+    * @param fileName
+    *   name of the resulting csv file
+    * @param participants
+    *   the participants for which to write the mapping
+    * @tparam T
+    *   the type of the system participant
     */
   private def writeMapping[T <: SystemParticipantInput](
       fileName: String,

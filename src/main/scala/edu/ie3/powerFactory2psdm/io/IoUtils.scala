@@ -137,15 +137,18 @@ object IoUtils extends LazyLogging {
 
   /** Get either a flat or hierarchic file naming strategy.
     *
-    * @param usesHierarchicNaming whether hierarchic or not
-    * @param baseDirectory the base directory for hierarchig file naming strategy
-    * @param gridName the name of the grid
+    * @param usesHierarchicNaming
+    *   whether hierarchic or not
+    * @param baseDirectory
+    *   the base directory for hierarchig file naming strategy
+    * @param gridName
+    *   the name of the grid
     * @return
     */
   def getFileNamingStrategy(
-   usesHierarchicNaming: Boolean,
-   baseDirectory: String,
-   gridName: String
+      usesHierarchicNaming: Boolean,
+      baseDirectory: String,
+      gridName: String
   ): FileNamingStrategy = {
     if (usesHierarchicNaming)
       new FileNamingStrategy(
@@ -157,11 +160,16 @@ object IoUtils extends LazyLogging {
 
   /** Persist a joint grid container as csv files
     *
-    * @param jointGridContainer the grid to persist
-    * @param gridName the grid name
-    * @param usesHierarchicNaming whether to use hierarchic naming or not
-    * @param targetDirectory the directory where to store the grid
-    * @param csvSeparator the csv separator
+    * @param jointGridContainer
+    *   the grid to persist
+    * @param gridName
+    *   the grid name
+    * @param usesHierarchicNaming
+    *   whether to use hierarchic naming or not
+    * @param targetDirectory
+    *   the directory where to store the grid
+    * @param csvSeparator
+    *   the csv separator
     */
   def persistJointGridContainer(
       jointGridContainer: JointGridContainer,
