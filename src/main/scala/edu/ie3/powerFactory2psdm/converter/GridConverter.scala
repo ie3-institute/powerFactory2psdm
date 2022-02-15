@@ -36,14 +36,9 @@ import edu.ie3.powerFactory2psdm.converter.types.{
   LineTypeConverter,
   Transformer2WTypeConverter
 }
-import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
-
-import java.io.IOException
 import java.util.UUID
-import scala.io.Source
 import scala.jdk.CollectionConverters.SetHasAsJava
-import scala.util.{Failure, Success, Try}
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
   * to the PSDM.
