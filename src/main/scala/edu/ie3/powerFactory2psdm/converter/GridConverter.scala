@@ -27,13 +27,17 @@ import edu.ie3.datamodel.models.input.system.{
   StorageInput
 }
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
-import edu.ie3.powerFactory2psdm.config.ConversionConfig.StatGenModelConfigs
+import edu.ie3.powerFactory2psdm.config.ConversionConfig.{
+  NodeUuidMappingInformation,
+  StatGenModelConfigs
+}
+import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNodeNameMapping
 import edu.ie3.powerFactory2psdm.converter.types.{
   LineTypeConverter,
   Transformer2WTypeConverter
 }
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
-
+import java.util.UUID
 import scala.jdk.CollectionConverters.SetHasAsJava
 
 /** Functionalities to transform an exported and then parsed PowerFactory grid
@@ -50,7 +54,8 @@ case object GridConverter {
       config.modelConfigs.sRatedSource,
       config.modelConfigs.cosPhiSource
     )
-    val (gridElements, convertedNodes) = convertGridElements(grid)
+    val (gridElements, convertedNodes) =
+      convertGridElements(grid, config.nodeMapping)
     val participants =
       convertParticipants(grid, convertedNodes, config.modelConfigs)
     new JointGridContainer(
@@ -70,13 +75,16 @@ case object GridConverter {
     *   the raw parsed PowerFactoryGrid
     */
   def convertGridElements(
-      grid: PreprocessedPfGridModel
+      grid: PreprocessedPfGridModel,
+      nodeUuidMapping: Option[NodeUuidMappingInformation]
   ): (RawGridElements, Map[String, NodeInput]) = {
     val graph =
       GridGraphBuilder.build(grid.nodes, grid.lines ++ grid.switches)
     val nodeId2node = grid.nodes.map(node => (node.id, node)).toMap
     val subnets = SubnetBuilder.buildSubnets(graph, nodeId2node)
-    val nodes = NodeConverter.convertNodesOfSubnets(subnets)
+    val nodeId2Uuid =
+      nodeUuidMapping.map(getNodeNameMapping).getOrElse(Map.empty[String, UUID])
+    val nodes = NodeConverter.convertNodesOfSubnets(subnets, nodeId2Uuid)
     val lineTypes = grid.lineTypes
       .map(lineType => (lineType.id, LineTypeConverter.convert(lineType)))
       .toMap
@@ -112,7 +120,6 @@ case object GridConverter {
       ),
       nodes
     )
-
   }
 
   /** Convert system participants of the power factory grid.

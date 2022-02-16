@@ -80,4 +80,21 @@ object ConversionHelper {
         )
     }
 
+  /** Get all duplicates of the sequence.
+    *
+    * @param items
+    *   items to check for duplicates
+    * @tparam T
+    *   type of the items
+    * @return
+    *   sequence of duplicates
+    */
+  def getDuplicates[T](items: Seq[T]): Seq[T] = {
+    val uniqueItems = items.distinct
+    if (uniqueItems.size == items.size) {
+      return Seq.empty[T]
+    }
+    items.diff(uniqueItems)
+  }
+
 }

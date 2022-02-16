@@ -11,10 +11,7 @@ import edu.ie3.powerFactory2psdm.common.ConverterTestData.{
   subnet1Ids,
   subnet2Ids
 }
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  ElementConfigurationException,
-  TestException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.{ElementConfigurationException}
 import edu.ie3.powerFactory2psdm.model.entity.{Node, Subnet}
 import org.jgrapht.alg.connectivity.BiconnectivityInspector
 import org.scalatest.matchers.should.Matchers
@@ -45,7 +42,7 @@ class SubnetBuilderSpec extends Matchers with AnyWordSpecLike {
       val nodeId = "Grid.ElmNet\\Bus_0003.ElmTerm"
       val node = id2node.getOrElse(
         nodeId,
-        throw TestException(s"No node with id $nodeId in the id2node map")
+        fail(s"No node with id $nodeId in the id2node map")
       )
       val faultyNode = node.copy(nominalVoltage = 131.0)
       val updatedMap = id2node.updated(nodeId, faultyNode)

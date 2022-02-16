@@ -11,6 +11,7 @@
       "id": "Grid.ElmNet\\Bus_0001.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0001",
       "uknom": 132.0,
       "vtarget": 1.0,
       "conElms": [
@@ -48,6 +49,7 @@
       "id": "Grid.ElmNet\\Bus_0003.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0003",
       "uknom": 132.0,
       "vtarget": 1.0,
       "conElms": [
@@ -73,6 +75,7 @@
       "id": "Grid.ElmNet\\Bus_0004.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0004",
       "uknom": 132.0,
       "vtarget": 1.0,
       "conElms": [
@@ -106,6 +109,7 @@
       "id": "Grid.ElmNet\\Bus_0005.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0005",
       "uknom": 132.0,
       "vtarget": 1.0,
       "conElms": [
@@ -135,6 +139,7 @@
       "id": "Grid.ElmNet\\Bus_0006.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0006",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -172,6 +177,7 @@
       "id": "Grid.ElmNet\\Bus_0007.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0007",
       "uknom": 1.0,
       "vtarget": 1.0,
       "conElms": [
@@ -197,6 +203,7 @@
       "id": "Grid.ElmNet\\Bus_0008.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0008",
       "uknom": 11.0,
       "vtarget": 1.0,
       "conElms": [
@@ -214,6 +221,7 @@
       "id": "Grid.ElmNet\\Bus_0009.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0009",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -247,6 +255,7 @@
       "id": "Grid.ElmNet\\Bus_0010.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0010",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -268,6 +277,7 @@
       "id": "Grid.ElmNet\\Bus_0011.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0011",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -289,6 +299,7 @@
       "id": "Grid.ElmNet\\Bus_0012.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0012",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -310,6 +321,7 @@
       "id": "Grid.ElmNet\\Bus_0013.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0013",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -335,6 +347,7 @@
       "id": "Grid.ElmNet\\Bus_0014.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0014",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -360,6 +373,7 @@
       "id": "Grid.ElmNet\\Bus_0002.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0002",
       "uknom": 132.0,
       "vtarget": 1.0,
       "conElms": [
@@ -397,6 +411,7 @@
       "id": "Grid.ElmNet\\Bus_0015.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "Bus_0015",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -418,16 +433,17 @@
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Lower.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "ON_Station_Lower",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
         {
-          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
-          "pfCls": "ElmTr2"
-        },
-        {
           "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
           "pfCls": "ElmCoup"
+        },
+        {
+          "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2-Wicklungstransformator.ElmTr2",
+          "pfCls": "ElmTr2"
         }
       ]
     },
@@ -435,6 +451,7 @@
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "1",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -452,6 +469,7 @@
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\ON_Station_Upper.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "ON_Station_Upper",
       "uknom": 110.0,
       "vtarget": 1.0,
       "conElms": [
@@ -465,6 +483,7 @@
       "id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm",
       "GPSlat": 0.0,
       "GPSlon": 0.0,
+      "locName": "2",
       "uknom": 33.0,
       "vtarget": 1.0,
       "conElms": [
@@ -702,7 +721,7 @@
         []
       ],
       "cubsecs": [],
-      "dline": 0.30000001192092896,
+      "dline": 0.4000000059604645,
       "bus1Id": "Grid.ElmNet\\Bus_0012.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0013.ElmTerm",
       "typeId": "TypLne 0012 to 0013.TypLne"
@@ -1197,15 +1216,15 @@
       "bus2Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\2.ElmTerm"
     },
     {
-      "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
-      "onOff": 1,
-      "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
-      "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
-    },
-    {
       "id": "Grid.ElmNet\\LS/TR Schalter(1).ElmCoup",
       "onOff": 1,
       "bus1Id": "Grid.ElmNet\\Ortsnetzstation.ElmTrfstat\\1.ElmTerm",
+      "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
+    },
+    {
+      "id": "Grid.ElmNet\\LS/TR Schalter.ElmCoup",
+      "onOff": 1,
+      "bus1Id": "Grid.ElmNet\\Bus_0014.ElmTerm",
       "bus2Id": "Grid.ElmNet\\Bus_0015.ElmTerm"
     }
   ],
@@ -1222,7 +1241,7 @@
     },
     {
       "id": "Grid.ElmNet\\Line_0012_0013.ElmLne\\Leitungssektion.ElmLnesec",
-      "dline": 0.30000001192092896,
+      "dline": 0.4000000059604645,
       "typeId": "TypLne 0009 to 0010.TypLne"
     }
   ]

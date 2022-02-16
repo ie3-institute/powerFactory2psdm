@@ -57,7 +57,7 @@ object LineSection {
   }
 
   private def getLineId(lineSectionId: String): String = {
-    val lineIdRegEx = raw".+?(?=\\[\w\s]*\.ElmLnesec)".r
+    val lineIdRegEx = raw".*(?=\\[^\\]*\.ElmLnesec)".r
     lineIdRegEx.findFirstIn(lineSectionId) match {
       case Some(id) => id
       case None =>

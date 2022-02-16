@@ -6,10 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.model.entity
 
-import edu.ie3.powerFactory2psdm.exception.pf.{
-  MissingParameterException,
-  TestException
-}
+import edu.ie3.powerFactory2psdm.exception.pf.MissingParameterException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.Switches
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
@@ -59,7 +56,7 @@ class SwitchSpec extends Matchers with AnyWordSpecLike {
     "build a fully configured switch correctly" in {
       val switch = Switch
         .maybeBuild(input)
-        .getOrElse(throw TestException("We shouldn't get None here!"))
+        .getOrElse(fail("We shouldn't get None here!"))
       switch.id shouldBe "Some_Switch.ElmCoup"
       switch.nodeAId shouldBe "SomeBusA"
       switch.nodeBId shouldBe "SomeBusB"

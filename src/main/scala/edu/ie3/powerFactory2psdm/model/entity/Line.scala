@@ -58,7 +58,6 @@ object Line {
         s"Line: $id has no defined length"
       )
     )
-
     val gpsCoords: Option[List[(Double, Double)]] = rawLine.GPScoords match {
       case Some(List(Some(Nil))) => None
       case Some(coords) =>
