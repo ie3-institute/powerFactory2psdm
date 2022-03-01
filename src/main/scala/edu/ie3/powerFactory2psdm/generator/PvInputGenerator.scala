@@ -51,7 +51,7 @@ object PvInputGenerator {
     val height = sample(params.elevationAngle).asDegreeGeom
     val kG = sample(params.kG)
     val kT = sample(params.kT)
-    val sRated = input.sRated.asMegaVoltAmpere
+    val sRated = input.sRated.asKiloVoltAmpere
     val cosPhiRated = determineCosPhiRated(input)
     val qCharacteristics =
       convertQCharacteristic(params.qCharacteristic, cosPhiRated)
