@@ -45,7 +45,7 @@ object WecTypeGenerator {
 
     val capex = RandomSampler.sample(params.capex).asEuro
     val opex = RandomSampler.sample(params.opex).asEuroPerMegaWattHour
-    val sRated = statGen.sRated.asMegaVoltAmpere
+    val sRated = statGen.sRated.asKiloVoltAmpere
     val cosPhiRated = ConversionHelper.determineCosPhiRated(statGen)
     val cpCharacteristic = new WecCharacteristicInput(
       params.cpCharacteristic
