@@ -112,6 +112,15 @@ class QuantityUtilsSpec extends Matchers with AnyWordSpecLike {
       )
     }
 
+    "convert a double to kilo volt ampere" in {
+      value.asKiloVoltAmpere should equalWithTolerance(
+        Quantities.getQuantity(
+          value,
+          MetricPrefix.KILO(VOLTAMPERE)
+        )
+      )
+    }
+
     "convert a double to mega volt ampere" in {
       value.asMegaVoltAmpere should equalWithTolerance(
         Quantities.getQuantity(

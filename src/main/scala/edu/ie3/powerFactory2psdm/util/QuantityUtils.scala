@@ -93,6 +93,11 @@ object QuantityUtils {
       VOLTAMPERE
     )
 
+    def asKiloVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
+      value,
+      MetricPrefix.KILO(VOLTAMPERE)
+    )
+
     def asMegaVoltAmpere: ComparableQuantity[Power] = Quantities.getQuantity(
       value,
       MetricPrefix.MEGA(VOLTAMPERE)
