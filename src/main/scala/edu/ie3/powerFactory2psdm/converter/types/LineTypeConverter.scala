@@ -62,7 +62,7 @@ object LineTypeConverter extends LazyLogging {
 
     // sanity check of total line length versus aggregated line length of all corresponding line sections
     lineLength - aggregatedLineSectionLength match {
-      case x if abs(x) < 1e-9 =>
+      case _ if abs(aggregatedLineSectionLength / lineLength - 1) < 1e-6 =>
       case x if x < 0 =>
         logger.error(
           s"The line length of line: $lineId is smaller than the aggregated length of line sections by ${(1 - (lineLength / aggregatedLineSectionLength)) * 100}% which distorts results. This should be prevented by PF and therefore not happen."
@@ -94,20 +94,20 @@ object LineTypeConverter extends LazyLogging {
     )
 
     weightedLineTypes.foldLeft(emptyLineType)((averageType, current) => {
-      val currentLine = current._2
+      val currentLineType = current._2
       val weightingFactor = current._1 / lineLength
       new LineTypeInput(
         averageType.getUuid,
         averageType.getId,
-        averageType.getB.add(currentLine.getB.multiply(weightingFactor)),
-        averageType.getG.add(currentLine.getG.multiply(weightingFactor)),
-        averageType.getR.add(currentLine.getR.multiply(weightingFactor)),
-        averageType.getX.add(currentLine.getX.multiply(weightingFactor)),
-        if (averageType.getiMax().isLessThan(currentLine.getiMax()))
+        averageType.getB.add(currentLineType.getB.multiply(weightingFactor)),
+        averageType.getG.add(currentLineType.getG.multiply(weightingFactor)),
+        averageType.getR.add(currentLineType.getR.multiply(weightingFactor)),
+        averageType.getX.add(currentLineType.getX.multiply(weightingFactor)),
+        if (averageType.getiMax().isLessThan(currentLineType.getiMax()))
           averageType.getiMax()
-        else currentLine.getiMax(),
+        else currentLineType.getiMax(),
         if (averageType.getvRated().equals(Double.MaxValue.asKiloVolt))
-          currentLine.getvRated()
+          currentLineType.getvRated()
         else averageType.getvRated()
       )
     })

@@ -24,6 +24,7 @@ attributes4export = {
     ],
     'conElms': [],
     'nodes': [
+        "loc_name",
         "vtarget",
         "uknom",
         "GPSlat",

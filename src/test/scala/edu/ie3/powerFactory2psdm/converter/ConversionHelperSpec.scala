@@ -53,6 +53,7 @@ class ConversionHelperSpec extends Matchers with AnyWordSpecLike {
           input.copy(indCapFlag = 1)
         ) shouldBe -input.cosPhi
       }
+
       "throw an exception if the inductive capacitive specifier is neither 0 nor 1" in {
         val exc = intercept[ElementConfigurationException](
           ConversionHelper.determineCosPhiRated(input.copy(indCapFlag = 2))
@@ -60,6 +61,13 @@ class ConversionHelperSpec extends Matchers with AnyWordSpecLike {
         exc.getMessage.startsWith(
           s"Can't determine cos phi rated for static generator: ${input.id}."
         ) shouldBe true
+      }
+
+      "determines all duplicates of a sequence" in {
+        ConversionHelper.getDuplicates(Seq(1, 2, 3)) shouldBe Seq.empty
+        ConversionHelper.getDuplicates(Seq("abc", "ab", "abc")) shouldBe Seq(
+          "abc"
+        )
       }
     }
   }
