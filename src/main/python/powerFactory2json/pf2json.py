@@ -113,13 +113,13 @@ def name_without_preamble(full_name):
     """
     Remove name pollution by omitting uniform file path preamble
     """
-    match = re.search('(?<=Network Data\.IntPrjfolder\\\\|Type Library\.IntPrjfolder\\\\).*', full_name)
+    match = re.search('(?<=Network Data\.IntPrjfolder\\\\Type Library\.IntPrjfolder\\\\).*|?<=Netzmodell\.IntPrjfolder\\\\Netzdaten\.IntPrjfolder\\\\).*', full_name)
     return match.group() if match is not None else full_name
 
 def safe_name(unsafe_str):
     if unsafe_str in reserved_keywords or unsafe_str.endswith('_'):
         return f"{unsafe_str}_safe"  # only way to avoid auto generation of scala class adding backticks or similar
-    return unsafe_str
+    return unsafe_strƒ
 
 
 def to_camel_case(snake_str):
