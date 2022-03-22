@@ -31,7 +31,7 @@ object RunConversion extends LazyLogging {
     logger.info("Parsing the config")
     val config =
       ConfigSource
-        .file("src/test/resources/application.conf")
+        .file("/Users/thomas/data/grids/Freiamt/freiamt-conversion.conf")
         .at("conversion-config")
         .loadOrThrow[ConversionConfig]
     ConfigValidator.validateConversionConfig(config)

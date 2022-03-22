@@ -55,7 +55,7 @@ object ConversionConfig {
   )
 
   final case class CsvConfig(
-      directoryHierarchy: Boolean = true,
+      directoryHierarchy: Boolean = false,
       fileEncoding: String = "UTF-8",
       fileEnding: String = ".csv",
       separator: String = ";"
