@@ -385,7 +385,7 @@ object ConverterTestData extends LazyLogging {
         1d,
         0.9,
         false,
-        11.asMegaVoltAmpere,
+        11.asKiloVoltAmpere,
         0.91
       )
     )
