@@ -29,7 +29,13 @@ object GridModelReducer {
     * connecting a new one per node. Furthermore creates and writes mapping from
     * node to the connected system participant. This is done to have a grid
     * which we can map primary data to each node without any additional models
-    * in the grid that draw or generate power. *
+    * in the grid that draw or generate power.
+    *
+    * The system participants that are connected to the nodes are not
+    * configurable as they are only supposed to be used in conjunction with
+    * primary data that overwrite their behavior. This is a quite distinct use
+    * case. So if you have no idea what I'm talking about you probably don't
+    * need this.
     */
   def main(args: Array[String]): Unit = {
 
@@ -38,7 +44,7 @@ object GridModelReducer {
     val csvSep = ","
     val inputDir = new File(
       "."
-    ).getCanonicalPath + "/src/test/resources/psdmGrid/vn_146_lv_small"
+    ).getCanonicalPath + "/convertedGrids/"
     val inputUsesHierarchicNaming = false
 
     // output parameters
@@ -80,6 +86,12 @@ object GridModelReducer {
 
   /** Reduces a grid by eliminating all system participants of the grid and
     * connecting a new one per node.
+    *
+    * The system participants that are connected to the nodes are not
+    * configurable as they are only supposed to be used in conjunction with
+    * primary data that overwrite their behavior. This is a quite distinct use
+    * case. So if you have no idea what I'm talking about you probably don't
+    * need this.
     *
     * @param inputGrid
     *   the grid which to reduce
