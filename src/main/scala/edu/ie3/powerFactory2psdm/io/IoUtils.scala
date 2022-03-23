@@ -6,7 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.io
 
-import com.opencsv.CSVWriter
+import com.opencsv.{CSVWriter, ICSVWriter}
 import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.exceptions.SourceException
 import edu.ie3.datamodel.io.naming.{
@@ -118,21 +118,28 @@ object IoUtils extends LazyLogging {
       header: List[String],
       rows: List[List[String]]
   ): Try[Unit] =
-    Try(new CSVWriter(new BufferedWriter(new FileWriter(fileName)))).flatMap(
-      (csvWriter: CSVWriter) =>
-        Try {
-          csvWriter.writeAll(
-            (header +: rows).map(_.toArray).asJava
-          )
-          csvWriter.close()
-        } match {
-          case f @ Failure(_) =>
-            Try(csvWriter.close()).recoverWith { case _ =>
-              f
-            }
-          case success =>
-            success
-        }
+    Try(
+      new CSVWriter(
+        new BufferedWriter(new FileWriter(fileName)),
+        ICSVWriter.DEFAULT_SEPARATOR,
+        ICSVWriter.NO_QUOTE_CHARACTER,
+        ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+        ICSVWriter.DEFAULT_LINE_END
+      )
+    ).flatMap((csvWriter: CSVWriter) =>
+      Try {
+        csvWriter.writeAll(
+          (header +: rows).map(_.toArray).asJava
+        )
+        csvWriter.close()
+      } match {
+        case f @ Failure(_) =>
+          Try(csvWriter.close()).recoverWith { case _ =>
+            f
+          }
+        case success =>
+          success
+      }
     )
 
   /** Get either a flat or hierarchic file naming strategy.

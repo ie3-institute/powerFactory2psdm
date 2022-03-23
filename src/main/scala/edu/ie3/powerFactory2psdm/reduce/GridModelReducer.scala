@@ -41,7 +41,7 @@ object GridModelReducer {
 
     // input parameters
     val gridName = "exampleGrid"
-    val csvSep = ","
+    val csvSep = ";"
     val inputDir = new File(
       "."
     ).getCanonicalPath + "/convertedGrids/"
@@ -176,10 +176,14 @@ object GridModelReducer {
       fileName: String,
       participants: Set[T]
   ): Unit = {
-    val header = List("node", "participant")
+    val header = List("node_uuid", "node_id", "participant_uuid")
     val rows = participants
       .map(participant =>
-        List(participant.getNode.getUuid.toString, participant.getUuid.toString)
+        List(
+          participant.getNode.getUuid.toString,
+          participant.getNode.getId,
+          participant.getUuid.toString
+        )
       )
       .toList
     IoUtils.writeCsvFile(fileName, header, rows)
