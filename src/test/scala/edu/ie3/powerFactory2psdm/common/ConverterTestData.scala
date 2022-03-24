@@ -211,7 +211,7 @@ object ConverterTestData extends LazyLogging {
   val nodes = Map(
     "someNode" -> ConversionPair(
       Node(
-        "someNode",
+        "node",
         "someNode",
         0.4,
         1.0,
