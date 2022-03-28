@@ -92,7 +92,7 @@ object NodeConverter {
     val uuid = unsafeNodeId2Uuid.getOrElse(node.unsafeId, UUID.randomUUID())
     new NodeInput(
       uuid,
-      node.id,
+      node.unsafeId,
       OperatorInput.NO_OPERATOR_ASSIGNED,
       OperationTime.notLimited(),
       node.vTarget.asPu,
