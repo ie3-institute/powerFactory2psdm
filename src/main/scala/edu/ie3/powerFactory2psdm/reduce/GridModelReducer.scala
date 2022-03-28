@@ -40,11 +40,9 @@ object GridModelReducer {
   def main(args: Array[String]): Unit = {
 
     // input parameters
-    val gridName = "exampleGrid"
+    val gridName = "Freiamt"
     val csvSep = ";"
-    val inputDir = new File(
-      "."
-    ).getCanonicalPath + "/convertedGrids/"
+    val inputDir = "/Users/thomas/IdeaProjects/powerFactory2psdm/convertedGrids"
     val inputUsesHierarchicNaming = false
 
     // output parameters
