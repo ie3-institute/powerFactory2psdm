@@ -40,7 +40,7 @@ object FixedFeedInConverter {
     val cosPhiRated = determineCosPhiRated(input)
     val reactivePowerCharacteristic =
       convertQCharacteristic(qCharacteristic, cosPhiRated)
-    val s = input.sRated.asMegaVoltAmpere
+    val s = input.sRated.asKiloVoltAmpere
 
     new FixedFeedInInput(
       UUID.randomUUID(),

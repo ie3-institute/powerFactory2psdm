@@ -410,7 +410,7 @@ object ConverterTestData extends LazyLogging {
         "someStatGen",
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
-        11.asMegaVoltAmpere,
+        11.asKiloVoltAmpere,
         0.91
       )
     )
