@@ -211,7 +211,7 @@ object ConverterTestData extends LazyLogging {
   val nodes = Map(
     "someNode" -> ConversionPair(
       Node(
-        "someNode",
+        "node",
         "someNode",
         0.4,
         1.0,
@@ -688,8 +688,8 @@ object ConverterTestData extends LazyLogging {
     "someSwitch" -> ConversionPair(
       Switch(
         "someSwitch",
-        getNodePair("someNode").input.id,
-        getNodePair("someSlackNode").input.id,
+        getNodePair("someNode").input.unsafeId,
+        getNodePair("someSlackNode").input.unsafeId,
         1
       ),
       new SwitchInput(
