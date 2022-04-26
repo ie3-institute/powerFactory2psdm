@@ -46,7 +46,7 @@ dependencies {
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
-	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.4.3'
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.5.2'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.0.8'
 
