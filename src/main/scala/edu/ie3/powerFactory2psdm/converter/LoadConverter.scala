@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
+import com.typesafe.scalalogging.LazyLogging
 import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime}
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
@@ -19,13 +20,13 @@ import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import java.util.{Locale, UUID}
 import scala.util.{Failure, Success}
 
-object LoadConverter {
+object LoadConverter extends LazyLogging {
 
   def convertLoads(
       input: List[Load],
       nodes: Map[String, NodeInput]
   ): List[LoadInput] = {
-    input map { load =>
+    input flatMap { load =>
       getNode(load.nodeId, nodes) match {
         case Success(node) => convert(load, node)
         case Failure(exc) =>
@@ -37,44 +38,69 @@ object LoadConverter {
     }
   }
 
-  def convert(input: Load, node: NodeInput): LoadInput = {
-    val id = input.id
-    val cosPhi = ConversionHelper.determineCosPhiRated(
-      input.indCapFlag,
-      input.cosphi
-    ) match {
-      case Success(value) => value
-      case Failure(exc) =>
-        throw ConversionException(
-          s"Couldn't determine cos phi rated for load: $id. Exception: ",
-          exc
-        )
-    }
-    val sRated = if (input.isScaled) {
-      (input.s * input.scalingFactor.getOrElse(
-        throw ElementConfigurationException(
-          s"Load $id is specified as scaled but does not hold a scaling factor."
-        )
-      )).asVoltAmpere
-    } else {
-      input.s.asVoltAmpere
-    }
-    val eCons = 0d.asKiloWattHour
-    val varCharacteristicString =
-      "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosPhi)
+  def convert(input: Load, node: NodeInput): Option[LoadInput] = {
+    input.id match {
+      case loadId if loadId.endsWith("HH.ElmLod") =>
+        val cosPhi = ConversionHelper.determineCosPhiRated(
+          input.indCapFlag,
+          input.cosphi
+        ) match {
+          case Success(value) => value
+          case Failure(exc) =>
+            throw ConversionException(
+              s"Couldn't determine cos phi rated for load: $loadId. Exception: ",
+              exc
+            )
+        }
+        val sRated = if (input.isScaled) {
+          (input.s * input.scalingFactor.getOrElse(
+            throw ElementConfigurationException(
+              s"Load $loadId is specified as scaled but does not hold a scaling factor."
+            )
+          )).asVoltAmpere
+        } else {
+          input.s.asVoltAmpere
+        }
+        val eCons = 0d.asKiloWattHour
+        val varCharacteristicString =
+          "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, cosPhi)
 
-    new LoadInput(
-      UUID.randomUUID(),
-      id,
-      OperatorInput.NO_OPERATOR_ASSIGNED,
-      OperationTime.notLimited(),
-      node,
-      new CosPhiFixed(varCharacteristicString),
-      BdewLoadProfile.H0,
-      false,
-      eCons,
-      sRated,
-      cosPhi
-    )
+        Some(
+          new LoadInput(
+            UUID.randomUUID(),
+            loadId,
+            OperatorInput.NO_OPERATOR_ASSIGNED,
+            OperationTime.notLimited(),
+            node,
+            new CosPhiFixed(varCharacteristicString),
+            BdewLoadProfile.H0,
+            false,
+            eCons,
+            sRated,
+            cosPhi
+          )
+        )
+      case nsphId if nsphId.endsWith("NSPH.ElmLod") =>
+        logger.warn(
+          s"Not converting load with id: $nsphId as NSPH load conversion is not implemented."
+        )
+        None
+      case wpId if wpId.endsWith("WP.ElmLod") =>
+        logger.warn(
+          s"Not converting load with id: $wpId as heat pump load conversion is not implemented."
+        )
+        None
+      case emobId if emobId.endsWith("Emob.ElmLod") =>
+        logger.warn(
+          s"Not converting load with id: $emobId as e mobility load conversion is not implemented."
+        )
+        None
+      case unknownId =>
+        logger.warn(
+          s"Not converting load with id: $unknownId as load type can't be determined."
+        )
+        None
+    }
   }
+
 }
