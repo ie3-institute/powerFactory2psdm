@@ -21,6 +21,7 @@ import edu.ie3.datamodel.models.input.graphics.{
 import edu.ie3.datamodel.models.input.system.{
   BmInput,
   ChpInput,
+  EmInput,
   EvInput,
   EvcsInput,
   HpInput,
@@ -37,6 +38,7 @@ import edu.ie3.powerFactory2psdm.converter.types.{
   Transformer2WTypeConverter
 }
 import edu.ie3.powerFactory2psdm.model.{PreprocessedPfGridModel, RawPfGridModel}
+
 import java.util.UUID
 import scala.jdk.CollectionConverters.SetHasAsJava
 
@@ -153,7 +155,8 @@ case object GridConverter {
       loads.toSet.asJava,
       statGenModelContainer.pvInputs.toSet.asJava,
       Set.empty[StorageInput].asJava,
-      statGenModelContainer.wecInputs.toSet.asJava
+      statGenModelContainer.wecInputs.toSet.asJava,
+      Set.empty[EmInput].asJava
     )
 
   }
