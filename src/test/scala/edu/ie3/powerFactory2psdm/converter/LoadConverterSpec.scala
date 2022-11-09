@@ -1,6 +1,8 @@
-/**
- * © 2021. Johannes Hiry,
- **/
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
 
 package edu.ie3.powerFactory2psdm.converter
 
@@ -27,14 +29,16 @@ private class LoadConverterSpec
     implicit val quantityTolerance: Double = 1e-6
 
     "convert a load correctly" in {
-      val actual = LoadConverter.convert(loadPair.input, node)
+      val actual = LoadConverter
+        .convert(loadPair.input, node)
+        .getOrElse(fail("Load option was empty"))
       val expected = loadPair.result
       actual.getId shouldBe expected.getId
       actual.getOperator shouldBe expected.getOperator
       actual.getOperationTime shouldBe expected.getOperationTime
       actual.getNode shouldBe expected.getNode
       actual.getqCharacteristics shouldBe expected.getqCharacteristics
-      actual.getStandardLoadProfile shouldBe expected.getStandardLoadProfile
+      actual.getLoadProfile shouldBe expected.getLoadProfile
       actual.isDsm shouldBe expected.isDsm
       actual.geteConsAnnual shouldBe expected.geteConsAnnual
       actual.getsRated shouldBe expected.getsRated
@@ -47,14 +51,16 @@ private class LoadConverterSpec
         isScaled = true,
         scalingFactor = Some(scalingFactor)
       )
-      val actual = LoadConverter.convert(scaledLoad, node)
+      val actual = LoadConverter
+        .convert(scaledLoad, node)
+        .getOrElse(fail("Load option was empty"))
       val expected = loadPair.result
       actual.getId shouldBe expected.getId
       actual.getOperator shouldBe expected.getOperator
       actual.getOperationTime shouldBe expected.getOperationTime
       actual.getNode shouldBe expected.getNode
       actual.getqCharacteristics shouldBe expected.getqCharacteristics
-      actual.getStandardLoadProfile shouldBe expected.getStandardLoadProfile
+      actual.getLoadProfile shouldBe expected.getLoadProfile
       actual.isDsm shouldBe expected.isDsm
       actual.geteConsAnnual shouldBe expected.geteConsAnnual
       actual.getsRated should equalWithTolerance(

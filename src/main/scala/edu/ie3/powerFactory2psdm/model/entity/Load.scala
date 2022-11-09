@@ -1,6 +1,8 @@
-/**
- * © 2021. Johannes Hiry,
- **/
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
 
 package edu.ie3.powerFactory2psdm.model.entity
 
@@ -10,7 +12,6 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
 }
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.{Loads, LoadsLV, LoadsMV}
 import edu.ie3.powerFactory2psdm.model.setting.ConversionPrefixes.ConversionPrefix
-import org.apache.logging.log4j.core.config.ConfigurationException
 
 import scala.util.{Failure, Success, Try}
 
@@ -59,7 +60,7 @@ object Load {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>
-        throw new ConfigurationException(
+        throw MissingParameterException(
           s"Could not determine whether load $id is scaled.",
           exc
         )
@@ -94,7 +95,7 @@ object Load {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>
-        throw new ConfigurationException(
+        throw new MissingParameterException(
           s"Could not determine whether lv load $id is scaled.",
           exc
         )
@@ -128,7 +129,7 @@ object Load {
       case Success(isScaled) =>
         Load(id, nodeId, s, cosphi, indCap, isScaled, input.scale0)
       case Failure(exc) =>
-        throw new ConfigurationException(
+        throw MissingParameterException(
           s"Could not determine whether mv load $id is scaled.",
           exc
         )

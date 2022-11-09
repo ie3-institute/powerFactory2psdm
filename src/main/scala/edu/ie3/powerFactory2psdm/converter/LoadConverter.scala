@@ -1,6 +1,8 @@
-/**
- * © 2021. Johannes Hiry,
- **/
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
 
 package edu.ie3.powerFactory2psdm.converter
 
@@ -9,7 +11,11 @@ import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.profile.{BdewStandardLoadProfile, LoadProfile, NbwTemperatureDependantLoadProfile}
+import edu.ie3.datamodel.models.profile.{
+  BdewStandardLoadProfile,
+  LoadProfile,
+  NbwTemperatureDependantLoadProfile
+}
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
@@ -39,7 +45,8 @@ object LoadConverter extends LazyLogging {
 
   def convert(input: Load, node: NodeInput): Option[LoadInput] = {
     input.id match {
-      case loadId if loadId.endsWith("HH.ElmLod") | loadId.endsWith("NSPH.ElmLod") =>
+      case loadId
+          if loadId.endsWith("HH.ElmLod") | loadId.endsWith("NSPH.ElmLod") =>
         val cosPhi = ConversionHelper.determineCosPhiRated(
           input.indCapFlag,
           input.cosphi
@@ -100,10 +107,12 @@ object LoadConverter extends LazyLogging {
   def getLoadProfile(loadId: String): LoadProfile = {
     if (loadId.endsWith("HH.ElmLod"))
       BdewStandardLoadProfile.H0
-    else if (loadId.endsWith("HH.ElmLod"))
+    else if (loadId.endsWith("NSPH.ElmLod"))
       NbwTemperatureDependantLoadProfile.EZ2
     else
-      throw new IllegalArgumentException(s"No load profile for load id: $loadId")
+      throw new IllegalArgumentException(
+        s"No load profile for load id: $loadId"
+      )
   }
 
 }

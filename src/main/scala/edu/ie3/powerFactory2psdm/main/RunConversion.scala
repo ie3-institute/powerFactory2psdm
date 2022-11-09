@@ -1,12 +1,12 @@
-/**
- * © 2021. Johannes Hiry,
- **/
+/*
+ * © 2021. TU Dortmund University,
+ * Institute of Energy Systems, Energy Efficiency and Energy Economics,
+ * Research group Distribution grid planning and operation
+ */
 
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.io.naming.{DefaultDirectoryHierarchy, EntityPersistenceNamingStrategy, FileNamingStrategy}
-import edu.ie3.datamodel.io.sink.CsvFileSink
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
 import edu.ie3.powerFactory2psdm.converter.GridConverter
@@ -19,7 +19,7 @@ import edu.ie3.powerFactory2psdm.model.RawPfGridModel
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
-import java.time.ZonedDateTime
+import java.time.{LocalDateTime, ZonedDateTime}
 
 object RunConversion extends LazyLogging {
 
@@ -28,7 +28,9 @@ object RunConversion extends LazyLogging {
     logger.info("Parsing the config")
     val config =
       ConfigSource
-        .file("/Users/thomas/data/grids/Freiamt/conversion/freiamt-conversion.conf")
+        .file(
+          "/Users/thomas/data/grids/Freiamt/conversion/freiamt-conversion.conf"
+        )
         .at("conversion-config")
         .loadOrThrow[ConversionConfig]
     ConfigValidator.validateConversionConfig(config)
@@ -43,7 +45,8 @@ object RunConversion extends LazyLogging {
     logger.info("Converting grid to PSDM")
     val jointGridContainer = GridConverter.convert(pfGrid, config)
 
-    val gridFolder = config.output.csvConfig.directoryHierarchy + "-" + ZonedDateTime.now().toString
+    val gridFolder =
+      config.output.targetFolder + "-" + LocalDateTime.now()
 
     persistJointGridContainer(
       jointGridContainer,

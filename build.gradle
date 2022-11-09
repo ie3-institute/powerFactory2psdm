@@ -59,6 +59,14 @@ dependencies {
 		exclude group: 'com.github.ie3-institute'
 	}
 
+	// ie³ internal repository
+	implementation('com.github.ie3-institute:PowerSystemUtils:2.0-SNAPSHOT') {
+		exclude group: 'org.apache.logging.log4j'
+		exclude group: 'org.slf4j'
+		/* Exclude our own nested dependencies */
+		exclude group: 'com.github.ie3-institute'
+	}
+
 	// Graphs
 	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
 
@@ -69,19 +77,13 @@ dependencies {
 	// cmd args parser //
 	implementation "com.github.scopt:scopt_${scalaVersion}:+"
 
-	// ie³ internal repository
-	implementation 'com.github.ie3-institute:PowerSystemUtils:1.5.3'
+	implementation 'org.locationtech.jts.io:jts-io-common:1.18.2'
 
-	// logging
-	implementation "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
-	implementation 'com.lmax:disruptor:3.4.4' // async logging
-	implementation 'org.apache.logging.log4j:log4j-api:+' // log4j
-	implementation 'org.apache.logging.log4j:log4j-core:+' // log4j
-	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
+	implementation 'org.apache.commons:commons-math3:3.6.1'
 
-	implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.4" // akka scala logging
-	implementation 'com.typesafe.scala-logging:scala-logging-slf4j_2.11:2.1.2'// scala logging
-	implementation "org.slf4j:log4j-over-slf4j:${slf4jVersion}" // slf4j -> log4j
+	/* logging */
+	implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.5" // akka scala logging
+	implementation "ch.qos.logback:logback-classic:1.2.11"
 
 	// CORE Scala //
 	implementation "org.scala-lang:scala-library:${scalaBinaryVersion}"
