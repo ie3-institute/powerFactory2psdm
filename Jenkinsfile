@@ -11,9 +11,6 @@
 ////////////////////////////////
 
 
-//// Rocket.Chat channel to publish updates
-final String rocketChatChannel = "jenkins"
-
 
 projects = ['powerFactory2psdm']
 
@@ -85,8 +82,6 @@ if (env.BRANCH_NAME == "main") {
             "main branch build triggered by merging pr from feature branch '${featureBranchName}'"
             : "main branch build triggered for commit with message '${jsonObject.commit.message}'"
 
-        // notify rocket chat about the started feature branch run
-        rocketSend channel: rocketChatChannel, emoji: ':jenkins_triggered:',
         message: message + "\n"
         rawMessage: true
 
@@ -133,11 +128,9 @@ if (env.BRANCH_NAME == "main") {
             // call codecov
             sh "curl -s https://codecov.io/bash | bash -s - -t ${env.codeCovToken} -C ${commitHash}"
 
-            // notify rocket chat
             message = (featureBranchName?.trim()) ?
                 "main branch build successful! Merged pr from feature branch '${featureBranchName}'"
                 : "main branch build successful! Build commit with message is '${jsonObject.commit.message}'"
-            rocketSend channel: rocketChatChannel, emoji: ':jenkins_party:',
             message: message + "\n" +
             "*repo:* ${urls.get(0)}/${projects.get(0)}\n" +
             "*branch:* main \n"
@@ -156,8 +149,6 @@ if (env.BRANCH_NAME == "main") {
         Date date = new Date()
         println("[ERROR] [${date.format("dd/MM/yyyy")} - ${date.format("HH:mm:ss")}]" + e)
 
-        // notify rocket chat
-        rocketSend channel: rocketChatChannel, emoji: ':jenkins_explode:',
         message: "merge feature into main failed!\n" +
         "*repo:* ${urls.get(0)}/${projects.get(0)}\n"
         rawMessage: true
@@ -199,8 +190,6 @@ if (env.BRANCH_NAME == "main") {
         /// set the build name
         currentBuild.displayName = featureBranchName + " (" + currentBuild.displayName + ")"
 
-        // notify rocket chat about the started feature branch run
-        rocketSend channel: rocketChatChannel, emoji: ':jenkins_triggered:',
         message: "feature branch build triggered:\n" +
         "*repo:* ${repoName}\n" +
         "*branch:* ${featureBranchName}\n"
@@ -265,8 +254,6 @@ if (env.BRANCH_NAME == "main") {
             sh "curl -s https://codecov.io/bash | bash -s - -t ${env.codeCovToken} -C ${commitHash}"
           }
 
-          // notify rocket chat
-          rocketSend channel: rocketChatChannel, emoji: ':jenkins_party:',
           message: "feature branch test successful!\n" +
           "*repo:* ${repoName}\n" +
           "*branch:* ${featureBranchName}\n"
@@ -283,8 +270,6 @@ if (env.BRANCH_NAME == "main") {
         Date date = new Date()
         println("[ERROR] [${date.format("dd/MM/yyyy")} - ${date.format("HH:mm:ss")}]" + e)
 
-        // notify rocket chat
-        rocketSend channel: rocketChatChannel, emoji: ':jenkins_explode:',
         message: "feature branch test failed!\n" +
         "*repo:* ${repoName}\n" +
         "*branch:* ${featureBranchName}\n"
