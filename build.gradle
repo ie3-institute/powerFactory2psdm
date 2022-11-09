@@ -14,7 +14,7 @@ ext {
 	scalaVersion = '2.13'
 	scalaBinaryVersion = '2.13.6'
 	slf4jVersion = '1.7.36'
-	circeVersion = '0.14.1'
+	circeVersion = '0.14.2'
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
@@ -46,7 +46,7 @@ dependencies {
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
-	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.5.2'
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.5.4'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.0.8'
 
