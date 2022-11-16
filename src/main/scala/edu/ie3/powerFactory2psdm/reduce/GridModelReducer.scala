@@ -40,9 +40,9 @@ object GridModelReducer {
   def main(args: Array[String]): Unit = {
 
     // input parameters
-    val gridName = "Freiamt"
+    val gridName = "1-MV-urban--1-no_sw"
     val csvSep = ";"
-    val inputDir = "/Users/thomas/IdeaProjects/powerFactory2psdm/convertedGrids"
+    val inputDir = "/Users/thomas/data/transense/initial_training_data_v2/1-MV-urban--1-no_sw"
     val inputUsesHierarchicNaming = false
 
     // output parameters
@@ -115,7 +115,8 @@ object GridModelReducer {
       Set.empty[LoadInput].asJava,
       Set.empty[PvInput].asJava,
       Set.empty[StorageInput].asJava,
-      Set.empty[WecInput].asJava
+      Set.empty[WecInput].asJava,
+      Set.empty[EmInput].asJava
     )
 
     new JointGridContainer(
