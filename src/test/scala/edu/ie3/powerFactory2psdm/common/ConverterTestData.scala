@@ -32,8 +32,8 @@ import edu.ie3.datamodel.models.input.connector.`type`.{
 }
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
-import edu.ie3.datamodel.models.BdewLoadProfile
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
+import edu.ie3.datamodel.models.profile.BdewStandardLoadProfile
 import edu.ie3.datamodel.models.voltagelevels.GermanVoltageLevelUtils.LV
 import edu.ie3.datamodel.models.{OperationTime, UniqueEntity}
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
@@ -545,7 +545,7 @@ object ConverterTestData extends LazyLogging {
         new CosPhiFixed(
           "cosPhiFixed:{(0.0,%#.2f)}".formatLocal(Locale.ENGLISH, 0.97812)
         ),
-        BdewLoadProfile.H0,
+        BdewStandardLoadProfile.H0,
         false,
         0d.asKiloWattHour,
         13231.23.asVoltAmpere,

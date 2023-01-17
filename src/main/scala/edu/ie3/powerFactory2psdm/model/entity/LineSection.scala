@@ -11,7 +11,6 @@ import edu.ie3.powerFactory2psdm.exception.pf.{
   MissingParameterException
 }
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel.LineSections
-import org.apache.commons.lang3.Conversion
 
 /** A section of an electrical [[Line]]
   *
