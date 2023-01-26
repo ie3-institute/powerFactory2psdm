@@ -61,7 +61,7 @@ object ParticipantInformation {
     Map[String, Map[Participants.Value, ParticipantInformation]]
   ] = cursor => {
     cursor.keys match {
-      case Some(keys) => {
+      case Some(keys) =>
         val (lefts, rights) = keys.foldLeft(
           Seq.empty[(String, DecodingFailure)],
           Seq.empty[(String, Map[Participants.Value, ParticipantInformation])]
@@ -88,7 +88,6 @@ object ParticipantInformation {
             )
           )
         }
-      }
       case None => Right(Map.empty)
     }
   }
