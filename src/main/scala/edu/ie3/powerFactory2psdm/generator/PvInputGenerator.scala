@@ -8,22 +8,18 @@ package edu.ie3.powerFactory2psdm.generator
 
 import edu.ie3.datamodel.models.input.NodeInput
 import edu.ie3.datamodel.models.input.system.PvInput
-import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.model.PvConversionConfig.PvModelGeneration
 import edu.ie3.powerFactory2psdm.converter.ConversionHelper.{
   convertQCharacteristic,
   determineCosPhiRated
 }
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
-import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
 import edu.ie3.powerFactory2psdm.util.RandomSampler.sample
-import edu.ie3.util.quantities.PowerSystemUnits.{DEGREE_GEOM, MEGAVOLTAMPERE}
+import edu.ie3.util.quantities.QuantityUtils.RichQuantityDouble
 import tech.units.indriya.ComparableQuantity
-import tech.units.indriya.quantity.Quantities
-import tech.units.indriya.unit.Units.PERCENT
 
 import java.util.UUID
-import javax.measure.quantity.{Angle, Dimensionless, Power}
+import javax.measure.quantity.Power
 
 object PvInputGenerator {
 
@@ -45,20 +41,51 @@ object PvInputGenerator {
       node: NodeInput,
       params: PvModelGeneration
   ): PvInput = {
+    generate(
+      node,
+      input.id,
+      input.sRated.asKiloVoltAmpere,
+      determineCosPhiRated(input),
+      params
+    )
+  }
+
+  /** Generates a [[PvInput]]
+    *
+    * @param id
+    *   name of the pv plant
+    * @param power
+    *   rated power of the pv plant
+    * @param cosPhi
+    *   cosPhi of the pv plant
+    * @param node
+    *   the node the input is connected to
+    * @param params
+    *   parameters for generating missing parameters
+    * @return
+    *   a [[PvInput]]
+    */
+  def generate(
+      node: NodeInput,
+      id: String,
+      power: ComparableQuantity[Power],
+      cosPhi: Double,
+      params: PvModelGeneration
+  ): PvInput = {
     val albedo = sample(params.albedo)
     val azimuth = sample(params.azimuth).asDegreeGeom
     val etaConv = sample(params.etaConv).asPercent
     val height = sample(params.elevationAngle).asDegreeGeom
     val kG = sample(params.kG)
     val kT = sample(params.kT)
-    val sRated = input.sRated.asMegaVoltAmpere
-    val cosPhiRated = determineCosPhiRated(input)
+    val sRated = power
+    val cosPhiRated = cosPhi
     val qCharacteristics =
       convertQCharacteristic(params.qCharacteristic, cosPhiRated)
 
     new PvInput(
       UUID.randomUUID(),
-      input.id,
+      id,
       node,
       qCharacteristics,
       albedo,
@@ -72,5 +99,4 @@ object PvInputGenerator {
       cosPhiRated
     )
   }
-
 }

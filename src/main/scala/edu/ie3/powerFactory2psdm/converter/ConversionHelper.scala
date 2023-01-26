@@ -6,6 +6,7 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
+import edu.ie3.datamodel.models.StandardUnits
 import edu.ie3.datamodel.models.input.system.characteristic.ReactivePowerCharacteristic
 import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
   DependentQCharacteristic,
@@ -14,7 +15,10 @@ import edu.ie3.powerFactory2psdm.config.ConversionConfigUtils.{
 }
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.model.entity.StaticGenerator
+import edu.ie3.util.quantities.PowerSystemUnits
+import tech.units.indriya.ComparableQuantity
 
+import javax.measure.quantity.Power
 import scala.util.{Failure, Success, Try}
 
 /** Utility object to hold utility functions for model converison
@@ -41,6 +45,24 @@ object ConversionHelper {
       )
     case DependentQCharacteristic(characteristic) =>
       ReactivePowerCharacteristic.parse(characteristic)
+  }
+
+  /** Specified cosinus phi with respect to the grid regulations (VDE-AR-N 4105)
+    *
+    * @param sRated
+    *   rated power of the infeed system
+    * @return
+    *   cosinus phi for the infeed system
+    */
+  def lvGenerationCosPhi(sRated: ComparableQuantity[Power]): Double = {
+    val power =
+      sRated.to(PowerSystemUnits.KILOVOLTAMPERE).getValue.doubleValue()
+    if (power <= 3.86)
+      1d
+    else if ((3.86 < power) && (power <= 13.8))
+      0.95
+    else
+      0.9
   }
 
   /** Determines the cos phi rated of a static generator

@@ -16,8 +16,10 @@ import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
 import edu.ie3.powerFactory2psdm.model.entity.Load
 import edu.ie3.powerFactory2psdm.util.QuantityUtils.RichQuantityDouble
+import tech.units.indriya.ComparableQuantity
 
 import java.util.{Locale, UUID}
+import javax.measure.quantity.{Energy, Power}
 import scala.util.{Failure, Success}
 
 object LoadConverter {
