@@ -1,0 +1,50 @@
+{
+    "Node-A-ID": {
+        "nsh": {
+            "power": 39.05,
+            "count": 4.0
+        },
+        "direct_heating": {
+            "power": 16,
+            "count": 5.0
+        },
+        "misc": {
+            "power": 5,
+            "count": 3.0
+        },
+        "pv": {
+            "power": 241.94,
+            "count": 11.0
+        }
+    },
+    "Node-B-ID": {
+        "water_heater": {
+            "power": 48,
+            "count": 2.0
+        },
+        "nsh": {
+            "power": 43,
+            "count": 3.0
+        },
+        "evcs": {
+            "power": 11,
+            "count": 1.0
+        },
+        "direct_heating": {
+            "power": 7,
+            "count": 1.0
+        },
+        "storage": {
+            "power": 2.5,
+            "count": 1.0
+        },
+        "misc": {
+            "power": 2.5,
+            "count": 3.0
+        },
+        "pv": {
+            "power": 202.96,
+            "count": 14.0
+        }
+    }
+}
