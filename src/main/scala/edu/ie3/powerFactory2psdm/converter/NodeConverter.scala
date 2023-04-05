@@ -119,7 +119,7 @@ object NodeConverter {
     val bufferedSource = Source.fromFile(nodeUuidMappingInformation.filePath)
     val lines = bufferedSource.getLines()
 
-    lines.take(1).next.split(nodeUuidMappingInformation.csvSeparator) match {
+    lines.take(1).next().split(nodeUuidMappingInformation.csvSeparator) match {
       case Array("uuid", "id") =>
       case _ =>
         throw new IOException(

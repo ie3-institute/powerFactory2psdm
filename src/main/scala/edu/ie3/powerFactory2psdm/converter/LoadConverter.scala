@@ -6,10 +6,11 @@
 
 package edu.ie3.powerFactory2psdm.converter
 
-import edu.ie3.datamodel.models.{BdewLoadProfile, OperationTime}
+import edu.ie3.datamodel.models.OperationTime
 import edu.ie3.datamodel.models.input.{NodeInput, OperatorInput}
 import edu.ie3.datamodel.models.input.system.LoadInput
 import edu.ie3.datamodel.models.input.system.characteristic.CosPhiFixed
+import edu.ie3.datamodel.models.profile.BdewStandardLoadProfile
 import edu.ie3.powerFactory2psdm.exception.pf.ElementConfigurationException
 import edu.ie3.powerFactory2psdm.converter.NodeConverter.getNode
 import edu.ie3.powerFactory2psdm.exception.pf.ConversionException
@@ -70,7 +71,7 @@ object LoadConverter {
       OperationTime.notLimited(),
       node,
       new CosPhiFixed(varCharacteristicString),
-      BdewLoadProfile.H0,
+      BdewStandardLoadProfile.H0,
       false,
       eCons,
       sRated,

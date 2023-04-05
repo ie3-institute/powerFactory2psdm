@@ -36,7 +36,7 @@ private class LoadConverterSpec
       actual.getOperationTime shouldBe expected.getOperationTime
       actual.getNode shouldBe expected.getNode
       actual.getqCharacteristics shouldBe expected.getqCharacteristics
-      actual.getStandardLoadProfile shouldBe expected.getStandardLoadProfile
+      actual.getLoadProfile shouldBe expected.getLoadProfile
       actual.isDsm shouldBe expected.isDsm
       actual.geteConsAnnual shouldBe expected.geteConsAnnual
       actual.getsRated shouldBe expected.getsRated
@@ -56,7 +56,7 @@ private class LoadConverterSpec
       actual.getOperationTime shouldBe expected.getOperationTime
       actual.getNode shouldBe expected.getNode
       actual.getqCharacteristics shouldBe expected.getqCharacteristics
-      actual.getStandardLoadProfile shouldBe expected.getStandardLoadProfile
+      actual.getLoadProfile shouldBe expected.getLoadProfile
       actual.isDsm shouldBe expected.isDsm
       actual.geteConsAnnual shouldBe expected.geteConsAnnual
       actual.getsRated should equalWithTolerance(
