@@ -53,7 +53,7 @@ dependencies {
 
 
 	/* PowerSystemDataModel */
-	implementation('com.github.ie3-institute:PowerSystemDataModel:3.0-SNAPSHOT') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:3.0.0') {
 		exclude group: 'org.apache.logging.log4j'
 		exclude group: 'org.slf4j'
 		/* Exclude our own nested dependencies */
