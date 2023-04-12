@@ -21,9 +21,7 @@ object Formatter {
     val defaultConfig =
       if (Files.exists(defaultConfigPath)) defaultConfigPath else Paths.get("")
     val config = fmtPath.fold(defaultConfig)(Paths.get(_))
-    val result = scalafmt
-      .withRespectVersion(false)
-      .format(config, Paths.get("Nil.scala"), str)
+    val result = scalafmt.format(config, Paths.get("Nil.scala"), str)
     scalafmt.clear()
     result
   }
