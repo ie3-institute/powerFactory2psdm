@@ -86,8 +86,8 @@ object SchemaGenerator extends LazyLogging {
           s"""
              | final case class ${this.className(className)}(
              |  ${jsonObject.toMap.keys
-            .map(key => s"$key: Option[List[${this.className(key)}]]")
-            .mkString(",\n")}
+              .map(key => s"$key: Option[List[${this.className(key)}]]")
+              .mkString(",\n")}
              | )
              |""".stripMargin
 
@@ -95,8 +95,8 @@ object SchemaGenerator extends LazyLogging {
           s"""
              |  import ${`package`}.${this.className(className)}.{
              |    ${jsonObject.toMap.keys
-            .map(key => this.className(key))
-            .mkString(",\n")}
+              .map(key => this.className(key))
+              .mkString(",\n")}
              |  }
              |""".stripMargin
 

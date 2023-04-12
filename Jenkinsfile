@@ -137,7 +137,6 @@ if (env.BRANCH_NAME == "main") {
             rawMessage: true
           }
         }
-
       } catch (Exception e) {
         // set build result to failure
         currentBuild.result = 'FAILURE'
@@ -153,11 +152,8 @@ if (env.BRANCH_NAME == "main") {
         "*repo:* ${urls.get(0)}/${projects.get(0)}\n"
         rawMessage: true
       }
-
     }
-
   }
-
 } else {
 
   // setup
@@ -178,7 +174,6 @@ if (env.BRANCH_NAME == "main") {
 
       featureBranchName = jsonObj.head.ref
       repoName = jsonObj.head.repo.full_name
-
     }
 
 
@@ -203,7 +198,6 @@ if (env.BRANCH_NAME == "main") {
             // our target repo failed during checkout
             sh 'exit 1' // failure due to not found forcedPR branch
           }
-
         }
 
         // test the project
@@ -275,7 +269,6 @@ if (env.BRANCH_NAME == "main") {
         "*branch:* ${featureBranchName}\n"
         rawMessage: true
       }
-
     }
   }
 }
@@ -289,7 +282,6 @@ def getFeatureBranchProps() {
           issueCommentTrigger('.*!test.*')
         ])
       ])
-
 }
 
 
