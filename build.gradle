@@ -15,7 +15,7 @@ ext {
 	scalaBinaryVersion = '2.13.6'
 	jtsVersion = '1.19.0'
 	slf4jVersion = '2.0.7'
-	circeVersion = '0.14.3'
+	circeVersion = '0.14.5'
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
@@ -47,13 +47,13 @@ dependencies {
 	implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-interfaces
-	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.5.7'
+	implementation group: 'org.scalameta', name: 'scalafmt-interfaces', version: '3.7.3'
 	// https://mvnrepository.com/artifact/org.scalameta/scalafmt-dynamic
 	implementation group: 'org.scalameta', name: "scalafmt-dynamic_${scalaVersion}", version: '3.7.3'
 
 
 	/* PowerSystemDataModel */
-	implementation('com.github.ie3-institute:PowerSystemDataModel:3.0-SNAPSHOT') {
+	implementation('com.github.ie3-institute:PowerSystemDataModel:3.0.0') {
 		exclude group: 'org.apache.logging.log4j'
 		exclude group: 'org.slf4j'
 		/* Exclude our own nested dependencies */
@@ -77,7 +77,7 @@ dependencies {
 	implementation "com.github.scopt:scopt_${scalaVersion}:+"
 
 	// ie³ internal repository
-	implementation('com.github.ie3-institute:PowerSystemUtils:2.0-SNAPSHOT') {
+	implementation('com.github.ie3-institute:PowerSystemUtils:2.0') {
 		exclude group: 'org.apache.logging.log4j'
 		exclude group: 'org.slf4j'
 		/* Exclude our own nested dependencies */
@@ -106,7 +106,7 @@ dependencies {
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 
-	implementation 'tech.units:indriya:2.1.4-SNAPSHOT'
+	implementation 'tech.units:indriya:2.1.4'
 
 	implementation 'org.apache.commons:commons-math3:3.6.1'
 }
