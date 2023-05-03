@@ -61,7 +61,7 @@ dependencies {
 	}
 
 	// Graphs
-	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.1'
+	implementation group: 'org.jgrapht', name: 'jgrapht-core', version: '1.5.2'
 
 	// JTS
 	implementation ("org.locationtech.jts:jts-core:${jtsVersion}"){
