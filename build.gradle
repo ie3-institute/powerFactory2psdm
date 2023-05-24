@@ -100,7 +100,7 @@ dependencies {
 
 	// TEST Scala //
 	testImplementation "org.scalatest:scalatest_${scalaVersion}:3.2.15"
-	testImplementation 'com.vladsch.flexmark:flexmark-all:0.64.4'
+	testImplementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
 
 	// Linter Scala //
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
