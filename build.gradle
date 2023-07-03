@@ -106,7 +106,7 @@ dependencies {
 	implementation "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 	scalaCompilerPlugin "com.sksamuel.scapegoat:scalac-scapegoat-plugin_${scalaBinaryVersion}:1.4.11" // scala scapegoat
 
-	implementation 'tech.units:indriya:2.1.4'
+	implementation 'tech.units:indriya:2.2'
 
 	implementation 'org.apache.commons:commons-math3:3.6.1'
 }
