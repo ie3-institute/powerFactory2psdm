@@ -15,7 +15,7 @@ ext {
 	scalaBinaryVersion = '2.13.6'
 	jtsVersion = '1.19.0'
 	slf4jVersion = '2.0.7'
-	circeVersion = '0.14.5'
+	circeVersion = '0.14.6'
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
 }
 
