@@ -7,11 +7,7 @@
 package edu.ie3.powerFactory2psdm.main
 
 import com.typesafe.scalalogging.LazyLogging
-import edu.ie3.datamodel.io.naming.{
-  DefaultDirectoryHierarchy,
-  EntityPersistenceNamingStrategy,
-  FileNamingStrategy
-}
+import edu.ie3.datamodel.io.naming.{DefaultDirectoryHierarchy, EntityPersistenceNamingStrategy, FileNamingStrategy}
 import edu.ie3.datamodel.io.sink.CsvFileSink
 import edu.ie3.powerFactory2psdm.config.ConversionConfig
 import edu.ie3.powerFactory2psdm.config.validate.ConfigValidator
@@ -23,6 +19,8 @@ import edu.ie3.powerFactory2psdm.exception.io.GridParsingException
 import edu.ie3.powerFactory2psdm.model.RawPfGridModel
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
+
+import java.nio.file.Path
 
 object RunConversion extends LazyLogging {
 
@@ -46,7 +44,7 @@ object RunConversion extends LazyLogging {
     logger.info("Converting grid to PSDM")
     val jointGridContainer = GridConverter.convert(pfGrid, config)
 
-    val baseTargetDirectory = config.output.targetFolder
+    val baseTargetDirectory = Path.of(config.output.targetFolder)
 
     val csvSink = if (config.output.csvConfig.directoryHierarchy) {
       new CsvFileSink(
@@ -55,14 +53,12 @@ object RunConversion extends LazyLogging {
           new EntityPersistenceNamingStrategy(),
           new DefaultDirectoryHierarchy(baseTargetDirectory, config.gridName)
         ),
-        false,
         config.output.csvConfig.separator
       )
     } else {
       new CsvFileSink(
         baseTargetDirectory,
         new FileNamingStrategy(),
-        false,
         config.output.csvConfig.separator
       )
     }
