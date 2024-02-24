@@ -385,7 +385,7 @@ object ConverterTestData extends LazyLogging {
         1d,
         0.9,
         false,
-        11.asMegaVoltAmpere,
+        11.asKiloVoltAmpere,
         0.91
       )
     )
@@ -410,7 +410,7 @@ object ConverterTestData extends LazyLogging {
         "someStatGen",
         getNodePair("someNode").result,
         new CosPhiFixed("cosPhiFixed:{(0.0, 0.91)}"),
-        11.asMegaVoltAmpere,
+        11.asKiloVoltAmpere,
         0.91
       )
     )
@@ -444,7 +444,7 @@ object ConverterTestData extends LazyLogging {
       "someWecType",
       100.asEuro,
       50.asEuroPerMegaWattHour,
-      11.asMegaVoltAmpere,
+      11.asKiloVoltAmpere,
       0.91,
       new WecCharacteristicInput("cP:{(10.00,0.05),(15.00,0.10),(20.00,0.20)}"),
       96.asPercent,
